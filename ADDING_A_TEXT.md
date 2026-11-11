@@ -34,3 +34,8 @@ The site is one library root plus one folder per text:
   public-domain source (Wikisource, or a pre-1929 printed edition) before starting.
 - **Shiv Purana:** about 24,000 verses across several samhitas. Plan it chapter by chapter, with the
   build and the per-verse pages split by samhita, and translations done in batches.
+
+## Root files
+`granth-library/rootfiles/` holds files that must sit at the site root unchanged, such as
+`google41ee9a9fcb064592.html` (Google Search Console ownership check). The library build copies them on
+every run; don't delete it, or Search Console loses verification. It is not in any sitemap.
