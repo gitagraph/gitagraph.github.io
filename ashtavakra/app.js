@@ -206,6 +206,7 @@ function parse(h){
 // Two link modes: the built site sets window.APP_BASE and uses real paths (/chapter/2/verse/47/);
 // the Artifact preview has no APP_BASE and keeps #tokens.  Templates always write "#token".
 const BASE = window.APP_BASE || "";
+const VER = window.APP_VER ? "?v=" + window.APP_VER : "";   // build stamp on the built site; empty in the preview
 const PATHS = {home:"", explore:"explore/", index:"people-and-ideas/", search:"search/", saved:"saved/", about:"about/"};
 function pathOf(t){
   let m;
@@ -299,7 +300,7 @@ function topicRows(list, countFn){
   return `<div class="box">` + list.map(h => `<a class="crow" href="#t-${h.id}"><i class="dot d-${h.type}"></i><span class="nm">${esc(name(h))}</span><span class="ct">${countFn(h)}</span><span class="mt">${esc(metaOf(h))}</span></a>`).join("") + `</div>`;
 }
 function aboutCtx(){
-  return `<h3>${esc(u().about)}</h3><p class="about">${esc(u().aboutT)}</p><p class="about" style="margin-top:10px"><span class="proto">${esc(u().proto)}</span></p>`;
+  return `<h3>${esc(u().about)}</h3><p class="about">${esc(u().aboutT)}</p>`;
 }
 const listMore = (id, rows, n) => rows.length > n ? `<button class="btn more" data-more="${id}">${esc(u().showMore(rows.length - n))}</button>` : "";
 
@@ -361,8 +362,7 @@ function aboutView(){
   return `<header class="thead"><h1>${esc(u().aboutPage)}</h1></header>
   <p class="desc" lang="${lang}" style="font-family:var(--f-read);line-height:1.7;max-width:62ch">${esc(u().forallLede)}</p>
   <h2 class="sec">${esc(u().about)}</h2><p style="line-height:1.7;max-width:62ch">${esc(u().aboutT)}</p>
-  <p style="line-height:1.7;max-width:62ch"><i>${esc(u().forallNote)}</i> ${u().suggest}</p>
-  <p><span class="proto">${esc(u().proto)}</span></p>`;
+  <p style="line-height:1.7;max-width:62ch"><i>${esc(u().forallNote)}</i> ${u().suggest}</p>`;
 }
 function homeCtx(){
   const people = H.filter(h=>h.type==="person").sort((a,b)=>b.vs.length-a.vs.length).slice(0,6);
@@ -773,6 +773,6 @@ function makeGraph(){
 // ===================== boot =====================
 document.documentElement.lang = lang;
 applyPrefs(true);
-Promise.all([fetch(BASE + "verses.json").then(r=>{ if(!r.ok) throw 0; return r.json(); }), fetch(BASE + "hubs.json").then(r=>{ if(!r.ok) throw 0; return r.json(); })])
+Promise.all([fetch(BASE + "verses.json" + VER).then(r=>{ if(!r.ok) throw 0; return r.json(); }), fetch(BASE + "hubs.json" + VER).then(r=>{ if(!r.ok) throw 0; return r.json(); })])
   .then(([verses, hubs]) => { prepare(verses, hubs); render(); })
   .catch(() => { document.getElementById("view").innerHTML = `<p class="loading">The verses did not load. Reload the page to try again.</p>`; });
