@@ -1,6 +1,13 @@
 // Offline cache. CACHE is stamped by build.py on every build, so a new upload replaces the old copy.
-const CACHE = "gita-20261111155751";
-const CORE = ["./", "./index.html", "./verses.json", "./hubs.json", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon.svg"];
+// Other apps may live under the same origin (e.g. /ashtavakra/), so this touches only its own
+// pages, files and caches.
+const PREFIX = "gita-";
+const CACHE = PREFIX + "20261111203219";
+const BASE = new URL(self.registration.scope).pathname;
+const CORE = ["", "app.css", "app.js", "verses.json", "hubs.json", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon.svg"].map(p => BASE + p);
+const MINE = new Set(CORE);
+const ROUTES = ["chapter/", "topic/", "explore/", "people-and-ideas/", "search/", "saved/"].map(p => BASE + p);
+const isPage = p => p === BASE || p === BASE + "index.html" || ROUTES.some(r => p.startsWith(r));
 const CDN = ["fonts.googleapis.com", "fonts.gstatic.com", "cdnjs.cloudflare.com"];
 
 self.addEventListener("install", e => {
@@ -9,7 +16,7 @@ self.addEventListener("install", e => {
 
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys()
-    .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+    .then(keys => Promise.all(keys.filter(k => k.startsWith(PREFIX) && k !== CACHE).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 
@@ -18,16 +25,19 @@ self.addEventListener("fetch", e => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
 
-  // pages: try the network first so updates arrive, fall back to the saved copy offline
+  // pages: network first so updates arrive; offline, the saved page or else the app shell,
+  // which renders any verse from the cached data
   if (req.mode === "navigate") {
-    e.respondWith(fetch(req).then(res => {
-      const copy = res.clone(); caches.open(CACHE).then(c => c.put("./index.html", copy)); return res;
-    }).catch(() => caches.match("./index.html")));
+    if (url.origin !== self.location.origin || !isPage(url.pathname)) return;
+    e.respondWith(caches.open(CACHE).then(c => fetch(req).then(res => {
+      if (res.ok) c.put(req, res.clone()); return res;
+    }).catch(() => c.match(req).then(hit => hit || c.match(BASE)))));
     return;
   }
 
   // own files: answer from the cache at once, refresh it in the background
   if (url.origin === self.location.origin) {
+    if (!MINE.has(url.pathname)) return;
     e.respondWith(caches.open(CACHE).then(c => c.match(req).then(hit => {
       const net = fetch(req).then(res => { if (res.ok) c.put(req, res.clone()); return res; }).catch(() => hit);
       return hit || net;
