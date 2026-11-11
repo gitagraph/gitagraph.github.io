@@ -53,6 +53,13 @@ const UI = {
 };
 Object.assign(UI.en, {
   forallT:"Ashtavakra for all", forallLede:"For someone opening the Ashtavakra Gita for the first time, and for someone who has read it many times.",
+  tagLede:"For first-time readers and for those who return to it again and again.",
+  tagHook:"Who am I, beyond what I do and what I own? A king puts that question to a young sage, and this short book is the answer they work out together, one verse at a time.",
+  whyT:"Why read it?",
+  why:['<b>It starts with a direct question.</b> King Janaka asks how to find knowledge, freedom and calm (<a href="#v1-1">1.1</a>). The sage answers at once, without rituals or preliminaries.',
+    '<b>It names a few ideas and stays with them.</b> You are the witness of body and mind, not the things you watch (<a href="#v1-3">1.3</a>); bondage is the mind wanting and grabbing, freedom is when it stops (<a href="#v8-1">8.1–2</a>); the one who is content already has what practice is for (<a href="#v17-1">17.1</a>).',
+    "<b>It's short.</b> 298 verses. One a day takes about ten months; one chapter a week takes five.",
+    '<b>Not sure where to begin?</b> Read <a href="#c1">Chapter 1</a>, which states the whole teaching in twenty verses, or open the verse of the day on the home page.'],
   forall:[["New to it?","Start at Chapter 1, where King Janaka asks how to find freedom, and read on verse by verse in simple Hindi or English."],
     ["Know it well?","Jump to any verse, read the Sanskrit beside the translation, or follow one idea through all the verses."],
     ["Curious?",'Tap an idea such as <a href="#t-sakshi">the witness</a> or <a href="#t-moksha">liberation</a> to read every verse that speaks of it.']],
@@ -60,7 +67,10 @@ Object.assign(UI.en, {
   startR:"Start reading", startSub:"Chapter 1, verse 1", contL:"Continue", readCtx:"Read in context →", share:"Share", linkCopied:"Verse and link copied",
   howT:"How to use", aboutPage:"About this project",
   suggest:'Spotted a mistake or have a better translation? <a href="https://github.com/gitagraph/gitagraph.github.io/issues" target="_blank" rel="noopener">Tell us on GitHub</a>.',
-  how:[["Read",["<b>Start reading</b> opens Chapter 1, verse 1. Use <b>Next →</b> under a verse, or the <b>›</b> arrow at the top, to go verse by verse.",
+  how:[["Ways to read",["<b>New to it?</b> Start at Chapter 1, where Janaka asks how to find freedom, and read verse by verse.",
+      '<b>Know it well?</b> Jump to any verse from <b>Search</b>, and keep the Sanskrit beside the translation.',
+      '<b>Curious?</b> Follow one idea through every verse: try <a href="#t-sakshi">the witness</a> or <a href="#t-moksha">liberation</a>.']],
+    ["Read",["<b>Start reading</b> opens Chapter 1, verse 1. Use <b>Next →</b> under a verse, or the <b>›</b> arrow at the top, to go verse by verse.",
       "Each verse shows the Sanskrit, how to say it, and its meaning. Tap <b>हि / EN</b> at the top to switch language. <b>Display</b> sets text size, theme and what is shown.",
       "Tap <b>Save</b> to keep a verse. Your saved verses are under <b>Saved</b>."]],
     ["Explore the map",["Open <b>Explore</b>. Every small dot is a verse.",
@@ -72,6 +82,13 @@ Object.assign(UI.en, {
 });
 Object.assign(UI.hi, {
   forallT:"सबके लिए अष्टावक्र गीता", forallLede:"उनके लिए जो पहली बार अष्टावक्र गीता खोल रहे हैं, और उनके लिए भी जो इसे कई बार पढ़ चुके हैं।",
+  tagLede:"पहली बार पढ़ने वालों के लिए भी, और बार-बार पढ़ने वालों के लिए भी।",
+  tagHook:"मैं कौन हूँ, अपने काम और अपनी चीज़ों से परे? एक राजा यह सवाल एक युवा ऋषि से पूछते हैं, और यह छोटी-सी पुस्तक वह उत्तर है जो दोनों मिलकर, श्लोक-दर-श्लोक, खोजते हैं।",
+  whyT:"क्यों पढ़ें?",
+  why:['<b>यह एक सीधे सवाल से शुरू होती है।</b> राजा जनक पूछते हैं कि ज्ञान, मुक्ति और वैराग्य कैसे मिलें (<a href="#v1-1">1.1</a>)। ऋषि बिना किसी कर्मकांड या भूमिका के तुरंत उत्तर देते हैं।',
+    '<b>यह कुछ ही विचारों पर टिकी रहती है।</b> तुम शरीर और मन के साक्षी हो, उन चीज़ों के नहीं जिन्हें देखते हो (<a href="#v1-3">1.3</a>); मन का चाहना और पकड़ना बंधन है, उसका रुक जाना मुक्ति (<a href="#v8-1">8.1–2</a>); जो तृप्त है, उसने वह पा लिया जिसके लिए साधना की जाती है (<a href="#v17-1">17.1</a>)।',
+    "<b>यह छोटी है।</b> 298 श्लोक। रोज़ एक श्लोक पढ़ें तो लगभग दस महीने, हफ़्ते में एक अध्याय पढ़ें तो पाँच महीने।",
+    '<b>कहाँ से शुरू करें?</b> <a href="#c1">अध्याय 1</a> पढ़ें, जो बीस श्लोकों में पूरी शिक्षा कह देता है, या होम पेज पर आज का श्लोक खोलें।'],
   forall:[["पहली बार?","अध्याय 1 से शुरू करें, जहाँ राजा जनक पूछते हैं कि मुक्ति कैसे मिले, और सरल हिंदी या अंग्रेज़ी में श्लोक-दर-श्लोक आगे पढ़ें।"],
     ["पहले से परिचित?","किसी भी श्लोक पर जाएँ, संस्कृत को अनुवाद के साथ पढ़ें, या किसी एक विचार को सभी श्लोकों में खोजें।"],
     ["जिज्ञासु?",'<a href="#t-sakshi">साक्षी</a> या <a href="#t-moksha">मुक्ति</a> जैसे किसी विचार पर टैप करें और उससे जुड़े सभी श्लोक पढ़ें।']],
@@ -79,7 +96,10 @@ Object.assign(UI.hi, {
   startR:"पढ़ना शुरू करें", startSub:"अध्याय 1, श्लोक 1", contL:"जारी रखें", readCtx:"संदर्भ में पढ़ें →", share:"साझा करें", linkCopied:"श्लोक और लिंक कॉपी हो गए",
   howT:"कैसे उपयोग करें", aboutPage:"इस परियोजना के बारे में",
   suggest:'कोई त्रुटि दिखी या बेहतर अनुवाद सुझाना है? <a href="https://github.com/gitagraph/gitagraph.github.io/issues" target="_blank" rel="noopener">GitHub पर बताएँ</a>।',
-  how:[["पढ़ें",["<b>पढ़ना शुरू करें</b> दबाएँ, अध्याय 1 का पहला श्लोक खुलेगा। श्लोक के नीचे <b>अगला →</b> या ऊपर <b>›</b> से श्लोक-दर-श्लोक आगे बढ़ें।",
+  how:[["पढ़ने के तरीके",["<b>पहली बार?</b> अध्याय 1 से शुरू करें, जहाँ जनक पूछते हैं कि मुक्ति कैसे मिले, और श्लोक-दर-श्लोक पढ़ें।",
+      '<b>पहले से परिचित?</b> <b>खोजें</b> से किसी भी श्लोक पर जाएँ, और संस्कृत को अनुवाद के साथ पढ़ें।',
+      '<b>जिज्ञासु?</b> किसी एक विचार को सभी श्लोकों में देखें: <a href="#t-sakshi">साक्षी</a> या <a href="#t-moksha">मुक्ति</a> आज़माएँ।']],
+    ["पढ़ें",["<b>पढ़ना शुरू करें</b> दबाएँ, अध्याय 1 का पहला श्लोक खुलेगा। श्लोक के नीचे <b>अगला →</b> या ऊपर <b>›</b> से श्लोक-दर-श्लोक आगे बढ़ें।",
       "हर श्लोक में संस्कृत, उसका उच्चारण और अर्थ है। ऊपर <b>हि / EN</b> से भाषा बदलें। <b>प्रदर्शन</b> में अक्षर का आकार, थीम और क्या दिखे, चुनें।",
       "<b>सहेजें</b> से श्लोक सहेजें। सहेजे गए श्लोक <b>सहेजे</b> में मिलेंगे।"]],
     ["नक्शा देखें",["<b>नक्शा</b> खोलें। हर छोटा बिंदु एक श्लोक है।",
@@ -182,7 +202,7 @@ function drawShell(route){
 document.getElementById("back").onclick = () => { if(history.length > 1) history.back(); else go("home"); };
 document.getElementById("langbtn").onclick = () => setLang(isHi() ? "en" : "hi");
 document.getElementById("setbtn").onclick = openSettings;
-document.getElementById("helpbtn").onclick = () => sheet(`<h2>${esc(u().howT)}</h2>${howBody()}<div class="row"><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
+document.getElementById("helpbtn").onclick = () => sheet(`<h2>${esc(u().whyT)}</h2><div class="howbody"><ul>${u().why.map(i=>`<li>${i}</li>`).join("")}</ul></div><h2 style="margin-top:18px">${esc(u().howT)}</h2>${howBody()}<div class="row"><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
 window.addEventListener("scroll", () => document.getElementById("top").classList.toggle("scrolled", window.scrollY > 4), {passive:true});
 
 function setLang(l){ lang = l; store.set("lang", l); document.documentElement.lang = l; render(true); }
@@ -327,9 +347,7 @@ function homeView(){
   let how = store.get("how", null);
   if(how===null) store.set("how", "closed");          // open by itself on the first visit only
   return `<section class="hero"><p class="skt">अष्टावक्रगीता</p><h1>${isHi() ? "अष्टावक्र गीता" : "The Ashtavakra Gita"}</h1></section>
-  <section class="forall"><h2>${esc(u().forallT)}</h2><p class="lede2">${esc(u().forallLede)}</p>
-    <ul>${u().forall.map(([b,t]) => `<li><b>${esc(b)}</b> ${t}</li>`).join("")}</ul>
-    <p class="note"><i>${esc(u().forallNote)}</i> · <a href="#about">${esc(u().aboutLink)}</a></p></section>
+  <section class="tagline"><h2>${esc(u().forallT)}</h2><p class="lede2">${esc(u().tagLede)}</p><p class="hook">${esc(u().tagHook)}</p></section>
   ${last ? `<a class="contbar" href="#${last.id}"><span><b>${esc(u().contL)}</b> · ${last.ref} ${esc(name(CH[last.c-1]))}</span><span aria-hidden="true">→</span></a>` : ""}
   <section class="votd" aria-label="${esc(u().votd)}"><p class="eyebrow">${esc(u().votd)} · ${vd.ref}</p>
     ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(esc).join("<br>")}</p>` : ""}
@@ -343,6 +361,7 @@ function homeView(){
       <span class="lab">${esc(u().chapter)} ${c.num}</span><span class="nm">${esc(name(c))}</span><span class="sk">${esc(c.skt)}</span>
       <span class="foot"><span class="prog"><i style="width:${(r/c.vs.length*100).toFixed(1)}%"></i></span>${r ? esc(u().readOf(r,c.vs.length)) : `${c.vs.length} ${esc(u().verses)}`}</span></a></li>`;
   }).join("")}</ol>
+  <p class="credits"><i>${esc(u().forallNote)}</i> · <a href="#about">${esc(u().aboutLink)}</a></p>
   <details class="how" id="how" ${how===null || how==="open" ? "open" : ""}><summary>${esc(u().howT)}</summary>${howBody()}</details>`;
 }
 function wireHome(){
