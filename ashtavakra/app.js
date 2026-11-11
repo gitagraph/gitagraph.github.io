@@ -56,7 +56,7 @@ Object.assign(UI.en, {
   tagLede:"For first-time readers and for those who return to it again and again.",
   tagHook:"Who am I, beyond what I do and what I own? A king puts that question to a young sage, and this short book is the answer they work out together, one verse at a time.",
   whyT:"Why read it?",
-  why:['<b>It starts with a direct question.</b> King Janaka asks how to find knowledge, freedom and calm (<a href="#v1-1">1.1</a>). The sage answers at once, without rituals or preliminaries.',
+  why:['<b>It starts with a direct question.</b> King Janaka asks how to find knowledge, freedom and detachment (<a href="#v1-1">1.1</a>). The sage answers at once, without rituals or preliminaries.',
     '<b>It names a few ideas and stays with them.</b> You are the witness of body and mind, not the things you watch (<a href="#v1-3">1.3</a>); bondage is the mind wanting and grabbing, freedom is when it stops (<a href="#v8-1">8.1–2</a>); the one who is content already has what practice is for (<a href="#v17-1">17.1</a>).',
     "<b>It's short.</b> 298 verses. One a day takes about ten months; one chapter a week takes five.",
     '<b>Not sure where to begin?</b> Read <a href="#c1">Chapter 1</a>, which states the whole teaching in twenty verses, or open the verse of the day on the home page.'],
