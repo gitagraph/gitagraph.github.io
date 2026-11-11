@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Sacred texts for all · Bhagavad Gita, Ashtavakra Gita and more</title>
+<title>Gitagraph · Sacred texts for all · Bhagavad Gita, Ashtavakra Gita and more</title>
 <meta name="description" content="India&#x27;s sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.">
 <link rel="canonical" href="https://gitagraph.github.io/">
 <meta name="theme-color" content="#f4f5f1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0e1219" media="(prefers-color-scheme: dark)">
-<meta property="og:type" content="website"><meta property="og:title" content="Sacred texts for all">
+<meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Sacred texts for all">
 <meta property="og:description" content="India&#x27;s sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times."><meta property="og:url" content="https://gitagraph.github.io/">
-<meta property="og:site_name" content="Sacred texts for all">
-<meta property="og:image" content="https://gitagraph.github.io/shared/og-library.png?v=20261111213146">
+<meta property="og:site_name" content="Gitagraph · Sacred texts for all">
+<meta property="og:image" content="https://gitagraph.github.io/shared/og-library.png?v=20261111215413">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Sacred texts for all (सबके लिए ग्रंथ): the Bhagavad Gita and the Ashtavakra Gita, verse by verse in Sanskrit, English and Hindi">
+<meta property="og:image:alt" content="Gitagraph · Sacred texts for all (गीताग्राफ़ · सबके लिए ग्रंथ): the Bhagavad Gita, with the Ashtavakra Gita and more, verse by verse in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="gita/icon.svg" type="image/svg+xml">
@@ -34,6 +34,8 @@ a{color:inherit} :focus-visible{outline:2px solid var(--accent);outline-offset:2
 .wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 48px}
 .hero{padding:20px 0 8px}
 .hero .om{font-family:var(--f-skt);font-size:40px;line-height:1;color:var(--accent);margin:0 0 8px}
+.hero .tag{font-family:var(--f-read);font-weight:600;font-size:clamp(20px,3.4vw,26px);color:var(--accent);margin:0 0 10px}
+:root[lang=hi] .hero .tag{font-family:var(--f-hi);font-weight:400}
 .hero h1{font-family:var(--f-read);font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.15;margin:0 0 10px;letter-spacing:-.01em;text-wrap:balance}
 :root[lang=hi] .hero h1{font-family:var(--f-hi);font-weight:400}
 .hero p{font-family:var(--f-read);color:var(--muted);font-size:17px;line-height:1.65;margin:0;max-width:60ch}
@@ -51,6 +53,12 @@ a.text:hover{border-color:var(--c)}
 .text .ft{margin-top:auto;padding-top:14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
 .text .go{color:var(--c);font-weight:600}
 .text.soon{opacity:.62}
+.grid .featured{grid-column:1 / -1}
+.text.feat{padding:26px 26px 22px;border-top-width:7px;background:color-mix(in srgb, var(--c) 6%, var(--surface))}
+.text.feat .nat{font-size:clamp(34px,6vw,46px)}
+.text.feat .nm{font-size:clamp(22px,3.5vw,28px)}
+.text.feat .ds{font-size:17px;max-width:56ch}
+.text.feat .go{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:12px;background:var(--c);color:var(--surface)}
 .text .pill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 10px}
 .note{margin:28px 0 0;color:var(--muted);font-size:14px;line-height:1.6;max-width:70ch}
 .proto{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px;vertical-align:middle}
@@ -58,37 +66,39 @@ a.text:hover{border-color:var(--c)}
 </style>
 </head>
 <body>
-<header class="top"><span class="brand" id="brand">Sacred texts</span>
+<header class="top"><span class="brand" id="brand">Gitagraph</span>
   <button class="langpill" id="lang" type="button" aria-label="हिन्दी में देखें">हि</button></header>
 <main class="wrap">
-  <section class="hero"><p class="om" aria-hidden="true">ॐ</p><h1 id="h1">Sacred texts for all<span class="proto" id="beta">Beta</span></h1><p id="lede">India&#x27;s sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.</p></section>
-  <ul class="grid" id="grid"><li><a class="text" href="gita/" style="--lc:#0b6b70;--ld:#4cc0c2"><span class="nat" lang="sa">श्रीमद्भगवद्गीता</span><span class="nm">Bhagavad Gita</span><span class="ds">Krishna&#x27;s teaching to Arjuna on the field of Kurukshetra, in 18 chapters.</span><span class="ft"><span>700 verses</span><span class="go">Read →</span></span></a></li><li><a class="text" href="ashtavakra/" style="--lc:#4f46a5;--ld:#a9a2f2"><span class="nat" lang="sa">अष्टावक्रगीता</span><span class="nm">Ashtavakra Gita</span><span class="ds">The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.</span><span class="ft"><span>298 verses</span><span class="go">Read →</span></span></a></li><li><div class="text soon" style="--lc:#b45309;--ld:#f0a35a" aria-disabled="true"><span class="nat" lang="sa">सुन्दरकाण्ड</span><span class="nm">Sundar Kand</span><span class="ds">Hanuman&#x27;s journey to Lanka in search of Sita.</span><span class="ft"><span></span><span class="pill">Coming soon</span></span></div></li><li><div class="text soon" style="--lc:#475569;--ld:#a7b4c8" aria-disabled="true"><span class="nat" lang="sa">शिवपुराण</span><span class="nm">Shiv Purana</span><span class="ds">Stories and teachings of Shiva.</span><span class="ft"><span></span><span class="pill">Coming soon</span></span></div></li></ul>
+  <section class="hero"><h1 id="h1">Gitagraph<span class="proto" id="beta">Beta</span></h1><p class="tag" id="tag">Sacred texts for all</p><p id="lede">India&#x27;s sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.</p></section>
+  <ul class="grid" id="grid"><li class="featured"><a class="text feat" href="gita/" style="--lc:#0b6b70;--ld:#4cc0c2"><span class="nat" lang="sa">श्रीमद्भगवद्गीता</span><span class="nm">Bhagavad Gita</span><span class="ds">Krishna&#x27;s teaching to Arjuna on the field of Kurukshetra, in 18 chapters.</span><span class="ft"><span>700 verses</span><span class="go">Start reading →</span></span></a></li><li class=""><a class="text" href="ashtavakra/" style="--lc:#4f46a5;--ld:#a9a2f2"><span class="nat" lang="sa">अष्टावक्रगीता</span><span class="nm">Ashtavakra Gita</span><span class="ds">The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.</span><span class="ft"><span>298 verses</span><span class="go">Read →</span></span></a></li><li><div class="text soon" style="--lc:#b45309;--ld:#f0a35a" aria-disabled="true"><span class="nat" lang="sa">सुन्दरकाण्ड</span><span class="nm">Sundar Kand</span><span class="ds">Hanuman&#x27;s journey to Lanka in search of Sita.</span><span class="ft"><span></span><span class="pill">Coming soon</span></span></div></li><li><div class="text soon" style="--lc:#475569;--ld:#a7b4c8" aria-disabled="true"><span class="nat" lang="sa">शिवपुराण</span><span class="nm">Shiv Purana</span><span class="ds">Stories and teachings of Shiva.</span><span class="ft"><span></span><span class="pill">Coming soon</span></span></div></li></ul>
   <p class="note" id="note">Every text is free, has no ads and works offline once opened. The Sanskrit comes from public-domain editions; the translations are new and written to be easy to read.</p>
 </main>
 <script>
-const LIB = {"title_en": "Sacred texts for all", "title_hi": "सबके लिए ग्रंथ", "lede_en": "India's sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.", "lede_hi": "भारत के पवित्र ग्रंथ, श्लोक-दर-श्लोक, संस्कृत के साथ सरल हिंदी और अंग्रेज़ी में। पहली बार पढ़ने वालों के लिए आसान, और बार-बार पढ़ चुके लोगों के लिए संदर्भ।", "texts": [{"id": "gita", "path": "gita/", "name_en": "Bhagavad Gita", "name_hi": "भगवद्गीता", "native": "श्रीमद्भगवद्गीता", "desc_en": "Krishna's teaching to Arjuna on the field of Kurukshetra, in 18 chapters.", "desc_hi": "कुरुक्षेत्र में श्रीकृष्ण का अर्जुन को उपदेश, 18 अध्यायों में।", "verses": 700, "status": "live", "accent": "#0b6b70", "accent_dark": "#4cc0c2"}, {"id": "ashtavakra", "path": "ashtavakra/", "name_en": "Ashtavakra Gita", "name_hi": "अष्टावक्र गीता", "native": "अष्टावक्रगीता", "desc_en": "The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.", "desc_hi": "ऋषि अष्टावक्र और राजा जनक का आत्मा, मुक्ति और शांति पर संवाद, 20 अध्यायों में।", "verses": 298, "status": "live", "accent": "#4f46a5", "accent_dark": "#a9a2f2"}, {"id": "sundarkand", "path": "sundarkand/", "name_en": "Sundar Kand", "name_hi": "सुंदरकांड", "native": "सुन्दरकाण्ड", "desc_en": "Hanuman's journey to Lanka in search of Sita.", "desc_hi": "सीता की खोज में हनुमान की लंका यात्रा।", "verses": null, "status": "coming-soon", "accent": "#b45309", "accent_dark": "#f0a35a"}, {"id": "shiv-purana", "path": "shiv-purana/", "name_en": "Shiv Purana", "name_hi": "शिव पुराण", "native": "शिवपुराण", "desc_en": "Stories and teachings of Shiva.", "desc_hi": "भगवान शिव की कथाएँ और उपदेश।", "verses": null, "status": "coming-soon", "accent": "#475569", "accent_dark": "#a7b4c8"}]};
-const UI = {"en": {"verses": "{n} verses", "soon": "Coming soon", "open": "Read →", "toggle": "हि", "beta": "Beta", "brand": "Sacred texts", "note": "Every text is free, has no ads and works offline once opened. The Sanskrit comes from public-domain editions; the translations are new and written to be easy to read."}, "hi": {"verses": "{n} श्लोक", "soon": "जल्द आ रहा है", "open": "पढ़ें →", "toggle": "EN", "beta": "बीटा", "brand": "पवित्र ग्रंथ", "note": "हर ग्रंथ मुफ़्त है, बिना विज्ञापन, और एक बार खुलने के बाद ऑफ़लाइन भी चलता है। संस्कृत पाठ सार्वजनिक डोमेन संस्करणों से है; अनुवाद नए हैं और सरल भाषा में लिखे गए हैं।"}};
+const LIB = {"brand_en": "Gitagraph", "brand_hi": "गीताग्राफ़", "title_en": "Sacred texts for all", "title_hi": "सबके लिए ग्रंथ", "lede_en": "India's sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.", "lede_hi": "भारत के पवित्र ग्रंथ, श्लोक-दर-श्लोक, संस्कृत के साथ सरल हिंदी और अंग्रेज़ी में। पहली बार पढ़ने वालों के लिए आसान, और बार-बार पढ़ चुके लोगों के लिए संदर्भ।", "texts": [{"id": "gita", "path": "gita/", "name_en": "Bhagavad Gita", "name_hi": "भगवद्गीता", "native": "श्रीमद्भगवद्गीता", "desc_en": "Krishna's teaching to Arjuna on the field of Kurukshetra, in 18 chapters.", "desc_hi": "कुरुक्षेत्र में श्रीकृष्ण का अर्जुन को उपदेश, 18 अध्यायों में।", "verses": 700, "status": "live", "accent": "#0b6b70", "accent_dark": "#4cc0c2", "featured": true}, {"id": "ashtavakra", "path": "ashtavakra/", "name_en": "Ashtavakra Gita", "name_hi": "अष्टावक्र गीता", "native": "अष्टावक्रगीता", "desc_en": "The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.", "desc_hi": "ऋषि अष्टावक्र और राजा जनक का आत्मा, मुक्ति और शांति पर संवाद, 20 अध्यायों में।", "verses": 298, "status": "live", "accent": "#4f46a5", "accent_dark": "#a9a2f2"}, {"id": "sundarkand", "path": "sundarkand/", "name_en": "Sundar Kand", "name_hi": "सुंदरकांड", "native": "सुन्दरकाण्ड", "desc_en": "Hanuman's journey to Lanka in search of Sita.", "desc_hi": "सीता की खोज में हनुमान की लंका यात्रा।", "verses": null, "status": "coming-soon", "accent": "#b45309", "accent_dark": "#f0a35a"}, {"id": "shiv-purana", "path": "shiv-purana/", "name_en": "Shiv Purana", "name_hi": "शिव पुराण", "native": "शिवपुराण", "desc_en": "Stories and teachings of Shiva.", "desc_hi": "भगवान शिव की कथाएँ और उपदेश।", "verses": null, "status": "coming-soon", "accent": "#475569", "accent_dark": "#a7b4c8"}]};
+const UI = {"en": {"verses": "{n} verses", "soon": "Coming soon", "open": "Read →", "start": "Start reading →", "toggle": "हि", "beta": "Beta", "brand": "Gitagraph", "note": "Every text is free, has no ads and works offline once opened. The Sanskrit comes from public-domain editions; the translations are new and written to be easy to read."}, "hi": {"verses": "{n} श्लोक", "soon": "जल्द आ रहा है", "open": "पढ़ें →", "start": "पढ़ना शुरू करें →", "toggle": "EN", "beta": "बीटा", "brand": "गीताग्राफ़", "note": "हर ग्रंथ मुफ़्त है, बिना विज्ञापन, और एक बार खुलने के बाद ऑफ़लाइन भी चलता है। संस्कृत पाठ सार्वजनिक डोमेन संस्करणों से है; अनुवाद नए हैं और सरल भाषा में लिखे गए हैं।"}};
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function card(t, l){
-  const u = UI[l], nm = l==="hi" ? t.name_hi : t.name_en, ds = l==="hi" ? t.desc_hi : t.desc_en;
+  const u = UI[l], nm = l==="hi" ? t.name_hi : t.name_en, ds = l==="hi" ? t.desc_hi : t.desc_en, f = !!t.featured;
   const style = `style="--lc:${esc(t.accent)};--ld:${esc(t.accent_dark || t.accent)}"`;
   const body = `<span class="nat" lang="sa">${esc(t.native)}</span><span class="nm">${esc(nm)}</span><span class="ds">${esc(ds)}</span>`;
   return t.status==="live"
-    ? `<li><a class="text" href="${esc(t.path)}" ${style}>${body}<span class="ft"><span>${esc(u.verses.replace("{n}", t.verses))}</span><span class="go">${esc(u.open)}</span></span></a></li>`
+    ? `<li class="${f ? "featured" : ""}"><a class="text${f ? " feat" : ""}" href="${esc(t.path)}" ${style}>${body}<span class="ft"><span>${esc(u.verses.replace("{n}", t.verses))}</span><span class="go">${esc(f ? u.start : u.open)}</span></span></a></li>`
     : `<li><div class="text soon" ${style} aria-disabled="true">${body}<span class="ft"><span></span><span class="pill">${esc(u.soon)}</span></span></div></li>`;
 }
+const ORDERED = [...LIB.texts].sort((a,b) => (b.featured?1:0) - (a.featured?1:0));
 function setLang(l){
   document.documentElement.lang = l;
   try{ localStorage.setItem("library-lang", l); }catch(e){}
   const u = UI[l];
-  document.getElementById("h1").firstChild.textContent = l==="hi" ? LIB.title_hi : LIB.title_en;
+  document.getElementById("h1").firstChild.textContent = l==="hi" ? LIB.brand_hi : LIB.brand_en;
+  document.getElementById("tag").textContent = l==="hi" ? LIB.title_hi : LIB.title_en;
   document.getElementById("beta").textContent = u.beta;
   document.getElementById("lede").textContent = l==="hi" ? LIB.lede_hi : LIB.lede_en;
   document.getElementById("note").textContent = u.note;
   document.getElementById("brand").textContent = u.brand;
-  document.getElementById("grid").innerHTML = LIB.texts.map(t => card(t, l)).join("");
+  document.getElementById("grid").innerHTML = ORDERED.map(t => card(t, l)).join("");
   const b = document.getElementById("lang"); b.textContent = u.toggle; b.setAttribute("aria-label", l==="hi" ? "Switch to English" : "हिन्दी में देखें");
-  document.title = (l==="hi" ? LIB.title_hi : LIB.title_en) + (l==="hi" ? " · भगवद्गीता, अष्टावक्र गीता और अधिक" : " · Bhagavad Gita, Ashtavakra Gita and more");
+  document.title = l==="hi" ? `${LIB.brand_hi} · ${LIB.title_hi} · भगवद्गीता, अष्टावक्र गीता और अधिक` : `${LIB.brand_en} · ${LIB.title_en} · Bhagavad Gita, Ashtavakra Gita and more`;
 }
 document.getElementById("lang").onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
 let saved = "en"; try{ saved = localStorage.getItem("library-lang") || "en"; }catch(e){}

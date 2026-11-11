@@ -23,7 +23,9 @@ The site is one library root plus one folder per text:
    `<script src="{ROOT}shared/library.js?v={stamp}" defer></script>`, where `ROOT` is the library root ("/").
 5. **library.json entry.** Add one entry in `granth-library/library.json` (id, path, names EN/HI, native
    title, one-line descriptions EN/HI, verse count, `"status": "live"`, accent colours). Other sites pick
-   it up on their next visit; no need to rebuild them.
+   it up on their next visit; no need to rebuild them. Leave out `"featured"`: only the Gita carries
+   `"featured": true`, which puts it first, full width, on the home page and at the top of the switcher,
+   with every other text listed under "More texts / और ग्रंथ".
 6. **Build and publish.** Run the text's `build.py`, then `granth-library/build.py` (which adds the
    text's sitemap to the root sitemap index), then commit and push from GitHub Desktop.
 

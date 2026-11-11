@@ -1,4 +1,6 @@
 {
+ "brand_en": "Gitagraph",
+ "brand_hi": "गीताग्राफ़",
  "title_en": "Sacred texts for all",
  "title_hi": "सबके लिए ग्रंथ",
  "lede_en": "India's sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.",
@@ -15,7 +17,8 @@
    "verses": 700,
    "status": "live",
    "accent": "#0b6b70",
-   "accent_dark": "#4cc0c2"
+   "accent_dark": "#4cc0c2",
+   "featured": true
   },
   {
    "id": "ashtavakra",
