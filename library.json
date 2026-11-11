@@ -1,0 +1,60 @@
+{
+ "title_en": "Sacred texts for all",
+ "title_hi": "सबके लिए ग्रंथ",
+ "lede_en": "India's sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.",
+ "lede_hi": "भारत के पवित्र ग्रंथ, श्लोक-दर-श्लोक, संस्कृत के साथ सरल हिंदी और अंग्रेज़ी में। पहली बार पढ़ने वालों के लिए आसान, और बार-बार पढ़ चुके लोगों के लिए संदर्भ।",
+ "texts": [
+  {
+   "id": "gita",
+   "path": "gita/",
+   "name_en": "Bhagavad Gita",
+   "name_hi": "भगवद्गीता",
+   "native": "श्रीमद्भगवद्गीता",
+   "desc_en": "Krishna's teaching to Arjuna on the field of Kurukshetra, in 18 chapters.",
+   "desc_hi": "कुरुक्षेत्र में श्रीकृष्ण का अर्जुन को उपदेश, 18 अध्यायों में।",
+   "verses": 700,
+   "status": "live",
+   "accent": "#0b6b70",
+   "accent_dark": "#4cc0c2"
+  },
+  {
+   "id": "ashtavakra",
+   "path": "ashtavakra/",
+   "name_en": "Ashtavakra Gita",
+   "name_hi": "अष्टावक्र गीता",
+   "native": "अष्टावक्रगीता",
+   "desc_en": "The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.",
+   "desc_hi": "ऋषि अष्टावक्र और राजा जनक का आत्मा, मुक्ति और शांति पर संवाद, 20 अध्यायों में।",
+   "verses": 298,
+   "status": "live",
+   "accent": "#4f46a5",
+   "accent_dark": "#a9a2f2"
+  },
+  {
+   "id": "sundarkand",
+   "path": "sundarkand/",
+   "name_en": "Sundar Kand",
+   "name_hi": "सुंदरकांड",
+   "native": "सुन्दरकाण्ड",
+   "desc_en": "Hanuman's journey to Lanka in search of Sita.",
+   "desc_hi": "सीता की खोज में हनुमान की लंका यात्रा।",
+   "verses": null,
+   "status": "coming-soon",
+   "accent": "#b45309",
+   "accent_dark": "#f0a35a"
+  },
+  {
+   "id": "shiv-purana",
+   "path": "shiv-purana/",
+   "name_en": "Shiv Purana",
+   "name_hi": "शिव पुराण",
+   "native": "शिवपुराण",
+   "desc_en": "Stories and teachings of Shiva.",
+   "desc_hi": "भगवान शिव की कथाएँ और उपदेश।",
+   "verses": null,
+   "status": "coming-soon",
+   "accent": "#475569",
+   "accent_dark": "#a7b4c8"
+  }
+ ]
+}
