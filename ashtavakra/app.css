@@ -140,6 +140,37 @@ a.card:hover{border-color:var(--muted)}
 .prog{flex:1;height:4px;border-radius:4px;background:var(--sunk);overflow:hidden}
 .prog i{display:block;height:100%;background:var(--accent);border-radius:4px}
 
+/* ---------- home: for-all block, continue bar, verse of the day, start, how to use ---------- */
+.forall{margin-top:16px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.forall h2{font-family:var(--f-read);font-weight:600;font-size:20px;margin:0 0 4px}
+:root[lang=hi] .forall h2{font-family:var(--f-hi);font-weight:400;font-size:21px}
+.forall .lede2{color:var(--muted);margin:0 0 10px;line-height:1.55}
+.forall ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;line-height:1.55}
+.forall a, .how a{color:var(--accent);font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.forall .note{margin:12px 0 0;font-size:14px;color:var(--muted);line-height:1.55}
+.forall .note i{font-style:italic}
+.contbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;min-height:48px;padding:10px 16px;border-radius:12px;
+  background:color-mix(in srgb, var(--accent) 12%, var(--surface));border:1px solid color-mix(in srgb, var(--accent) 30%, var(--line));font-size:15px}
+.contbar span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.contbar b{color:var(--accent)}
+.votd{margin-top:16px;padding:20px;border-radius:16px;border:1px solid var(--line);background:var(--surface)}
+.votd .sa{font-family:var(--f-skt);font-size:calc(22px * var(--scale));line-height:1.75;margin:10px 0 0}
+.votd .tx{font-family:var(--f-read);font-size:calc(18px * var(--scale));line-height:1.65;margin:12px 0 0;max-width:62ch}
+:root[lang=hi] .votd .tx{font-family:var(--f-hi);line-height:1.85}
+.votd .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.startbtn{margin-top:16px;width:100%;justify-content:center;min-height:54px;font-size:17px;font-weight:600}
+.startbtn small{font-weight:400;opacity:.85}
+@media (min-width:640px){ .startbtn{width:auto;padding:0 28px} }
+details.how{margin-top:28px;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:0 18px}
+details.how summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:52px;font-weight:600;font-size:16px}
+details.how summary::-webkit-details-marker{display:none}
+details.how summary::after{content:"+";font-size:22px;color:var(--muted)}
+details.how[open] summary::after{content:"−"}
+.howbody h3{font-size:15px;margin:14px 0 6px}
+.howbody ul{margin:0 0 6px;padding-left:18px;display:flex;flex-direction:column;gap:6px;line-height:1.55;font-size:15px}
+details.how .howbody{padding-bottom:16px}
+.helpbtn{font-weight:700;font-size:18px}
+
 /* ---------- chapter ---------- */
 .chhead{position:relative;padding:16px 0 4px}
 .chhead .bignum{font-family:var(--f-skt);font-size:64px;line-height:1;color:var(--accent);opacity:.9;margin:0 0 4px}

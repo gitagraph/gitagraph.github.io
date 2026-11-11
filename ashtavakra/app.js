@@ -31,7 +31,7 @@ const UI = {
     showMore:n=>`Show ${n} more`, back:"Back", open:"Open", openCh:"Read chapter", allVerses:n=>`All ${n} verses`,
     ghint:"Pinch or scroll to zoom · drag to move · tap any dot", sanskrit:"Sanskrit", iast:"Transliteration", second:"Second translation", size:"Text size", theme:"Theme",
     language:"Language", system:"System", light:"Light", dark:"Dark", done:"Done", swipe:"Swipe left or right for the next verse",
-    about:"About this text", aboutT:"Sanskrit: the traditional text, in the public domain, from the अष्टावक्रगीता page on Sanskrit Wikisource (sa.wikisource.org), with obvious typing errors corrected against the GRETIL e-text. Transliteration is generated from the Sanskrit. English and Hindi translations were written fresh for this project from the Sanskrit with AI assistance; they are not taken from any published translation. 20 chapters, 298 verses.",
+    about:"About this text", aboutT:"Sanskrit text: Sanskrit Wikisource (sa.wikisource.org, \"अष्टावक्रगीता\"), used under CC BY-SA 4.0, checked verse by verse against the GRETIL e-text (Göttingen), with 47 typing errors corrected. Chapter 4 is given to Janaka, as in the usual printed editions. The transliteration is generated from that Devanagari. The English and Hindi translations were written fresh for this project from the Sanskrit with AI assistance; they are not taken from any published translation. 20 chapters and 298 verses, as in Wikisource and GRETIL.",
     proto:"Prototype", type:{chapter:"Chapter",person:"Person",concept:"Idea",section:"Section"},
     leg:{ashtavakra:"Ashtavakra",janaka:"Janaka",hub:"Person / idea"} },
   hi:{ app:"अष्टावक्र गीता", read:"पढ़ें", explore:"नक्शा", index:"पात्र और विचार", indexShort:"सूची", search:"खोजें", saved:"सहेजे", settings:"प्रदर्शन",
@@ -47,11 +47,49 @@ const UI = {
     showMore:n=>`${n} और दिखाएँ`, back:"वापस", open:"खोलें", openCh:"अध्याय पढ़ें", allVerses:n=>`सभी ${n} श्लोक`,
     ghint:"ज़ूम के लिए पिंच या स्क्रॉल करें · खींचकर घुमाएँ · किसी भी बिंदु को छुएँ", sanskrit:"संस्कृत", iast:"लिप्यंतरण", second:"दूसरा अनुवाद", size:"अक्षर का आकार", theme:"थीम",
     language:"भाषा", system:"सिस्टम", light:"हल्की", dark:"गहरी", done:"ठीक है", swipe:"अगले श्लोक के लिए बाएँ या दाएँ स्वाइप करें",
-    about:"इस पाठ के बारे में", aboutT:"संस्कृत: पारंपरिक पाठ, सार्वजनिक डोमेन में, संस्कृत विकिस्रोत (sa.wikisource.org) के अष्टावक्रगीता पृष्ठ से, स्पष्ट टंकण-त्रुटियाँ GRETIL ई-पाठ से मिलाकर सुधारी गई हैं। लिप्यंतरण संस्कृत से स्वतः बनाया गया है। हिंदी और अंग्रेज़ी अनुवाद इस परियोजना के लिए AI की सहायता से संस्कृत से नए लिखे गए हैं; ये किसी प्रकाशित अनुवाद से नहीं लिए गए। 20 अध्याय, 298 श्लोक।",
+    about:"इस पाठ के बारे में", aboutT:"संस्कृत पाठ: संस्कृत विकिस्रोत (sa.wikisource.org, \"अष्टावक्रगीता\"), CC BY-SA 4.0 के अंतर्गत, गॉटिंगेन के GRETIL पाठ से श्लोक-दर-श्लोक मिलाकर, 47 टंकण त्रुटियाँ सुधारी गईं। अध्याय 4 सामान्य मुद्रित संस्करणों की तरह जनक का माना गया है। लिप्यंतरण इसी देवनागरी से बनाया गया है। हिंदी और अंग्रेज़ी अनुवाद इस परियोजना के लिए AI की सहायता से संस्कृत से नए लिखे गए हैं; ये किसी प्रकाशित अनुवाद से नहीं लिए गए। विकिस्रोत और GRETIL की तरह 20 अध्याय और 298 श्लोक।",
     proto:"प्रोटोटाइप", type:{chapter:"अध्याय",person:"व्यक्ति",concept:"विचार",section:"खंड"},
     leg:{ashtavakra:"अष्टावक्र",janaka:"जनक",hub:"पात्र / विचार"} }
 };
-const VOTD = ["1.2","1.3","1.4","1.5","1.6","1.7","1.8","1.10","1.11","1.12","1.15","2.4","2.11","2.25","5.1","6.1","7.1","8.1","8.4","9.1","10.3","11.1","13.1","15.4","15.7","15.11","16.2","16.11","17.12","18.1","18.4","18.13","18.36","18.49","18.71","19.8","20.14"];
+Object.assign(UI.en, {
+  forallT:"Ashtavakra for all", forallLede:"For someone opening the Ashtavakra Gita for the first time, and for someone who has read it many times.",
+  forall:[["New to it?","Start at Chapter 1, where King Janaka asks how to find freedom, and read on verse by verse in simple Hindi or English."],
+    ["Know it well?","Jump to any verse, read the Sanskrit beside the translation, or follow one idea through all the verses."],
+    ["Curious?",'Tap an idea such as <a href="#t-sakshi">the witness</a> or <a href="#t-moksha">liberation</a> to read every verse that speaks of it.']],
+  forallNote:"The translations are new and written to be easy to read. Suggestions and corrections are welcome.", aboutLink:"About this project →",
+  startR:"Start reading", startSub:"Chapter 1, verse 1", contL:"Continue", readCtx:"Read in context →", share:"Share", linkCopied:"Verse and link copied",
+  howT:"How to use", aboutPage:"About this project",
+  suggest:'Spotted a mistake or have a better translation? <a href="https://github.com/gitagraph/gitagraph.github.io/issues" target="_blank" rel="noopener">Tell us on GitHub</a>.',
+  how:[["Read",["<b>Start reading</b> opens Chapter 1, verse 1. Use <b>Next →</b> under a verse, or the <b>›</b> arrow at the top, to go verse by verse.",
+      "Each verse shows the Sanskrit, how to say it, and its meaning. Tap <b>हि / EN</b> at the top to switch language. <b>Display</b> sets text size, theme and what is shown.",
+      "Tap <b>Save</b> to keep a verse. Your saved verses are under <b>Saved</b>."]],
+    ["Explore the map",["Open <b>Explore</b>. Every small dot is a verse.",
+      "Pinch or scroll to zoom in and out, and drag to move around. The <b>⤢</b> button shows everything again.",
+      "Tap a <b>chapter</b> on the ring, then <b>Read chapter</b>, to read it from start to end.",
+      "Tap an <b>idea</b>, like the witness or the ocean, to read every verse that speaks of it."]],
+    ["Find",["Open <b>Search</b> and type a name, an idea, a Sanskrit word, or a verse number like <b>2.4</b>.",
+      "<b>Index</b> lists every person and idea, with how many verses each appears in."]]]
+});
+Object.assign(UI.hi, {
+  forallT:"सबके लिए अष्टावक्र गीता", forallLede:"उनके लिए जो पहली बार अष्टावक्र गीता खोल रहे हैं, और उनके लिए भी जो इसे कई बार पढ़ चुके हैं।",
+  forall:[["पहली बार?","अध्याय 1 से शुरू करें, जहाँ राजा जनक पूछते हैं कि मुक्ति कैसे मिले, और सरल हिंदी या अंग्रेज़ी में श्लोक-दर-श्लोक आगे पढ़ें।"],
+    ["पहले से परिचित?","किसी भी श्लोक पर जाएँ, संस्कृत को अनुवाद के साथ पढ़ें, या किसी एक विचार को सभी श्लोकों में खोजें।"],
+    ["जिज्ञासु?",'<a href="#t-sakshi">साक्षी</a> या <a href="#t-moksha">मुक्ति</a> जैसे किसी विचार पर टैप करें और उससे जुड़े सभी श्लोक पढ़ें।']],
+  forallNote:"अनुवाद नए हैं और सरल भाषा में लिखे गए हैं। सुझाव और सुधार का स्वागत है।", aboutLink:"इस परियोजना के बारे में →",
+  startR:"पढ़ना शुरू करें", startSub:"अध्याय 1, श्लोक 1", contL:"जारी रखें", readCtx:"संदर्भ में पढ़ें →", share:"साझा करें", linkCopied:"श्लोक और लिंक कॉपी हो गए",
+  howT:"कैसे उपयोग करें", aboutPage:"इस परियोजना के बारे में",
+  suggest:'कोई त्रुटि दिखी या बेहतर अनुवाद सुझाना है? <a href="https://github.com/gitagraph/gitagraph.github.io/issues" target="_blank" rel="noopener">GitHub पर बताएँ</a>।',
+  how:[["पढ़ें",["<b>पढ़ना शुरू करें</b> दबाएँ, अध्याय 1 का पहला श्लोक खुलेगा। श्लोक के नीचे <b>अगला →</b> या ऊपर <b>›</b> से श्लोक-दर-श्लोक आगे बढ़ें।",
+      "हर श्लोक में संस्कृत, उसका उच्चारण और अर्थ है। ऊपर <b>हि / EN</b> से भाषा बदलें। <b>प्रदर्शन</b> में अक्षर का आकार, थीम और क्या दिखे, चुनें।",
+      "<b>सहेजें</b> से श्लोक सहेजें। सहेजे गए श्लोक <b>सहेजे</b> में मिलेंगे।"]],
+    ["नक्शा देखें",["<b>नक्शा</b> खोलें। हर छोटा बिंदु एक श्लोक है।",
+      "पिंच या स्क्रॉल करके ज़ूम करें, खींचकर नक्शा घुमाएँ। <b>⤢</b> से फिर पूरा नक्शा दिखेगा।",
+      "घेरे पर किसी <b>अध्याय</b> को टैप करें, फिर <b>अध्याय पढ़ें</b>, और पूरा अध्याय शुरू से पढ़ें।",
+      "किसी <b>विचार</b>, जैसे साक्षी या सागर, पर टैप करें और उससे जुड़े सभी श्लोक पढ़ें।"]],
+    ["खोजें",["<b>खोजें</b> खोलें और कोई नाम, विचार, संस्कृत शब्द या श्लोक संख्या, जैसे <b>2.4</b>, लिखें।",
+      "<b>सूची</b> में हर पात्र और विचार है, और वे कितने श्लोकों में आते हैं।"]]]
+});
+const SITE = window.APP_SITE || "https://gitagraph.github.io/ashtavakra/";
 
 // ===================== storage (best effort) =====================
 const store = {
@@ -102,13 +140,13 @@ function norm(s){
 function saLines(v){
   const lines = v.sa.split("\n").map(s=>s.trim()).filter(Boolean);
   let uvaca = "";
-  if(lines.length > 1 && /उवाच/.test(lines[0])){ uvaca = lines.shift().replace(/[|।]/g,"").trim(); }
-  const body = lines.map(l => l.replace(/\s*\|\|\s*([०-९]+)-([०-९]+)\s*\|\|/, "\u00a0॥\u00a0$1.$2\u00a0॥").replace(/\|\|/g,"॥").replace(/\|/g,"।"));
+  if(lines.length > 1 && /(उवाच|ुवाच)\s*[|।]?\s*$/.test(lines[0])){ uvaca = lines.shift().replace(/[|।]/g,"").trim(); }
+  const body = lines.map(l => l.replace(/\s*\|\|\s*([०-९]+)-([०-९]+)\s*\|\|/, "\u00a0॥\u00a0$1.$2\u00a0॥").replace(/\|\|/g,"॥").replace(/\|/g,"।").replace(/ ([।॥])/g," $1"));
   return {uvaca, body};
 }
 function trLines(v){
   const lines = v.tr.split("\n").map(s=>s.trim()).filter(Boolean);
-  if(lines.length > 1 && /uvāca/.test(lines[0])) lines.shift();
+  if(lines.length > 1 && /uvāca\s*[|।]?\s*$/.test(lines[0])) lines.shift();
   return lines.map(l => l.replace(/\|\|\s*\d+-\d+\s*\|\|/, "॥").replace(/\|\|/g,"॥").replace(/\|/g,"।"));
 }
 
@@ -137,12 +175,14 @@ function drawShell(route){
   fwd.hidden = !nxt; fwd.innerHTML = IC.fwd;
   if(nxt){ fwd.href = link(nxt.id); fwd.setAttribute("aria-label", `${u().next}: ${nxt.ref}`); fwd.title = `${u().next}: ${nxt.ref}`; }
   document.getElementById("setbtn").innerHTML = IC.set;
+  document.getElementById("helpbtn").setAttribute("aria-label", u().howT); document.getElementById("helpbtn").title = u().howT;
   document.getElementById("langbtn").textContent = isHi() ? "EN" : "हि";
   document.getElementById("langbtn").setAttribute("aria-label", isHi() ? "Switch to English" : "हिन्दी में देखें");
 }
 document.getElementById("back").onclick = () => { if(history.length > 1) history.back(); else go("home"); };
 document.getElementById("langbtn").onclick = () => setLang(isHi() ? "en" : "hi");
 document.getElementById("setbtn").onclick = openSettings;
+document.getElementById("helpbtn").onclick = () => sheet(`<h2>${esc(u().howT)}</h2>${howBody()}<div class="row"><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
 window.addEventListener("scroll", () => document.getElementById("top").classList.toggle("scrolled", window.scrollY > 4), {passive:true});
 
 function setLang(l){ lang = l; store.set("lang", l); document.documentElement.lang = l; render(true); }
@@ -160,13 +200,13 @@ function parse(h){
   if((m = /^c(\d{1,2})$/.exec(h)) && +m[1]>=1 && +m[1]<=NCH) return {name:"chapter", c:+m[1]};
   if((m = /^v(\d{1,2})-(\d{1,3})$/.exec(h)) && VB.has(`${m[1]}.${m[2]}`)) return {name:"verse", v:VB.get(`${m[1]}.${m[2]}`)};
   if((m = /^t-([a-z0-9]+)$/.exec(h)) && HB.has(m[1])) return {name:"topic", h:HB.get(m[1])};
-  if(["explore","index","search","saved"].includes(h)) return {name:h};
+  if(["explore","index","search","saved","about"].includes(h)) return {name:h};
   return {name:"home"};
 }
 // Two link modes: the built site sets window.APP_BASE and uses real paths (/chapter/2/verse/47/);
 // the Artifact preview has no APP_BASE and keeps #tokens.  Templates always write "#token".
 const BASE = window.APP_BASE || "";
-const PATHS = {home:"", explore:"explore/", index:"people-and-ideas/", search:"search/", saved:"saved/"};
+const PATHS = {home:"", explore:"explore/", index:"people-and-ideas/", search:"search/", saved:"saved/", about:"about/"};
 function pathOf(t){
   let m;
   if(t in PATHS) return BASE + PATHS[t];
@@ -218,13 +258,14 @@ function render(keepScroll){
     const view = document.getElementById("view");
     const ttl = document.getElementById("ttl");
     stopGraph();
-    if(route.name==="home"){ ttl.textContent = u().app; view.innerHTML = page(homeView(), homeCtx()); }
+    if(route.name==="home"){ ttl.textContent = u().app; view.innerHTML = page(homeView(), homeCtx()); wireHome(); }
     else if(route.name==="chapter"){ const c = CH[route.c-1]; ttl.textContent = `${u().chapter} ${c.num} · ${name(c)}`; view.innerHTML = page(chapterView(c), chapterCtx(c)); }
     else if(route.name==="verse"){ const v = route.v; ttl.textContent = `${u().verse} ${v.ref}`; view.innerHTML = page(verseView(v), verseCtx(v)); markRead(v); wireVerse(v); }
     else if(route.name==="topic"){ const h = route.h; if(lastTopic !== h.id){ tFilter = {mode:"all", ch:0}; lastTopic = h.id; } ttl.textContent = name(h); view.innerHTML = page(topicView(h), topicCtx(h)); wireTopic(h); }
     else if(route.name==="index"){ ttl.textContent = u().index; view.innerHTML = page(indexView(), aboutCtx()); wireIndex(); }
     else if(route.name==="search"){ ttl.textContent = u().search; view.innerHTML = page(searchView(), aboutCtx()); wireSearch(); }
     else if(route.name==="saved"){ ttl.textContent = u().saved; view.innerHTML = page(savedView(), aboutCtx()); }
+    else if(route.name==="about"){ ttl.textContent = u().aboutPage; view.innerHTML = page(aboutView(), homeCtx()); }
     else if(route.name==="explore"){ ttl.textContent = u().explore; view.innerHTML = exploreView(); startGraph(); }
     wireCommon();
     // a built page arrives with its own search-friendly title; keep it until the reader moves on
@@ -263,28 +304,65 @@ function aboutCtx(){
 const listMore = (id, rows, n) => rows.length > n ? `<button class="btn more" data-more="${id}">${esc(u().showMore(rows.length - n))}</button>` : "";
 
 // ===================== home =====================
+// Verse of the day: the same verse for everyone on a given date in India (IST). The pool is the
+// teaching: Ashtavakra's verses plus Janaka's chapter 2 of wonder, without the opening question
+// and the test of chapter 3. It steps through them in a fixed scrambled order so consecutive days
+// land in different chapters.
+let VPOOL = null, VSTEP = 1;
 function votd(){
-  const d = new Date(); const day = Math.floor((d - new Date(d.getFullYear(),0,0)) / 864e5);
-  return VB.get(VOTD[day % VOTD.length]) || V[0];
+  if(!VPOOL){
+    VPOOL = V.filter(v => (voice(v)==="ashtavakra" || v.c===2) && v.c !== 3);
+    const gcd = (a,b) => b ? gcd(b, a % b) : a;
+    VSTEP = [97,101,103,107,109].find(k => gcd(k, VPOOL.length)===1);
+  }
+  const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5);
+  return VPOOL[(day * VSTEP) % VPOOL.length];
 }
+const howBody = () => `<div class="howbody">${u().how.map(([h,items]) => `<h3>${esc(h)}</h3><ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>`).join("")}</div>`;
+const verseUrl = v => BASE ? location.origin + pathOf(v.id) : `${SITE}chapter/${v.c}/verse/${v.v}/`;
 function homeView(){
   const last = recent.length ? VB.get(recent[0]) : null;
-  const vd = votd();
-  const s = saLines(vd);
-  const contCard = last
-    ? `<a class="card" href="#${last.id}"><p class="eyebrow">${esc(u().cont)}</p><span class="ref">${last.ref}</span> <span class="muted">· ${esc(name(CH[last.c-1]))}</span><p class="tx" lang="${lang}" style="margin-top:8px">${esc(tr(last))}</p></a>`
-    : `<a class="card" href="#v1-1"><p class="eyebrow">${esc(u().start)}</p><span class="ref">1.1</span> <span class="muted">· ${esc(name(CH[0]))}</span><p class="tx" style="margin-top:8px">${esc(u().startT)}</p></a>`;
-  return `<section class="hero"><p class="skt">अष्टावक्रगीता</p><h1>${isHi() ? "अष्टावक्र गीता" : "The Ashtavakra Gita"}</h1><p class="lede">${esc(u().lede)}</p></section>
-  <div class="cards two">${contCard}
-    <a class="card" href="#${vd.id}"><p class="eyebrow">${esc(u().votd)}</p><span class="ref">${vd.ref}</span>
-      ${prefs.sa ? `<p class="sa">${s.body.map(esc).join("<br>")}</p>` : ""}<p class="tx" lang="${lang}">${esc(tr(vd))}</p></a></div>
+  const vd = votd(), s = saLines(vd);
+  let how = store.get("how", null);
+  if(how===null) store.set("how", "closed");          // open by itself on the first visit only
+  return `<section class="hero"><p class="skt">अष्टावक्रगीता</p><h1>${isHi() ? "अष्टावक्र गीता" : "The Ashtavakra Gita"}</h1></section>
+  <section class="forall"><h2>${esc(u().forallT)}</h2><p class="lede2">${esc(u().forallLede)}</p>
+    <ul>${u().forall.map(([b,t]) => `<li><b>${esc(b)}</b> ${t}</li>`).join("")}</ul>
+    <p class="note"><i>${esc(u().forallNote)}</i> · <a href="#about">${esc(u().aboutLink)}</a></p></section>
+  ${last ? `<a class="contbar" href="#${last.id}"><span><b>${esc(u().contL)}</b> · ${last.ref} ${esc(name(CH[last.c-1]))}</span><span aria-hidden="true">→</span></a>` : ""}
+  <section class="votd" aria-label="${esc(u().votd)}"><p class="eyebrow">${esc(u().votd)} · ${vd.ref}</p>
+    ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(esc).join("<br>")}</p>` : ""}
+    <p class="tx" lang="${lang}">${esc(tr(vd))}</p>
+    <div class="row"><a class="btn primary" href="#${vd.id}">${esc(u().readCtx)}</a><button class="btn" id="sharebtn" data-ref="${vd.ref}">${esc(u().share)}</button></div></section>
+  ${last ? "" : `<a class="btn primary startbtn" href="#v1-1">${esc(u().startR)} <small>· ${esc(u().startSub)}</small></a>`}
   <h2 class="sec">${esc(u().chapters)}</h2>
   <ol class="chgrid">${CH.map(c => {
     const r = c.vs.filter(v=>readSet.has(v.ref)).length;
     return `<li><a class="chcard" href="#c${c.num}"><span class="num" aria-hidden="true">${dev(c.num)}</span>
       <span class="lab">${esc(u().chapter)} ${c.num}</span><span class="nm">${esc(name(c))}</span><span class="sk">${esc(c.skt)}</span>
       <span class="foot"><span class="prog"><i style="width:${(r/c.vs.length*100).toFixed(1)}%"></i></span>${r ? esc(u().readOf(r,c.vs.length)) : `${c.vs.length} ${esc(u().verses)}`}</span></a></li>`;
-  }).join("")}</ol>`;
+  }).join("")}</ol>
+  <details class="how" id="how" ${how===null || how==="open" ? "open" : ""}><summary>${esc(u().howT)}</summary>${howBody()}</details>`;
+}
+function wireHome(){
+  const d = document.getElementById("how");
+  // record only the reader's own clicks: browsers also fire "toggle" when an open <details> is first drawn
+  if(d) d.querySelector("summary").addEventListener("click", () => store.set("how", d.open ? "closed" : "open"));
+  const sb = document.getElementById("sharebtn");
+  if(sb) sb.onclick = () => {
+    const v = VB.get(sb.dataset.ref), url = verseUrl(v);
+    const text = `${tr(v)} — ${isHi() ? "अष्टावक्र गीता" : "Ashtavakra Gita"} ${v.ref}`;
+    const copy = () => { try{ navigator.clipboard.writeText(`${text}\n${url}`).then(()=>toast(u().linkCopied), ()=>toast(u().copyFail)); }catch(e){ toast(u().copyFail); } };
+    if(navigator.share) navigator.share({title:`${isHi() ? "अष्टावक्र गीता" : "Ashtavakra Gita"} ${v.ref}`, text, url}).catch(err => { if(err && err.name !== "AbortError") copy(); });
+    else copy();
+  };
+}
+function aboutView(){
+  return `<header class="thead"><h1>${esc(u().aboutPage)}</h1></header>
+  <p class="desc" lang="${lang}" style="font-family:var(--f-read);line-height:1.7;max-width:62ch">${esc(u().forallLede)}</p>
+  <h2 class="sec">${esc(u().about)}</h2><p style="line-height:1.7;max-width:62ch">${esc(u().aboutT)}</p>
+  <p style="line-height:1.7;max-width:62ch"><i>${esc(u().forallNote)}</i> ${u().suggest}</p>
+  <p><span class="proto">${esc(u().proto)}</span></p>`;
 }
 function homeCtx(){
   const people = H.filter(h=>h.type==="person").sort((a,b)=>b.vs.length-a.vs.length).slice(0,6);
