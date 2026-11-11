@@ -19,7 +19,7 @@ const IC = {
 // ===================== interface text =====================
 const UI = {
   en:{ app:"Bhagavad Gita", read:"Read", explore:"Explore", index:"People & ideas", indexShort:"Index", search:"Search", saved:"Saved", settings:"Display",
-    lede:"The song of the Lord: Krishna's teaching to Arjuna on the field of Kurukshetra, in 18 chapters and 701 verses. Sanskrit with fresh English and Hindi translations, linked to every person and idea.",
+    lede:"The song of the Lord: Krishna's teaching to Arjuna on the field of Kurukshetra, in 18 chapters and 700 verses. Sanskrit with fresh English and Hindi translations, linked to every person and idea.",
     chapters:"Chapters", chapter:"Chapter", verse:"Verse", verses:"verses", vOf:(a,b)=>`Verse ${a} of ${b}`, readOf:(a,b)=>`${a} of ${b} read`,
     cont:"Continue reading", votd:"Verse of the day", start:"Start at the beginning", startT:"Chapter 1 opens on the battlefield, with a blind king asking what happened.",
     whoSpeaks:"Who speaks", peopleHere:"People in this chapter", ideasHere:"Ideas in this chapter", inVerse:"In this verse", people:"People & places", ideas:"Ideas", paths:"Yogas & gunas", sections:"Sections",
@@ -31,11 +31,11 @@ const UI = {
     showMore:n=>`Show ${n} more`, back:"Back", open:"Open", openCh:"Read chapter", allVerses:n=>`All ${n} verses`,
     ghint:"Pinch or scroll to zoom · drag to move · tap any dot", sanskrit:"Sanskrit", iast:"Transliteration", second:"Second translation", size:"Text size", theme:"Theme",
     language:"Language", system:"System", light:"Light", dark:"Dark", done:"Done", swipe:"Swipe left or right for the next verse",
-    about:"About this text", aboutT:"Sanskrit and transliteration: the traditional text, in the public domain. English and Hindi translations were written fresh for this project from the Sanskrit. This edition counts 701 verses because it includes 13.1, which many editions omit.",
+    about:"About this text", aboutT:"Sanskrit text: Sanskrit Wikisource (sa.wikisource.org, \"भगवद्गीता\"), used under CC BY-SA 4.0, checked verse by verse against the GRETIL e-text (Göttingen), with five typing errors corrected. The transliteration is generated from that Devanagari. The English and Hindi translations were written fresh for this project with AI assistance. 700 verses, as in Wikisource and GRETIL.",
     proto:"Prototype", type:{chapter:"Chapter",person:"Person / place",concept:"Idea",path:"Yoga",guna:"Guna",section:"Section"},
     leg:{krishna:"Krishna",arjuna:"Arjuna",sanjaya:"Sanjaya",hub:"Person / idea"} },
   hi:{ app:"भगवद्गीता", read:"पढ़ें", explore:"नक्शा", index:"पात्र और विचार", indexShort:"सूची", search:"खोजें", saved:"सहेजे", settings:"प्रदर्शन",
-    lede:"भगवान का गीत: कुरुक्षेत्र में कृष्ण का अर्जुन को उपदेश, 18 अध्यायों और 701 श्लोकों में। संस्कृत के साथ नए हिंदी और अंग्रेज़ी अनुवाद, हर पात्र और विचार से जुड़े।",
+    lede:"भगवान का गीत: कुरुक्षेत्र में कृष्ण का अर्जुन को उपदेश, 18 अध्यायों और 700 श्लोकों में। संस्कृत के साथ नए हिंदी और अंग्रेज़ी अनुवाद, हर पात्र और विचार से जुड़े।",
     chapters:"अध्याय", chapter:"अध्याय", verse:"श्लोक", verses:"श्लोक", vOf:(a,b)=>`श्लोक ${a} / ${b}`, readOf:(a,b)=>`${b} में से ${a} पढ़े`,
     cont:"पढ़ना जारी रखें", votd:"आज का श्लोक", start:"शुरुआत से पढ़ें", startT:"पहला अध्याय युद्धभूमि पर खुलता है, जहाँ एक अंधे राजा पूछते हैं कि क्या हुआ।",
     whoSpeaks:"कौन बोलता है", peopleHere:"इस अध्याय के पात्र", ideasHere:"इस अध्याय के विचार", inVerse:"इस श्लोक में", people:"पात्र और स्थान", ideas:"विचार", paths:"योग और गुण", sections:"खंड",
@@ -47,7 +47,7 @@ const UI = {
     showMore:n=>`${n} और दिखाएँ`, back:"वापस", open:"खोलें", openCh:"अध्याय पढ़ें", allVerses:n=>`सभी ${n} श्लोक`,
     ghint:"ज़ूम के लिए पिंच या स्क्रॉल करें · खींचकर घुमाएँ · किसी भी बिंदु को छुएँ", sanskrit:"संस्कृत", iast:"लिप्यंतरण", second:"दूसरा अनुवाद", size:"अक्षर का आकार", theme:"थीम",
     language:"भाषा", system:"सिस्टम", light:"हल्की", dark:"गहरी", done:"ठीक है", swipe:"अगले श्लोक के लिए बाएँ या दाएँ स्वाइप करें",
-    about:"इस पाठ के बारे में", aboutT:"संस्कृत पाठ और लिप्यंतरण: पारंपरिक पाठ, सार्वजनिक डोमेन में। हिंदी और अंग्रेज़ी अनुवाद इस परियोजना के लिए संस्कृत से नए लिखे गए हैं। इस संस्करण में 701 श्लोक हैं क्योंकि इसमें 13.1 शामिल है, जिसे कई संस्करण छोड़ देते हैं।",
+    about:"इस पाठ के बारे में", aboutT:"संस्कृत पाठ: संस्कृत विकिस्रोत (sa.wikisource.org, \"भगवद्गीता\"), CC BY-SA 4.0 के अंतर्गत, गॉटिंगेन के GRETIL पाठ से श्लोक-दर-श्लोक मिलाकर, पाँच टंकण त्रुटियाँ सुधारी गईं। लिप्यंतरण इसी देवनागरी से बनाया गया है। हिंदी और अंग्रेज़ी अनुवाद इस परियोजना के लिए AI की सहायता से नए लिखे गए हैं। विकिस्रोत और GRETIL की तरह 700 श्लोक।",
     proto:"प्रोटोटाइप", type:{chapter:"अध्याय",person:"व्यक्ति / स्थान",concept:"विचार",path:"योग",guna:"गुण",section:"खंड"},
     leg:{krishna:"कृष्ण",arjuna:"अर्जुन",sanjaya:"संजय",hub:"पात्र / विचार"} }
 };
@@ -101,13 +101,13 @@ function norm(s){
 function saLines(v){
   const lines = v.sa.split("\n").map(s=>s.trim()).filter(Boolean);
   let uvaca = "";
-  if(lines.length > 1 && /उवाच/.test(lines[0])){ uvaca = lines.shift().replace(/[|।]/g,"").trim(); }
+  if(lines.length > 1 && /(उवाच|ुवाच)\s*[|।]?\s*$/.test(lines[0])){ uvaca = lines.shift().replace(/[|।]/g,"").trim(); }
   const body = lines.map(l => l.replace(/\s*\|\|\s*([०-९]+)-([०-९]+)\s*\|\|/, "\u00a0॥\u00a0$1.$2\u00a0॥").replace(/\|\|/g,"॥").replace(/\|/g,"।"));
   return {uvaca, body};
 }
 function trLines(v){
   const lines = v.tr.split("\n").map(s=>s.trim()).filter(Boolean);
-  if(lines.length > 1 && /uvāca/.test(lines[0])) lines.shift();
+  if(lines.length > 1 && /uvāca\s*[|।]?\s*$/.test(lines[0])) lines.shift();
   return lines.map(l => l.replace(/\|\|\s*\d+-\d+\s*\|\|/, "॥").replace(/\|\|/g,"॥").replace(/\|/g,"।"));
 }
 

@@ -1,7 +1,7 @@
 {
   "name": "Bhagavad Gita Reader",
   "short_name": "Gita",
-  "description": "All 701 verses of the Bhagavad Gita in Sanskrit, with English and Hindi translations, linked to every person and idea.",
+  "description": "All 700 verses of the Bhagavad Gita in Sanskrit, with English and Hindi translations, linked to every person and idea.",
   "lang": "en",
   "start_url": "./",
   "scope": "./",
