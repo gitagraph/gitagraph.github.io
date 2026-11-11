@@ -51,7 +51,47 @@ const UI = {
     proto:"प्रोटोटाइप", type:{chapter:"अध्याय",person:"व्यक्ति / स्थान",concept:"विचार",path:"योग",guna:"गुण",section:"खंड"},
     leg:{krishna:"कृष्ण",arjuna:"अर्जुन",sanjaya:"संजय",hub:"पात्र / विचार"} }
 };
-const VOTD = ["2.47","2.20","2.22","2.14","2.48","2.62","2.63","3.21","3.35","4.7","4.8","4.38","5.18","6.5","6.6","6.35","9.22","9.26","11.32","12.13","12.15","15.7","17.3","18.47","18.66","2.23","3.27","6.19","7.7","10.20","13.28","14.22","16.21","18.78"];
+Object.assign(UI.en, {
+  forallT:"Gita for all", forallLede:"For someone opening the Gita for the first time, and for someone who has read it many times.",
+  forall:[["New to it?","Start at Chapter 1 and read the story verse by verse in simple Hindi or English."],
+    ["Know it well?","Jump to any shloka, read the Sanskrit beside the translation, or follow one person or idea through all the verses."],
+    ["Curious?",'Tap <a href="#t-karna">Karna</a> to read every scene he is in, or tap <a href="#t-dharma">dharma</a> to read every verse that teaches it.']],
+  forallNote:"The translations are new and written to be easy to read. Suggestions and corrections are welcome.", aboutLink:"About this project →",
+  startR:"Start reading", startSub:"Chapter 1, verse 1", contL:"Continue", readCtx:"Read in context →", share:"Share", linkCopied:"Verse and link copied",
+  howT:"How to use", aboutPage:"About this project",
+  suggest:'Spotted a mistake or have a better translation? <a href="https://github.com/gitagraph/gitagraph.github.io/issues" target="_blank" rel="noopener">Tell us on GitHub</a>.',
+  how:[["Read",["<b>Start reading</b> opens Chapter 1, verse 1. Use <b>Next →</b> under a verse, or the <b>›</b> arrow at the top, to go verse by verse.",
+      "Each verse shows the Sanskrit, how to say it, and its meaning. Tap <b>हि / EN</b> at the top to switch language. <b>Display</b> sets text size, theme and what is shown.",
+      "Tap <b>Save</b> to keep a verse. Your saved verses are under <b>Saved</b>."]],
+    ["Explore the map",["Open <b>Explore</b>. Every dot is a shloka. Its colour shows who is speaking: Krishna, Arjuna, Sanjaya, Dhritarashtra or Duryodhana.",
+      "Pinch or scroll to zoom in and out, and drag to move around. The <b>⤢</b> button shows everything again.",
+      "Tap a <b>chapter</b> on the ring, then <b>Read chapter</b>, to read it from start to end.",
+      "Tap a <b>person</b>, like Karna, to read every scene they are in.",
+      "Tap an <b>idea</b>, like dharma or karma, to read every verse that speaks of it."]],
+    ["Find",["Open <b>Search</b> and type a name, an idea, a Sanskrit word, or a verse number like <b>2.47</b>.",
+      "<b>Index</b> lists every person and idea, with how many verses each appears in."]]]
+});
+Object.assign(UI.hi, {
+  forallT:"सबके लिए गीता", forallLede:"उनके लिए जो पहली बार गीता खोल रहे हैं, और उनके लिए भी जो इसे कई बार पढ़ चुके हैं।",
+  forall:[["पहली बार?","अध्याय 1 से शुरू करें और सरल हिंदी या अंग्रेज़ी में कहानी श्लोक-दर-श्लोक पढ़ें।"],
+    ["पहले से परिचित?","किसी भी श्लोक पर जाएँ, संस्कृत को अनुवाद के साथ पढ़ें, या किसी एक पात्र या विचार को सभी श्लोकों में खोजें।"],
+    ["जिज्ञासु?",'<a href="#t-karna">कर्ण</a> पर टैप करके उनके सभी प्रसंग पढ़ें, या <a href="#t-dharma">धर्म</a> पर टैप करके उसे सिखाने वाले सभी श्लोक।']],
+  forallNote:"अनुवाद नए हैं और सरल भाषा में लिखे गए हैं। सुझाव और सुधार का स्वागत है।", aboutLink:"इस परियोजना के बारे में →",
+  startR:"पढ़ना शुरू करें", startSub:"अध्याय 1, श्लोक 1", contL:"जारी रखें", readCtx:"संदर्भ में पढ़ें →", share:"साझा करें", linkCopied:"श्लोक और लिंक कॉपी हो गए",
+  howT:"कैसे उपयोग करें", aboutPage:"इस परियोजना के बारे में",
+  suggest:'कोई त्रुटि दिखी या बेहतर अनुवाद सुझाना है? <a href="https://github.com/gitagraph/gitagraph.github.io/issues" target="_blank" rel="noopener">GitHub पर बताएँ</a>।',
+  how:[["पढ़ें",["<b>पढ़ना शुरू करें</b> दबाएँ, अध्याय 1 का पहला श्लोक खुलेगा। श्लोक के नीचे <b>अगला →</b> या ऊपर <b>›</b> से श्लोक-दर-श्लोक आगे बढ़ें।",
+      "हर श्लोक में संस्कृत, उसका उच्चारण और अर्थ है। ऊपर <b>हि / EN</b> से भाषा बदलें। <b>प्रदर्शन</b> में अक्षर का आकार, थीम और क्या दिखे, चुनें।",
+      "<b>सहेजें</b> से श्लोक सहेजें। सहेजे गए श्लोक <b>सहेजे</b> में मिलेंगे।"]],
+    ["नक्शा देखें",["<b>नक्शा</b> खोलें। हर बिंदु एक श्लोक है। रंग बताता है कि कौन बोल रहा है: श्रीकृष्ण, अर्जुन, संजय, धृतराष्ट्र या दुर्योधन।",
+      "पिंच या स्क्रॉल करके ज़ूम करें, खींचकर नक्शा घुमाएँ। <b>⤢</b> से फिर पूरा नक्शा दिखेगा।",
+      "घेरे पर किसी <b>अध्याय</b> को टैप करें, फिर <b>अध्याय पढ़ें</b>, और पूरा अध्याय शुरू से पढ़ें।",
+      "किसी <b>पात्र</b>, जैसे कर्ण, पर टैप करें और उनके सभी प्रसंग पढ़ें।",
+      "किसी <b>विचार</b>, जैसे धर्म या कर्म, पर टैप करें और उससे जुड़े सभी श्लोक पढ़ें।"]],
+    ["खोजें",["<b>खोजें</b> खोलें और कोई नाम, विचार, संस्कृत शब्द या श्लोक संख्या, जैसे <b>2.47</b>, लिखें।",
+      "<b>सूची</b> में हर पात्र और विचार है, और वे कितने श्लोकों में आते हैं।"]]]
+});
+const SITE = window.APP_SITE || "https://gitagraph.github.io/";
 
 // ===================== storage (best effort) =====================
 const store = {
@@ -136,12 +176,14 @@ function drawShell(route){
   fwd.hidden = !nxt; fwd.innerHTML = IC.fwd;
   if(nxt){ fwd.href = link(nxt.id); fwd.setAttribute("aria-label", `${u().next}: ${nxt.ref}`); fwd.title = `${u().next}: ${nxt.ref}`; }
   document.getElementById("setbtn").innerHTML = IC.set;
+  document.getElementById("helpbtn").setAttribute("aria-label", u().howT); document.getElementById("helpbtn").title = u().howT;
   document.getElementById("langbtn").textContent = isHi() ? "EN" : "हि";
   document.getElementById("langbtn").setAttribute("aria-label", isHi() ? "Switch to English" : "हिन्दी में देखें");
 }
 document.getElementById("back").onclick = () => { if(history.length > 1) history.back(); else go("home"); };
 document.getElementById("langbtn").onclick = () => setLang(isHi() ? "en" : "hi");
 document.getElementById("setbtn").onclick = openSettings;
+document.getElementById("helpbtn").onclick = () => sheet(`<h2>${esc(u().howT)}</h2>${howBody()}<div class="row"><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
 window.addEventListener("scroll", () => document.getElementById("top").classList.toggle("scrolled", window.scrollY > 4), {passive:true});
 
 function setLang(l){ lang = l; store.set("lang", l); document.documentElement.lang = l; render(true); }
@@ -159,13 +201,13 @@ function parse(h){
   if((m = /^c(\d{1,2})$/.exec(h)) && +m[1]>=1 && +m[1]<=18) return {name:"chapter", c:+m[1]};
   if((m = /^v(\d{1,2})-(\d{1,2})$/.exec(h)) && VB.has(`${m[1]}.${m[2]}`)) return {name:"verse", v:VB.get(`${m[1]}.${m[2]}`)};
   if((m = /^t-([a-z0-9]+)$/.exec(h)) && HB.has(m[1])) return {name:"topic", h:HB.get(m[1])};
-  if(["explore","index","search","saved"].includes(h)) return {name:h};
+  if(["explore","index","search","saved","about"].includes(h)) return {name:h};
   return {name:"home"};
 }
 // Two link modes: the built site sets window.APP_BASE and uses real paths (/chapter/2/verse/47/);
 // the Artifact preview has no APP_BASE and keeps #tokens.  Templates always write "#token".
 const BASE = window.APP_BASE || "";
-const PATHS = {home:"", explore:"explore/", index:"people-and-ideas/", search:"search/", saved:"saved/"};
+const PATHS = {home:"", explore:"explore/", index:"people-and-ideas/", search:"search/", saved:"saved/", about:"about/"};
 function pathOf(t){
   let m;
   if(t in PATHS) return BASE + PATHS[t];
@@ -217,13 +259,14 @@ function render(keepScroll){
     const view = document.getElementById("view");
     const ttl = document.getElementById("ttl");
     stopGraph();
-    if(route.name==="home"){ ttl.textContent = u().app; view.innerHTML = page(homeView(), homeCtx()); }
+    if(route.name==="home"){ ttl.textContent = u().app; view.innerHTML = page(homeView(), homeCtx()); wireHome(); }
     else if(route.name==="chapter"){ const c = CH[route.c-1]; ttl.textContent = `${u().chapter} ${c.num} · ${name(c)}`; view.innerHTML = page(chapterView(c), chapterCtx(c)); }
     else if(route.name==="verse"){ const v = route.v; ttl.textContent = `${u().verse} ${v.ref}`; view.innerHTML = page(verseView(v), verseCtx(v)); markRead(v); wireVerse(v); }
     else if(route.name==="topic"){ const h = route.h; if(lastTopic !== h.id){ tFilter = {mode:"all", ch:0}; lastTopic = h.id; } ttl.textContent = name(h); view.innerHTML = page(topicView(h), topicCtx(h)); wireTopic(h); }
     else if(route.name==="index"){ ttl.textContent = u().index; view.innerHTML = page(indexView(), aboutCtx()); wireIndex(); }
     else if(route.name==="search"){ ttl.textContent = u().search; view.innerHTML = page(searchView(), aboutCtx()); wireSearch(); }
     else if(route.name==="saved"){ ttl.textContent = u().saved; view.innerHTML = page(savedView(), aboutCtx()); }
+    else if(route.name==="about"){ ttl.textContent = u().aboutPage; view.innerHTML = page(aboutView(), homeCtx()); }
     else if(route.name==="explore"){ ttl.textContent = u().explore; view.innerHTML = exploreView(); startGraph(); }
     wireCommon();
     // a built page arrives with its own search-friendly title; keep it until the reader moves on
@@ -262,28 +305,65 @@ function aboutCtx(){
 const listMore = (id, rows, n) => rows.length > n ? `<button class="btn more" data-more="${id}">${esc(u().showMore(rows.length - n))}</button>` : "";
 
 // ===================== home =====================
+// Verse of the day: the same verse for everyone on a given date in India (IST). The pool skips
+// chapter 1 (the battlefield roll and Arjuna's lists of kin), narration by Sanjaya, Dhritarashtra
+// and Duryodhana, and any verse naming three or more people, then steps through it in a fixed
+// scrambled order so consecutive days land in different chapters.
+let VPOOL = null, VSTEP = 1;
 function votd(){
-  const d = new Date(); const day = Math.floor((d - new Date(d.getFullYear(),0,0)) / 864e5);
-  return VB.get(VOTD[day % VOTD.length]) || V[0];
+  if(!VPOOL){
+    VPOOL = V.filter(v => v.c !== 1 && !["sanjaya","dhrit","duryo"].includes(voice(v)) && v.tags.filter(id => HB.get(id).type==="person").length < 3);
+    const gcd = (a,b) => b ? gcd(b, a % b) : a;
+    VSTEP = [97,101,103,107,109].find(k => gcd(k, VPOOL.length)===1);
+  }
+  const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5);
+  return VPOOL[(day * VSTEP) % VPOOL.length];
 }
+const howBody = () => `<div class="howbody">${u().how.map(([h,items]) => `<h3>${esc(h)}</h3><ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>`).join("")}</div>`;
+const verseUrl = v => BASE ? location.origin + pathOf(v.id) : `${SITE}chapter/${v.c}/verse/${v.v}/`;
 function homeView(){
   const last = recent.length ? VB.get(recent[0]) : null;
-  const vd = votd();
-  const s = saLines(vd);
-  const contCard = last
-    ? `<a class="card" href="#${last.id}"><p class="eyebrow">${esc(u().cont)}</p><span class="ref">${last.ref}</span> <span class="muted">· ${esc(name(CH[last.c-1]))}</span><p class="tx" lang="${lang}" style="margin-top:8px">${esc(tr(last))}</p></a>`
-    : `<a class="card" href="#v1-1"><p class="eyebrow">${esc(u().start)}</p><span class="ref">1.1</span> <span class="muted">· ${esc(name(CH[0]))}</span><p class="tx" style="margin-top:8px">${esc(u().startT)}</p></a>`;
-  return `<section class="hero"><p class="skt">श्रीमद्भगवद्गीता</p><h1>${isHi() ? "भगवद्गीता" : "The Bhagavad Gita"}</h1><p class="lede">${esc(u().lede)}</p></section>
-  <div class="cards two">${contCard}
-    <a class="card" href="#${vd.id}"><p class="eyebrow">${esc(u().votd)}</p><span class="ref">${vd.ref}</span>
-      ${prefs.sa ? `<p class="sa">${s.body.map(esc).join("<br>")}</p>` : ""}<p class="tx" lang="${lang}">${esc(tr(vd))}</p></a></div>
+  const vd = votd(), s = saLines(vd);
+  let how = store.get("how", null);
+  if(how===null) store.set("how", "closed");          // open by itself on the first visit only
+  return `<section class="hero"><p class="skt">श्रीमद्भगवद्गीता</p><h1>${isHi() ? "भगवद्गीता" : "The Bhagavad Gita"}</h1></section>
+  <section class="forall"><h2>${esc(u().forallT)}</h2><p class="lede2">${esc(u().forallLede)}</p>
+    <ul>${u().forall.map(([b,t]) => `<li><b>${esc(b)}</b> ${t}</li>`).join("")}</ul>
+    <p class="note"><i>${esc(u().forallNote)}</i> · <a href="#about">${esc(u().aboutLink)}</a></p></section>
+  ${last ? `<a class="contbar" href="#${last.id}"><span><b>${esc(u().contL)}</b> · ${last.ref} ${esc(name(CH[last.c-1]))}</span><span aria-hidden="true">→</span></a>` : ""}
+  <section class="votd" aria-label="${esc(u().votd)}"><p class="eyebrow">${esc(u().votd)} · ${vd.ref}</p>
+    ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(esc).join("<br>")}</p>` : ""}
+    <p class="tx" lang="${lang}">${esc(tr(vd))}</p>
+    <div class="row"><a class="btn primary" href="#${vd.id}">${esc(u().readCtx)}</a><button class="btn" id="sharebtn" data-ref="${vd.ref}">${esc(u().share)}</button></div></section>
+  ${last ? "" : `<a class="btn primary startbtn" href="#v1-1">${esc(u().startR)} <small>· ${esc(u().startSub)}</small></a>`}
   <h2 class="sec">${esc(u().chapters)}</h2>
   <ol class="chgrid">${CH.map(c => {
     const r = c.vs.filter(v=>readSet.has(v.ref)).length;
     return `<li><a class="chcard" href="#c${c.num}"><span class="num" aria-hidden="true">${dev(c.num)}</span>
       <span class="lab">${esc(u().chapter)} ${c.num}</span><span class="nm">${esc(name(c))}</span><span class="sk">${esc(c.skt)}</span>
       <span class="foot"><span class="prog"><i style="width:${(r/c.vs.length*100).toFixed(1)}%"></i></span>${r ? esc(u().readOf(r,c.vs.length)) : `${c.vs.length} ${esc(u().verses)}`}</span></a></li>`;
-  }).join("")}</ol>`;
+  }).join("")}</ol>
+  <details class="how" id="how" ${how===null || how==="open" ? "open" : ""}><summary>${esc(u().howT)}</summary>${howBody()}</details>`;
+}
+function wireHome(){
+  const d = document.getElementById("how");
+  // record only the reader's own clicks: browsers also fire "toggle" when an open <details> is first drawn
+  if(d) d.querySelector("summary").addEventListener("click", () => store.set("how", d.open ? "closed" : "open"));
+  const sb = document.getElementById("sharebtn");
+  if(sb) sb.onclick = () => {
+    const v = VB.get(sb.dataset.ref), url = verseUrl(v);
+    const text = `${tr(v)} — ${isHi() ? "भगवद्गीता" : "Bhagavad Gita"} ${v.ref}`;
+    const copy = () => { try{ navigator.clipboard.writeText(`${text}\n${url}`).then(()=>toast(u().linkCopied), ()=>toast(u().copyFail)); }catch(e){ toast(u().copyFail); } };
+    if(navigator.share) navigator.share({title:`${isHi() ? "भगवद्गीता" : "Bhagavad Gita"} ${v.ref}`, text, url}).catch(err => { if(err && err.name !== "AbortError") copy(); });
+    else copy();
+  };
+}
+function aboutView(){
+  return `<header class="thead"><h1>${esc(u().aboutPage)}</h1></header>
+  <p class="desc" lang="${lang}" style="font-family:var(--f-read);line-height:1.7;max-width:62ch">${esc(u().forallLede)}</p>
+  <h2 class="sec">${esc(u().about)}</h2><p style="line-height:1.7;max-width:62ch">${esc(u().aboutT)}</p>
+  <p style="line-height:1.7;max-width:62ch"><i>${esc(u().forallNote)}</i> ${u().suggest}</p>
+  <p><span class="proto">${esc(u().proto)}</span></p>`;
 }
 function homeCtx(){
   const people = H.filter(h=>h.type==="person").sort((a,b)=>b.vs.length-a.vs.length).slice(0,6);

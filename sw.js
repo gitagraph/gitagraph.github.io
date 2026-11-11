@@ -2,11 +2,11 @@
 // Other apps may live under the same origin (e.g. /ashtavakra/), so this touches only its own
 // pages, files and caches.
 const PREFIX = "gita-";
-const CACHE = PREFIX + "20261111205143";
+const CACHE = PREFIX + "20261111205622";
 const BASE = new URL(self.registration.scope).pathname;
 const CORE = ["", "app.css", "app.js", "verses.json", "hubs.json", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon.svg"].map(p => BASE + p);
 const MINE = new Set(CORE);
-const ROUTES = ["chapter/", "topic/", "explore/", "people-and-ideas/", "search/", "saved/"].map(p => BASE + p);
+const ROUTES = ["chapter/", "topic/", "explore/", "people-and-ideas/", "search/", "saved/", "about/"].map(p => BASE + p);
 const isPage = p => p === BASE || p === BASE + "index.html" || ROUTES.some(r => p.startsWith(r));
 const CDN = ["fonts.googleapis.com", "fonts.gstatic.com", "cdnjs.cloudflare.com"];
 
