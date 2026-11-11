@@ -34,30 +34,17 @@
    "accent_dark": "#a9a2f2"
   },
   {
-   "id": "sundarkand",
-   "path": "sundarkand/",
-   "name_en": "Sundar Kand",
-   "name_hi": "सुंदरकांड",
-   "native": "सुन्दरकाण्ड",
-   "desc_en": "Hanuman's journey to Lanka in search of Sita.",
-   "desc_hi": "सीता की खोज में हनुमान की लंका यात्रा।",
+   "id": "upanishads",
+   "path": "upanishads/",
+   "name_en": "Upanishads",
+   "name_hi": "उपनिषद्",
+   "native": "उपनिषद्",
+   "desc_en": "The principal Upanishads, verse by verse.",
+   "desc_hi": "प्रमुख उपनिषद्, श्लोक-दर-श्लोक।",
    "verses": null,
    "status": "coming-soon",
-   "accent": "#b45309",
-   "accent_dark": "#f0a35a"
-  },
-  {
-   "id": "shiv-purana",
-   "path": "shiv-purana/",
-   "name_en": "Shiv Purana",
-   "name_hi": "शिव पुराण",
-   "native": "शिवपुराण",
-   "desc_en": "Stories and teachings of Shiva.",
-   "desc_hi": "भगवान शिव की कथाएँ और उपदेश।",
-   "verses": null,
-   "status": "coming-soon",
-   "accent": "#475569",
-   "accent_dark": "#a7b4c8"
+   "accent": "#8a5a12",
+   "accent_dark": "#e2b36a"
   }
  ]
 }

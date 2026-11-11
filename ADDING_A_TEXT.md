@@ -8,15 +8,15 @@ The site is one library root plus one folder per text:
 | `/gita/` | `~/Documents/gita-reader/build.py` |
 | `/ashtavakra/` | `~/Documents/ashtavakra-reader/build.py` |
 
-## Checklist for a new text (e.g. `sundarkand`)
+## Checklist for a new text (e.g. `upanishads`)
 1. **Source and licence first.** The original text must come from a clearly public-domain or openly
    licensed edition (Sanskrit Wikisource, GRETIL, an old printed edition on archive.org). Record the
    source and licence in the text's About page and README. Translations are written fresh, never copied.
 2. **Project folder.** Copy `ashtavakra-reader` as the template (`src/app.html`, `build.py`,
    `src/sw.template.js`, `src/static/`). Give it its own icon, accent colour, localStorage prefix and
-   service-worker cache prefix (e.g. `sundarkand-`), so nothing collides with the other texts.
-3. **Build base path.** In its `build.py`: `SITE_URL = "https://gitagraph.github.io/sundarkand/"` and
-   `DEPLOY = ~/Documents/GitHub/gitagraph.github.io/sundarkand`. Every URL then derives from that, so
+   service-worker cache prefix (e.g. `upanishads-`), so nothing collides with the other texts.
+3. **Build base path.** In its `build.py`: `SITE_URL = "https://gitagraph.github.io/upanishads/"` and
+   `DEPLOY = ~/Documents/GitHub/gitagraph.github.io/upanishads`. Every URL then derives from that, so
    the whole library can move domains by changing `SITE_URL` here and `SITE` in `granth-library/build.py`.
 4. **Switcher include.** Its page head must load the shared switcher (the template already does):
    `<link rel="stylesheet" href="{ROOT}shared/library.css?v={stamp}">` and
@@ -30,10 +30,12 @@ The site is one library root plus one folder per text:
    text's sitemap to the root sitemap index), then commit and push from GitHub Desktop.
 
 ## Notes on texts already planned
-- **Sundar Kand:** most texts online are Gita Press editions, which are copyrighted. Find a
-  public-domain source (Wikisource, or a pre-1929 printed edition) before starting.
-- **Shiv Purana:** about 24,000 verses across several samhitas. Plan it chapter by chapter, with the
-  build and the per-verse pages split by samhita, and translations done in batches.
+- **Upanishads (next):** check for a public-domain source first, Sanskrit Wikisource and GRETIL before
+  anything else, and record the licence. Decide which Upanishads count as "principal" (the usual list
+  is the ten or so commented on by Shankara: Isha, Kena, Katha, Prashna, Mundaka, Mandukya, Taittiriya,
+  Aitareya, Chandogya, Brihadaranyaka, sometimes with Shvetashvatara) and whether they form one site
+  with a chapter per Upanishad. The two long ones (Chandogya, Brihadaranyaka) are mostly prose, so plan
+  how a "verse" is numbered for them.
 
 ## Root files
 `granth-library/rootfiles/` holds files that must sit at the site root unchanged, such as

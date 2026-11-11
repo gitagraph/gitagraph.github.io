@@ -79,7 +79,8 @@ Object.assign(UI.en, {
       "Tap a <b>person</b>, like Karna, to read every scene they are in.",
       "Tap an <b>idea</b>, like dharma or karma, to read every verse that speaks of it."]],
     ["Find",["Open <b>Search</b> and type a name, an idea, a Sanskrit word, or a verse number like <b>2.47</b>.",
-      "<b>Index</b> lists every person and idea, with how many verses each appears in."]]]
+      "<b>Index</b> lists every person and idea, with how many verses each appears in.",
+      '<b>Life questions</b> on the home page gather the verses for moments like worry, grief or anger. <a href="#questions">See them all</a>.']]]
 });
 Object.assign(UI.hi, {
   forallT:"सबके लिए गीता", forallLede:"उनके लिए जो पहली बार गीता खोल रहे हैं, और उनके लिए भी जो इसे कई बार पढ़ चुके हैं।",
@@ -109,7 +110,8 @@ Object.assign(UI.hi, {
       "किसी <b>पात्र</b>, जैसे कर्ण, पर टैप करें और उनके सभी प्रसंग पढ़ें।",
       "किसी <b>विचार</b>, जैसे धर्म या कर्म, पर टैप करें और उससे जुड़े सभी श्लोक पढ़ें।"]],
     ["खोजें",["<b>खोजें</b> खोलें और कोई नाम, विचार, संस्कृत शब्द या श्लोक संख्या, जैसे <b>2.47</b>, लिखें।",
-      "<b>सूची</b> में हर पात्र और विचार है, और वे कितने श्लोकों में आते हैं।"]]]
+      "<b>सूची</b> में हर पात्र और विचार है, और वे कितने श्लोकों में आते हैं।",
+      '<b>जीवन के प्रश्न</b> होम पेज पर हैं: चिंता, शोक या क्रोध जैसे क्षणों के लिए श्लोक। <a href="#questions">सभी देखें</a>।']]]
 });
 const SITE = window.APP_SITE || "https://gitagraph.github.io/gita/";
 
@@ -221,20 +223,22 @@ function parse(h){
   if((m = /^c(\d{1,2})$/.exec(h)) && +m[1]>=1 && +m[1]<=18) return {name:"chapter", c:+m[1]};
   if((m = /^v(\d{1,2})-(\d{1,2})$/.exec(h)) && VB.has(`${m[1]}.${m[2]}`)) return {name:"verse", v:VB.get(`${m[1]}.${m[2]}`)};
   if((m = /^t-([a-z0-9]+)$/.exec(h)) && HB.has(m[1])) return {name:"topic", h:HB.get(m[1])};
-  if(["explore","index","search","saved","about"].includes(h)) return {name:h};
+  if((m = /^q-([a-z0-9-]+)$/.exec(h)) && qBySlug(m[1])) return {name:"question", q:qBySlug(m[1])};
+  if(["explore","index","search","saved","about","questions"].includes(h)) return {name:h};
   return {name:"home"};
 }
 // Two link modes: the built site sets window.APP_BASE and uses real paths (/chapter/2/verse/47/);
 // the Artifact preview has no APP_BASE and keeps #tokens.  Templates always write "#token".
 const BASE = window.APP_BASE || "";
 const VER = window.APP_VER ? "?v=" + window.APP_VER : "";   // build stamp on the built site; empty in the preview
-const PATHS = {home:"", explore:"explore/", index:"people-and-ideas/", search:"search/", saved:"saved/", about:"about/"};
+const PATHS = {home:"", explore:"explore/", index:"people-and-ideas/", search:"search/", saved:"saved/", about:"about/", questions:"questions/"};
 function pathOf(t){
   let m;
   if(t in PATHS) return BASE + PATHS[t];
   if((m = /^c(\d+)$/.exec(t))) return `${BASE}chapter/${m[1]}/`;
   if((m = /^v(\d+)-(\d+)$/.exec(t))) return `${BASE}chapter/${m[1]}/verse/${m[2]}/`;
   if((m = /^t-([a-z0-9]+)$/.exec(t))) return `${BASE}topic/${m[1]}/`;
+  if((m = /^q-([a-z0-9-]+)$/.exec(t))) return `${BASE}questions/${m[1]}/`;
   return BASE;
 }
 function tokenOf(path){
@@ -243,6 +247,7 @@ function tokenOf(path){
   if((m = /^chapter\/(\d+)\/verse\/(\d+)$/.exec(p))) return `v${m[1]}-${m[2]}`;
   if((m = /^chapter\/(\d+)$/.exec(p))) return `c${m[1]}`;
   if((m = /^topic\/([a-z0-9]+)$/.exec(p))) return `t-${m[1]}`;
+  if((m = /^questions\/([a-z0-9-]+)$/.exec(p))) return `q-${m[1]}`;
   const hit = Object.entries(PATHS).find(([k,v]) => v && v.replace(/\/$/,"")===p);
   return hit ? hit[0] : "home";
 }
@@ -288,6 +293,8 @@ function render(keepScroll){
     else if(route.name==="search"){ ttl.textContent = u().search; view.innerHTML = page(searchView(), aboutCtx()); wireSearch(); }
     else if(route.name==="saved"){ ttl.textContent = u().saved; view.innerHTML = page(savedView(), aboutCtx()); }
     else if(route.name==="about"){ ttl.textContent = u().aboutPage; view.innerHTML = page(aboutView(), homeCtx()); }
+    else if(route.name==="questions"){ ttl.textContent = u().lifeqT; view.innerHTML = page(questionsView(), homeCtx()); }
+    else if(route.name==="question"){ ttl.textContent = qName(route.q); view.innerHTML = page(questionView(route.q), questionsCtx(route.q)); }
     else if(route.name==="explore"){ ttl.textContent = u().explore; view.innerHTML = exploreView(); startGraph(); }
     wireCommon();
     // a built page arrives with its own search-friendly title; keep it until the reader moves on
@@ -325,6 +332,41 @@ function aboutCtx(){
 }
 const listMore = (id, rows, n) => rows.length > n ? `<button class="btn more" data-more="${id}">${esc(u().showMore(rows.length - n))}</button>` : "";
 
+// ===================== life questions =====================
+// Curated in questions.json: each entry is a situation, a plain-language intro and verses picked by
+// what each verse actually says. "care" adds a note that the Gita is not a substitute for support.
+Object.assign(UI.en, {lifeqT:"Life questions", allQ:"All questions →", lifeqLede:"When you're facing one of these, start with what the Gita says about it.",
+  careNote:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.",
+  versesN:n=>`${n} verses`, otherQ:"Other questions", howMade:"How this site is made →"});
+Object.assign(UI.hi, {lifeqT:"जीवन के प्रश्न", allQ:"सभी प्रश्न →", lifeqLede:"जब आप इनमें से किसी स्थिति में हों, गीता के इन श्लोकों से शुरू करें।",
+  careNote:"गीता देखने का एक नज़रिया देती है, सहारे का विकल्प नहीं। अगर यह मन पर भारी है, तो किसी भरोसेमंद व्यक्ति या डॉक्टर से बात करें।",
+  versesN:n=>`${n} श्लोक`, otherQ:"अन्य प्रश्न", howMade:"यह साइट कैसे बनी →"});
+let QS = [];
+const qBySlug = s => QS.find(q => q.slug === s);
+const qName = q => isHi() ? q.q_hi : q.q_en;
+const qIntro = q => isHi() ? q.intro_hi : q.intro_en;
+const qVerses = q => q.verses.map(r => VB.get(r)).filter(Boolean);
+// the library-wide "how this site is made" page lives one level above this text's folder
+const HOWURL = BASE ? BASE.replace(/[^/]+\/$/, "") + "how-its-made/" : new URL("../how-its-made/", SITE).href;
+function lifeqRow(){
+  if(!QS.length) return "";
+  return `<section class="lifeq"><h2 class="sec">${esc(u().lifeqT)}</h2><div class="chips">${QS.map(q => `<a class="chip" href="#q-${q.slug}">${esc(qName(q))}</a>`).join("")}<a class="chip chip-more" href="#questions">${esc(u().allQ)}</a></div></section>`;
+}
+function questionsView(){
+  return `<header class="thead"><h1>${esc(u().lifeqT)}</h1><p class="desc" lang="${lang}">${esc(u().lifeqLede)}</p></header>
+  <ul class="qlist">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}"><span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(qIntro(q))}</span><span class="qc">${esc(u().versesN(qVerses(q).length))}</span></a></li>`).join("")}</ul>`;
+}
+function questionView(q){
+  return `<header class="thead"><p class="eyebrow"><a href="#questions">${esc(u().lifeqT)}</a></p><h1>${esc(qName(q))}</h1>
+    <p class="desc" lang="${lang}">${esc(qIntro(q))}</p>${q.care ? `<p class="care" lang="${lang}">${esc(u().careNote)}</p>` : ""}</header>
+  <ol class="qverses">${qVerses(q).map(v => { const s = saLines(v); return `<li class="qv"><p class="ref">${v.ref} <span class="muted">· ${esc(name(HB.get(voice(v))))}</span></p>
+    ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(esc).join("<br>")}</p>` : ""}<p class="tx" lang="${lang}">${esc(tr(v))}</p>
+    <a class="ctx" href="#${v.id}">${esc(u().readCtx)}</a></li>`; }).join("")}</ol>`;
+}
+function questionsCtx(q){
+  return `<h3>${esc(u().otherQ)}</h3><div class="chips">${QS.filter(x => x !== q).map(x => `<a class="chip" href="#q-${x.slug}">${esc(qName(x))}</a>`).join("")}</div>`;
+}
+
 // ===================== home =====================
 // Verse of the day: the same verse for everyone on a given date in India (IST). The pool skips
 // chapter 1 (the battlefield roll and Arjuna's lists of kin), narration by Sanjaya, Dhritarashtra
@@ -355,6 +397,7 @@ function homeView(){
     <p class="tx" lang="${lang}">${esc(tr(vd))}</p>
     <div class="row"><a class="btn primary" href="#${vd.id}">${esc(u().readCtx)}</a><button class="btn" id="sharebtn" data-ref="${vd.ref}">${esc(u().share)}</button></div></section>
   ${last ? "" : `<a class="btn primary startbtn" href="#v1-1">${esc(u().startR)} <small>· ${esc(u().startSub)}</small></a>`}
+  ${lifeqRow()}
   <h2 class="sec">${esc(u().chapters)}</h2>
   <ol class="chgrid">${CH.map(c => {
     const r = c.vs.filter(v=>readSet.has(v.ref)).length;
@@ -362,7 +405,7 @@ function homeView(){
       <span class="lab">${esc(u().chapter)} ${c.num}</span><span class="nm">${esc(name(c))}</span><span class="sk">${esc(c.skt)}</span>
       <span class="foot"><span class="prog"><i style="width:${(r/c.vs.length*100).toFixed(1)}%"></i></span>${r ? esc(u().readOf(r,c.vs.length)) : `${c.vs.length} ${esc(u().verses)}`}</span></a></li>`;
   }).join("")}</ol>
-  <p class="credits"><i>${esc(u().forallNote)}</i> · <a href="#about">${esc(u().aboutLink)}</a></p>
+  <p class="credits"><i>${esc(u().forallNote)}</i> · <a href="${HOWURL}">${esc(u().howMade)}</a> · <a href="#about">${esc(u().aboutLink)}</a></p>
   <details class="how" id="how" ${how===null || how==="open" ? "open" : ""}><summary>${esc(u().howT)}</summary>${howBody()}</details>`;
 }
 function wireHome(){
@@ -382,7 +425,8 @@ function aboutView(){
   return `<header class="thead"><h1>${esc(u().aboutPage)}</h1></header>
   <p class="desc" lang="${lang}" style="font-family:var(--f-read);line-height:1.7;max-width:62ch">${esc(u().forallLede)}</p>
   <h2 class="sec">${esc(u().about)}</h2><p style="line-height:1.7;max-width:62ch">${esc(u().aboutT)}</p>
-  <p style="line-height:1.7;max-width:62ch"><i>${esc(u().forallNote)}</i> ${u().suggest}</p>`;
+  <p style="line-height:1.7;max-width:62ch"><i>${esc(u().forallNote)}</i> ${u().suggest}</p>
+  <p><a class="btn" href="${HOWURL}">${esc(u().howMade)}</a></p>`;
 }
 function homeCtx(){
   const people = H.filter(h=>h.type==="person").sort((a,b)=>b.vs.length-a.vs.length).slice(0,6);
@@ -794,5 +838,6 @@ function makeGraph(){
 document.documentElement.lang = lang;
 applyPrefs(true);
 Promise.all([fetch(BASE + "verses.json" + VER).then(r=>{ if(!r.ok) throw 0; return r.json(); }), fetch(BASE + "hubs.json" + VER).then(r=>{ if(!r.ok) throw 0; return r.json(); })])
-  .then(([verses, hubs]) => { prepare(verses, hubs); render(); })
+  .then(([verses, hubs]) => fetch(BASE + "questions.json" + VER).then(r => r.ok ? r.json() : []).catch(() => [])
+    .then(qs => { QS = qs; prepare(verses, hubs); render(); }))
   .catch(() => { document.getElementById("view").innerHTML = `<p class="loading">The verses did not load. Reload the page to try again.</p>`; });

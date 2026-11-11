@@ -180,6 +180,24 @@ details.how .howbody{padding-bottom:16px}
 .credits{margin:22px 0 0;font-size:14px;color:var(--muted);line-height:1.6}
 .credits a,.howbody a{color:var(--accent);font-weight:500;text-decoration:underline;text-underline-offset:2px}
 
+.lifeq .chips{gap:8px}
+.chip-more{color:var(--accent);font-weight:600}
+.qlist{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:10px}
+.qcard{display:flex;flex-direction:column;gap:6px;height:100%;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.qcard:hover{border-color:var(--muted)}
+.qcard .qn{font-family:var(--f-read);font-weight:600;font-size:18px}
+:root[lang=hi] .qcard .qn{font-family:var(--f-hi);font-weight:400;font-size:19px}
+.qcard .qi{color:var(--muted);line-height:1.55;font-size:15px}
+.qcard .qc{margin-top:auto;font-size:13px;color:var(--accent);font-weight:600}
+.care{margin:14px 0 0;padding:12px 14px;border-radius:12px;background:var(--sunk);font-size:15px;line-height:1.6;max-width:62ch}
+.qverses{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.qv{padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.qv .ref{margin:0;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.qv .sa{font-family:var(--f-skt);font-size:calc(19px * var(--scale));line-height:1.7;margin:8px 0 0}
+.qv .tx{font-family:var(--f-read);font-size:calc(17px * var(--scale));line-height:1.65;margin:8px 0 0}
+:root[lang=hi] .qv .tx{font-family:var(--f-hi);line-height:1.85}
+.qv .ctx{display:inline-block;margin-top:10px;color:var(--accent);font-weight:600}
+
 /* ---------- chapter ---------- */
 .chhead{position:relative;padding:16px 0 4px}
 .chhead .bignum{font-family:var(--f-skt);font-size:64px;line-height:1;color:var(--accent);opacity:.9;margin:0 0 4px}

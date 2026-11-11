@@ -8,8 +8,8 @@
   const ROOT = new URL("../", script.src).pathname;          // .../shared/library.js -> library root
   const KEY = "library-json";
   const T = {
-    en: { all: "All texts", more: "More texts", other: "Other texts", soon: "Coming soon", home: "All texts →", verses: n => `${n} verses` },
-    hi: { all: "सभी ग्रंथ", more: "और ग्रंथ", other: "अन्य ग्रंथ", soon: "जल्द आ रहा है", home: "सभी ग्रंथ →", verses: n => `${n} श्लोक` }
+    en: { all: "All texts", more: "More texts", other: "Other texts", soon: "Coming soon", home: "All texts →", how: "How this site is made →", verses: n => `${n} verses` },
+    hi: { all: "सभी ग्रंथ", more: "और ग्रंथ", other: "अन्य ग्रंथ", soon: "जल्द आ रहा है", home: "सभी ग्रंथ →", how: "यह साइट कैसे बनी →", verses: n => `${n} श्लोक` }
   };
   const L = () => ((document.documentElement.lang || "en").startsWith("hi") ? "hi" : "en");
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -70,7 +70,7 @@
     if (!f) { f = document.createElement("nav"); f.id = "libfoot"; f.className = "lib-foot"; host.appendChild(f); }
     const others = lib.texts.filter(t => !isHere(t)).sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
     f.setAttribute("aria-label", T[L()].other);
-    f.innerHTML = `<p class="lib-h">${esc(T[L()].other)}</p><div class="lib-row">${others.map(item).join("")}</div><a class="lib-home" href="${ROOT}">${esc(T[L()].home)}</a>`;
+    f.innerHTML = `<p class="lib-h">${esc(T[L()].other)}</p><div class="lib-row">${others.map(item).join("")}</div><a class="lib-home" href="${ROOT}">${esc(T[L()].home)}</a><a class="lib-home lib-how" href="${ROOT}how-its-made/">${esc(T[L()].how)}</a>`;
   }
 
   function draw() {

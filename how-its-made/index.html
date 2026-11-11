@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>How this site is made · Gitagraph</title><meta name="description" content="What is ancient text, what is ours, and what is AI-assisted, so you can judge for yourself what you are reading.">
+<link rel="canonical" href="https://gitagraph.github.io/how-its-made/"><link rel="icon" href="../gita/icon.svg" type="image/svg+xml">
+<meta property="og:type" content="article"><meta property="og:title" content="How this site is made · Gitagraph">
+<meta property="og:description" content="What is ancient text, what is ours, and what is AI-assisted, so you can judge for yourself what you are reading."><meta property="og:url" content="https://gitagraph.github.io/how-its-made/">
+<meta property="og:image" content="https://gitagraph.github.io/shared/og-library.png?v=20261111230733"><meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
+:root{--bg:#f4f5f1;--surface:#fff;--sunk:#eceee8;--ink:#16202c;--muted:#5d6672;--line:#dcdfd8;--accent:#0b6b70;
+  --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0e1219;--surface:#161c26;--sunk:#1c2330;--ink:#e7e9ee;--muted:#9aa3b1;--line:#2a3240;--accent:#4cc0c2;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1219;--surface:#161c26;--sunk:#1c2330;--ink:#e7e9ee;--muted:#9aa3b1;--line:#2a3240;--accent:#4cc0c2;color-scheme:dark}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.5}
+a{color:inherit} :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px} [hidden]{display:none!important}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:8px;padding-block:8px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.top .brand{flex:1;min-width:0;font-weight:600;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.langpill{font:inherit;font-size:14px;font-weight:600;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 48px}
+.hero{padding:20px 0 8px}
+.hero .om{font-family:var(--f-skt);font-size:40px;line-height:1;color:var(--accent);margin:0 0 8px}
+.hero .tag{font-family:var(--f-read);font-weight:600;font-size:clamp(20px,3.4vw,26px);color:var(--accent);margin:0 0 10px}
+:root[lang=hi] .hero .tag{font-family:var(--f-hi);font-weight:400}
+.hero h1{font-family:var(--f-read);font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.15;margin:0 0 10px;letter-spacing:-.01em;text-wrap:balance}
+:root[lang=hi] .hero h1{font-family:var(--f-hi);font-weight:400}
+.hero p{font-family:var(--f-read);color:var(--muted);font-size:17px;line-height:1.65;margin:0;max-width:60ch}
+:root[lang=hi] .hero p{font-family:var(--f-hi);line-height:1.85}
+.grid{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:14px}
+.text{--c:var(--lc);position:relative;display:flex;flex-direction:column;gap:4px;height:100%;padding:20px 20px 18px;border-radius:16px;background:var(--surface);
+  border:1px solid var(--line);border-top:5px solid var(--c);text-decoration:none;color:inherit}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .text{--c:var(--ld)}}
+:root[data-theme="dark"] .text{--c:var(--ld)}
+a.text:hover{border-color:var(--c)}
+.text .nat{font-family:var(--f-skt);font-size:28px;line-height:1.3;color:var(--c)}
+.text .nm{font-family:var(--f-read);font-weight:600;font-size:19px}
+:root[lang=hi] .text .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.text .ds{color:var(--muted);line-height:1.55;margin:4px 0 0}
+.text .ft{margin-top:auto;padding-top:14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.text .go{color:var(--c);font-weight:600}
+.text.soon{opacity:.62}
+.grid .featured{grid-column:1 / -1}
+.text.feat{padding:26px 26px 22px;border-top-width:7px;background:color-mix(in srgb, var(--c) 6%, var(--surface))}
+.text.feat .nat{font-size:clamp(34px,6vw,46px)}
+.text.feat .nm{font-size:clamp(22px,3.5vw,28px)}
+.text.feat .ds{font-size:17px;max-width:56ch}
+.text.feat .go{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:12px;background:var(--c);color:var(--surface)}
+.text .pill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.note{margin:28px 0 0;color:var(--muted);font-size:14px;line-height:1.6;max-width:70ch}
+.l-hi{display:none} :root[lang=hi] .l-hi{display:revert} :root[lang=hi] .l-en{display:none}
+.lifeq{margin:30px 0 0}
+.lifeq h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 6px}
+:root[lang=hi] .lifeq h2{letter-spacing:0;text-transform:none;font-size:15px}
+.lifeq p{margin:0 0 12px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;min-height:40px;padding:4px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);text-decoration:none;font-size:15px}
+.chip:hover{border-color:var(--muted)}
+.foot{margin:28px 0 0;font-size:14px;color:var(--muted)}
+.foot a{color:var(--accent);font-weight:600}
+.doc h2{font-family:var(--f-read);font-size:22px;margin:30px 0 8px}
+:root[lang=hi] .doc h2{font-family:var(--f-hi);font-weight:400}
+.doc p,.doc li{line-height:1.7;max-width:68ch}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px}
+.doc th,.doc td{border-top:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+.doc th{font-size:13px;color:var(--muted);font-weight:600}
+.tw{overflow-x:auto}
+.proto{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px;vertical-align:middle}
+:root[lang=hi] .proto{letter-spacing:0;text-transform:none;font-size:12px}
+</style></head>
+<body><header class="top"><a class="brand" href="../" style="text-decoration:none">Gitagraph</a>
+<button class="langpill" id="lang" type="button">हि</button></header>
+<main class="wrap doc"><section class="hero"><h1><span class="l-en">How this site is made</span><span class="l-hi">यह साइट कैसे बनी</span></h1><p><span class="l-en">What is ancient text, what is ours, and what is AI-assisted, so you can judge for yourself what you are reading.</span><span class="l-hi">क्या प्राचीन पाठ है, क्या हमारा लिखा है, और क्या AI की सहायता से बना है, ताकि आप स्वयं परख सकें कि आप क्या पढ़ रहे हैं।</span></p></section>
+<h2><span class="l-en">At a glance</span><span class="l-hi">एक नज़र में</span></h2><div class="tw"><table><thead><tr><th><span class="l-en">Part</span><span class="l-hi">हिस्सा</span></th><th><span class="l-en">Where it comes from</span><span class="l-hi">स्रोत</span></th><th><span class="l-en">How to read it</span><span class="l-hi">इसे कैसे समझें</span></th></tr></thead><tbody><tr><td><b><span class="l-en">Sanskrit verses</span><span class="l-hi">संस्कृत श्लोक</span></b></td><td><span class="l-en">The traditional text, from Sanskrit Wikisource, checked verse by verse against GRETIL.</span><span class="l-hi">पारंपरिक पाठ, संस्कृत विकिस्रोत से, GRETIL से श्लोक-दर-श्लोक मिलाकर।</span></td><td><span class="l-en">Canonical. Only clear typing errors corrected, each one listed below.</span><span class="l-hi">मूल पाठ। केवल स्पष्ट टंकण त्रुटियाँ सुधारी गईं, हर एक नीचे दी गई है।</span></td></tr><tr><td><b><span class="l-en">Transliteration</span><span class="l-hi">लिप्यंतरण</span></b></td><td><span class="l-en">Generated automatically from the Devanagari with a standard tool (indic_transliteration).</span><span class="l-hi">देवनागरी से एक मानक टूल (indic_transliteration) द्वारा अपने आप बनाया गया।</span></td><td><span class="l-en">Mechanical, so it follows the Sanskrit exactly.</span><span class="l-hi">यांत्रिक, इसलिए संस्कृत का ठीक अनुसरण करता है।</span></td></tr><tr><td><b><span class="l-en">English and Hindi translations</span><span class="l-hi">हिंदी और अंग्रेज़ी अनुवाद</span></b></td><td><span class="l-en">Ours: written fresh from the Sanskrit with AI assistance.</span><span class="l-hi">हमारे: संस्कृत से AI की सहायता से नए लिखे गए।</span></td><td><span class="l-en">Our reading. Reviewed by AI against the Sanskrit; a human Sanskrit review is planned.</span><span class="l-hi">हमारी समझ। AI द्वारा संस्कृत से मिलाकर जाँचे गए; किसी संस्कृत विद्वान से समीक्षा की योजना है।</span></td></tr><tr><td><b><span class="l-en">People, ideas and life questions</span><span class="l-hi">पात्र, विचार और जीवन के प्रश्न</span></b></td><td><span class="l-en">Ours: which verses mention whom, and which verses we suggest for each life question.</span><span class="l-hi">हमारे: कौन-से श्लोक किसका उल्लेख करते हैं, और हर जीवन-प्रश्न के लिए कौन-से श्लोक हम सुझाते हैं।</span></td><td><span class="l-en">Editorial choices, AI-assisted, checked against each verse's own text.</span><span class="l-hi">संपादकीय चुनाव, AI की सहायता से, हर श्लोक के अपने पाठ से जाँचे गए।</span></td></tr><tr><td><b><span class="l-en">Verse of the day</span><span class="l-hi">आज का श्लोक</span></b></td><td><span class="l-en">Automatic: a fixed rotation by date, the same for everyone.</span><span class="l-hi">स्वचालित: तारीख़ के अनुसार तय क्रम, सबके लिए एक जैसा।</span></td><td><span class="l-en">No personalisation.</span><span class="l-hi">कोई व्यक्तिगत चयन नहीं।</span></td></tr></tbody></table></div>
+<h2><span class="l-en">Bhagavad Gita: the Sanskrit</span><span class="l-hi">भगवद्गीता: संस्कृत पाठ</span></h2><div class="l-en"><p>The Sanskrit comes from <a href="https://sa.wikisource.org/wiki/भगवद्गीता">Sanskrit Wikisource</a>, used under the
+<a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> licence. Every verse was compared with the
+<a href="https://gretil.sub.uni-goettingen.de/">GRETIL</a> e-text from Göttingen. Where the editions genuinely differ we kept Wikisource's reading.
+Five clear typing errors on Wikisource were corrected to the reading GRETIL and other editions agree on:
+1.22 निरीक्षे, 5.8 शृण्वन्, 8.7 असंशयः, 18.51 विशुद्धया and 18.66 त्वा.</p>
+<p>This edition has <b>700 verses</b>, as in Wikisource, GRETIL and most printed editions. Some editions add a verse at the start of
+chapter 13 (Arjuna asking about prakriti and purusha); it is not included here.</p></div><div class="l-hi"><p>संस्कृत पाठ <a href="https://sa.wikisource.org/wiki/भगवद्गीता">संस्कृत विकिस्रोत</a> से है, जो
+<a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> लाइसेंस के अंतर्गत उपलब्ध है। हर श्लोक को गॉटिंगेन के
+<a href="https://gretil.sub.uni-goettingen.de/">GRETIL</a> पाठ से मिलाया गया। जहाँ संस्करणों में सचमुच पाठभेद है, वहाँ विकिस्रोत का पाठ रखा गया।
+विकिस्रोत की पाँच स्पष्ट टंकण त्रुटियाँ उस पाठ से सुधारी गईं जिस पर GRETIL और अन्य संस्करण सहमत हैं:
+1.22 निरीक्षे, 5.8 शृण्वन्, 8.7 असंशयः, 18.51 विशुद्धया और 18.66 त्वा।</p>
+<p>इस संस्करण में <b>700 श्लोक</b> हैं, जैसे विकिस्रोत, GRETIL और अधिकांश छपे संस्करणों में। कुछ संस्करण अध्याय 13 के आरंभ में एक श्लोक जोड़ते हैं
+(प्रकृति और पुरुष के बारे में अर्जुन का प्रश्न); वह यहाँ शामिल नहीं है।</p></div><h2><span class="l-en">Ashtavakra Gita: the Sanskrit</span><span class="l-hi">अष्टावक्र गीता: संस्कृत पाठ</span></h2><div class="l-en"><p>The Sanskrit comes from Sanskrit Wikisource (CC BY-SA 4.0), checked against GRETIL: <b>298 verses</b> in 20 chapters, with the same count
+in every chapter in both sources. 47 clear typing errors on Wikisource were corrected. Two readings follow the usual printed editions
+rather than Wikisource: chapter 4 is given to King Janaka, and verse 1.10 reads सुखं चर.</p></div><div class="l-hi"><p>संस्कृत पाठ संस्कृत विकिस्रोत (CC BY-SA 4.0) से है, GRETIL से मिलाया गया: 20 अध्यायों में <b>298 श्लोक</b>, दोनों स्रोतों में हर अध्याय की
+संख्या समान। विकिस्रोत की 47 स्पष्ट टंकण त्रुटियाँ सुधारी गईं। दो जगह विकिस्रोत के बजाय प्रचलित छपे संस्करणों का पाठ लिया गया: अध्याय 4 राजा जनक का
+माना गया है, और श्लोक 1.10 में सुखं चर पढ़ा गया है।</p></div><h2><span class="l-en">The translations</span><span class="l-hi">अनुवाद</span></h2><div class="l-en"><p>The English and Hindi translations are new. They were written from the Sanskrit with AI assistance, in plain language, and were
+deliberately not copied or adapted from any published translation, such as those of Gita Press, A.C. Bhaktivedanta Swami Prabhupada,
+Swami Sivananda or Eknath Easwaran, which are under copyright.</p>
+<p>Each translation then went through a review pass in which AI compared it again with the Sanskrit. A review by a human Sanskrit scholar is
+planned. Until then, read them as one careful reading of the text, not the final word. Where the Sanskrit is compressed or unclear, the
+translation gives the reading we found most natural.</p>
+<p>Spotted a mistake, or have a better rendering? <a href="https://github.com/gitagraph/gitagraph.github.io/issues">Tell us on GitHub</a>.</p></div><div class="l-hi"><p>हिंदी और अंग्रेज़ी अनुवाद नए हैं। ये संस्कृत से AI की सहायता से सरल भाषा में लिखे गए, और जानबूझकर किसी प्रकाशित अनुवाद से न लिए गए
+न उनका रूपांतर किए गए, जैसे गीता प्रेस, ए.सी. भक्तिवेदांत स्वामी प्रभुपाद, स्वामी शिवानंद या एकनाथ ईश्वरन के अनुवाद, जो कॉपीराइट के अंतर्गत हैं।</p>
+<p>फिर हर अनुवाद की एक समीक्षा हुई, जिसमें AI ने उसे संस्कृत से दोबारा मिलाया। किसी संस्कृत विद्वान से समीक्षा की योजना है। तब तक इन्हें पाठ की
+एक सावधान व्याख्या के रूप में पढ़ें, अंतिम शब्द के रूप में नहीं। जहाँ संस्कृत संक्षिप्त या अस्पष्ट है, वहाँ अनुवाद वह अर्थ देता है जो हमें सबसे स्वाभाविक लगा।</p>
+<p>कोई त्रुटि दिखी, या बेहतर अनुवाद सुझाना है? <a href="https://github.com/gitagraph/gitagraph.github.io/issues">GitHub पर बताएँ</a>।</p></div><h2><span class="l-en">Illustrations (coming)</span><span class="l-hi">चित्र (जल्द)</span></h2><div class="l-en"><p>Any illustrations we add will be public-domain artwork from museum collections, each credited to its museum and artist where known.</p></div><div class="l-hi"><p>जो भी चित्र जोड़े जाएँगे, वे संग्रहालयों के सार्वजनिक डोमेन चित्र होंगे, और हर एक के साथ संग्रहालय और, जहाँ ज्ञात हो, चित्रकार का नाम होगा।</p></div><h2><span class="l-en">Privacy</span><span class="l-hi">गोपनीयता</span></h2><div class="l-en"><p>No ads, no accounts and no tracking. What you save and how far you have read stay in your own browser. After your first visit the
+texts work offline. Fonts are loaded from Google Fonts, which, like any website, sees the request.</p></div><div class="l-hi"><p>न विज्ञापन, न खाता, न ट्रैकिंग। आपने क्या सहेजा और कितना पढ़ा, यह आपके अपने ब्राउज़र में ही रहता है। पहली बार खोलने के बाद ग्रंथ ऑफ़लाइन
+भी चलते हैं। फ़ॉन्ट Google Fonts से लोड होते हैं, जो किसी भी वेबसाइट की तरह उस अनुरोध को देखता है।</p></div>
+<p class="foot"><a href="../"><span class="l-en">← All texts</span><span class="l-hi">← सभी ग्रंथ</span></a></p></main>
+<script>
+const b = document.getElementById("lang");
+function setLang(l){ document.documentElement.lang = l; b.textContent = l==="hi" ? "EN" : "हि"; try{ localStorage.setItem("library-lang", l); }catch(e){} }
+b.onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
+try{ if(localStorage.getItem("library-lang")==="hi") setLang("hi"); }catch(e){}
+</script></body></html>
