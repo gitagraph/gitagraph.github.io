@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Gitagraph · Sacred texts for all · Bhagavad Gita, Ashtavakra Gita and more</title>
+<title>Gitagraph · Timeless wisdom for every stage of life</title>
 <meta name="description" content="India&#x27;s sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.">
 <link rel="canonical" href="https://gitagraph.com/">
 <meta name="theme-color" content="#f4f5f1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0e1219" media="(prefers-color-scheme: dark)">
-<meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Sacred texts for all">
+<meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Timeless wisdom for every stage of life">
 <meta property="og:description" content="India&#x27;s sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times."><meta property="og:url" content="https://gitagraph.com/">
-<meta property="og:site_name" content="Gitagraph · Sacred texts for all">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261111232852">
+<meta property="og:site_name" content="Gitagraph · Timeless wisdom for every stage of life">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261112000921">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Gitagraph · Sacred texts for all (गीताग्राफ़ · सबके लिए ग्रंथ): the Bhagavad Gita, with the Ashtavakra Gita and more, verse by verse in Sanskrit, English and Hindi">
+<meta property="og:image:alt" content="Gitagraph · Timeless wisdom for every stage of life (गीताग्राफ़ · जीवन के हर पड़ाव के लिए शाश्वत ज्ञान): the Bhagavad Gita, the Ashtavakra Gita and more, verse by verse in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="gita/icon.svg" type="image/svg+xml">
@@ -54,6 +54,23 @@ a.text:hover{border-color:var(--c)}
 .text .go{color:var(--c);font-weight:600}
 .text.soon{opacity:.62}
 .grid .featured{grid-column:1 / -1}
+.hero .tag2{margin:0;color:var(--muted);font-size:17px}
+.doors{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+@media (min-width:700px){ .doors{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.door{display:flex;flex-direction:column;gap:6px;height:100%;padding:18px 20px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit}
+.door:hover{border-color:var(--accent)}
+.door svg{width:28px;height:28px;color:var(--accent)}
+.door .dt{font-family:var(--f-read);font-weight:600;font-size:21px}
+:root[lang=hi] .door .dt{font-family:var(--f-hi);font-weight:400;font-size:22px}
+.door .ds{color:var(--muted);line-height:1.5}
+.door .go{margin-top:auto;padding-top:6px;color:var(--accent);font-weight:600;font-size:15px}
+.votd{margin:22px 0 0;padding:20px 22px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.votd .ey{margin:0;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+:root[lang=hi] .votd .ey{letter-spacing:0;text-transform:none;font-size:14px}
+.votd .sa{font-family:var(--f-skt);font-size:21px;line-height:1.75;margin:10px 0 0}
+.votd .tx{font-family:var(--f-read);font-size:17.5px;line-height:1.65;margin:10px 0 0;max-width:62ch}
+:root[lang=hi] .votd .tx{font-family:var(--f-hi);line-height:1.85}
+.votd a{display:inline-block;margin-top:12px;color:var(--accent);font-weight:600;text-decoration:none}
 .text.feat{padding:26px 26px 22px;border-top-width:7px;background:color-mix(in srgb, var(--c) 6%, var(--surface))}
 .text.feat .nat{font-size:clamp(34px,6vw,46px)}
 .text.feat .nm{font-size:clamp(22px,3.5vw,28px)}
@@ -86,14 +103,17 @@ a.text:hover{border-color:var(--c)}
 <header class="top"><span class="brand" id="brand">Gitagraph</span>
   <button class="langpill" id="lang" type="button" aria-label="हिन्दी में देखें">हि</button></header>
 <main class="wrap">
-  <section class="hero"><h1 id="h1">Gitagraph<span class="proto" id="beta">Beta</span></h1><p class="tag" id="tag">Sacred texts for all</p><p id="lede">India&#x27;s sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.</p></section>
+  <section class="hero"><h1 id="h1">Gitagraph<span class="proto" id="beta">Beta</span></h1>
+    <p class="tag"><span class="l-en">Timeless wisdom for every stage of life.</span><span class="l-hi">जीवन के हर पड़ाव के लिए शाश्वत ज्ञान।</span></p>
+    <p class="tag2"><span class="l-en">For curious minds — read, explore, reflect.</span><span class="l-hi">जिज्ञासु मन के लिए — पढ़ें, खोजें, मनन करें।</span></p></section>
+  <ul class="doors"><li><a class="door" id="door-read" href="gita/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5c2.8-1 5.8-1 9 1v13c-3.2-2-6.2-2-9-1z"/><path d="M21 5.5c-2.8-1-5.8-1-9 1v13c3.2-2 6.2-2 9-1z"/></svg><span class="dt"><span class="l-en">Read</span><span class="l-hi">पढ़ें</span></span><span class="ds" id="door-read-ds"><span class="l-en">Start with the Gita</span><span class="l-hi">गीता से शुरू करें</span></span><span class="go"><span class="l-en">Open the Gita →</span><span class="l-hi">गीता खोलें →</span></span></a></li><li><a class="door" href="gita/explore/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.6"/><circle cx="4.5" cy="6" r="1.8"/><circle cx="19.5" cy="5" r="1.8"/><circle cx="18.5" cy="18.5" r="1.8"/><circle cx="5" cy="18" r="1.8"/><path d="M6 7l4.2 3.4M17.9 6.2l-4 4M17.2 17.2l-3.4-3.4M6.5 16.8l3.6-3"/></svg><span class="dt"><span class="l-en">Explore</span><span class="l-hi">खोजें</span></span><span class="ds"><span class="l-en">Stories, people and ideas</span><span class="l-hi">कथाएँ, पात्र और विचार</span></span><span class="go"><span class="l-en">Open the map →</span><span class="l-hi">नक्शा खोलें →</span></span></a></li><li><a class="door" href="gita/questions/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 4 3 8 0 12-3-4-3-8 0-12z"/><path d="M4 11c3 0 6 2 8 4-3 1-6 0-8-4zM20 11c-3 0-6 2-8 4 3 1 6 0 8-4z"/><path d="M5 20h14"/></svg><span class="dt"><span class="l-en">Reflect</span><span class="l-hi">मनन करें</span></span><span class="ds"><span class="l-en">Wisdom for life’s questions</span><span class="l-hi">जीवन के प्रश्नों के लिए</span></span><span class="go"><span class="l-en">See the questions →</span><span class="l-hi">प्रश्न देखें →</span></span></a></li></ul>
+  <section class="votd" id="votd" hidden aria-live="polite"></section>
   <ul class="grid" id="grid"><li class="featured"><a class="text feat" href="gita/" style="--lc:#0b6b70;--ld:#4cc0c2"><span class="nat" lang="sa">श्रीमद्भगवद्गीता</span><span class="nm">Bhagavad Gita</span><span class="ds">Krishna&#x27;s teaching to Arjuna on the field of Kurukshetra, in 18 chapters.</span><span class="ft"><span>700 verses</span><span class="go">Start reading →</span></span></a></li><li class=""><a class="text" href="ashtavakra/" style="--lc:#4f46a5;--ld:#a9a2f2"><span class="nat" lang="sa">अष्टावक्रगीता</span><span class="nm">Ashtavakra Gita</span><span class="ds">The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.</span><span class="ft"><span>298 verses</span><span class="go">Read →</span></span></a></li><li><div class="text soon" style="--lc:#8a5a12;--ld:#e2b36a" aria-disabled="true"><span class="nat" lang="sa">उपनिषद्</span><span class="nm">Upanishads</span><span class="ds">The principal Upanishads, verse by verse.</span><span class="ft"><span></span><span class="pill">Coming soon</span></span></div></li></ul>
-  <section class="lifeq"><h2><span class="l-en">Life questions · from the Gita</span><span class="l-hi">जीवन के प्रश्न · गीता से</span></h2><p><span class="l-en">When you're facing one of these, start with what the Gita says about it.</span><span class="l-hi">जब आप इनमें से किसी स्थिति में हों, गीता के इन श्लोकों से शुरू करें।</span></p><div class="chips"><a class="chip" href="gita/questions/anxious/"><span class="l-en">Anxious or worried</span><span class="l-hi">चिंता या घबराहट</span></a><a class="chip" href="gita/questions/duty/"><span class="l-en">Unsure of my duty or what to do</span><span class="l-hi">कर्तव्य को लेकर उलझन</span></a><a class="chip" href="gita/questions/grief/"><span class="l-en">Grieving a loss</span><span class="l-hi">किसी के खोने का शोक</span></a><a class="chip" href="gita/questions/anger/"><span class="l-en">Angry or resentful</span><span class="l-hi">क्रोध या कड़वाहट</span></a><a class="chip" href="gita/questions/results/"><span class="l-en">Afraid of failure, attached to results</span><span class="l-hi">असफलता का डर, फल की चिंता</span></a><a class="chip" href="gita/questions/restless-mind/"><span class="l-en">Restless mind, can&#x27;t focus</span><span class="l-hi">चंचल मन, ध्यान न लगना</span></a><a class="chip" href="gita/questions/feeling-low/"><span class="l-en">Feeling low or without purpose</span><span class="l-hi">निराशा, उद्देश्य की कमी</span></a><a class="chip" href="gita/questions/who-am-i/"><span class="l-en">Who am I?</span><span class="l-hi">मैं कौन हूँ?</span></a></div></section>
   <p class="note" id="note">Every text is free, has no ads and works offline once opened. The Sanskrit comes from public-domain editions; the translations are new and written to be easy to read.</p>
   <p class="foot"><a href="how-its-made/"><span class="l-en">How this site is made →</span><span class="l-hi">यह साइट कैसे बनी →</span></a></p>
 </main>
 <script>
-const LIB = {"brand_en": "Gitagraph", "brand_hi": "गीताग्राफ़", "title_en": "Sacred texts for all", "title_hi": "सबके लिए ग्रंथ", "lede_en": "India's sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.", "lede_hi": "भारत के पवित्र ग्रंथ, श्लोक-दर-श्लोक, संस्कृत के साथ सरल हिंदी और अंग्रेज़ी में। पहली बार पढ़ने वालों के लिए आसान, और बार-बार पढ़ चुके लोगों के लिए संदर्भ।", "texts": [{"id": "gita", "path": "gita/", "name_en": "Bhagavad Gita", "name_hi": "भगवद्गीता", "native": "श्रीमद्भगवद्गीता", "desc_en": "Krishna's teaching to Arjuna on the field of Kurukshetra, in 18 chapters.", "desc_hi": "कुरुक्षेत्र में श्रीकृष्ण का अर्जुन को उपदेश, 18 अध्यायों में।", "verses": 700, "status": "live", "accent": "#0b6b70", "accent_dark": "#4cc0c2", "featured": true}, {"id": "ashtavakra", "path": "ashtavakra/", "name_en": "Ashtavakra Gita", "name_hi": "अष्टावक्र गीता", "native": "अष्टावक्रगीता", "desc_en": "The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.", "desc_hi": "ऋषि अष्टावक्र और राजा जनक का आत्मा, मुक्ति और शांति पर संवाद, 20 अध्यायों में।", "verses": 298, "status": "live", "accent": "#4f46a5", "accent_dark": "#a9a2f2"}, {"id": "upanishads", "path": "upanishads/", "name_en": "Upanishads", "name_hi": "उपनिषद्", "native": "उपनिषद्", "desc_en": "The principal Upanishads, verse by verse.", "desc_hi": "प्रमुख उपनिषद्, श्लोक-दर-श्लोक।", "verses": null, "status": "coming-soon", "accent": "#8a5a12", "accent_dark": "#e2b36a"}]};
+const LIB = {"brand_en": "Gitagraph", "brand_hi": "गीताग्राफ़", "title_en": "Timeless wisdom for every stage of life", "title_hi": "जीवन के हर पड़ाव के लिए शाश्वत ज्ञान", "tag2_en": "For curious minds — read, explore, reflect.", "tag2_hi": "जिज्ञासु मन के लिए — पढ़ें, खोजें, मनन करें।", "lede_en": "India's sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.", "lede_hi": "भारत के पवित्र ग्रंथ, श्लोक-दर-श्लोक, संस्कृत के साथ सरल हिंदी और अंग्रेज़ी में। पहली बार पढ़ने वालों के लिए आसान, और बार-बार पढ़ चुके लोगों के लिए संदर्भ।", "texts": [{"id": "gita", "path": "gita/", "name_en": "Bhagavad Gita", "name_hi": "भगवद्गीता", "native": "श्रीमद्भगवद्गीता", "desc_en": "Krishna's teaching to Arjuna on the field of Kurukshetra, in 18 chapters.", "desc_hi": "कुरुक्षेत्र में श्रीकृष्ण का अर्जुन को उपदेश, 18 अध्यायों में।", "verses": 700, "status": "live", "accent": "#0b6b70", "accent_dark": "#4cc0c2", "featured": true}, {"id": "ashtavakra", "path": "ashtavakra/", "name_en": "Ashtavakra Gita", "name_hi": "अष्टावक्र गीता", "native": "अष्टावक्रगीता", "desc_en": "The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.", "desc_hi": "ऋषि अष्टावक्र और राजा जनक का आत्मा, मुक्ति और शांति पर संवाद, 20 अध्यायों में।", "verses": 298, "status": "live", "accent": "#4f46a5", "accent_dark": "#a9a2f2"}, {"id": "upanishads", "path": "upanishads/", "name_en": "Upanishads", "name_hi": "उपनिषद्", "native": "उपनिषद्", "desc_en": "The principal Upanishads, verse by verse.", "desc_hi": "प्रमुख उपनिषद्, श्लोक-दर-श्लोक।", "verses": null, "status": "coming-soon", "accent": "#8a5a12", "accent_dark": "#e2b36a"}]};
 const UI = {"en": {"verses": "{n} verses", "soon": "Coming soon", "open": "Read →", "start": "Start reading →", "toggle": "हि", "beta": "Beta", "brand": "Gitagraph", "note": "Every text is free, has no ads and works offline once opened. The Sanskrit comes from public-domain editions; the translations are new and written to be easy to read."}, "hi": {"verses": "{n} श्लोक", "soon": "जल्द आ रहा है", "open": "पढ़ें →", "start": "पढ़ना शुरू करें →", "toggle": "EN", "beta": "बीटा", "brand": "गीताग्राफ़", "note": "हर ग्रंथ मुफ़्त है, बिना विज्ञापन, और एक बार खुलने के बाद ऑफ़लाइन भी चलता है। संस्कृत पाठ सार्वजनिक डोमेन संस्करणों से है; अनुवाद नए हैं और सरल भाषा में लिखे गए हैं।"}};
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function card(t, l){
@@ -110,16 +130,51 @@ function setLang(l){
   try{ localStorage.setItem("library-lang", l); }catch(e){}
   const u = UI[l];
   document.getElementById("h1").firstChild.textContent = l==="hi" ? LIB.brand_hi : LIB.brand_en;
-  document.getElementById("tag").textContent = l==="hi" ? LIB.title_hi : LIB.title_en;
   document.getElementById("beta").textContent = u.beta;
-  document.getElementById("lede").textContent = l==="hi" ? LIB.lede_hi : LIB.lede_en;
   document.getElementById("note").textContent = u.note;
   document.getElementById("brand").textContent = u.brand;
   document.getElementById("grid").innerHTML = ORDERED.map(t => card(t, l)).join("");
   const b = document.getElementById("lang"); b.textContent = u.toggle; b.setAttribute("aria-label", l==="hi" ? "Switch to English" : "हिन्दी में देखें");
-  document.title = l==="hi" ? `${LIB.brand_hi} · ${LIB.title_hi} · भगवद्गीता, अष्टावक्र गीता और अधिक` : `${LIB.brand_en} · ${LIB.title_en} · Bhagavad Gita, Ashtavakra Gita and more`;
+  document.title = l==="hi" ? `${LIB.brand_hi} · ${LIB.title_hi}` : `${LIB.brand_en} · ${LIB.title_en}`;
+  drawVotd();
 }
 document.getElementById("lang").onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
+// Read door: continue where the reader left off in the Gita (the Gita app keeps "gita-recent")
+try{
+  const last = JSON.parse(localStorage.getItem("gita-recent") || "[]")[0];
+  if(last){ const [c,v] = last.split(".");
+    document.getElementById("door-read").href = `gita/chapter/${c}/verse/${v}/`;
+    document.getElementById("door-read-ds").innerHTML = `<span class="l-en">Continue · ${esc(last)}</span><span class="l-hi">जारी रखें · ${esc(last)}</span>`; }
+}catch(e){}
+// Verse of the day: the same verse and the same rule as the Gita site's own (IST date; skips chapter 1,
+// narration and verses naming three or more people), loaded after the page so the home stays light.
+let VD = null;
+function saBody(sa){
+  const ls = sa.split("\n").map(x => x.trim()).filter(Boolean);
+  if(ls.length > 1 && /(उवाच|ुवाच)\s*[|।]?\s*$/.test(ls[0])) ls.shift();
+  return ls.map(x => x.replace(/\s*\|\|\s*([०-९]+)-([०-९]+)\s*\|\|/, "\u00a0॥\u00a0$1.$2\u00a0॥").replace(/\|\|/g,"॥").replace(/\|/g,"।"));
+}
+function drawVotd(){
+  const box = document.getElementById("votd"); if(!VD){ box.hidden = true; return; }
+  const hi = document.documentElement.lang === "hi", v = VD, ref = `${v.c}.${v.v}`;
+  box.innerHTML = `<p class="ey">${hi ? "आज का श्लोक · भगवद्गीता" : "Verse of the day · Bhagavad Gita"} ${ref}</p>
+    <p class="sa" lang="sa">${saBody(v.sa).map(esc).join("<br>")}</p><p class="tx">${esc(hi ? v.hi : v.en)}</p>
+    <a href="gita/chapter/${v.c}/verse/${v.v}/">${hi ? "संदर्भ में पढ़ें →" : "Read in context →"}</a>`;
+  box.hidden = false;
+}
+Promise.all([fetch("gita/verses.json").then(r => r.json()), fetch("gita/hubs.json").then(r => r.json())]).then(([V, H]) => {
+  const HB = new Map(H.map(h => [h.id, h]));
+  const voice = v => v.vo || v.sp;
+  const pool = V.filter(v => {
+    if(v.c === 1 || ["sanjaya","dhrit","duryo"].includes(voice(v))) return false;
+    const tags = [...new Set([voice(v), ...(v.vo ? [v.sp] : []), ...v.p, ...v.k].filter(id => HB.has(id)))];
+    return tags.filter(id => HB.get(id).type === "person").length < 3;
+  });
+  const gcd = (a,b) => b ? gcd(b, a % b) : a;
+  const step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
+  const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5);
+  VD = pool[(day * step) % pool.length]; drawVotd();
+}).catch(() => {});
 let saved = "en"; try{ saved = localStorage.getItem("library-lang") || "en"; }catch(e){}
 if(saved==="hi") setLang("hi");
 </script>

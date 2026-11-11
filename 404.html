@@ -36,6 +36,23 @@ a.text:hover{border-color:var(--c)}
 .text .go{color:var(--c);font-weight:600}
 .text.soon{opacity:.62}
 .grid .featured{grid-column:1 / -1}
+.hero .tag2{margin:0;color:var(--muted);font-size:17px}
+.doors{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+@media (min-width:700px){ .doors{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.door{display:flex;flex-direction:column;gap:6px;height:100%;padding:18px 20px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit}
+.door:hover{border-color:var(--accent)}
+.door svg{width:28px;height:28px;color:var(--accent)}
+.door .dt{font-family:var(--f-read);font-weight:600;font-size:21px}
+:root[lang=hi] .door .dt{font-family:var(--f-hi);font-weight:400;font-size:22px}
+.door .ds{color:var(--muted);line-height:1.5}
+.door .go{margin-top:auto;padding-top:6px;color:var(--accent);font-weight:600;font-size:15px}
+.votd{margin:22px 0 0;padding:20px 22px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.votd .ey{margin:0;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+:root[lang=hi] .votd .ey{letter-spacing:0;text-transform:none;font-size:14px}
+.votd .sa{font-family:var(--f-skt);font-size:21px;line-height:1.75;margin:10px 0 0}
+.votd .tx{font-family:var(--f-read);font-size:17.5px;line-height:1.65;margin:10px 0 0;max-width:62ch}
+:root[lang=hi] .votd .tx{font-family:var(--f-hi);line-height:1.85}
+.votd a{display:inline-block;margin-top:12px;color:var(--accent);font-weight:600;text-decoration:none}
 .text.feat{padding:26px 26px 22px;border-top-width:7px;background:color-mix(in srgb, var(--c) 6%, var(--surface))}
 .text.feat .nat{font-size:clamp(34px,6vw,46px)}
 .text.feat .nm{font-size:clamp(22px,3.5vw,28px)}

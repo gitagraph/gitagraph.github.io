@@ -1,8 +1,10 @@
 {
  "brand_en": "Gitagraph",
  "brand_hi": "गीताग्राफ़",
- "title_en": "Sacred texts for all",
- "title_hi": "सबके लिए ग्रंथ",
+ "title_en": "Timeless wisdom for every stage of life",
+ "title_hi": "जीवन के हर पड़ाव के लिए शाश्वत ज्ञान",
+ "tag2_en": "For curious minds — read, explore, reflect.",
+ "tag2_hi": "जिज्ञासु मन के लिए — पढ़ें, खोजें, मनन करें।",
  "lede_en": "India's sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.",
  "lede_hi": "भारत के पवित्र ग्रंथ, श्लोक-दर-श्लोक, संस्कृत के साथ सरल हिंदी और अंग्रेज़ी में। पहली बार पढ़ने वालों के लिए आसान, और बार-बार पढ़ चुके लोगों के लिए संदर्भ।",
  "texts": [
