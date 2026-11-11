@@ -171,6 +171,15 @@ details.how[open] summary::after{content:"−"}
 details.how .howbody{padding-bottom:16px}
 .helpbtn{font-weight:700;font-size:18px}
 
+.tagline{padding:2px 0 4px}
+.tagline h2{font-family:var(--f-read);font-weight:600;font-size:19px;margin:6px 0 2px;color:var(--accent)}
+:root[lang=hi] .tagline h2{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.tagline .lede2{margin:0;color:var(--ink);line-height:1.55}
+.tagline .hook{margin:8px 0 0;font-family:var(--f-read);font-style:italic;color:var(--muted);line-height:1.65;max-width:62ch}
+:root[lang=hi] .tagline .hook{font-family:var(--f-hi);font-style:normal;line-height:1.85}
+.credits{margin:22px 0 0;font-size:14px;color:var(--muted);line-height:1.6}
+.credits a,.howbody a{color:var(--accent);font-weight:500;text-decoration:underline;text-underline-offset:2px}
+
 /* ---------- chapter ---------- */
 .chhead{position:relative;padding:16px 0 4px}
 .chhead .bignum{font-family:var(--f-skt);font-size:64px;line-height:1;color:var(--accent);opacity:.9;margin:0 0 4px}
