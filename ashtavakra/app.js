@@ -109,7 +109,7 @@ Object.assign(UI.hi, {
     ["खोजें",["<b>खोजें</b> खोलें और कोई नाम, विचार, संस्कृत शब्द या श्लोक संख्या, जैसे <b>2.4</b>, लिखें।",
       "<b>सूची</b> में हर पात्र और विचार है, और वे कितने श्लोकों में आते हैं।"]]]
 });
-const SITE = window.APP_SITE || "https://gitagraph.github.io/ashtavakra/";
+const SITE = window.APP_SITE || "https://gitagraph.com/ashtavakra/";
 
 // ===================== storage (best effort) =====================
 const store = {

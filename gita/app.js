@@ -113,7 +113,7 @@ Object.assign(UI.hi, {
       "<b>सूची</b> में हर पात्र और विचार है, और वे कितने श्लोकों में आते हैं।",
       '<b>जीवन के प्रश्न</b> होम पेज पर हैं: चिंता, शोक या क्रोध जैसे क्षणों के लिए श्लोक। <a href="#questions">सभी देखें</a>।']]]
 });
-const SITE = window.APP_SITE || "https://gitagraph.github.io/gita/";
+const SITE = window.APP_SITE || "https://gitagraph.com/gita/";
 
 // ===================== storage (best effort) =====================
 const store = {

@@ -15,7 +15,7 @@ The site is one library root plus one folder per text:
 2. **Project folder.** Copy `ashtavakra-reader` as the template (`src/app.html`, `build.py`,
    `src/sw.template.js`, `src/static/`). Give it its own icon, accent colour, localStorage prefix and
    service-worker cache prefix (e.g. `upanishads-`), so nothing collides with the other texts.
-3. **Build base path.** In its `build.py`: `SITE_URL = "https://gitagraph.github.io/upanishads/"` and
+3. **Build base path.** In its `build.py`: `SITE_URL = "https://gitagraph.com/upanishads/"` and
    `DEPLOY = ~/Documents/GitHub/gitagraph.github.io/upanishads`. Every URL then derives from that, so
    the whole library can move domains by changing `SITE_URL` here and `SITE` in `granth-library/build.py`.
 4. **Switcher include.** Its page head must load the shared switcher (the template already does):
@@ -38,6 +38,7 @@ The site is one library root plus one folder per text:
   how a "verse" is numbered for them.
 
 ## Root files
-`granth-library/rootfiles/` holds files that must sit at the site root unchanged, such as
+`granth-library/rootfiles/` holds files that must sit at the site root unchanged: `CNAME` (the custom
+domain gitagraph.com; deleting it takes the site back to gitagraph.github.io) and
 `google41ee9a9fcb064592.html` (Google Search Console ownership check). The library build copies them on
 every run; don't delete it, or Search Console loses verification. It is not in any sitemap.
