@@ -198,6 +198,10 @@ details.how .howbody{padding-bottom:16px}
 :root[lang=hi] .qv .tx{font-family:var(--f-hi);line-height:1.85}
 .qv .ctx{display:inline-block;margin-top:10px;color:var(--accent);font-weight:600}
 
+.pshare{display:inline-grid;place-items:center;vertical-align:middle;width:40px;height:40px;margin-left:6px;border:0;border-radius:10px;background:transparent;color:var(--muted);cursor:pointer}
+.pshare:hover{background:var(--sunk);color:var(--accent)}
+.pshare svg{width:20px;height:20px}
+
 /* ---------- chapter ---------- */
 .chhead{position:relative;padding:16px 0 4px}
 .chhead .bignum{font-family:var(--f-skt);font-size:64px;line-height:1;color:var(--accent);opacity:.9;margin:0 0 4px}
