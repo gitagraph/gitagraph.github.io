@@ -11,7 +11,7 @@
 <meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Timeless wisdom for every stage of life">
 <meta property="og:description" content="India&#x27;s sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times."><meta property="og:url" content="https://gitagraph.com/">
 <meta property="og:site_name" content="Gitagraph · Timeless wisdom for every stage of life">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261112092424">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261112092713">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Gitagraph · Timeless wisdom for every stage of life (गीताग्राफ़ · जीवन के हर पड़ाव के लिए शाश्वत ज्ञान): the Bhagavad Gita, the Ashtavakra Gita and more, verse by verse in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
@@ -54,6 +54,15 @@ a.text:hover{border-color:var(--c)}
 .text .go{color:var(--c);font-weight:600}
 .text.soon{opacity:.62}
 .grid .featured{grid-column:1 / -1}
+.tlist{list-style:none;margin:26px 0 0;padding:0;border-top:1px solid var(--line)}
+.tl{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:4px 12px;align-items:baseline;padding:12px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+a.tl:hover .tm{color:var(--accent)}
+.tl .tn{font-family:var(--f-skt);font-size:19px}
+.tl .tm{font-weight:600;min-width:0}
+.tl .tc{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl .tgo{color:var(--accent);font-weight:600}
+.tl.soon{opacity:.6}
+@media (max-width:420px){ .tl{grid-template-columns:auto minmax(0,1fr) auto} .tl .tn{grid-column:1 / -1} }
 .hero .tag2{margin:0;color:var(--muted);font-size:17px}
 .doors{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
 @media (min-width:700px){ .doors{grid-template-columns:repeat(3,minmax(0,1fr))} }
@@ -105,11 +114,11 @@ a.text:hover{border-color:var(--c)}
 <main class="wrap">
   <section class="hero"><h1 id="h1">Gitagraph<span class="proto" id="beta">Beta</span></h1>
     <p class="tag"><span class="l-en">Timeless wisdom for every stage of life.</span><span class="l-hi">जीवन के हर पड़ाव के लिए शाश्वत ज्ञान।</span></p>
-    <p class="tag2"><span class="l-en">For curious minds — read, explore, reflect.</span><span class="l-hi">जिज्ञासु मन के लिए — पढ़ें, खोजें, मनन करें।</span></p></section>
+    </section>
   <ul class="doors"><li><a class="door" id="door-read" href="gita/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5c2.8-1 5.8-1 9 1v13c-3.2-2-6.2-2-9-1z"/><path d="M21 5.5c-2.8-1-5.8-1-9 1v13c3.2-2 6.2-2 9-1z"/></svg><span class="dt"><span class="l-en">Read</span><span class="l-hi">पढ़ें</span></span><span class="ds" id="door-read-ds"><span class="l-en">Start with the Gita</span><span class="l-hi">गीता से शुरू करें</span></span><span class="go"><span class="l-en">Open the Gita →</span><span class="l-hi">गीता खोलें →</span></span></a></li><li><a class="door" href="gita/explore/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.6"/><circle cx="4.5" cy="6" r="1.8"/><circle cx="19.5" cy="5" r="1.8"/><circle cx="18.5" cy="18.5" r="1.8"/><circle cx="5" cy="18" r="1.8"/><path d="M6 7l4.2 3.4M17.9 6.2l-4 4M17.2 17.2l-3.4-3.4M6.5 16.8l3.6-3"/></svg><span class="dt"><span class="l-en">Explore</span><span class="l-hi">खोजें</span></span><span class="ds"><span class="l-en">Stories, people and ideas</span><span class="l-hi">कथाएँ, पात्र और विचार</span></span><span class="go"><span class="l-en">Open the map →</span><span class="l-hi">नक्शा खोलें →</span></span></a></li><li><a class="door" href="gita/questions/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 4 3 8 0 12-3-4-3-8 0-12z"/><path d="M4 11c3 0 6 2 8 4-3 1-6 0-8-4zM20 11c-3 0-6 2-8 4 3 1 6 0 8-4z"/><path d="M5 20h14"/></svg><span class="dt"><span class="l-en">Reflect</span><span class="l-hi">मनन करें</span></span><span class="ds"><span class="l-en">Wisdom for life’s questions</span><span class="l-hi">जीवन के प्रश्नों के लिए</span></span><span class="go"><span class="l-en">See the questions →</span><span class="l-hi">प्रश्न देखें →</span></span></a></li></ul>
   <section class="votd" id="votd" hidden aria-live="polite"></section>
-  <ul class="grid" id="grid"><li class="featured"><a class="text feat" href="gita/" style="--lc:#0b6b70;--ld:#4cc0c2"><span class="nat" lang="sa">श्रीमद्भगवद्गीता</span><span class="nm">Bhagavad Gita</span><span class="ds">Krishna&#x27;s teaching to Arjuna on the field of Kurukshetra, in 18 chapters.</span><span class="ft"><span>700 verses</span><span class="go">Start reading →</span></span></a></li><li class=""><a class="text" href="ashtavakra/" style="--lc:#4f46a5;--ld:#a9a2f2"><span class="nat" lang="sa">अष्टावक्रगीता</span><span class="nm">Ashtavakra Gita</span><span class="ds">The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.</span><span class="ft"><span>298 verses</span><span class="go">Read →</span></span></a></li><li><div class="text soon" style="--lc:#8a5a12;--ld:#e2b36a" aria-disabled="true"><span class="nat" lang="sa">उपनिषद्</span><span class="nm">Upanishads</span><span class="ds">The principal Upanishads, verse by verse.</span><span class="ft"><span></span><span class="pill">Coming soon</span></span></div></li></ul>
-  <p class="note" id="note">Every text is free, has no ads and works offline once opened. The Sanskrit comes from public-domain editions; the translations are new and written to be easy to read.</p>
+  <ul class="tlist"><li><a class="tl" href="gita/"><span class="tn" lang="sa" style="color:#0b6b70">श्रीमद्भगवद्गीता</span><span class="tm"><span class="l-en">Bhagavad Gita</span><span class="l-hi">भगवद्गीता</span></span><span class="tc"><span class="l-en">700 verses</span><span class="l-hi">700 श्लोक</span></span><span class="tgo" aria-hidden="true">→</span></a></li><li><a class="tl" href="ashtavakra/"><span class="tn" lang="sa" style="color:#4f46a5">अष्टावक्रगीता</span><span class="tm"><span class="l-en">Ashtavakra Gita</span><span class="l-hi">अष्टावक्र गीता</span></span><span class="tc"><span class="l-en">298 verses</span><span class="l-hi">298 श्लोक</span></span><span class="tgo" aria-hidden="true">→</span></a></li><li><span class="tl soon"><span class="tn" lang="sa" style="color:#8a5a12">उपनिषद्</span><span class="tm"><span class="l-en">Upanishads</span><span class="l-hi">उपनिषद्</span></span><span class="tc"></span><span class="tc"><span class="l-en">Coming soon</span><span class="l-hi">जल्द आ रहा है</span></span></span></li></ul>
+  <p class="foot note" id="note">Every text is free, has no ads and works offline once opened. The Sanskrit comes from public-domain editions; the translations are new and written to be easy to read.</p>
   <p class="foot"><a href="how-its-made/"><span class="l-en">How this site is made</span><span class="l-hi">यह साइट कैसे बनी</span></a> · <a href="privacy/"><span class="l-en">Privacy</span><span class="l-hi">गोपनीयता</span></a></p>
 </main>
 <script>
@@ -133,7 +142,6 @@ function setLang(l){
   document.getElementById("beta").textContent = u.beta;
   document.getElementById("note").textContent = u.note;
   document.getElementById("brand").textContent = u.brand;
-  document.getElementById("grid").innerHTML = ORDERED.map(t => card(t, l)).join("");
   const b = document.getElementById("lang"); b.textContent = u.toggle; b.setAttribute("aria-label", l==="hi" ? "Switch to English" : "हिन्दी में देखें");
   document.title = l==="hi" ? `${LIB.brand_hi} · ${LIB.title_hi}` : `${LIB.brand_en} · ${LIB.title_en}`;
   drawVotd();
@@ -180,7 +188,7 @@ let saved = (navigator.language || "").toLowerCase().startsWith("hi") ? "hi" : "
 try{ saved = localStorage.getItem("library-lang") || saved; }catch(e){}
 if(saved==="hi") setLang("hi");
 </script>
-<script src="shared/coach.js?v=20261112092424" defer></script>
+<script src="shared/coach.js?v=20261112092713" defer></script>
 <script>
 try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
 if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {

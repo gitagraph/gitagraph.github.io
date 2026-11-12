@@ -4,7 +4,7 @@
 <link rel="canonical" href="https://gitagraph.com/how-its-made/"><link rel="icon" href="../gita/icon.svg" type="image/svg+xml">
 <meta property="og:type" content="article"><meta property="og:title" content="How this site is made · Gitagraph">
 <meta property="og:description" content="What is ancient text, what is ours, and what is AI-assisted, so you can judge for yourself what you are reading."><meta property="og:url" content="https://gitagraph.com/how-its-made/">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261112092424"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261112092713"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#f4f5f1;--surface:#fff;--sunk:#eceee8;--ink:#16202c;--muted:#5d6672;--line:#dcdfd8;--accent:#0b6b70;
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -41,6 +41,15 @@ a.text:hover{border-color:var(--c)}
 .text .go{color:var(--c);font-weight:600}
 .text.soon{opacity:.62}
 .grid .featured{grid-column:1 / -1}
+.tlist{list-style:none;margin:26px 0 0;padding:0;border-top:1px solid var(--line)}
+.tl{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:4px 12px;align-items:baseline;padding:12px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
+a.tl:hover .tm{color:var(--accent)}
+.tl .tn{font-family:var(--f-skt);font-size:19px}
+.tl .tm{font-weight:600;min-width:0}
+.tl .tc{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl .tgo{color:var(--accent);font-weight:600}
+.tl.soon{opacity:.6}
+@media (max-width:420px){ .tl{grid-template-columns:auto minmax(0,1fr) auto} .tl .tn{grid-column:1 / -1} }
 .hero .tag2{margin:0;color:var(--muted);font-size:17px}
 .doors{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
 @media (min-width:700px){ .doors{grid-template-columns:repeat(3,minmax(0,1fr))} }

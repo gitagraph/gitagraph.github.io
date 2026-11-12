@@ -202,6 +202,16 @@ details.how .howbody{padding-bottom:16px}
 .pshare:hover{background:var(--sunk);color:var(--accent)}
 .pshare svg{width:20px;height:20px}
 
+.vmore{margin-top:22px;border-top:1px solid var(--line);padding-top:4px}
+.vmore summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;font-weight:600;color:var(--accent)}
+.vmore summary::-webkit-details-marker{display:none}
+.vmore summary::after{content:"+";font-size:20px}
+.vmore[open] summary::after{content:"−"}
+.vexp{font-family:var(--f-read);font-size:calc(16px * var(--scale));line-height:1.6;color:var(--muted);margin:12px 0 0;max-width:62ch}
+.vexpfull p{font-family:var(--f-read);line-height:1.7;max-width:62ch}
+.qlink{margin:18px 0 0}
+.qlink a{color:var(--accent);font-weight:600}
+
 /* ---------- chapter ---------- */
 .chhead{position:relative;padding:16px 0 4px}
 .chhead .bignum{font-family:var(--f-skt);font-size:64px;line-height:1;color:var(--accent);opacity:.9;margin:0 0 4px}
