@@ -30,7 +30,7 @@ const UI = {
     searchPh:"Search Krishna, dharma, karmaṇy… or 2.47", tryThese:"Try", none:"No matches. Try a name, an idea, a Sanskrit word or a verse number like 2.47.",
     topics:"People & ideas", versesH:"Verses", savedEmpty:"Verses you save appear here. Tap Save on any verse to keep it.", recent:"Recently read", noRecent:"Verses you open will be listed here.",
     showMore:n=>`Show ${n} more`, back:"Back", open:"Open", openCh:"Read chapter", allVerses:n=>`All ${n} verses`,
-    ghint:"Pinch or scroll to zoom · drag to move · tap any dot", sanskrit:"Sanskrit", iast:"Transliteration", second:"Second translation", size:"Text size", theme:"Theme",
+    ghint:"Tap any dot · pinch to zoom · drag to move", mapCoach:"Tap a dot to see its verses", sanskrit:"Sanskrit", iast:"Transliteration", second:"Second translation", size:"Text size", theme:"Theme",
     language:"Language", system:"System", light:"Light", dark:"Dark", done:"Done", swipe:"Swipe left or right for the next verse",
     about:"About this text", aboutT:"Sanskrit text: Sanskrit Wikisource (sa.wikisource.org, \"भगवद्गीता\"), used under CC BY-SA 4.0, checked verse by verse against the GRETIL e-text (Göttingen), with five typing errors corrected. The transliteration is generated from that Devanagari. The English and Hindi translations were written fresh for this project with AI assistance. 700 verses, as in Wikisource and GRETIL.",
     proto:"Beta", type:{chapter:"Chapter",person:"Person / place",concept:"Idea",path:"Yoga",guna:"Guna",section:"Section"},
@@ -46,7 +46,7 @@ const UI = {
     searchPh:"खोजें: कृष्ण, धर्म, कर्म… या 2.47", tryThese:"आज़माएँ", none:"कुछ नहीं मिला। कोई नाम, विचार, संस्कृत शब्द या 2.47 जैसी श्लोक संख्या आज़माएँ।",
     topics:"पात्र और विचार", versesH:"श्लोक", savedEmpty:"आप जो श्लोक सहेजेंगे, वे यहाँ दिखेंगे। किसी भी श्लोक पर 'सहेजें' दबाएँ।", recent:"हाल में पढ़े", noRecent:"आप जो श्लोक खोलेंगे, वे यहाँ दिखेंगे।",
     showMore:n=>`${n} और दिखाएँ`, back:"वापस", open:"खोलें", openCh:"अध्याय पढ़ें", allVerses:n=>`सभी ${n} श्लोक`,
-    ghint:"ज़ूम के लिए पिंच या स्क्रॉल करें · खींचकर घुमाएँ · किसी भी बिंदु को छुएँ", sanskrit:"संस्कृत", iast:"लिप्यंतरण", second:"दूसरा अनुवाद", size:"अक्षर का आकार", theme:"थीम",
+    ghint:"किसी भी बिंदु को छुएँ · ज़ूम के लिए पिंच करें · खींचकर घुमाएँ", mapCoach:"किसी बिंदु को छूकर उसके श्लोक देखें", sanskrit:"संस्कृत", iast:"लिप्यंतरण", second:"दूसरा अनुवाद", size:"अक्षर का आकार", theme:"थीम",
     language:"भाषा", system:"सिस्टम", light:"हल्की", dark:"गहरी", done:"ठीक है", swipe:"अगले श्लोक के लिए बाएँ या दाएँ स्वाइप करें",
     about:"इस पाठ के बारे में", aboutT:"संस्कृत पाठ: संस्कृत विकिस्रोत (sa.wikisource.org, \"भगवद्गीता\"), CC BY-SA 4.0 के अंतर्गत, गॉटिंगेन के GRETIL पाठ से श्लोक-दर-श्लोक मिलाकर, पाँच टंकण त्रुटियाँ सुधारी गईं। लिप्यंतरण इसी देवनागरी से बनाया गया है। हिंदी और अंग्रेज़ी अनुवाद इस परियोजना के लिए AI की सहायता से नए लिखे गए हैं। विकिस्रोत और GRETIL की तरह 700 श्लोक।",
     proto:"बीटा", type:{chapter:"अध्याय",person:"व्यक्ति / स्थान",concept:"विचार",path:"योग",guna:"गुण",section:"खंड"},
@@ -789,6 +789,9 @@ function makeGraph(){
   const {nodes, links, dots, nb} = layout;
   const wrap = document.getElementById("ex"), cv = document.getElementById("cv"), ctx = cv.getContext("2d");
   let W = 0, Hh = 0, dpr = 1, T = d3.zoomIdentity, sel = null, col = {};
+  let hov = null, pulse0 = 0;                                  // hovered or pressed node/dot; start of the first-visit pulse
+  const hubs2 = nodes.filter(n => n.kind==="hub").sort((a,b) => b.h.vs.length - a.h.vs.length).slice(0,2);
+  const KEYHUBS = new Set(hubs2.map(n => n.h.id)), lead = hubs2[0];   // their labels always show; the pulse marks the first
   const recolor = () => {
     const cs = getComputedStyle(document.documentElement);
     ["--ink","--muted","--line","--surface","--accent","--mark","--t-person","--t-concept","--t-path","--t-guna","--sp-krishna","--sp-arjuna","--sp-sanjaya","--sp-dhrit","--sp-duryo"].forEach(k => col[k] = cs.getPropertyValue(k).trim());
@@ -822,17 +825,23 @@ function makeGraph(){
     dots.forEach(d => {
       const dim = (vfocus && !vfocus.has(d.v.ref)) || (sel && sel.type==="chapter" && d.v.c!==sel.num);
       ctx.globalAlpha = dim ? .13 : 1; ctx.fillStyle = spc(d.v);
-      ctx.beginPath(); ctx.arc(d.x,d.y,vr,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(d.x,d.y,d===hov ? vr*1.6 : vr,0,7); ctx.fill();
     });
     ctx.globalAlpha = 1;
     // nodes
     nodes.forEach(n => {
       const dim = focus && !focus.has(n.h.id);
       ctx.globalAlpha = dim ? .15 : 1; ctx.fillStyle = fill(n);
-      ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(n.x,n.y,n===hov ? n.r*1.22 : n.r,0,7); ctx.fill();
       ctx.lineWidth = (sel && sel.id===n.h.id ? 3 : 1.5)/k; ctx.strokeStyle = sel && sel.id===n.h.id ? col["--ink"] : col["--surface"]; ctx.stroke();
     });
     ctx.globalAlpha = 1;
+    if(pulse0 && lead){                                          // three slow rings on the main hub, first visit only
+      const t = (performance.now() - pulse0) / 1500;
+      if(t < 3){ const ph = t % 1; ctx.globalAlpha = (1 - ph) * .7; ctx.strokeStyle = col["--accent"]; ctx.lineWidth = 2.5/k;
+        ctx.beginPath(); ctx.arc(lead.x, lead.y, lead.r + 4/k + ph*26/k, 0, 7); ctx.stroke(); ctx.globalAlpha = 1; requestAnimationFrame(draw); }
+      else pulse0 = 0;
+    }
     // labels
     ctx.textBaseline = "middle"; ctx.lineJoin = "round";
     const label = (txt, x, y, px, weight, align, color) => {
@@ -849,9 +858,10 @@ function makeGraph(){
     ctx.globalAlpha = 1;
     nodes.forEach(n => {
       if(n.kind==="chapter") return;
-      const show = (focus && focus.has(n.h.id)) || (!focus && (n.r*k > 9 || k > 1.7));
+      const show = (focus && focus.has(n.h.id)) || (!focus && (n.r*k > 9 || k > 1.7 || KEYHUBS.has(n.h.id)));
       if(!show) return;
-      label(name(n.h), n.x, n.y + n.r + 9/k, 12.5, n.r > 9 ? 600 : 500, "center", col["--ink"]);
+      const up = hubs2[1] === n && !focus;                        // the second main hub labels above, so the two never collide
+      label(name(n.h), n.x, up ? n.y - n.r - 9/k : n.y + n.r + 9/k, 12.5, n.r > 9 ? 600 : 500, "center", col["--ink"]);
     });
     if(k > 2.6){
       dots.forEach(d => { const dim = (vfocus && !vfocus.has(d.v.ref)); if(dim) return; label(String(d.v.v), d.x, d.y - 7/k, 9.5, 500, "center", col["--muted"]); });
@@ -882,13 +892,19 @@ function makeGraph(){
   const zoom = d3.zoom().scaleExtent([0.15, 8]).on("zoom", e => { T = e.transform; draw(); });
   const sv = d3.select(cv).call(zoom).on("dblclick.zoom", null);
   let down = null;
-  cv.addEventListener("pointerdown", e => { down = [e.clientX, e.clientY]; });
+  const itemAt = e => { const r = cv.getBoundingClientRect(), h = hit(e.clientX-r.left, e.clientY-r.top); return h ? (h.node || h.dot) : null; };
+  cv.addEventListener("pointermove", e => { if(e.pointerType !== "mouse" || e.buttons) return;
+    const t = itemAt(e); cv.style.cursor = t ? "pointer" : "grab"; if(t !== hov){ hov = t; draw(); } });
+  cv.addEventListener("pointerleave", () => { if(hov){ hov = null; draw(); } });
+  cv.addEventListener("pointerdown", e => { down = [e.clientX, e.clientY]; if(e.pointerType !== "mouse"){ hov = itemAt(e); draw(); } });
+  cv.addEventListener("pointercancel", () => { if(hov){ hov = null; draw(); } });
   cv.addEventListener("pointerup", e => {
     if(!down || Math.hypot(e.clientX-down[0], e.clientY-down[1]) > 6) return;
     const r = cv.getBoundingClientRect(), hres = hit(e.clientX-r.left, e.clientY-r.top);
     if(hres?.node){ sel = hres.node.h; panel(sel); }
     else if(hres?.dot){ sel = null; panel(null, hres.dot.v); }
     else { sel = null; panel(); }
+    if(e.pointerType !== "mouse") hov = null;
     draw();
   });
   const dur = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 280;
@@ -901,6 +917,18 @@ function makeGraph(){
   const mo = new MutationObserver(recolor); mo.observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
   if(document.fonts) document.fonts.ready.then(draw);
   size(); recolor(); sv.call(zoom.transform, fitT());
+  const CK = "map-coach-" + (BASE || "preview");
+  let seen = true; try{ seen = localStorage.getItem(CK) === "1"; }catch(e){}
+  if(!seen && lead) setTimeout(() => {
+    try{ localStorage.setItem(CK, "1"); }catch(e){}
+    if(!matchMedia("(prefers-reduced-motion: reduce)").matches){ pulse0 = performance.now(); draw(); }
+    const [sx, sy] = T.apply([lead.x, lead.y]), b = document.createElement("div");
+    b.className = "mapcoach"; b.setAttribute("role", "status"); b.textContent = u().mapCoach; wrap.appendChild(b);
+    const bw = b.offsetWidth, left = Math.max(12, Math.min(W - bw - 12, sx - bw/2));
+    b.style.left = left + "px"; b.style.top = (sy + (lead.r + 12)*T.k + 10) + "px"; b.style.setProperty("--ax", (sx - left) + "px");
+    const close = () => { b.remove(); window.removeEventListener("pointerdown", close, true); };
+    window.addEventListener("pointerdown", close, true); setTimeout(close, 6000);
+  }, 350);
   return { recolor, destroy(){ ro.disconnect(); mq.removeEventListener("change", onMq); mo.disconnect(); } };
 }
 
