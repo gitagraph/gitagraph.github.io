@@ -179,7 +179,7 @@ const NAV = [["home","read",IC.read],["explore","explore",IC.explore],["index","
 function section(route){ return route.name==="explore" ? "explore" : route.name==="index" || route.name==="topic" ? "index" : route.name==="search" ? "search" : route.name==="saved" ? "saved" : "home"; }
 function drawShell(route){
   const sec = section(route);
-  document.getElementById("rail").innerHTML = `<div class="brand" aria-hidden="true">ॐ</div>` +
+  document.getElementById("rail").innerHTML = (BASE ? `<a class="brand" href="${BASE.replace(/[^/]+\/$/, "")}" aria-label="Gitagraph" title="Gitagraph" style="text-decoration:none;color:inherit">ॐ</a>` : `<div class="brand" aria-hidden="true">ॐ</div>`) +
     NAV.map(([t,k,ic]) => `<a href="#${t}" ${sec===t?'aria-current="page"':""}><span class="ico">${ic}</span>${esc(k==="index"?u().indexShort:u()[k])}</a>`).join("") +
     `<div class="spacer"></div><button type="button" id="railset"><span class="ico">${IC.set}</span>${esc(u().settings)}</button>`;
   document.getElementById("tabs").innerHTML = NAV.map(([t,k,ic]) =>
@@ -191,8 +191,11 @@ function drawShell(route){
   }).join("") + `</ol>`;
   document.getElementById("railset").onclick = openSettings;
   const back = document.getElementById("back");
-  back.hidden = route.name==="home" || route.name==="explore" || route.name==="index" || route.name==="search" || route.name==="saved";
-  back.innerHTML = IC.back; back.setAttribute("aria-label", u().back);
+  // on this text's own home the arrow leads to the Gitagraph home (the library), which the built site always has
+  const atHome = route.name==="home" && !!BASE;
+  back.hidden = atHome ? false : route.name==="home" || route.name==="explore" || route.name==="index" || route.name==="search" || route.name==="saved";
+  back.dataset.home = atHome ? "1" : "";
+  back.innerHTML = IC.back; back.setAttribute("aria-label", atHome ? (isHi() ? "गीताग्राफ़ होम" : "Gitagraph home") : u().back);
   // forward goes to the next page in reading order: next verse, or a chapter's first verse
   const fwd = document.getElementById("fwd");
   const nxt = route.name==="verse" ? V[route.v.i+1] : route.name==="chapter" ? CH[route.c-1].vs[0] : null;
@@ -203,7 +206,8 @@ function drawShell(route){
   document.getElementById("langbtn").textContent = isHi() ? "EN" : "हि";
   document.getElementById("langbtn").setAttribute("aria-label", isHi() ? "Switch to English" : "हिन्दी में देखें");
 }
-document.getElementById("back").onclick = () => { if(history.length > 1) history.back(); else go("home"); };
+document.getElementById("back").onclick = e => { if(e.currentTarget.dataset.home){ location.href = BASE.replace(/[^/]+\/$/, ""); return; }
+  if(history.length > 1) history.back(); else go("home"); };
 document.getElementById("langbtn").onclick = () => setLang(isHi() ? "en" : "hi");
 document.getElementById("setbtn").onclick = openSettings;
 document.getElementById("helpbtn").onclick = () => sheet(`<h2>${esc(u().whyT)}</h2><div class="howbody"><ul>${u().why.map(i=>`<li>${i}</li>`).join("")}</ul></div><h2 style="margin-top:18px">${esc(u().howT)}</h2>${howBody()}<div class="row"><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);

@@ -134,7 +134,7 @@ function section(r){ return r.name==="themes"||r.name==="theme" ? "themes" : r.n
 function drawShell(route){
   const sec = section(route);
   const tab = ([t,k,ic]) => `<a href="#${t}" ${sec===t?'aria-current="page"':""}><span class="ico">${ic}</span>${esc(k==="index"?u().indexShort:u()[k])}</a>`;
-  document.getElementById("rail").innerHTML = `<div class="brand" aria-hidden="true">उ</div>` + NAV.map(tab).join("") +
+  document.getElementById("rail").innerHTML = (BASE ? `<a class="brand" href="${BASE.replace(/[^/]+\/$/, "")}" aria-label="Gitagraph" title="Gitagraph" style="text-decoration:none;color:inherit">उ</a>` : `<div class="brand" aria-hidden="true">उ</div>`) + NAV.map(tab).join("") +
     `<div class="spacer"></div><button type="button" id="railset"><span class="ico">${IC.set}</span>${esc(u().settings)}</button>`;
   document.getElementById("tabs").innerHTML = NAV.map(tab).join("");
   const cur = route.name==="story" ? route.s.id : "";
@@ -142,8 +142,11 @@ function drawShell(route){
     `<li><a href="#s-${s.id}" ${cur===s.id?'aria-current="true"':""}><span class="n">${readSet.has(s.id)?"•":""}</span><span>${esc(L(s,"title"))}</span><span class="c"></span></a></li>`).join("") + `</ol>`).join("");
   document.getElementById("railset").onclick = openSettings;
   const back = document.getElementById("back");
-  back.hidden = ["home","themes","index","search","saved"].includes(route.name);
-  back.innerHTML = IC.back; back.setAttribute("aria-label", u().back);
+  // on this text's own home the arrow leads to the Gitagraph home (the library), which the built site always has
+  const atHome = route.name==="home" && !!BASE;
+  back.hidden = atHome ? false : ["home","themes","index","search","saved"].includes(route.name);
+  back.dataset.home = atHome ? "1" : "";
+  back.innerHTML = IC.back; back.setAttribute("aria-label", atHome ? (isHi() ? "गीताग्राफ़ होम" : "Gitagraph home") : u().back);
   const fwd = document.getElementById("fwd");
   const nxt = route.name==="story" ? S[route.s.i+1] : null;
   fwd.hidden = true; fwd.innerHTML = IC.fwd;
@@ -154,7 +157,8 @@ function drawShell(route){
   const hb = document.getElementById("helpbtn"); hb.setAttribute("aria-label", u().howT); hb.title = u().howT;
   const lb = document.getElementById("langbtn"); lb.textContent = isHi() ? "EN" : "हि"; lb.setAttribute("aria-label", isHi() ? "Switch to English" : "हिन्दी में देखें");
 }
-document.getElementById("back").onclick = () => { if(history.length > 1) history.back(); else go("home"); };
+document.getElementById("back").onclick = e => { if(e.currentTarget.dataset.home){ location.href = BASE.replace(/[^/]+\/$/, ""); return; }
+  if(history.length > 1) history.back(); else go("home"); };
 document.getElementById("langbtn").onclick = () => setLang(isHi() ? "en" : "hi");
 document.getElementById("setbtn").onclick = openSettings;
 document.getElementById("helpbtn").onclick = () => sheet(`<h2>${esc(u().whyT)}</h2><div class="howbody"><ul>${u().why.map(i=>`<li>${i}</li>`).join("")}</ul></div><h2 style="margin-top:18px">${esc(u().howT)}</h2>${howBody()}<div class="row"><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
