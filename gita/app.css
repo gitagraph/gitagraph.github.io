@@ -214,6 +214,13 @@ details.how .howbody{padding-bottom:16px}
 .vmore[open] summary::after{content:"−"}
 .vexp{font-family:var(--f-read);font-size:calc(16px * var(--scale));line-height:1.6;color:var(--muted);margin:12px 0 0;max-width:62ch}
 .vexpfull p{font-family:var(--f-read);line-height:1.7;max-width:62ch}
+.vwords{margin:6px 0 14px;display:grid;gap:4px;max-width:62ch}
+.vwords div{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px}
+.vwords dt{font-weight:600}
+.vwords dt span{font-family:var(--f-skt)}
+.vwords dt i{font-weight:400;color:var(--muted)}
+.vwords dd{margin:0;color:var(--muted)}
+.vwords dd::before{content:"— "}
 .qlink{margin:18px 0 0}
 .qlink a{color:var(--accent);font-weight:600}
 

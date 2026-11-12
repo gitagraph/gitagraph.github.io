@@ -288,7 +288,7 @@ function render(keepScroll){
     stopGraph();
     if(route.name==="home"){ ttl.textContent = u().app; view.innerHTML = page(homeView(), homeCtx()); wireHome(); }
     else if(route.name==="chapter"){ const c = CH[route.c-1]; ttl.textContent = `${u().chapter} ${c.num} · ${name(c)}`; view.innerHTML = page(chapterView(c), chapterCtx(c)); }
-    else if(route.name==="verse"){ const v = route.v; ttl.textContent = `${u().verse} ${v.ref}`; view.innerHTML = page(verseView(v), verseCtx(v)); markRead(v); wireVerse(v); }
+    else if(route.name==="verse"){ const v = route.v; ttl.textContent = `${u().verse} ${v.ref}`; view.innerHTML = page(verseView(v), verseCtx(v)); markRead(v); wireVerse(v); fillExp(v); }
     else if(route.name==="topic"){ const h = route.h; if(lastTopic !== h.id){ tFilter = {mode:"all", ch:0}; lastTopic = h.id; } ttl.textContent = name(h); view.innerHTML = page(topicView(h), topicCtx(h)); wireTopic(h); }
     else if(route.name==="index"){ ttl.textContent = u().index; view.innerHTML = page(indexView(), aboutCtx()); wireIndex(); }
     else if(route.name==="search"){ ttl.textContent = u().search; view.innerHTML = page(searchView(), aboutCtx()); wireSearch(); }
@@ -336,8 +336,8 @@ const listMore = (id, rows, n) => rows.length > n ? `<button class="btn more" da
 // ===================== life questions =====================
 // Curated in questions.json: each entry is a situation, a plain-language intro and verses picked by
 // what each verse actually says. "care" adds a note that the Gita is not a substitute for support.
-Object.assign(UI.en, {linkCopiedOnly:"Link copied", more:"More"});
-Object.assign(UI.hi, {linkCopiedOnly:"लिंक कॉपी हो गया", more:"और"});
+Object.assign(UI.en, {linkCopiedOnly:"Link copied", more:"More", words:"Word by word"});
+Object.assign(UI.hi, {linkCopiedOnly:"लिंक कॉपी हो गया", more:"और", words:"शब्दार्थ"});
 Object.assign(UI.en, {lifeqT:"Life questions", allQ:"All questions →", lifeqLede:"When you're facing one of these, start with what the Gita says about it.",
   careNote:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.",
   versesN:n=>`${n} verses`, otherQ:"Other questions", howMade:"How this site is made →"});
@@ -505,13 +505,13 @@ function verseView(v){
     <p class="speaker"><i class="dot d-${voice(v)}"></i>${esc(name(sp))}${s.uvaca ? ` <span class="uvaca">· ${esc(s.uvaca)}</span>` : ""}</p>
     ${prefs.sa ? `<p class="vsa" lang="sa">${s.body.map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>` : ""}
     <p class="vtr ${isHi()?"hi":""}" lang="${lang}">${esc(tr(v))}</p>
-    ${expFirst(v)}
+    <div id="exp1" data-ref="${v.ref}"></div>
     <div class="vactions">
       <button class="btn ${saved?"on":""}" id="savebtn" aria-pressed="${saved}">${IC.saved}<span>${esc(saved?u().savedL:u().save)}</span></button>
     </div>
     <details class="vmore"><summary>${esc(u().more)}</summary>
       <p class="viast" lang="sa-Latn">${trLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>
-      ${expFull(v)}
+      <div id="exp2"></div>
       <p class="vtr2 ${isHi()?"":"hi"}" lang="${isHi()?"en":"hi"}"><b>${isHi()?"EN":"हिन्दी"}</b>${esc(tr2(v))}</p>
       <div class="vtags">
         ${ppl.length ? `<div class="grp"><p class="eyebrow">${esc(u().people)}</p><div class="chips">${ppl.map(chip).join("")}</div></div>` : ""}
@@ -526,11 +526,25 @@ function verseView(v){
     <span class="swipehint">${esc(u().swipe)}</span>
   </article>`;
 }
-// Explanations (coming): when a verse carries v.exp = {en, hi}, its first sentence shows under the
-// translation and the full text inside "More". Nothing renders until the data exists.
-const expText = v => v.exp ? (isHi() ? v.exp.hi : v.exp.en) || "" : "";
-const expFirst = v => { const t = expText(v); if(!t) return ""; const m = t.match(/^.+?[.!?।](\s|$)/); return `<p class="vexp" lang="${lang}">${esc(m ? m[0].trim() : t)}</p>`; };
-const expFull = v => { const t = expText(v); return t ? `<div class="vexpfull" lang="${lang}">${t.split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join("")}</div>` : ""; };
+// Explanations: one small file per chapter (exp/<c>.json), loaded when a verse page opens. The first sentence
+// shows under the translation; the rest and the word-by-word list sit inside "More". Nothing shows until it arrives.
+const EXP = {};
+const loadExp = c => EXP[c] || (EXP[c] = fetch(BASE + "exp/" + c + ".json" + VER).then(r => r.ok ? r.json() : {}).catch(() => ({})));
+function expHtml(v, d){
+  const x = d && d[v.v]; if(!x) return ["", ""];
+  const one = isHi() ? x.h1 : x.e1, rest = isHi() ? x.h2 : x.e2;
+  const words = x.w && x.w.length ? `<p class="eyebrow">${esc(u().words)}</p><dl class="vwords">${x.w.map(([sa, ia, en, hi]) =>
+    `<div><dt><span lang="sa">${esc(sa)}</span> <i lang="sa-Latn">${esc(ia)}</i></dt><dd lang="${lang}">${esc(isHi() ? hi : en)}</dd></div>`).join("")}</dl>` : "";
+  return [`<p class="vexp" lang="${lang}">${esc(one)}</p>`,
+          (rest ? `<div class="vexpfull" lang="${lang}">${rest.split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join("")}</div>` : "") + words];
+}
+function fillExp(v){
+  loadExp(v.c).then(d => {
+    const a = document.getElementById("exp1"), b = document.getElementById("exp2");
+    if(!a || a.dataset.ref !== v.ref) return;                      // the reader has moved on
+    const [one, more] = expHtml(v, d); a.innerHTML = one; b.innerHTML = more;
+  });
+}
 function verseCtx(v){
   const tags = v.tags.map(id=>HB.get(id));
   const c = CH[v.c-1];
