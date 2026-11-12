@@ -121,6 +121,8 @@ const store = {
 };
 let lang = store.get("lang", (navigator.language || "").toLowerCase().startsWith("hi") ? "hi" : "en"); if(lang!=="en" && lang!=="hi") lang = "en";
 const prefs = Object.assign({sa:true, iast:true, other:false, size:1, theme:"system"}, store.get("prefs",{}));
+// the theme is one preference for the whole site ("gg-theme"); an older per-text choice moves into it once
+try{ const g = localStorage.getItem("gg-theme"); if(g) prefs.theme = g; else if(prefs.theme && prefs.theme !== "system") localStorage.setItem("gg-theme", prefs.theme); }catch(e){}
 const savedSet = new Set(store.get("saved",[]));
 const readSet = new Set(store.get("read",[]));
 let recent = store.get("recent",[]);
@@ -217,6 +219,7 @@ function applyPrefs(boot){
   document.documentElement.style.setProperty("--scale", prefs.size);
   if(prefs.theme==="system"){ if(!boot) document.documentElement.removeAttribute("data-theme"); }
   else document.documentElement.setAttribute("data-theme", prefs.theme);
+  try{ localStorage.setItem("gg-theme", prefs.theme); }catch(e){}
   store.set("prefs", prefs);
 }
 
