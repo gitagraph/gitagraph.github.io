@@ -340,8 +340,8 @@ const listMore = (id, rows, n) => rows.length > n ? `<button class="btn more" da
 // ===================== life questions =====================
 // Curated in questions.json: each entry is a situation, a plain-language intro and verses picked by
 // what each verse actually says. "care" adds a note that the Gita is not a substitute for support.
-Object.assign(UI.en, {linkCopiedOnly:"Link copied", more:"More", words:"Word by word"});
-Object.assign(UI.hi, {linkCopiedOnly:"लिंक कॉपी हो गया", more:"और", words:"शब्दार्थ"});
+Object.assign(UI.en, {linkCopiedOnly:"Link copied", more:"More", words:"Word by word", life:"In your life"});
+Object.assign(UI.hi, {linkCopiedOnly:"लिंक कॉपी हो गया", more:"और", words:"शब्दार्थ", life:"जीवन में"});
 Object.assign(UI.en, {lifeqT:"Life questions", allQ:"All questions →", lifeqLede:"When you're facing one of these, start with what the Gita says about it.",
   careNote:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.",
   versesN:n=>`${n} verses`, otherQ:"Other questions", howMade:"How this site is made →"});
@@ -539,8 +539,12 @@ function expHtml(v, d){
   const one = isHi() ? x.h1 : x.e1, rest = isHi() ? x.h2 : x.e2;
   const words = x.w && x.w.length ? `<p class="eyebrow">${esc(u().words)}</p><dl class="vwords">${x.w.map(([sa, ia, en, hi]) =>
     `<div><dt><span lang="sa">${esc(sa)}</span> <i lang="sa-Latn">${esc(ia)}</i></dt><dd lang="${lang}">${esc(isHi() ? hi : en)}</dd></div>`).join("")}</dl>` : "";
-  return [`<p class="vexp" lang="${lang}">${esc(one)}</p>`,
-          (rest ? `<div class="vexpfull" lang="${lang}">${rest.split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join("")}</div>` : "") + words];
+  const life = isHi() ? x.lh : x.le;
+  const expl = rest ? `${one}\n\n${rest}` : one;
+  const full = t => `<div class="vexpfull" lang="${lang}">${t.split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join("")}</div>`;
+  // with an "In your life" line, it takes the default place and the whole explanation moves inside More
+  if(life) return [`<p class="vlife-l">${esc(u().life)}</p><p class="vlife" lang="${lang}">${esc(life)}</p>`, full(expl) + words];
+  return [`<p class="vexp" lang="${lang}">${esc(one)}</p>`, (rest ? full(rest) : "") + words];
 }
 function fillExp(v){
   loadExp(v.c).then(d => {

@@ -214,6 +214,10 @@ details.how .howbody{padding-bottom:16px}
 .vmore[open] summary::after{content:"−"}
 .vexp{font-family:var(--f-read);font-size:calc(16px * var(--scale));line-height:1.6;color:var(--muted);margin:12px 0 0;max-width:62ch}
 .vexpfull p{font-family:var(--f-read);line-height:1.7;max-width:62ch}
+.vlife-l{margin:14px 0 0;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+:root[lang=hi] .vlife-l{letter-spacing:0;text-transform:none;font-size:13.5px}
+.vlife{font-family:var(--f-read);font-size:calc(16px * var(--scale));line-height:1.6;margin:4px 0 0;max-width:62ch}
+:root[lang=hi] .vlife{font-family:var(--f-hi);line-height:1.8}
 .vwords{margin:6px 0 14px;display:grid;gap:4px;max-width:62ch}
 .vwords div{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px}
 .vwords dt{font-weight:600}
