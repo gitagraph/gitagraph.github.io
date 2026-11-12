@@ -4,9 +4,9 @@ The site is one library root plus one folder per text:
 
 | Path | Built by |
 |---|---|
-| `/` (home, `library.json`, `shared/`, sitemaps, redirects) | `~/Documents/granth-library/build.py` |
-| `/gita/` | `~/Documents/gita-reader/build.py` |
-| `/ashtavakra/` | `~/Documents/ashtavakra-reader/build.py` |
+| `/` (home, `library.json`, `shared/`, sitemaps, redirects) | `~/Documents/gitagraph/granth-library/build.py` |
+| `/gita/` | `~/Documents/gitagraph/gita-reader/build.py` |
+| `/ashtavakra/` | `~/Documents/gitagraph/ashtavakra-reader/build.py` |
 
 ## Checklist for a new text (e.g. `upanishads`)
 1. **Source and licence first.** The original text must come from a clearly public-domain or openly
@@ -16,7 +16,7 @@ The site is one library root plus one folder per text:
    `src/sw.template.js`, `src/static/`). Give it its own icon, accent colour, localStorage prefix and
    service-worker cache prefix (e.g. `upanishads-`), so nothing collides with the other texts.
 3. **Build base path.** In its `build.py`: `SITE_URL = "https://gitagraph.com/upanishads/"` and
-   `DEPLOY = ~/Documents/GitHub/gitagraph.github.io/upanishads`. Every URL then derives from that, so
+   `DEPLOY = ~/Documents/gitagraph/gitagraph.github.io/upanishads`. Every URL then derives from that, so
    the whole library can move domains by changing `SITE_URL` here and `SITE` in `granth-library/build.py`.
 4. **Switcher include.** Its page head must load the shared switcher (the template already does):
    `<link rel="stylesheet" href="{ROOT}shared/library.css?v={stamp}">` and
