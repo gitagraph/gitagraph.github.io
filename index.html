@@ -11,14 +11,14 @@
 <meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Timeless wisdom for every stage of life">
 <meta property="og:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta property="og:url" content="https://gitagraph.com/">
 <meta property="og:site_name" content="Gitagraph · Timeless wisdom for every stage of life">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261112165900">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261112171250">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Gitagraph · Timeless wisdom for every stage of life (गीताग्राफ़ · जीवन के हर पड़ाव के लिए शाश्वत ज्ञान): the Bhagavad Gita, the Ashtavakra Gita and the Upanishads, in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Gitagraph · Timeless wisdom for every stage of life">
-<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261112165900">
+<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261112171250">
 <link rel="icon" href="shared/mark.svg" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;500;600;700&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap">
 <style>
 :root{--bg:#f4f5f1;--surface:#fff;--sunk:#eceee8;--ink:#16202c;--muted:#5d6672;--line:#dcdfd8;--accent:#0b6b70;
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -206,8 +206,8 @@ function drawVotd(){
   box.hidden = false;
 }
 // today's pool and only the chapter files it needs (the continue verse's chapter too), never all 700 verses
-const HV = c => fetch(`home-verses/${c}.json?v=20261112165900`).then(r => r.json());
-fetch("home-verses/pool.json?v=20261112165900").then(r => r.json()).then(pool => {
+const HV = c => fetch(`home-verses/${c}.json?v=20261112171250`).then(r => r.json());
+fetch("home-verses/pool.json?v=20261112171250").then(r => r.json()).then(pool => {
   const gcd = (a,b) => b ? gcd(b, a % b) : a;
   const step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
   const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5);
@@ -223,7 +223,7 @@ let saved = (navigator.language || "").toLowerCase().startsWith("hi") ? "hi" : "
 try{ saved = localStorage.getItem("library-lang") || saved; }catch(e){}
 if(saved==="hi") setLang("hi");
 </script>
-<script src="shared/coach.js?v=20261112165900" defer></script>
+<script src="shared/coach.js?v=20261112171250" defer></script>
 <script>
 try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
 if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {

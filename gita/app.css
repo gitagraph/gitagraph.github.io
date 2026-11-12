@@ -1,3 +1,4 @@
+b,strong{font-weight:600}
 /* Layout: reading-first. Phone = one column + bottom tabs; tablet = icon rail + reader; desktop = rail + chapter list + reader + context column. */
 :root{
   --bg:#f4f5f1; --surface:#ffffff; --sunk:#eceee8; --ink:#16202c; --muted:#5d6672; --line:#dcdfd8;
@@ -57,7 +58,7 @@ button{font:inherit;color:inherit}
   background:color-mix(in srgb, var(--surface) 92%, transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);
   padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
-.tabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:var(--tab-h);font-size:12px;color:var(--muted);font-weight:500}
+.tabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:var(--tab-h);font-size:12px;color:var(--muted);font-weight:600}
 .tabs a svg{width:23px;height:23px}
 .tabs a[aria-current=page]{color:var(--accent)}
 .tabs a[aria-current=page] .ico{background:color-mix(in srgb, var(--accent) 16%, transparent)}
@@ -71,7 +72,7 @@ button{font:inherit;color:inherit}
     height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));padding:14px 0 14px env(safe-area-inset-left,0px);
     border-right:1px solid var(--line);background:var(--surface)}
   .rail .brand{font-family:var(--f-skt);font-size:26px;color:var(--accent);margin-bottom:10px;line-height:1}
-  .rail a,.rail button{display:flex;flex-direction:column;align-items:center;gap:2px;width:68px;padding:6px 0;border-radius:12px;border:0;background:none;cursor:pointer;color:var(--muted);font-size:11.5px;font-weight:500;text-align:center;line-height:1.2}
+  .rail a,.rail button{display:flex;flex-direction:column;align-items:center;gap:2px;width:68px;padding:6px 0;border-radius:12px;border:0;background:none;cursor:pointer;color:var(--muted);font-size:11.5px;font-weight:600;text-align:center;line-height:1.2}
   .rail a:hover,.rail button:hover{color:var(--ink)}
   .rail a svg,.rail button svg{width:22px;height:22px}
   .rail a[aria-current=page]{color:var(--accent)}
@@ -111,7 +112,7 @@ h2.sec{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--
 .seg{display:inline-flex;padding:3px;border-radius:999px;background:var(--sunk);gap:2px;flex-wrap:wrap}
 .seg button{border:0;background:transparent;padding:6px 14px;border-radius:999px;cursor:pointer;font-size:14px;color:var(--muted);min-height:36px}
 .seg button[aria-pressed=true]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgb(0 0 0 / .12)}
-.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:15px;font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:15px;font-weight:600}
 .btn:hover{border-color:var(--muted)}
 .btn svg{width:19px;height:19px}
 .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
@@ -151,7 +152,7 @@ a.card:hover{border-color:var(--muted)}
 :root[lang=hi] .forall h2{font-family:var(--f-hi);font-weight:400;font-size:21px}
 .forall .lede2{color:var(--muted);margin:0 0 10px;line-height:1.55}
 .forall ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;line-height:1.55}
-.forall a, .how a{color:var(--accent);font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.forall a, .how a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
 .forall .note{margin:12px 0 0;font-size:14px;color:var(--muted);line-height:1.55}
 .forall .note i{font-style:italic}
 .contbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;min-height:48px;padding:10px 16px;border-radius:12px;
@@ -174,7 +175,7 @@ details.how[open] summary::after{content:"−"}
 .howbody h3{font-size:15px;margin:14px 0 6px}
 .howbody ul{margin:0 0 6px;padding-left:18px;display:flex;flex-direction:column;gap:6px;line-height:1.55;font-size:15px}
 details.how .howbody{padding-bottom:16px}
-.helpbtn{font-weight:700;font-size:18px}
+.helpbtn{font-weight:600;font-size:18px}
 
 .tagline{padding:2px 0 4px}
 .tagline h2{font-family:var(--f-read);font-weight:600;font-size:19px;margin:6px 0 2px;color:var(--accent)}
@@ -183,7 +184,7 @@ details.how .howbody{padding-bottom:16px}
 .tagline .hook{margin:8px 0 0;font-family:var(--f-read);font-style:italic;color:var(--muted);line-height:1.65;max-width:62ch}
 :root[lang=hi] .tagline .hook{font-family:var(--f-hi);font-style:normal;line-height:1.85}
 .credits{margin:22px 0 0;font-size:14px;color:var(--muted);line-height:1.6}
-.credits a,.howbody a{color:var(--accent);font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.credits a,.howbody a{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
 
 .lifeq .chips{gap:8px}
 .chip-more{color:var(--accent);font-weight:600}
@@ -258,7 +259,7 @@ details.how .howbody{padding-bottom:16px}
 /* ---------- verse ---------- */
 .verse{padding:12px 0 0;touch-action:pan-y}
 .vtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
-.vtop a{color:var(--accent);font-weight:500}
+.vtop a{color:var(--accent);font-weight:600}
 .vref{font-family:var(--f-read);font-weight:600;font-size:clamp(30px,6vw,40px);margin:14px 0 0;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 .speaker{display:flex;align-items:center;gap:8px;margin:6px 0 0;font-size:15px;color:var(--muted)}
 .speaker .uvaca{font-family:var(--f-skt);font-size:16px}
@@ -344,7 +345,7 @@ mark{background:color-mix(in srgb, var(--mark) 30%, transparent);color:inherit;b
 .zbtns{position:absolute;right:max(12px, env(safe-area-inset-right,0px));top:12px;display:flex;flex-direction:column;gap:6px}
 .zbtns button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:20px;display:grid;place-items:center}
 .zbtns svg{width:20px;height:20px}
-.ghint{position:absolute;left:max(12px, env(safe-area-inset-left,0px));top:12px;right:72px;font-size:13.5px;font-weight:500;color:var(--ink);opacity:.72;pointer-events:none}
+.ghint{position:absolute;left:max(12px, env(safe-area-inset-left,0px));top:12px;right:72px;font-size:13.5px;font-weight:600;color:var(--ink);opacity:.72;pointer-events:none}
 .mapcoach{position:absolute;z-index:6;max-width:min(250px,calc(100% - 24px));padding:10px 14px;border-radius:14px;background:var(--ink);color:var(--bg);font:15px/1.4 "Mukta",system-ui,sans-serif;box-shadow:0 10px 30px rgb(0 0 0 / .25);pointer-events:none}
 .mapcoach::before{content:"";position:absolute;top:-6px;left:calc(var(--ax,50%) - 7px);width:14px;height:14px;background:inherit;transform:rotate(45deg);border-radius:2px}
 .legend{position:absolute;left:max(12px, env(safe-area-inset-left,0px));bottom:12px;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;color:var(--muted);pointer-events:none;right:12px}
@@ -366,14 +367,14 @@ mark{background:color-mix(in srgb, var(--mark) 30%, transparent);color:inherit;b
 .sheet h2{font-family:var(--f-read);font-weight:600;font-size:21px;margin:4px 0 2px}
 .sheet .row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);flex-wrap:wrap}
 .sheet .row:first-of-type{border-top:0}
-.sheet .lbl{font-weight:500}
+.sheet .lbl{font-weight:600}
 @media (min-width:700px){ .scrim{align-items:center} .sheet{border-radius:20px} }
 .switch{position:relative;width:52px;height:32px;border-radius:999px;border:0;background:var(--line);cursor:pointer;flex:none}
 .switch::after{content:"";position:absolute;left:3px;top:3px;width:26px;height:26px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgb(0 0 0 / .25);transition:transform .18s}
 .switch[aria-checked=true]{background:var(--accent)}
 .switch[aria-checked=true]::after{transform:translateX(20px)}
 
-.toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:500}
+.toast{position:fixed;left:50%;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px) + 14px);transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600}
 @media (min-width:700px){ .toast{bottom:24px} }
 .loading{padding:60px 16px;text-align:center;color:var(--muted)}
 .proto{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}

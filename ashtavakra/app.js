@@ -783,10 +783,10 @@ function makeGraph(){
       const show = (focus && focus.has(n.h.id)) || (!focus && (n.r*k > 9 || k > 1.7 || KEYHUBS.has(n.h.id)));
       if(!show) return;
       const up = hubs2[1] === n && !focus;                        // the second main hub labels above, so the two never collide
-      label(name(n.h), n.x, up ? n.y - n.r - 9/k : n.y + n.r + 9/k, 12.5, n.r > 9 ? 600 : 500, "center", col["--ink"]);
+      label(name(n.h), n.x, up ? n.y - n.r - 9/k : n.y + n.r + 9/k, 12.5, 600, "center", col["--ink"]);
     });
     if(k > 2.6){
-      dots.forEach(d => { const dim = (vfocus && !vfocus.has(d.v.ref)); if(dim) return; label(String(d.v.v), d.x, d.y - 7/k, 9.5, 500, "center", col["--muted"]); });
+      dots.forEach(d => { const dim = (vfocus && !vfocus.has(d.v.ref)); if(dim) return; label(String(d.v.v), d.x, d.y - 7/k, 9.5, 400, "center", col["--muted"]); });
     }
   }
   function hit(px, py){
