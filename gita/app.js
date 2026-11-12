@@ -362,9 +362,26 @@ function questionsView(){
 function questionView(q){
   return `<header class="thead"><p class="eyebrow"><a href="#questions">${esc(u().lifeqT)}</a></p><h1>${esc(qName(q))}${shareBtn()}</h1>
     <p class="desc" lang="${lang}">${esc(qIntro(q))}</p>${q.care ? `<p class="care" lang="${lang}">${esc(u().careNote)}</p>` : ""}</header>
+  ${q.av || q.up ? `<h2 class="sec">${isHi() ? "भगवद्गीता" : "Bhagavad Gita"}</h2>` : ""}
   <ol class="qverses">${qVerses(q).map(v => { const s = saLines(v); return `<li class="qv"><p class="ref">${v.ref} <span class="muted">· ${esc(name(HB.get(voice(v))))}</span></p>
     ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(esc).join("<br>")}</p>` : ""}<p class="tx" lang="${lang}">${esc(tr(v))}</p>
-    <a class="ctx" href="#${v.id}">${esc(u().readCtx)}</a></li>`; }).join("")}</ol>`;
+    <a class="ctx" href="#${v.id}">${esc(u().readCtx)}</a></li>`; }).join("")}</ol>${crossGroups(q)}`;
+}
+// The same question in the other texts: Ashtavakra verses and Upanishad stories (present when the
+// build had them). They link out to those sites, so they are plain links, not app routes.
+const ROOTPATH = BASE ? BASE.replace(/[^/]+\/$/, "") : new URL("../", SITE).href;
+function crossGroups(q){
+  let out = "";
+  if(q.av && q.av.items.length){
+    out += `<h2 class="sec">${isHi() ? "अष्टावक्र गीता" : "Ashtavakra Gita"}</h2><p class="desc" lang="${lang}">${esc(isHi() ? q.av.intro_hi : q.av.intro_en)}</p>
+    <ol class="qverses">${q.av.items.map(a => { const [c, n] = a.ref.split("."); return `<li class="qv"><p class="ref">${a.ref}</p>
+      <p class="tx" lang="${lang}">${esc(isHi() ? a.hi : a.en)}</p><a class="ctx" href="${ROOTPATH}ashtavakra/chapter/${c}/verse/${n}/">${esc(u().readCtx)}</a></li>`; }).join("")}</ol>`;
+  }
+  if(q.up && q.up.length){
+    out += `<h2 class="sec">${isHi() ? "उपनिषद्" : "Upanishads"}</h2><ul class="qlist">${q.up.map(x => `<li><a class="qcard" href="${ROOTPATH}upanishads/story/${x.id}/">
+      <span class="qn">${esc(isHi() ? x.title_hi : x.title_en)}</span><span class="qi" lang="${lang}">${esc(isHi() ? x.hook_hi : x.hook_en)}</span></a></li>`).join("")}</ul>`;
+  }
+  return out;
 }
 function questionsCtx(q){
   return `<h3>${esc(u().otherQ)}</h3><div class="chips">${QS.filter(x => x !== q).map(x => `<a class="chip" href="#q-${x.slug}">${esc(qName(x))}</a>`).join("")}</div>`;
