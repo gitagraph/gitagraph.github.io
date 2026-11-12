@@ -41,10 +41,12 @@
    "name_en": "Upanishads",
    "name_hi": "उपनिषद्",
    "native": "उपनिषद्",
-   "desc_en": "The principal Upanishads, verse by verse.",
-   "desc_hi": "प्रमुख उपनिषद्, श्लोक-दर-श्लोक।",
+   "desc_en": "26 stories from nine principal Upanishads, retold from the Sanskrit: Nachiketa, Maitreyi, Gargi and more.",
+   "desc_hi": "नौ प्रमुख उपनिषदों की 26 कथाएँ, संस्कृत से नए सिरे से: नचिकेता, मैत्रेयी, गार्गी और अन्य।",
    "verses": null,
-   "status": "coming-soon",
+   "count_en": "26 stories",
+   "count_hi": "26 कथाएँ",
+   "status": "live",
    "accent": "#8a5a12",
    "accent_dark": "#e2b36a"
   }
