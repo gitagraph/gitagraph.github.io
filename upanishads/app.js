@@ -149,8 +149,8 @@ function drawShell(route){
   fwd.hidden = true; fwd.innerHTML = IC.fwd;
   if(nxt){ fwd.href = link("s-"+nxt.id); fwd.setAttribute("aria-label", `${u().next}: ${L(nxt,"title")}`); fwd.title = `${u().next}: ${L(nxt,"title")}`; }
   document.getElementById("setbtn").innerHTML = IC.set;
-  const st = document.getElementById("sharetop"); st.hidden = route.name!=="story"; st.innerHTML = IC.share;
-  st.setAttribute("aria-label", u().share); st.title = u().share; st.onclick = () => share(route.s);
+  const st = document.getElementById("sharetop"); st.hidden = !["story","theme","up","topic"].includes(route.name); st.innerHTML = IC.share;
+  st.setAttribute("aria-label", u().share); st.title = u().share; st.onclick = () => route.name==="story" ? share(route.s) : sharePage();
   const hb = document.getElementById("helpbtn"); hb.setAttribute("aria-label", u().howT); hb.title = u().howT;
   const lb = document.getElementById("langbtn"); lb.textContent = isHi() ? "EN" : "हि"; lb.setAttribute("aria-label", isHi() ? "Switch to English" : "हिन्दी में देखें");
 }
@@ -303,6 +303,15 @@ function homeCtx(){
 }
 function share(s){
   const url = storyUrl(s), title = `${L(s,"title")} · ${isHi() ? "उपनिषद्" : "Upanishads"}`, text = `${L(s,"title")}: ${L(s,"hook")}`;
+  const copy = () => { try{ navigator.clipboard.writeText(`${text}\n${url}`).then(()=>toast(u().linkCopied), ()=>toast(u().copyFail)); }catch(e){ toast(u().copyFail); } };
+  if(navigator.share) navigator.share({title, text, url}).catch(err => { if(err && err.name !== "AbortError") copy(); }); else copy();
+}
+// themes, Upanishads, people and ideas: share this page, with its own description as the text
+function sharePage(){
+  const h1 = document.querySelector("#view h1"), d = document.querySelector("#view .thead .desc");
+  const name = h1 ? h1.textContent.trim() : document.title;
+  const url = BASE ? location.origin + location.pathname : SITE, title = `${name} · ${isHi() ? "उपनिषद्" : "Upanishads"}`;
+  const text = d ? `${name}: ${d.textContent.trim()}` : title;
   const copy = () => { try{ navigator.clipboard.writeText(`${text}\n${url}`).then(()=>toast(u().linkCopied), ()=>toast(u().copyFail)); }catch(e){ toast(u().copyFail); } };
   if(navigator.share) navigator.share({title, text, url}).catch(err => { if(err && err.name !== "AbortError") copy(); }); else copy();
 }
