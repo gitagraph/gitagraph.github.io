@@ -120,7 +120,7 @@ const store = {
   get(k,d){ try{ const v = localStorage.getItem("gita-"+k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k,v){ try{ localStorage.setItem("gita-"+k, JSON.stringify(v)); }catch(e){} }
 };
-let lang = store.get("lang","en"); if(lang!=="en" && lang!=="hi") lang = "en";
+let lang = store.get("lang", (navigator.language || "").toLowerCase().startsWith("hi") ? "hi" : "en"); if(lang!=="en" && lang!=="hi") lang = "en";
 const prefs = Object.assign({sa:true, iast:true, other:false, size:1, theme:"system"}, store.get("prefs",{}));
 const savedSet = new Set(store.get("saved",[]));
 const readSet = new Set(store.get("read",[]));
