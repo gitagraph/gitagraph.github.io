@@ -13,6 +13,7 @@ const IC = {
   minus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>',
   fit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',
   close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3.5M7.5 8 12 3.5 16.5 8"/><path d="M5 12.5v6A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-6"/></svg>',
   star:'<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg>'
 };
 
@@ -51,6 +52,8 @@ const UI = {
     proto:"बीटा", type:{chapter:"अध्याय",person:"व्यक्ति",concept:"विचार",section:"खंड"},
     leg:{ashtavakra:"अष्टावक्र",janaka:"जनक",hub:"पात्र / विचार"} }
 };
+Object.assign(UI.en, {linkCopiedOnly:"Link copied"});
+Object.assign(UI.hi, {linkCopiedOnly:"लिंक कॉपी हो गया"});
 Object.assign(UI.en, {
   forallT:"Ashtavakra for all", forallLede:"For someone opening the Ashtavakra Gita for the first time, and for someone who has read it many times.",
   tagLede:"For first-time readers and for those who return to it again and again.",
@@ -399,7 +402,7 @@ function chapterView(c){
   const prev = c.num > 1 ? CH[c.num-2] : null, next = c.num < NCH ? CH[c.num] : null;
   return `<header class="chhead"><p class="bignum skt" aria-hidden="true">${dev(c.num)}</p>
     <p class="eyebrow">${esc(u().chapter)} ${c.num} · ${n} ${esc(u().verses)}</p>
-    <h1>${esc(name(c))}</h1><p class="sk">${esc(c.skt)}</p><p class="desc" lang="${lang}">${esc(descOf(c))}</p>
+    <h1>${esc(name(c))}${shareBtn()}</h1><p class="sk">${esc(c.skt)}</p><p class="desc" lang="${lang}">${esc(descOf(c))}</p>
     <div class="spkbar" aria-hidden="true">${mix.map(([id,k]) => `<i class="d-${id}" style="width:${(k/n*100).toFixed(2)}%"></i>`).join("")}</div>
     <div class="spkleg">${mix.map(([id,k]) => `<span><i class="dot d-${id}"></i>${esc(name(HB.get(id)))} ${k}</span>`).join("")}</div></header>
   <ol class="vlist" id="vl">${c.vs.map(v => verseRow(v,{who:mix.length>1})).join("")}</ol>
@@ -427,7 +430,7 @@ function verseView(v){
   const saved = savedSet.has(v.ref);
   return `<article class="verse" id="verse">
     <div class="vtop"><a href="#c${c.num}">${esc(u().chapter)} ${c.num} · ${esc(name(c))}</a><span>${esc(u().vOf(v.v, c.vs.length))}</span></div>
-    <h2 class="vref">${v.ref}</h2>
+    <h2 class="vref">${v.ref}${shareBtn()}</h2>
     <p class="speaker"><i class="dot d-${voice(v)}"></i>${esc(name(sp))}${s.uvaca ? ` <span class="uvaca">· ${esc(s.uvaca)}</span>` : ""}</p>
     ${prefs.sa ? `<p class="vsa" lang="sa">${s.body.map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>` : ""}
     ${prefs.iast ? `<p class="viast" lang="sa-Latn">${trLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>` : ""}
@@ -488,7 +491,7 @@ function topicView(h){
   const max = Math.max(1, ...h.chc.slice(1));
   const chs = h.chc.slice(1).filter(Boolean).length;
   return `<header class="thead"><span class="pill"><i class="dot d-${h.type}"></i>${esc(u().type[h.type]||"")}</span>
-    <h1>${esc(name(h))}</h1><p class="sk">${esc(h.skt||"")}</p><p class="meta">${esc(metaOf(h))}</p><p class="desc" lang="${lang}">${esc(descOf(h))}</p>
+    <h1>${esc(name(h))}${shareBtn()}</h1><p class="sk">${esc(h.skt||"")}</p><p class="meta">${esc(metaOf(h))}</p><p class="desc" lang="${lang}">${esc(descOf(h))}</p>
     <div class="stats">${isP && h.speak.length ? `<div><b>${h.speak.length}</b><span>${esc(u().spokenBy)}</span></div>` : ""}
       <div><b>${isP ? h.vs.length - h.speak.length : h.vs.length}</b><span>${esc(isP ? u().mentionedIn : u().inVerses)}</span></div>
       <div><b>${chs}</b><span>${esc(u().chaptersIn)}</span></div></div></header>
@@ -578,6 +581,18 @@ function savedView(){
 // ===================== common wiring, sheet, toast =====================
 function wireCommon(){
   document.querySelectorAll("[data-tag]").forEach(b => b.onclick = () => tagSheet(HB.get(b.dataset.tag)));
+  document.querySelectorAll("[data-share]").forEach(b => b.onclick = sharePage);
+}
+const shareBtn = () => `<button class="pshare" type="button" data-share aria-label="${esc(u().share)}" title="${esc(u().share)}">${IC.share}</button>`;
+function sharePage(){
+  const r = current || {}, url = BASE ? location.origin + location.pathname : SITE + pathOf(r.key || "home").slice(BASE.length);
+  const title = document.getElementById("ttl").textContent + " · " + (isHi() ? "अष्टावक्र गीता" : "Ashtavakra Gita");
+  const text = r.name === "verse" ? `${tr(r.v)} — ${r.v.ref}` : title;
+  const copy = () => { try{ navigator.clipboard.writeText(url).then(() => toast(u().linkCopiedOnly), () => toast(u().copyFail)); }catch(e){ toast(u().copyFail); } };
+  const cap = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Share;
+  if(cap) cap.share({title, text, url}).catch(() => {});
+  else if(navigator.share) navigator.share({title, text, url}).catch(err => { if(err && err.name !== "AbortError") copy(); });
+  else copy();
 }
 function tagSheet(h){
   if(matchMedia("(min-width:1320px)").matches){ go("t-"+h.id); return; }
