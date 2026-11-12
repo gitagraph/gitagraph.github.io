@@ -665,7 +665,16 @@ function exploreView(){
     <div id="gp"></div></div>`;
 }
 function stopGraph(){ if(graph){ graph.destroy(); graph = null; } }
-function startGraph(){ graph = makeGraph(); }
+// d3 is loaded only when the map opens, never on reading pages (the app build points D3_SRC at its bundled copy)
+const D3_SRC = "https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js";
+let d3Load = null;
+const loadD3 = () => window.d3 ? Promise.resolve() : (d3Load = d3Load || new Promise((ok, fail) => {
+  const sc = document.createElement("script"); sc.src = D3_SRC; sc.async = true; sc.onload = ok; sc.onerror = () => { d3Load = null; fail(); };
+  document.head.appendChild(sc); }));
+function startGraph(){
+  loadD3().then(() => { if(document.getElementById("cv") && !graph) graph = makeGraph(); })
+    .catch(() => { const ex = document.getElementById("ex"); if(ex) ex.insertAdjacentHTML("beforeend", `<p class="loading">${isHi() ? "नक्शा लोड नहीं हुआ। दोबारा कोशिश करें।" : "The map did not load. Try again."}</p>`); });
+}
 const RC = 360, R0 = RC + 46, COLS = 8, ROWH = 13, SPAN = 2*Math.PI/NCH*0.8;
 const angOf = c => -Math.PI/2 + (c-1)*2*Math.PI/NCH;
 let layout = null;
