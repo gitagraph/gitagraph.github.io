@@ -5,9 +5,9 @@ const BASE = new URL(self.registration.scope).pathname;
 // the cache name carries the folder ("gita-/gita/-…"), so the root clean-up of the old root-scoped
 // caches ("gita-<stamp>") can never touch it
 const PREFIX = "gita-" + BASE + "-";
-const CACHE = PREFIX + "20261112090230";
+const CACHE = PREFIX + "20261112091028";
 // versioned with the same stamp the pages use (app.js?v=…), so the precache holds exactly what new pages ask for
-const V = "?v=20261112090230";
+const V = "?v=20261112091028";
 const CORE = ["", "app.css" + V, "app.js" + V, "verses.json" + V, "hubs.json" + V, "questions.json" + V, "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon.svg"].map(p => BASE + p);
 const MINE = new Set(["", "app.css", "app.js", "verses.json", "hubs.json", "questions.json", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon.svg"].map(p => BASE + p));
 const ROUTES = ["chapter/", "topic/", "explore/", "people-and-ideas/", "search/", "saved/", "about/", "questions/"].map(p => BASE + p);
