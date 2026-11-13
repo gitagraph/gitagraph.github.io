@@ -521,7 +521,7 @@ cv.addEventListener("keydown", e => {
   if(d){ e.preventDefault(); tgt = null; dirty = true; kick(); }
 });
 $("zin").onclick = () => zoomAt(1.4, W/2, H/2+60); $("zout").onclick = () => zoomAt(1/1.4, W/2, H/2+60);
-$("home").onclick = () => nav("#/"); $("chaps").onclick = () => { fullNext = true; nav("#/chapters"); };
+$("home").onclick = () => nav("#/"); $("chaps").onclick = () => nav("#/chapters");   // phones: stay on the graph (every chapter as a constellation); the list opens only when asked for
 $("qs").onclick = () => { if(S.kind !== "home"){ fullNext = true; nav("#/"); } else if(phone.matches){ if(collapsed) riseTray(); } else if(collapsed){ collapsed = false; renderPanel(); fly(); } };
 $("back").onclick = () => { if(history.state && history.state.nav) history.back(); else nav("#/"); };
 function words(){
