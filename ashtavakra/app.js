@@ -245,8 +245,8 @@ function parse(h){
 const BASE = window.APP_BASE || "";
 const VER = window.APP_VER ? "?v=" + window.APP_VER : "";   // build stamp on the built site; empty in the preview
 const PATHS = {home:"", explore:"explore/", index:"people-and-ideas/", search:"search/", saved:"saved/", about:"about/"};
-// Explore is one page for all three texts at the library root; on the built site this text's Explore opens it
-const EXPLORE = BASE ? BASE.replace(/[^/]+\/$/, "") + "explore/#/a" : "";
+// Explore is one page for all three texts at the library root; on the built site this text's Explore opens its overview
+const EXPLORE = BASE ? BASE.replace(/[^/]+\/$/, "") + "explore/" : "";
 function pathOf(t){
   let m;
   if(t==="explore" && EXPLORE) return EXPLORE;
