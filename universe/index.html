@@ -19,13 +19,22 @@ a{text-decoration:none}
 #cv:active{cursor:grabbing}
 header{position:fixed;left:0;right:0;top:0;height:60px;padding:0 max(16px,env(safe-area-inset-left)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;z-index:5;pointer-events:none;background:linear-gradient(var(--bg),transparent)}
 header>*{pointer-events:auto}
-.brand{display:flex;align-items:baseline;gap:10px;color:var(--gold);font:22px Georgia,"Noto Serif Devanagari",serif;letter-spacing:.01em}
-.brand small{font:11px system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.brand{display:flex;align-items:center;gap:14px;color:var(--text);font:24px Georgia,"Noto Serif Devanagari",serif;letter-spacing:.01em}
+.brand .bn{display:flex;flex-direction:column;line-height:1.15}
+.brand small{font:10.5px system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.sig{width:40px;height:40px;flex:none;display:grid;place-items:center;border:1px solid var(--line);transform:rotate(45deg);border-radius:6px}
+.sig i{transform:rotate(-45deg);font-style:normal;color:var(--gold);font-size:18px}
+.hero{position:fixed;left:max(28px,env(safe-area-inset-left));top:120px;z-index:2;pointer-events:none;max-width:300px;display:none}
+.hero .eb{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.hero h1{font:400 54px/1.02 Georgia,"Noto Serif Devanagari",serif;margin:16px 0 14px;color:var(--text)}
+.hero h1 em{color:var(--gold)}
+.hero p{color:var(--muted);font-size:14px;max-width:240px;line-height:1.6}
+@media(min-width:1100px){.hero.on{display:block}}
 .hbtns{display:flex;gap:8px}
 .pill{min-height:40px;min-width:40px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(12,21,37,.7);color:var(--text);font-size:14px}
 .pill[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
 .dock{position:fixed;left:max(16px,env(safe-area-inset-left));top:64px;display:flex;gap:8px;z-index:4}
-.zoom{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:calc(20px + var(--safe-b));display:flex;flex-direction:column;gap:6px;z-index:4}
+.zoom{position:fixed;z-index:4;left:max(16px,env(safe-area-inset-left));bottom:calc(20px + var(--safe-b));display:flex;flex-direction:column;gap:6px;z-index:4}
 .zoom button{width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:rgba(12,21,37,.7);font-size:20px;color:var(--gold)}
 .panel{position:fixed;z-index:6;right:20px;top:72px;bottom:20px;width:380px;max-width:calc(100% - 40px);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 20px 22px;overflow-y:auto;overscroll-behavior:contain;backdrop-filter:blur(8px)}
 .panel.min{bottom:auto;height:auto;padding-bottom:14px}
@@ -67,7 +76,7 @@ h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute
 @media(min-width:901px){.zoom{left:auto;right:calc(max(20px,env(safe-area-inset-right)) + 400px);bottom:20px;flex-direction:row}}
 @media(max-width:900px){
  .panel{left:10px;right:10px;top:auto;bottom:calc(10px + var(--safe-b));width:auto;max-width:none;max-height:46dvh;border-radius:18px}
- .zoom{bottom:auto;top:64px;left:auto;right:max(12px,env(safe-area-inset-right))}
+ .zoom{bottom:auto;top:112px;left:max(16px,env(safe-area-inset-left));right:auto;flex-direction:row}
  .brand small{display:none}
  .dock{top:64px}
  h2{font-size:23px}
@@ -79,10 +88,11 @@ h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute
 <body>
 <canvas id="cv" tabindex="0" role="img" aria-label="Scripture universe: three scriptures as clusters of chapters, each shloka a point of light. Arrow keys pan, plus and minus zoom. Every choice is also available in the panel."></canvas>
 <header>
- <a class="brand" href="../" aria-label="Gitagraph home"><span>gitagraph</span><small id="sub"></small></a>
+ <a class="brand" href="../" aria-label="Gitagraph home"><span class="sig" aria-hidden="true"><i>✧</i></span><span class="bn"><span>gitagraph</span><small id="sub"></small></span></a>
  <div class="hbtns"><button class="pill" id="motion" aria-pressed="false"></button><button class="pill" id="lang"></button></div>
 </header>
-<div class="dock"><button class="pill" id="back"></button><button class="pill" id="home"></button></div>
+<div class="hero" id="hero" aria-hidden="true"><div class="eb" id="heb"></div><h1 id="hh"></h1><p id="hp"></p></div>
+<div class="dock"><button class="pill" id="back"></button><button class="pill" id="home"></button><button class="pill" id="chaps"></button></div>
 <div class="zoom"><button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">−</button></div>
 <aside class="panel" id="panel" aria-label="Details"></aside>
 <div class="legend" id="legend" aria-hidden="true"></div>
@@ -101,7 +111,7 @@ let lang = "en";
 try{ const g = localStorage.getItem("gg-lang"); if(g === "hi" || g === "en") lang = g; }catch(e){}
 const T = {
  en:{sub:"A living library of wisdom", back:"← Back", home:"✧ Universe", pause:"Pause motion", play:"Play motion", lang:"हिन्दी",
-  start:"Start with a question", startD:"Choose a life question and the verses that speak to it light up. Or tap any chapter to explore it.",
+  chapters2:"Chapters", chapD:"Every chapter is a constellation; its shlokas orbit it. Tap one to explore.", eb:"Many scriptures. One boundless discovery.", h1:"The living<br>scripture <em>universe.</em>", hp:"Follow an idea. Cross a scripture. Discover the threads that connect us.", ideasTitle:"Ideas across the texts", sameIdea:"The same idea in other texts", inText:"In this text", tales:"Stories", crossNote:"Linked because the idea appears in both texts", start:"Start with a question", startD:"Choose a life question and the verses that speak to it light up. Or tap any chapter to explore it.",
   texts:"The three scriptures", chapters:"Chapters", verses:"Shlokas", stories:"Stories", read:"Read the whole chapter", readS:"Read the story",
   open:"Open", close:"Close", min:"Hide", show:"Show", prev:"← Previous", next:"Next →", ideas:"Ideas in this verse", people:"People",
   all:"All verses on this idea", chapter:"Chapter", verse:"Shloka", story:"Story", question:"Question", idea:"Idea", n:k => `${k} shlokas`, ns:k => `${k} stories`,
@@ -110,7 +120,7 @@ const T = {
   scripture:"Scripture", names:{g:"Bhagavad Gita", a:"Ashtavakra Gita", u:"Upanishads"}, loadErr:"The universe did not load. Reload the page to try again.",
   moved:"Selected", care:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.", up:"Upanishad"},
  hi:{sub:"ज्ञान का जीवंत ग्रंथालय", back:"← वापस", home:"✧ ब्रह्मांड", pause:"गति रोकें", play:"गति चलाएँ", lang:"English",
-  start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
+  chapters2:"अध्याय", chapD:"हर अध्याय एक तारामंडल है, श्लोक उसकी परिक्रमा करते हैं। किसी को छूकर देखें।", eb:"कई ग्रंथ। एक असीम खोज।", h1:"जीवंत<br>ग्रंथ <em>ब्रह्मांड।</em>", hp:"किसी विचार के पीछे चलें। ग्रंथों के पार जाएँ। जानें कि क्या-क्या आपस में जुड़ा है।", ideasTitle:"ग्रंथों के विचार", sameIdea:"दूसरे ग्रंथों में यही विचार", inText:"इस ग्रंथ में", tales:"कथाएँ", crossNote:"जुड़ाव इसलिए कि यह विचार दोनों ग्रंथों में आता है", start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
   texts:"तीन ग्रंथ", chapters:"अध्याय", verses:"श्लोक", stories:"कथाएँ", read:"पूरा अध्याय पढ़ें", readS:"कथा पढ़ें",
   open:"खोलें", close:"बंद करें", min:"छिपाएँ", show:"दिखाएँ", prev:"← पिछला", next:"अगला →", ideas:"इस श्लोक के विचार", people:"पात्र",
   all:"इस विचार के सभी श्लोक", chapter:"अध्याय", verse:"श्लोक", story:"कथा", question:"प्रश्न", idea:"विचार", n:k => `${k} श्लोक`, ns:k => `${k} कथाएँ`,
@@ -124,7 +134,7 @@ const COL = {g:"#e8cb8e", a:"#c4a6c6", u:"#93bacd"};
 let paused = reduce.matches;
 
 // ---------- data ----------
-let GV = [], GH = new Map(), QS = [], AV = [], AH = new Map(), UP = [], ST = [];
+let GV = [], GH = new Map(), QS = [], AV = [], AH = new Map(), UP = [], ST = [], UD = {};
 const nodes = [], byId = new Map(), roots = {};
 const gRef = new Map(), aRef = new Map();      // "2.47" -> node
 const chapOf = {g:[], a:[], u:[]};
@@ -136,32 +146,71 @@ function build(){
     roots[key] = r; add(r); return r;
   };
   function add(n){ nodes.push(n); byId.set(n.id, n); return n; }
-  const G = place("g", -620, 60), A = place("a", 560, -250), U = place("u", 400, 420);
+  const G = place("g", -560, 40), A = place("a", 470, -230), U = place("u", 330, 400);
   const gch = [...GH.values()].filter(h => h.type === "chapter").sort((a,b) => a.num - b.num);
-  const spiral = (c, n, step, mk) => { for(let i = 0; i < n; i++){ const rr = step*Math.sqrt(i + .6), th = i*2.39996; mk(i, c.x + rr*Math.cos(th), c.y + rr*Math.sin(th)); } };
+  const spiral = (c, n, step, mk) => { for(let i = 0; i < n; i++){ const rr = step*Math.sqrt(i + .6), th = i*2.39996; mk(i, c.x + rr*Math.cos(th), c.y + rr*Math.sin(th), rr, th); } };
   gch.forEach(h => {
     const a = -Math.PI/2 + (h.num-1)*2*Math.PI/18, c = add({id:"g"+h.num, kind:"chap", t:"g", num:h.num, h, x:G.x + 520*Math.cos(a), y:G.y + 520*Math.sin(a), r:5, name:{en:h.label, hi:h.hl || h.label}, sk:h.skt});
-    chapOf.g.push(c); c.kids = [];
+    chapOf.g.push(c); c.kids = []; c.om = (c.num % 2 ? 1 : -1)*(.00003 + (c.num % 5)*.000006);
     const vs = GV.filter(v => v.c === h.num);
-    spiral(c, vs.length, 7.2, (i, x, y) => { const v = vs[i], n = add({id:`g${v.c}.${v.v}`, kind:"verse", t:"g", ch:c, d:v, ref:`${v.c}.${v.v}`, x, y}); gRef.set(n.ref, n); c.kids.push(n); });
+    spiral(c, vs.length, 7.2, (i, x, y, rr, th) => { const v = vs[i], n = add({id:`g${v.c}.${v.v}`, kind:"verse", t:"g", ch:c, d:v, ref:`${v.c}.${v.v}`, x, y, orr:rr, oth:th}); gRef.set(n.ref, n); c.kids.push(n); });
   });
   const ach = [...AH.values()].filter(h => h.type === "chapter").sort((a,b) => a.num - b.num);
   ach.forEach(h => {
     const a = -Math.PI/2 + (h.num-1)*2*Math.PI/ach.length, c = add({id:"a"+h.num, kind:"chap", t:"a", num:h.num, h, x:A.x + 250*Math.cos(a), y:A.y + 250*Math.sin(a), r:5, name:{en:h.label, hi:h.hl || h.label}, sk:h.skt});
-    chapOf.a.push(c); c.kids = [];
+    chapOf.a.push(c); c.kids = []; c.om = (c.num % 2 ? 1 : -1)*(.00004 + (c.num % 4)*.000008);
     const vs = AV.filter(v => v.c === h.num);
-    spiral(c, vs.length, 7, (i, x, y) => { const v = vs[i], n = add({id:`a${v.c}.${v.v}`, kind:"verse", t:"a", ch:c, d:v, ref:`${v.c}.${v.v}`, x, y}); aRef.set(n.ref, n); c.kids.push(n); });
+    spiral(c, vs.length, 7, (i, x, y, rr, th) => { const v = vs[i], n = add({id:`a${v.c}.${v.v}`, kind:"verse", t:"a", ch:c, d:v, ref:`${v.c}.${v.v}`, x, y, orr:rr, oth:th}); aRef.set(n.ref, n); c.kids.push(n); });
   });
   UP.forEach((u, i) => {
     const a = -Math.PI/2 + i*2*Math.PI/UP.length, c = add({id:"u:"+u.id, kind:"chap", t:"u", up:u, x:U.x + 230*Math.cos(a), y:U.y + 230*Math.sin(a), r:5, name:{en:u.name_en, hi:u.name_hi}, sk:u.native});
     chapOf.u.push(c); c.kids = [];
     const ss = ST.filter(s => s.up === u.id);
+    c.om = .00005 + (i % 3)*.00001;
     ss.forEach((s, j) => { const b = a + (j - (ss.length-1)/2)*.5 ; const rr = 46 + (j%2)*14;
-      const n = add({id:"u:"+s.id, kind:"story", t:"u", ch:c, s, x:c.x + rr*Math.cos(b), y:c.y + rr*Math.sin(b), r:4, name:{en:s.title_en, hi:s.title_hi}}); c.kids.push(n); });
+      const n = add({id:"u:"+s.id, kind:"story", t:"u", ch:c, s, x:c.x + rr*Math.cos(b), y:c.y + rr*Math.sin(b), r:4, name:{en:s.title_en, hi:s.title_hi}, orr:rr, oth:b}); c.kids.push(n); });
   });
+  buildIdeas(G, A, U);
   // story -> verse references that already live in the Upanishads data
   ST.forEach(s => { const n = byId.get("u:"+s.id); n.xg = (s.gita||[]).map(r => gRef.get(r)).filter(Boolean); n.xa = (s.ashtavakra||[]).map(r => aRef.get(r)).filter(Boolean); });
   ST.forEach(s => { const n = byId.get("u:"+s.id); n.xg.forEach(v => (v.cites = v.cites || []).push(n)); n.xa.forEach(v => (v.cites = v.cites || []).push(n)); });
+}
+
+// Idea web (overview): the most-tagged ideas of each text, joined when they share verses (or stories). The same idea id
+// appearing in two texts is joined across them. Nothing here is written by hand.
+const ideas = [], iedges = [], iBy = new Map();
+function buildIdeas(G, A, U){
+  const cnt = (tag) => { const m = new Map(); tag.forEach(ids => ids.forEach(id => m.set(id, (m.get(id) || 0) + 1))); return m; };
+  const mk = (t, root, list, name, rad) => list.forEach((o, i) => {
+    const a = -Math.PI/2 + i*2*Math.PI/list.length + (t === "g" ? .3 : .6), r = rad*(.62 + (i % 3)*.19);
+    const n = {id:`i:${t}:${o.id}`, kind:"idea", t, hid:o.id, root, bx:root.x + r*Math.cos(a), by:root.y + r*Math.sin(a), x:root.x + r*Math.cos(a), y:root.y + r*Math.sin(a), ph:i*1.7, r:4, name:name(o), tags:o.tags};
+    nodes.push(n); byId.set(n.id, n); ideas.push(n); iBy.set(`${t}:${o.id}`, n);
+  });
+  const links = (t, list) => { list.forEach(a => { const sc = list.filter(b => b !== a).map(b => [b, [...a.tags].filter(x => b.tags.has(x)).length]).filter(x => x[1] > 0).sort((x, y) => y[1] - x[1]).slice(0, 2);
+    sc.forEach(([b]) => { if(!iedges.some(e => (e.a === a && e.b === b) || (e.a === b && e.b === a))) iedges.push({a, b, cross:false}); }); }); };
+  const top = (m, ok, n) => [...m.entries()].filter(([id]) => ok(id)).sort((x, y) => y[1] - x[1]).slice(0, n).map(([id]) => id);
+  // Gita
+  const gt = GV.map(v => new Set([...(v.k || []), ...(v.p || [])].filter(id => GH.has(id) && ["concept","path","guna"].includes(GH.get(id).type))));
+  const gl = top(cnt(gt), () => true, 12).map(id => ({id, tags:new Set(GV.map((v, i) => gt[i].has(id) ? `${v.c}.${v.v}` : null).filter(Boolean)), h:GH.get(id)}));
+  mk("g", G, gl, o => ({en:o.h.label, hi:o.h.hl || o.h.label}), 360);
+  // Ashtavakra
+  const at = AV.map(v => new Set([...(v.k || []), ...(v.p || [])].filter(id => AH.has(id) && AH.get(id).type === "concept")));
+  const al = top(cnt(at), () => true, 10).map(id => ({id, tags:new Set(AV.map((v, i) => at[i].has(id) ? `${v.c}.${v.v}` : null).filter(Boolean)), h:AH.get(id)}));
+  mk("a", A, al, o => ({en:o.h.label, hi:o.h.hl || o.h.label}), 190);
+  // Upanishads
+  const IDX = new Map((UD.ideas || []).map(i => [i.id, i]));
+  const uc = new Map(); ST.forEach(s => (s.ideas || []).forEach(id => IDX.has(id) && uc.set(id, (uc.get(id) || 0) + 1)));
+  const ul = top(uc, () => true, 11).map(id => ({id, tags:new Set(ST.filter(s => (s.ideas || []).includes(id)).map(s => s.id)), h:IDX.get(id)}));
+  mk("u", U, ul, o => ({en:o.h.label, hi:o.h.label_hi || o.h.label}), 210);
+  links("g", ideas.filter(n => n.t === "g")); links("a", ideas.filter(n => n.t === "a")); links("u", ideas.filter(n => n.t === "u"));
+  ideas.forEach(a => ideas.forEach(b => { if(a.t < b.t && a.hid === b.hid) iedges.push({a, b, cross:true}); }));
+}
+// everything drifts: shlokas orbit their chapter, ideas sway, chapters turn slowly around their scripture
+function setPositions(now){
+  for(const n of ideas){ n.x = n.bx + 9*Math.sin(now*.0004 + n.ph); n.y = n.by + 9*Math.cos(now*.00033 + n.ph*1.3); }
+  const still = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
+  for(const c of chapOf.g.concat(chapOf.a, chapOf.u)){ if(c === still || c.om == null) continue;
+    const ang = now*c.om*2.5; for(const k of c.kids){ const th = k.oth + ang; k.x = c.x + k.orr*Math.cos(th); k.y = c.y + k.orr*Math.sin(th); } }
 }
 
 // ---------- state + routing ----------
@@ -172,7 +221,8 @@ function parse(h){
   let read = false; if(p[0] === "read"){ read = true; p.shift(); }
   let st = {kind:"home"};
   if(p[0] === "q" && QS.find(q => q.slug === p[1])) st = {kind:"q", q:QS.find(q => q.slug === p[1])};
-  else if(p[0] === "i" && GH.get(p[1])) st = {kind:"idea", h:GH.get(p[1])};
+  else if(p[0] === "chapters") st = {kind:"chapters"};
+  else if(p[0] === "i" && ideaMeta(p[1], p[2])) st = {kind:"idea", t:p[1], id:p[2], m:ideaMeta(p[1], p[2])};
   else if((p[0] === "g" || p[0] === "a") && !p[1]) st = {kind:"root", n:roots[p[0]]};
   else if(p[0] === "g" || p[0] === "a"){
     const ch = byId.get(p[0] + p[1]);
@@ -183,15 +233,15 @@ function parse(h){
   if(read && !(st.kind === "chap" || st.kind === "verse" || st.kind === "story")) read = false;
   return {st, read};
 }
-const hashOf = n => n.kind === "root" ? `#/${n.t}` : n.kind === "verse" ? `#/${n.t}/${n.d.c}/${n.d.v}` : n.t === "u" ? `#/u/${n.id.slice(2)}` : `#/${n.t}/${n.num}`;
-const hashFor = st => st.kind === "q" ? `#/q/${st.q.slug}` : st.kind === "idea" ? `#/i/${st.h.id}` : st.n ? hashOf(st.n) : "#/";
+const hashOf = n => n.kind === "idea" ? `#/i/${n.t}/${n.hid}` : n.kind === "root" ? `#/${n.t}` : n.kind === "verse" ? `#/${n.t}/${n.d.c}/${n.d.v}` : n.t === "u" ? `#/u/${n.id.slice(2)}` : `#/${n.t}/${n.num}`;
+const hashFor = st => st.kind === "q" ? `#/q/${st.q.slug}` : st.kind === "chapters" ? "#/chapters" : st.kind === "idea" ? `#/i/${st.t}/${st.id}` : st.n ? hashOf(st.n) : "#/";
 function apply(){
   const r = parse(location.hash); S = r.st;
   readOpen = r.read;
   computeLit(); renderPanel(); renderReader(); fly();
   $("back").disabled = !history.state || !history.state.nav;
-  $("home").setAttribute("aria-current", S.kind === "home" ? "true" : "false");
-  const label = S.kind === "q" ? qn(S.q) : S.kind === "idea" ? idn(S.h) : S.n ? nm(S.n) : "";
+  $("home").setAttribute("aria-current", S.kind === "home" ? "true" : "false"); $("chaps").setAttribute("aria-current", S.kind === "chapters" ? "true" : "false"); $("hero").classList.toggle("on", S.kind === "home");
+  const label = S.kind === "q" ? qn(S.q) : S.kind === "idea" ? lgrp(S.m.en, S.m.hi) : S.n ? nm(S.n) : "";
   $("live").textContent = label ? `${t("moved")}: ${label}` : "";
   dirty = true;
 }
@@ -208,6 +258,19 @@ function sa(d){
 }
 const col = n => COL[n.t || "g"];
 
+// ---------- ideas across the texts ----------
+function ideaMeta(t, id){
+  if(t === "g"){ const h = GH.get(id); return h && ["concept","path","guna","person"].includes(h.type) ? {en:h.label, hi:h.hl || h.label, de:h.desc, dh:h.hd || h.desc} : null; }
+  if(t === "a"){ const h = AH.get(id); return h && h.type !== "chapter" ? {en:h.label, hi:h.hl || h.label, de:h.desc, dh:h.hd || h.desc} : null; }
+  if(t === "u"){ const i = (UD.ideas || []).find(x => x.id === id); return i ? {en:i.label, hi:i.label_hi || i.label, de:i.desc_en, dh:i.desc_hi} : null; }
+  return null;
+}
+function ideaNodes(t, id){
+  if(t === "g") return GV.map(v => gRef.get(`${v.c}.${v.v}`)).filter(n => n && ((n.d.k || []).includes(id) || (n.d.p || []).includes(id)));
+  if(t === "a") return AV.map(v => aRef.get(`${v.c}.${v.v}`)).filter(n => n && ((n.d.k || []).includes(id) || (n.d.p || []).includes(id)));
+  return ST.filter(s => (s.ideas || []).includes(id)).map(s => byId.get("u:" + s.id));
+}
+
 // ---------- lit set (question / idea) and connection paths ----------
 function computeLit(){
   lit = null; edges = [];
@@ -217,7 +280,10 @@ function computeLit(){
     const ss = ST.filter(s => (s.life_questions || []).includes(S.q.slug)).map(s => byId.get("u:"+s.id));
     lit = new Set([...vs, ...ss]); S.vs = vs; S.ss = ss; chain(vs);
   } else if(S.kind === "idea"){
-    const vs = S.h.vs; lit = new Set(vs); S.vs = vs; chain(vs.slice(0, 40));
+    const own = ideaNodes(S.t, S.id); S.sets = {}; S.sets[S.t] = own; const all = [...own];
+    ["g","a","u"].forEach(k => { if(k !== S.t && ideaMeta(k, S.id)){ S.sets[k] = ideaNodes(k, S.id); all.push(...S.sets[k]); } });
+    lit = new Set(all); S.vs = own; chain(own.slice(0, 40));
+    ["g","a","u"].forEach(k => { if(k !== S.t && S.sets[k] && S.sets[k].length && own.length) edges.push([own[0], S.sets[k][0]]); });
   } else if(S.kind === "verse"){
     lit = new Set([S.n, ...(S.n.cites || [])]); (S.n.cites || []).forEach(c => edges.push([S.n, c]));
   } else if(S.kind === "story"){
@@ -238,13 +304,16 @@ function head(eye, title, c){
 }
 function ideaChips(v){
   const ids = [...new Set([...(v.d.k || []), ...(v.d.p || [])])].filter(id => GH.has(id) && GH.get(id).vs.length);
-  return ids.length ? `<h3>${esc(t("ideas"))}</h3><div class="chips">${ids.map(id => `<a class="chip" href="#/i/${id}">${esc(idn(GH.get(id)))}</a>`).join("")}</div>` : "";
+  return ids.length ? `<h3>${esc(t("ideas"))}</h3><div class="chips">${ids.map(id => `<a class="chip" href="#/i/g/${id}">${esc(idn(GH.get(id)))}</a>`).join("")}</div>` : "";
 }
 function renderPanel(){
   const p = $("panel"); let h = "";
   if(S.kind === "home"){
     h = head(t("scripture"), t("start")) + `<p class="desc">${esc(t("startD"))}</p>` + QS.map(qRow).join("") +
+      `<a class="item" href="#/chapters"><span class="tt">${esc(t("chapters2"))}<small>${esc(t("chapD"))}</small></span></a>` +
       `<h3>${esc(t("texts"))}</h3>` + ["g","a","u"].map(k => `<a class="item" style="--c:${COL[k]}" href="#/${k}"><span class="tt">${esc(lgrp(T.en.names[k], T.hi.names[k]))}<small>${esc(k === "u" ? t("ns")(ST.length) : t("n")((k === "g" ? GV : AV).length))}</small></span></a>`).join("");
+  } else if(S.kind === "chapters"){
+    h = head(t("scripture"), t("chapters2")) + `<p class="desc">${esc(t("chapD"))}</p>` + ["g","a","u"].map(k => `<a class="item" style="--c:${COL[k]}" href="#/${k}"><span class="tt">${esc(lgrp(T.en.names[k], T.hi.names[k]))}<small>${esc(k === "u" ? t("ns")(ST.length) : t("n")((k === "g" ? GV : AV).length))}</small></span></a>`).join("");
   } else if(S.kind === "root"){
     const k = S.n.t, list = chapOf[k];
     h = head(t("scripture"), nm(S.n), COL[k]) + `<h3>${esc(k === "u" ? t("up") : t("chapters"))}</h3>` + list.map(cRow).join("");
@@ -271,9 +340,11 @@ function renderPanel(){
       `<h3>${esc(t("versesQ"))}</h3>` + S.vs.map(v => vRow(v)).join("") + (S.ss.length ? `<h3>${esc(t("qStories"))}</h3>` + S.ss.map(sRow).join("") : "") +
       `<a class="btn" href="../gita/questions/${S.q.slug}/">${esc(t("intro"))} →</a>`;
   } else if(S.kind === "idea"){
-    const vs = S.vs;
-    h = head(t("idea"), idn(S.h)) + `<p class="desc">${esc(lang === "hi" ? (S.h.hd || S.h.desc || "") : (S.h.desc || ""))}</p><h3>${esc(t("all"))} · ${vs.length}</h3>` + vs.slice(0, 14).map(v => vRow(v)).join("") +
-      (vs.length > 14 ? `<p class="xnote">${esc(t("more")(vs.length - 14))}</p>` : "");
+    const m = S.m; h = head(t("idea"), lgrp(m.en, m.hi), COL[S.t]) + `<p class="desc">${esc(lgrp(m.de, m.dh) || "")}</p>`;
+    ["g","a","u"].filter(k => S.sets[k] && S.sets[k].length).sort((x, y) => (y === S.t) - (x === S.t)).forEach(k => {
+      const list = S.sets[k]; h += `<h3>${esc(lgrp(T.en.names[k], T.hi.names[k]))} · ${list.length}</h3>` + (k === "u" ? list.map(sRow).join("") : list.slice(0, k === S.t ? 12 : 6).map(v => vRow(v)).join("")) +
+        (k !== "u" && list.length > (k === S.t ? 12 : 6) ? `<p class="xnote">${esc(t("more")(list.length - (k === S.t ? 12 : 6)))}</p>` : "");
+      if(k !== S.t) h += `<p class="xnote">${esc(t("crossNote"))}</p>`; });
   }
   p.innerHTML = h + "</div>"; p.classList.toggle("min", collapsed); p.scrollTop = 0;
   const hd = $("ptitle"); if(hd && started) hd.focus({preventScroll:true});
@@ -321,10 +392,10 @@ const cam = {x:0, y:0, z:.3}; let tgt = null, W = 0, H = 0, dpr = 1, dirty = tru
 const cv = $("cv"), ctx = cv.getContext("2d");
 const toS = n => ({x:(n.x - cam.x)*cam.z + W/2, y:(n.y - cam.y)*cam.z + H/2});
 function insets(){ const wide = W > 900, pn = $("panel").getBoundingClientRect();
-  return wide ? {l:20, r:pn.width + 40, t:70, b:30} : {l:10, r:10, t:110, b:collapsed ? 80 : Math.min(H*.46, pn.height) + 20}; }
+  return wide ? {l:S.kind === "home" && W >= 1100 ? 120 : 20, r:pn.width + 40, t:70, b:30} : {l:10, r:10, t:110, b:collapsed ? 80 : Math.min(H*.46, pn.height) + 20}; }
 function boundsOf(list){ const xs = list.map(n => n.x), ys = list.map(n => n.y); return {x0:Math.min(...xs), x1:Math.max(...xs), y0:Math.min(...ys), y1:Math.max(...ys)}; }
 function camFor(list, maxZ){
-  const b = boundsOf(list), I = insets(), aw = W - I.l - I.r, ah = H - I.t - I.b, bw = Math.max(40, b.x1 - b.x0 + 70), bh = Math.max(40, b.y1 - b.y0 + 70);
+  const b = boundsOf(list), I = insets(), aw = W - I.l - I.r, ah = H - I.t - I.b, bw = Math.max(40, b.x1 - b.x0 + 70 + (S.kind === "home" ? 150 : 0)), bh = Math.max(40, b.y1 - b.y0 + 70);
   const z = Math.min(maxZ, aw/bw, ah/bh), cx = (b.x0 + b.x1)/2, cy = (b.y0 + b.y1)/2;
   // keep the focus in the free part of the screen (not under the panel)
   return {z, x:cx - ((I.l - I.r)/2)/z, y:cy - ((I.t - I.b)/2)/z};
@@ -332,12 +403,13 @@ function camFor(list, maxZ){
 function fly(){
   if(!W) return;
   let c;
-  if(S.kind === "home") c = camFor(nodes, 2);
-  else if(S.kind === "root") c = camFor(nodes.filter(n => n.t === S.n.t), 2);
+  if(S.kind === "home") c = camFor([...Object.values(roots), ...ideas], 2);
+  else if(S.kind === "chapters") c = camFor(nodes.filter(n => n.kind !== "idea"), 2);
+  else if(S.kind === "root") c = camFor(nodes.filter(n => n.t === S.n.t && n.kind !== "idea"), 2);
   else if(S.kind === "chap") c = camFor([S.n, ...S.n.kids], S.n.t === "u" ? 4 : 5);
   else if(S.kind === "verse") c = camFor([S.n], 4);
   else if(S.kind === "story") c = camFor([S.n, ...S.n.xg, ...S.n.xa, S.n.ch], 3);
-  else c = camFor((S.vs || []).slice(0, 400), 3.2);
+  else c = camFor([...(lit || [])].slice(0, 600), 3.2);
   if(readOpen){ dirty = true; }
   tgt = reduce.matches ? null : {...c, t0:performance.now(), from:{...cam}}; if(!tgt) Object.assign(cam, c);
   dirty = true; kick();
@@ -356,11 +428,19 @@ function draw(){
   ctx.fillStyle = "#dbe4f3";
   for(const s of stars){ ctx.globalAlpha = Math.abs(s.a); ctx.beginPath(); ctx.arc(Math.abs((s.x*W - cam.x*.03 + W*3) % W), Math.abs((s.y*H - cam.y*.03 + H*3) % H), s.r, 0, 7); ctx.fill(); }
   ctx.globalAlpha = 1;
-  const z = cam.z, filtering = !!lit && (S.kind === "q" || S.kind === "idea"), selId = S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
+  const web = S.kind === "home", z = cam.z, filtering = !!lit && (S.kind === "q" || S.kind === "idea"), selId = S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
   for(const k of ["g","a","u"]){ const p = toS(roots[k]); glow(p.x, p.y, Math.min(520, (k === "g" ? 640 : 330)*z), COL[k], .06); }
   // constellation threads: text -> each chapter
   ctx.lineWidth = .7;
-  for(const k of ["g","a","u"]){ const rp = toS(roots[k]); ctx.strokeStyle = COL[k]; ctx.globalAlpha = filtering ? .04 : .13;
+  if(web){
+    const live0 = !paused && !reduce.matches;
+    for(const n of ideas){ const rp = toS(roots[n.t]), p = toS(n); ctx.strokeStyle = COL[n.t]; ctx.globalAlpha = .12; ctx.beginPath(); ctx.moveTo(rp.x, rp.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+    iedges.forEach((e, i) => { const a = toS(e.a), b = toS(e.b), cx = (a.x + b.x)/2 + (b.y - a.y)*.13, cy = (a.y + b.y)/2 - (b.x - a.x)*.13;
+      ctx.strokeStyle = e.cross ? "#e8cb8e" : COL[e.a.t]; ctx.globalAlpha = e.cross ? .5 : .3; ctx.lineWidth = e.cross ? 1 : .7; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(cx, cy, b.x, b.y); ctx.stroke();
+      if(live0 && (e.cross || i % 3 === 0)){ const u = (clock*.00006 + i*.211) % 1, v = 1 - u, x = v*v*a.x + 2*v*u*cx + u*u*b.x, y = v*v*a.y + 2*v*u*cy + u*u*b.y; glow(x, y, 8, "#f2d99e", .4); ctx.globalAlpha = 1; ctx.fillStyle = "#f6e2b0"; ctx.beginPath(); ctx.arc(x, y, 1.3, 0, 7); ctx.fill(); } });
+    ctx.globalAlpha = 1;
+  }
+  else for(const k of ["g","a","u"]){ const rp = toS(roots[k]); ctx.strokeStyle = COL[k]; ctx.globalAlpha = filtering ? .04 : .13;
     for(const c of chapOf[k]){ const p = toS(c); ctx.beginPath(); ctx.moveTo(rp.x, rp.y); ctx.lineTo(p.x, p.y); ctx.stroke(); } }
   // glowing connections (question path, idea thread, story references)
   const live = !paused && !reduce.matches;
@@ -374,33 +454,34 @@ function draw(){
   const vr = z < .5 ? 1.2 : z < 1.2 ? 1.8 : z < 3 ? 2.6 : 3.6;
   for(const n of nodes){
     if(n.kind === "root") continue;
+    if(web ? n.kind !== "idea" : n.kind === "idea") continue;
     const p = toS(n); if(p.x < -40 || p.x > W + 40 || p.y < -40 || p.y > H + 40) continue;
     const isLit = lit && lit.has(n), sel = n.id === selId, dimC = chapSel && n.kind === "verse" && n.ch !== chapSel;
     const alpha = filtering ? (isLit || sel ? 1 : .12) : dimC ? .3 : 1;
     ctx.globalAlpha = alpha; ctx.fillStyle = COL[n.t];
-    const r = n.kind === "verse" ? (isLit ? vr*1.7 : vr) : n.kind === "story" ? 3.5 + z*.4 : 3.5 + Math.min(3, z*1.2);
+    const r = n.kind === "idea" ? 3 + Math.sqrt(n.tags.size)*.6 : n.kind === "verse" ? (isLit ? vr*1.7 : vr) : n.kind === "story" ? 3.5 + z*.4 : 3.5 + Math.min(3, z*1.2);
     if(n.kind !== "verse" || isLit || sel || n === hover) glow(p.x, p.y, isLit || sel ? 20 : 12, COL[n.t], isLit || sel ? .45 : .25);
     ctx.beginPath(); ctx.arc(p.x, p.y, sel ? r*1.5 : n === hover ? r*1.4 : r, 0, 7); ctx.fill();
     if(sel){ ctx.strokeStyle = COL[n.t]; ctx.lineWidth = .9; ctx.globalAlpha = .55; ctx.beginPath(); ctx.arc(p.x, p.y, r + 7 + (live ? Math.sin(clock*.002)*1.3 : 0), 0, 7); ctx.stroke(); }
     ctx.globalAlpha = alpha;
-    const label = n.kind === "chap" ? (z > .45 || sel || n === hover) : n.kind === "story" ? (z > 1.3 || isLit || sel || n === hover) : (z > 3 && !filtering) || isLit && z > 1.2 || sel || n === hover;
+    const label = n.kind === "idea" ? true : n.kind === "chap" ? (z > .45 || sel || n === hover) : n.kind === "story" ? (z > 1.3 || isLit || sel || n === hover) : (z > 3 && !filtering) || isLit && z > 1.2 || sel || n === hover;
     if(label){
-      const txt = n.kind === "verse" ? n.ref : n.kind === "chap" ? (n.num ? `${n.num} · ${nm(n)}` : nm(n)) : nm(n);
-      ctx.font = n.kind === "verse" ? "10px system-ui,sans-serif" : "11.5px Georgia,serif"; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.shadowColor = "#080f1e"; ctx.shadowBlur = 6;
-      ctx.fillStyle = sel ? "#fff1cc" : n.kind === "chap" ? COL[n.t] : "#b6c0cf"; ctx.fillText(txt, p.x + r + 5, p.y); ctx.shadowBlur = 0;
+      const txt = n.kind === "idea" ? nm(n) : n.kind === "verse" ? n.ref : n.kind === "chap" ? (n.num ? `${n.num} · ${nm(n)}` : nm(n)) : nm(n);
+      ctx.font = n.kind === "verse" ? "10px system-ui,sans-serif" : n.kind === "idea" ? "12.5px Georgia,'Noto Serif Devanagari',serif" : "11.5px Georgia,serif"; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.shadowColor = "#080f1e"; ctx.shadowBlur = 6;
+      ctx.fillStyle = sel ? "#fff1cc" : n.kind === "chap" ? COL[n.t] : n.kind === "idea" ? "#d8dde8" : "#b6c0cf"; ctx.fillText(txt, p.x + r + 5, p.y); ctx.shadowBlur = 0;
     } else if(n.kind === "chap" && z <= .45 && n.num && !filtering){ ctx.font = "9px system-ui"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = COL[n.t]; ctx.globalAlpha = .8; ctx.fillText(String(n.num), p.x, p.y + 12); }
   }
   ctx.globalAlpha = 1;
   for(const k of ["g","a","u"]){ const r = roots[k], p = toS(r); glow(p.x, p.y, 34, COL[k], .35); ctx.fillStyle = COL[k]; ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, 7); ctx.fill();
     ctx.font = (W < 600 ? "15px" : "20px") + " Georgia,'Noto Serif Devanagari',serif"; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.shadowColor = "#080f1e"; ctx.shadowBlur = 8; ctx.fillStyle = COL[k]; ctx.globalAlpha = filtering ? .55 : 1; ctx.fillText(nm(r), p.x, p.y + 16); ctx.shadowBlur = 0; ctx.globalAlpha = 1; }
 }
-let last = 0;
-const animated = () => !paused && !reduce.matches && (edges.length > 0 || (S.n && S.kind !== "root"));
+let last = 0, lastDraw = 0;
+const animated = () => !paused && !reduce.matches;
 function loop(now){
   clock = paused ? clock : clock + Math.min(50, now - (last || now)); last = now;
   step(now);
   const go = tgt || animated();
-  if(dirty || go){ draw(); dirty = false; }
+  if(dirty || (go && now - lastDraw > 30)){ setPositions(clock); draw(); dirty = false; lastDraw = now; }
   raf = go ? requestAnimationFrame(loop) : 0;
 }
 let raf = 0; function kick(){ if(!raf) raf = requestAnimationFrame(loop); }
@@ -414,6 +495,7 @@ function zoomAt(f, sx, sy){ const w = toW(sx, sy), z = Math.max(.12, Math.min(9,
 function hit(sx, sy, touch){
   const R = touch ? 22 : 14; let best = null, bd = 1e9;
   for(const n of nodes){
+    if(S.kind === "home" ? n.kind !== "idea" && n.kind !== "root" : n.kind === "idea") continue;
     if(n.kind === "verse" && cam.z < 1.1 && !(lit && lit.has(n))) continue;
     const p = toS(n), d = Math.hypot(p.x - sx, p.y - sy) - (n.kind === "verse" ? 0 : 4);
     if(d < R && d < bd){ bd = d; best = n; }
@@ -430,7 +512,7 @@ cv.addEventListener("pointermove", e => {
   if(drag){ const dx = e.clientX - drag.x, dy = e.clientY - drag.y; if(Math.hypot(dx, dy) > 5) drag.moved = true; if(drag.moved){ cam.x = drag.cx - dx/cam.z; cam.y = drag.cy - dy/cam.z; tgt = null; dirty = true; kick(); } }
 });
 const endp = e => { const was = ptrs.get(e.pointerId); ptrs.delete(e.pointerId); if(ptrs.size < 2) pinch = null;
-  if(drag && !drag.moved && was && e.type === "pointerup"){ const h = hit(e.clientX, e.clientY, was.t !== "mouse"); if(h) nav(hashOf(h)); else if(S.kind !== "home" && S.kind !== "root") nav("#/"); }
+  if(drag && !drag.moved && was && e.type === "pointerup"){ const h = hit(e.clientX, e.clientY, was.t !== "mouse"); if(h) nav(hashOf(h)); else if(S.kind !== "home") nav("#/"); }
   if(!ptrs.size) drag = null; };
 cv.addEventListener("pointerup", endp); cv.addEventListener("pointercancel", endp);
 cv.addEventListener("pointerleave", () => { if(hover){ hover = null; dirty = true; kick(); } });
@@ -443,10 +525,10 @@ cv.addEventListener("keydown", e => {
   if(d){ e.preventDefault(); tgt = null; dirty = true; kick(); }
 });
 $("zin").onclick = () => zoomAt(1.4, W/2, H/2); $("zout").onclick = () => zoomAt(1/1.4, W/2, H/2);
-$("home").onclick = () => nav("#/");
+$("home").onclick = () => nav("#/"); $("chaps").onclick = () => nav("#/chapters");
 $("back").onclick = () => { if(history.state && history.state.nav) history.back(); else nav("#/"); };
 function words(){
-  document.documentElement.lang = lang; $("sub").textContent = t("sub"); $("back").textContent = t("back"); $("home").textContent = t("home");
+  document.documentElement.lang = lang; $("sub").textContent = t("sub"); $("back").textContent = t("back"); $("home").textContent = t("home"); $("chaps").textContent = t("chapters2"); $("heb").textContent = t("eb"); $("hh").innerHTML = t("h1"); $("hp").textContent = t("hp");
   $("lang").textContent = t("lang"); $("lang").setAttribute("aria-label", lang === "hi" ? "Switch to English" : "हिन्दी में देखें");
   $("motion").textContent = paused ? "▷" : "Ⅱ"; $("motion").setAttribute("aria-label", t(paused ? "play" : "pause")); $("motion").setAttribute("aria-pressed", String(paused));
 }
@@ -458,7 +540,7 @@ reduce.addEventListener("change", () => { paused = reduce.matches; words(); dirt
 const J = u => fetch(u).then(r => { if(!r.ok) throw 0; return r.json(); });
 Promise.all([J("../gita/verses.json"), J("../gita/hubs.json"), J("../gita/questions.json"), J("../ashtavakra/verses.json"), J("../ashtavakra/hubs.json"), J("../upanishads/data.json")])
   .then(([gv, gh, qs, av, ah, ud]) => {
-    GV = gv; QS = qs; AV = av; UP = ud.upanishads; ST = ud.stories;
+    GV = gv; QS = qs; AV = av; UD = ud; UP = ud.upanishads; ST = ud.stories;
     gh.forEach(h => { h.vs = []; GH.set(h.id, h); });
     GV.forEach(v => [...(v.k || []), ...(v.p || [])].forEach(id => { const h = GH.get(id); if(h && !h.vs.includes(v)) h.vs.push(v); }));
     ah.forEach(h => AH.set(h.id, h));
