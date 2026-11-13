@@ -241,7 +241,7 @@ function saLines(v){
   const lines = v.sa.split("\n").map(s=>s.trim()).filter(Boolean);
   let uvaca = "";
   if(lines.length > 1 && /(उवाच|ुवाच)\s*[|।]?\s*$/.test(lines[0])){ uvaca = lines.shift().replace(/[|।]/g,"").trim(); }
-  const body = lines.map(l => l.replace(/\s*\|\|\s*([०-९]+)-([०-९]+)\s*\|\|/, "\u00a0॥\u00a0$1.$2\u00a0॥").replace(/\|\|/g,"॥").replace(/\|/g,"।"));
+  const body = lines.map(l => l.replace(/\s*\|\|\s*([०-९]+)-([०-९]+)\s*\|\|/, "\u00a0॥\u00a0$1.$2\u00a0॥").replace(/\|\|/g,"॥").replace(/\|/g,"।").replace(/ ([।॥])/g,"\u00a0$1"));
   return {uvaca, body};
 }
 // the verse number travels with the last word: "॥" allows a line break after it, even before a no-break space
@@ -289,6 +289,8 @@ function drawShell(route){
   fwd.hidden = !nxt; fwd.innerHTML = IC.fwd;
   if(nxt){ fwd.href = link(nxt.id); fwd.setAttribute("aria-label", `${u().next}: ${nxt.ref}`); fwd.title = `${u().next}: ${nxt.ref}`; }
   document.getElementById("setbtn").innerHTML = IC.set;
+  { const cb = document.getElementById("chbtn"), lb = u().chapters; cb.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>' + `<span>${esc(lb)}</span>`; cb.setAttribute("aria-label", lb); toggleSide(false);
+    document.getElementById("top").style.setProperty("--prog", route.name==="verse" ? (100 * route.v.v / CH[route.v.c-1].vs.length) + "%" : "0%"); }
   document.getElementById("helpbtn").setAttribute("aria-label", u().howT); document.getElementById("helpbtn").title = u().howT;
   document.getElementById("langbtn").textContent = isHi() ? "EN" : "हि";
   document.getElementById("langbtn").setAttribute("aria-label", isHi() ? "Switch to English" : "हिन्दी में देखें");
@@ -297,6 +299,15 @@ document.getElementById("back").onclick = e => { if(e.currentTarget.dataset.home
   if(history.length > 1) history.back(); else go("home"); };
 document.getElementById("langbtn").onclick = () => setLang(isHi() ? "en" : "hi");
 document.getElementById("setbtn").onclick = openSettings;
+// the chapter list is a drawer: opened from the title bar, closed by choosing a chapter, the backdrop or Escape
+function toggleSide(open){ const sd = document.getElementById("side"), cb = document.getElementById("chbtn"), was = sd.classList.contains("open");
+  sd.classList.toggle("open", open); document.getElementById("sidescrim").hidden = !open; cb.setAttribute("aria-expanded", String(open));
+  if(open){ const c = sd.querySelector("[aria-current=true]") || sd.querySelector("a"); if(c){ c.scrollIntoView({block:"center"}); c.focus({preventScroll:true}); } }
+  else if(was && sd.contains(document.activeElement)) cb.focus(); }
+document.getElementById("chbtn").onclick = () => toggleSide(!document.getElementById("side").classList.contains("open"));
+document.getElementById("sidescrim").onclick = () => toggleSide(false);
+document.getElementById("side").addEventListener("click", e => { if(e.target.closest("a")) toggleSide(false); });
+document.addEventListener("keydown", e => { if(e.key === "Escape" && document.getElementById("side").classList.contains("open")){ toggleSide(false); document.getElementById("chbtn").focus(); } });
 document.getElementById("helpbtn").onclick = () => sheet(`<h2>${esc(u().whyT)}</h2><div class="howbody"><ul>${u().why.map(i=>`<li>${i}</li>`).join("")}</ul></div><h2 style="margin-top:18px">${esc(u().howT)}</h2>${howBody()}<div class="row"><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
 window.addEventListener("scroll", () => document.getElementById("top").classList.toggle("scrolled", window.scrollY > 4), {passive:true});
 

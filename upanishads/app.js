@@ -236,6 +236,8 @@ function drawShell(route){
   fwd.hidden = true; fwd.innerHTML = IC.fwd;
   if(nxt){ fwd.href = link("s-"+nxt.id); fwd.setAttribute("aria-label", `${u().next}: ${L(nxt,"title")}`); fwd.title = `${u().next}: ${L(nxt,"title")}`; }
   document.getElementById("setbtn").innerHTML = IC.set;
+  { const cb = document.getElementById("chbtn"), lb = u().stories; cb.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>' + `<span>${esc(lb)}</span>`; cb.setAttribute("aria-label", lb); toggleSide(false);
+  }
   const st = document.getElementById("sharetop"); st.hidden = !["story","theme","up","topic"].includes(route.name); st.innerHTML = IC.share;
   st.setAttribute("aria-label", u().share); st.title = u().share; st.onclick = () => route.name==="story" ? share(route.s) : sharePage();
   const hb = document.getElementById("helpbtn"); hb.setAttribute("aria-label", u().howT); hb.title = u().howT;
@@ -245,6 +247,15 @@ document.getElementById("back").onclick = e => { if(e.currentTarget.dataset.home
   if(history.length > 1) history.back(); else go("home"); };
 document.getElementById("langbtn").onclick = () => setLang(isHi() ? "en" : "hi");
 document.getElementById("setbtn").onclick = openSettings;
+// the chapter list is a drawer: opened from the title bar, closed by choosing a chapter, the backdrop or Escape
+function toggleSide(open){ const sd = document.getElementById("side"), cb = document.getElementById("chbtn"), was = sd.classList.contains("open");
+  sd.classList.toggle("open", open); document.getElementById("sidescrim").hidden = !open; cb.setAttribute("aria-expanded", String(open));
+  if(open){ const c = sd.querySelector("[aria-current=true]") || sd.querySelector("a"); if(c){ c.scrollIntoView({block:"center"}); c.focus({preventScroll:true}); } }
+  else if(was && sd.contains(document.activeElement)) cb.focus(); }
+document.getElementById("chbtn").onclick = () => toggleSide(!document.getElementById("side").classList.contains("open"));
+document.getElementById("sidescrim").onclick = () => toggleSide(false);
+document.getElementById("side").addEventListener("click", e => { if(e.target.closest("a")) toggleSide(false); });
+document.addEventListener("keydown", e => { if(e.key === "Escape" && document.getElementById("side").classList.contains("open")){ toggleSide(false); document.getElementById("chbtn").focus(); } });
 document.getElementById("helpbtn").onclick = () => sheet(`<h2>${esc(u().whyT)}</h2><div class="howbody"><ul>${u().why.map(i=>`<li>${i}</li>`).join("")}</ul></div><h2 style="margin-top:18px">${esc(u().howT)}</h2>${howBody()}<div class="row"><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
 window.addEventListener("scroll", () => document.getElementById("top").classList.toggle("scrolled", window.scrollY > 4), {passive:true});
 const howBody = () => `<div class="howbody">${u().how.map(([h,items]) => `<h3>${esc(h)}</h3><ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>`).join("")}</div>`;
