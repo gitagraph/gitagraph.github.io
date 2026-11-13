@@ -200,6 +200,9 @@ details.how .howbody{padding-bottom:16px}
 .qlist{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:10px}
 .qcard{display:flex;flex-direction:column;gap:6px;height:100%;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
 .qcard:hover{border-color:var(--muted)}
+/* a quiet silhouette in the corner of each life-question card (same pictures as the home page) */
+.qcard{position:relative;overflow:hidden;isolation:isolate}
+.qcard .sil{position:absolute;z-index:-1;right:4px;bottom:0;height:min(150px,82%);aspect-ratio:1;color:var(--accent);opacity:.13;pointer-events:none}
 .qcard .qn{font-family:var(--f-read);font-weight:600;font-size:18px}
 :root[lang=hi] .qcard .qn{font-family:var(--f-hi);font-weight:400;font-size:19px}
 .qcard .qi{color:var(--muted);line-height:1.55;font-size:15px}

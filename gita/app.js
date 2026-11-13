@@ -476,7 +476,7 @@ function lifeqRow(){
 }
 function questionsView(){
   return `<header class="thead"><h1>${esc(u().lifeqT)}${shareBtn()}</h1><p class="desc" lang="${lang}">${esc(u().lifeqLede)}</p></header>
-  <ul class="qlist">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}"><span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(qIntro(q))}</span><span class="qc">${esc(u().versesN(qVerses(q).length))}</span></a></li>`).join("")}</ul>`;
+  <ul class="qlist">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}">${q.sil || ""}<span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(qIntro(q))}</span><span class="qc">${esc(u().versesN(qVerses(q).length))}</span></a></li>`).join("")}</ul>`;
 }
 function questionView(q){
   return `<header class="thead"><p class="eyebrow"><a href="#questions">${esc(u().lifeqT)}</a></p><h1>${esc(qName(q))}${shareBtn()}</h1>
