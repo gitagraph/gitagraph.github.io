@@ -298,7 +298,12 @@ $("panel").addEventListener("click", e => {
   // phone full screen: Back returns to where the reader was (previous view, its camera and scroll); with nowhere to go back to, fold down to the map
   if(e.target.closest("[data-pback]")){ if(!peekOpen && history.state?.nav) history.back(); else { collapsed = true; peekOpen = false; renderPanel(); fly(); } return; }
   if(phone.matches && !collapsed && e.target.closest('a[href^="#"]')) fullNext = true;
-  if(e.target.closest("[data-min]") || (collapsed && phone.matches)){ if(phone.matches) peekOpen = collapsed; collapsed = !collapsed; renderPanel(); fly(); } });
+  if(e.target.closest("[data-min]") || (collapsed && phone.matches)){ if(phone.matches && collapsed){ riseTray(); return; } collapsed = !collapsed; renderPanel(); fly(); } });
+// phones: the small card slides up into the full page (transform only, so it stays smooth); the map behind it is left as it is
+function riseTray(){ const pn = $("panel"), from = pn.getBoundingClientRect().top; collapsed = false; peekOpen = true; renderPanel();
+  if(reduce.matches) return; const by = from - pn.getBoundingClientRect().top; if(by <= 0) return;
+  pn.style.setProperty("--rise", by + "px"); pn.classList.remove("rise"); void pn.offsetWidth; pn.classList.add("rise");
+  const done = () => pn.classList.remove("rise"); pn.addEventListener("animationend", done, {once:true}); setTimeout(done, 400); }
 
 // Existing native reading routes are the sole reading UI.
 function readerHref(n){if(n.t==='u'&&n.kind==='chap')return `../upanishads/upanishad/${encodeURIComponent(n.up.id)}/`;if(n.t==='u')return `../upanishads/story/${encodeURIComponent((n.story||n).s.id)}/`;const book=n.t==='g'?'gita':'ashtavakra',c=n.kind==='verse'?n.d.c:n.num;return `../${book}/chapter/${c}/${n.kind==='verse'?`verse/${n.d.v}/`:''}`;}
@@ -431,7 +436,8 @@ function draw(){
 let last = 0, lastDraw = 0;
 const animated = () => !paused && !reduce.matches;
 function loop(now){
-  if(document.hidden){raf=0;return;}
+  // nothing to draw while hidden, or while a phone's full-screen page covers the map (Back/collapse calls kick() again)
+  if(document.hidden || phone.matches && !collapsed){raf=0;return;}
   clock = paused ? clock : clock + Math.min(50, now - (last || now)); last = now;
   step(now);
   const go = tgt || animated();
@@ -449,7 +455,7 @@ function cancelTap(){if(tapTimer!==null)clearTimeout(tapTimer);tapTimer=null;las
 function doubleZoom(sx,sy){const from={...cam};zoomAt(1.8,sx,sy);const next={...cam};if(!reduce.matches){Object.assign(cam,from);tgt={...next,t0:performance.now(),from};cv.setAttribute("data-camera-state","moving");}dirty=true;kick();}
 // phones: tapping the bubble that is already selected, or double-tapping a bubble, opens its tray full screen
 const isSel = n => !!n && (S.n === n || n.kind === "idea" && S.kind === "idea" && n.t === S.t && n.hid === S.id);
-function openTray(n){ if(!isSel(n)) mapNav(n); collapsed = false; peekOpen = true; renderPanel(); fly(); }
+function openTray(n){ if(!isSel(n)) mapNav(n); riseTray(); }
 function tap(n,event,touch){if(!touch){if(n){if(phone.matches&&collapsed&&isSel(n))openTray(n);else mapNav(n);}return;}const now=performance.now(),prior=lastTap;if(prior&&now-prior.time<=320&&Math.hypot(prior.x-event.clientX,prior.y-event.clientY)<28){cancelTap();if(phone.matches&&n&&prior.node===n){openTray(n);return;}doubleZoom(event.clientX,event.clientY);return;}
 if(tapTimer!==null){clearTimeout(tapTimer);if(prior?.node)mapNav(prior.node);}lastTap={time:now,x:event.clientX,y:event.clientY,node:n};tapTimer=setTimeout(()=>{const selected=lastTap?.node;tapTimer=null;lastTap=null;if(selected){if(phone.matches&&collapsed&&isSel(selected))openTray(selected);else mapNav(selected);}},320);}
 
