@@ -245,8 +245,11 @@ function parse(h){
 const BASE = window.APP_BASE || "";
 const VER = window.APP_VER ? "?v=" + window.APP_VER : "";   // build stamp on the built site; empty in the preview
 const PATHS = {home:"", explore:"explore/", index:"people-and-ideas/", search:"search/", saved:"saved/", about:"about/", questions:"questions/"};
+// Explore is one page for all three texts at the library root; on the built site this text's Explore opens it
+const EXPLORE = BASE ? BASE.replace(/[^/]+\/$/, "") + "explore/#/g" : "";
 function pathOf(t){
   let m;
+  if(t==="explore" && EXPLORE) return EXPLORE;
   if(t in PATHS) return BASE + PATHS[t];
   if((m = /^c(\d+)$/.exec(t))) return `${BASE}chapter/${m[1]}/`;
   if((m = /^v(\d+)-(\d+)$/.exec(t))) return `${BASE}chapter/${m[1]}/verse/${m[2]}/`;
@@ -268,6 +271,7 @@ const link = t => BASE ? pathOf(t) : "#" + t;
 const curToken = () => BASE ? tokenOf(location.pathname) : (location.hash.slice(1) || "home");
 let current = null;
 function go(t){
+  if(t==="explore" && EXPLORE){ location.href = EXPLORE; return; }
   if(curToken()===t){ render(); return; }
   if(BASE){ history.pushState(null, "", pathOf(t)); render(); } else location.hash = t;
 }
@@ -290,6 +294,7 @@ if(BASE){
 function render(keepScroll){
   if(!V.length) return;
   const route = parse(curToken());
+  if(route.name==="explore" && EXPLORE){ location.replace(EXPLORE); return; }
   const key = curToken();
   const same = current && current.key===key;
   const firstRender = !current;
