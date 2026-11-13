@@ -145,11 +145,10 @@ Object.assign(UI.en, {
     ["Read",["<b>Start reading</b> opens Chapter 1, verse 1. Use <b>Next →</b> under a verse, or the <b>›</b> arrow at the top, to go verse by verse.",
       "Each verse shows the Sanskrit, how to say it, and its meaning. Tap <b>हि / EN</b> at the top to switch language. <b>Display</b> sets text size, theme and what is shown.",
       "Tap <b>Save</b> to keep a verse. Your saved verses are under <b>Saved</b>."]],
-    ["Explore the graph",["Open <b>Graph</b>. Every dot is a shloka. Its colour shows who is speaking: Krishna, Arjuna, Sanjaya, Dhritarashtra or Duryodhana.",
-      "Pinch or scroll to zoom in and out, and drag to move around. The <b>⤢</b> button shows everything again.",
-      "Tap a <b>chapter</b> on the ring, then <b>Read chapter</b>, to read it from start to end.",
-      "Tap a <b>person</b>, like Karna, to read every scene they are in.",
-      "Tap an <b>idea</b>, like dharma or karma, to read every verse that speaks of it."]],
+    ["Explore the graph",["Open <b>Graph</b> to see the Bhagavad Gita, the Ashtavakra Gita and the Upanishads together. Each text has its own colour.",
+      "Start with a <b>question</b>: the verses that speak to it light up. Or tap an <b>idea</b>, like dharma or karma, to see every verse that carries it.",
+      "Tap a <b>chapter</b> to see its shlokas around it, then tap a <b>shloka</b> to read it. <b>Read the whole chapter</b> opens it from start to end.",
+      "Pinch, scroll or double-tap to zoom, and drag to move. The lines join chapters in order, ideas tagged in the same verses, or stories that cite a verse. They do not mean the teachings are the same."]],
     ["Find",["Open <b>Search</b> and type a name, an idea, a Sanskrit word, or a verse number like <b>2.47</b>.",
       "<b>Index</b> lists every person and idea, with how many verses each appears in.",
       '<b>Life questions</b> on the home page gather the verses for moments like worry, grief or anger. <a href="#questions">See them all</a>.']]]
@@ -176,11 +175,10 @@ Object.assign(UI.hi, {
     ["पढ़ें",["<b>पढ़ना शुरू करें</b> दबाएँ, अध्याय 1 का पहला श्लोक खुलेगा। श्लोक के नीचे <b>अगला →</b> या ऊपर <b>›</b> से श्लोक-दर-श्लोक आगे बढ़ें।",
       "हर श्लोक में संस्कृत, उसका उच्चारण और अर्थ है। ऊपर <b>हि / EN</b> से भाषा बदलें। <b>प्रदर्शन</b> में अक्षर का आकार, थीम और क्या दिखे, चुनें।",
       "<b>सहेजें</b> से श्लोक सहेजें। सहेजे गए श्लोक <b>सहेजे</b> में मिलेंगे।"]],
-    ["ग्राफ़ देखें",["<b>ग्राफ़</b> खोलें। हर बिंदु एक श्लोक है। रंग बताता है कि कौन बोल रहा है: श्रीकृष्ण, अर्जुन, संजय, धृतराष्ट्र या दुर्योधन।",
-      "पिंच या स्क्रॉल करके ज़ूम करें, खींचकर नक्शा घुमाएँ। <b>⤢</b> से फिर पूरा नक्शा दिखेगा।",
-      "घेरे पर किसी <b>अध्याय</b> को टैप करें, फिर <b>अध्याय पढ़ें</b>, और पूरा अध्याय शुरू से पढ़ें।",
-      "किसी <b>पात्र</b>, जैसे कर्ण, पर टैप करें और उनके सभी प्रसंग पढ़ें।",
-      "किसी <b>विचार</b>, जैसे धर्म या कर्म, पर टैप करें और उससे जुड़े सभी श्लोक पढ़ें।"]],
+    ["ग्राफ़ देखें",["<b>ग्राफ़</b> खोलें। भगवद्गीता, अष्टावक्र गीता और उपनिषद् एक साथ दिखते हैं। हर ग्रंथ का अपना रंग है।",
+      "किसी <b>प्रश्न</b> से शुरू करें: उससे जुड़े श्लोक चमक उठेंगे। या किसी <b>विचार</b>, जैसे धर्म या कर्म, पर टैप करें और वे सभी श्लोक देखें जिनमें वह आता है।",
+      "किसी <b>अध्याय</b> पर टैप करें, उसके चारों ओर उसके श्लोक दिखेंगे; फिर किसी <b>श्लोक</b> पर टैप करके पढ़ें। <b>पूरा अध्याय पढ़ें</b> दबाने पर अध्याय शुरू से अंत तक खुलेगा।",
+      "पिंच, स्क्रॉल या दो बार टैप से ज़ूम करें, खींचकर खिसकाएँ। रेखाएँ अध्यायों का क्रम, उन्हीं श्लोकों में आए विचार, या किसी श्लोक का हवाला देने वाली कथाएँ दिखाती हैं। इनका मतलब यह नहीं कि शिक्षाएँ एक जैसी हैं।"]],
     ["खोजें",["<b>खोजें</b> खोलें और कोई नाम, विचार, संस्कृत शब्द या श्लोक संख्या, जैसे <b>2.47</b>, लिखें।",
       "<b>सूची</b> में हर पात्र और विचार है, और वे कितने श्लोकों में आते हैं।",
       '<b>जीवन के प्रश्न</b> होम पेज पर हैं: चिंता, शोक या क्रोध जैसे क्षणों के लिए श्लोक। <a href="#questions">सभी देखें</a>।']]]
@@ -894,7 +892,7 @@ const loadD3 = () => window.d3 ? Promise.resolve() : (d3Load = d3Load || new Pro
   document.head.appendChild(sc); }));
 function startGraph(){
   loadD3().then(() => { if(document.getElementById("cv") && !graph) graph = makeGraph(); })
-    .catch(() => { const ex = document.getElementById("ex"); if(ex) ex.insertAdjacentHTML("beforeend", `<p class="loading">${isHi() ? "नक्शा लोड नहीं हुआ। दोबारा कोशिश करें।" : "The map did not load. Try again."}</p>`); });
+    .catch(() => { const ex = document.getElementById("ex"); if(ex) ex.insertAdjacentHTML("beforeend", `<p class="loading">${isHi() ? "ग्राफ़ लोड नहीं हुआ। दोबारा कोशिश करें।" : "The graph did not load. Try again."}</p>`); });
 }
 const RC = 360, R0 = RC + 46, COLS = 8, ROWH = 13, SPAN = 2*Math.PI/18*0.8;
 const angOf = c => -Math.PI/2 + (c-1)*2*Math.PI/18;
