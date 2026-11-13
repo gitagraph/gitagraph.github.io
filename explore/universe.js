@@ -419,7 +419,8 @@ function draw(){
     if(home ? f < .03 : web ? n.kind !== "idea"&&!overviewStars.has(n) : n.kind === "idea") continue;
     const p = toS(n); if(p.x < -40 || p.x > W + 40 || p.y < -40 || p.y > H + 40) continue;
     const isLit = lit && lit.has(n), sel = n.id === selId, dimC = chapSel && n.kind === "verse" && n.ch !== chapSel;
-    const alpha=(filtering?(isLit||sel?1:litCh.has(n)?.85:.12):dimC?.3:1)*(0.78+(n.depth||0)/1100)*f;
+    if(dimC && !isLit && !sel && n !== hover) continue;   // with a chapter open, only its own shlokas are drawn
+    const alpha=(filtering?(isLit||sel?1:litCh.has(n)?.85:.12):1)*(0.78+(n.depth||0)/1100)*f;
     ctx.globalAlpha = alpha; ctx.fillStyle = COL[n.t];
     const r = n.kind === "idea" ? 3 + Math.sqrt(n.tags.size)*.6 : (n.kind === "verse"||n.kind === "passage") ? (isLit ? vr*1.7 : vr) : n.kind === "story" ? 3.5 + z*.4 : 3.5 + Math.min(3, z*1.2);
     if((n.kind !== "verse"&&n.kind!=="passage") || isLit || sel || n === hover) glow(p.x, p.y, isLit || sel ? 20 : 12, COL[n.t], isLit || sel ? .45 : .25);
@@ -474,12 +475,17 @@ const isIdeaPeek = () => S.kind === "idea" && phone.matches && collapsed;
 const webMode = () => S.kind === "home" || isIdeaPeek();
 // overview zoom works like a map: zooming in fades the idea web into the chapter constellations and their shlokas (0 = web, 1 = constellations)
 const deepOf = z => S.kind !== "home" ? (webMode() ? 0 : 1) : Math.max(0, Math.min(1, (z - .32)/.3));
-const fadeOf = (n, deep) => S.kind !== "home" ? 1 : n.kind === "idea" ? 1 - .65*deep : n.kind === "root" || overviewStars.has(n) ? 1 : deep;
+// On the overview the shlokas (and a story's passages) stay hidden until the reader has zoomed well into a chapter:
+// at chapter scale they are clutter around the names. Opening a chapter shows its own shlokas.
+const closeUp = () => Math.max(0, Math.min(1, (cam.z - 1.6)/.5));
+const fadeOf = (n, deep) => S.kind !== "home" ? 1 : n.kind === "idea" ? 1 - .65*deep : n.kind === "root" || overviewStars.has(n) ? 1 : (n.kind === "verse" || n.kind === "passage") ? closeUp() : deep;
 function hit(sx, sy, touch){
   const R = touch ? 22 : 14; let best = null, bd = 1e9;
+  const openCh = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
   for(const n of nodes){
     if(S.kind === "home" ? fadeOf(n, deepOf(cam.z)) < .4 : webMode() ? n.kind !== "idea" && n.kind !== "root" && !overviewStars.has(n) : n.kind === "idea") continue;
     if((n.kind === "verse"||n.kind==="passage") && cam.z < 1.1 && !(lit && lit.has(n))) continue;
+    if(openCh && n.kind === "verse" && n.ch !== openCh && !(lit && lit.has(n))) continue;   // not drawn, so not tappable
     const p = toS(n), d = Math.hypot(p.x - sx, p.y - (sy-60)) - ((n.kind === "verse"||n.kind==="passage") ? 0 : 4);
     if(d < R && d < bd){ bd = d; best = n; }
   }
