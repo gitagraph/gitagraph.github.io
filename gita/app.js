@@ -183,7 +183,7 @@ function trLines(v){
 
 // ===================== shell =====================
 const NAV = [["home","read",IC.read],["explore","explore",IC.explore],["index","index",IC.index],["search","search",IC.search],["saved","saved",IC.saved]];
-function section(route){ return route.name==="explore" || route.name==="exploremap" ? "explore" : route.name==="index" || route.name==="topic" ? "index" : route.name==="search" ? "search" : route.name==="saved" ? "saved" : "home"; }
+function section(route){ return route.name==="explore" ? "explore" : route.name==="index" || route.name==="topic" ? "index" : route.name==="search" ? "search" : route.name==="saved" ? "saved" : "home"; }
 function drawShell(route){
   const sec = section(route);
   document.getElementById("rail").innerHTML = (BASE ? `<a class="brand" href="${BASE.replace(/[^/]+\/$/, "")}" aria-label="Gitagraph" title="Gitagraph" style="text-decoration:none;color:inherit">ॐ</a>` : `<div class="brand" aria-hidden="true">ॐ</div>`) +
@@ -214,7 +214,6 @@ function drawShell(route){
   document.getElementById("langbtn").setAttribute("aria-label", isHi() ? "Switch to English" : "हिन्दी में देखें");
 }
 document.getElementById("back").onclick = e => { if(e.currentTarget.dataset.home){ location.href = BASE.replace(/[^/]+\/$/, ""); return; }
-  if(current?.name==="exploremap"){ go("explore"); return; }
   if(history.length > 1) history.back(); else go("home"); };
 document.getElementById("langbtn").onclick = () => setLang(isHi() ? "en" : "hi");
 document.getElementById("setbtn").onclick = openSettings;
@@ -238,14 +237,14 @@ function parse(h){
   if((m = /^v(\d{1,2})-(\d{1,2})$/.exec(h)) && VB.has(`${m[1]}.${m[2]}`)) return {name:"verse", v:VB.get(`${m[1]}.${m[2]}`)};
   if((m = /^t-([a-z0-9]+)$/.exec(h)) && HB.has(m[1])) return {name:"topic", h:HB.get(m[1])};
   if((m = /^q-([a-z0-9-]+)$/.exec(h)) && qBySlug(m[1])) return {name:"question", q:qBySlug(m[1])};
-  if(["explore","exploremap","index","search","saved","about","questions"].includes(h)) return {name:h};
+  if(["explore","index","search","saved","about","questions"].includes(h)) return {name:h};
   return {name:"home"};
 }
 // Two link modes: the built site sets window.APP_BASE and uses real paths (/chapter/2/verse/47/);
 // the Artifact preview has no APP_BASE and keeps #tokens.  Templates always write "#token".
 const BASE = window.APP_BASE || "";
 const VER = window.APP_VER ? "?v=" + window.APP_VER : "";   // build stamp on the built site; empty in the preview
-const PATHS = {home:"", explore:"explore/", exploremap:"explore/map/", index:"people-and-ideas/", search:"search/", saved:"saved/", about:"about/", questions:"questions/"};
+const PATHS = {home:"", explore:"explore/", index:"people-and-ideas/", search:"search/", saved:"saved/", about:"about/", questions:"questions/"};
 function pathOf(t){
   let m;
   if(t in PATHS) return BASE + PATHS[t];
@@ -309,8 +308,7 @@ function render(keepScroll){
     else if(route.name==="about"){ ttl.textContent = u().aboutPage; view.innerHTML = page(aboutView(), homeCtx()); }
     else if(route.name==="questions"){ ttl.textContent = u().lifeqT; view.innerHTML = page(questionsView(), homeCtx()); }
     else if(route.name==="question"){ ttl.textContent = qName(route.q); view.innerHTML = page(questionView(route.q), questionsCtx(route.q)); }
-    else if(route.name==="explore"){ ttl.textContent = u().explore; view.innerHTML = page(exploreHome(), homeCtx()); }
-    else if(route.name==="exploremap"){ ttl.textContent = u().explore; view.innerHTML = exploreView(); startGraph(); }
+    else if(route.name==="explore"){ ttl.textContent = u().explore; view.innerHTML = exploreView(); startGraph(); }
     wireCommon();
     // a built page arrives with its own search-friendly title; keep it until the reader moves on
     if(!(BASE && firstRender)) document.title = route.name==="home" ? (isHi() ? "भगवद्गीता · संस्कृत, हिंदी और अंग्रेज़ी" : "Bhagavad Gita · Sanskrit, English and Hindi") : `${ttl.textContent} · ${isHi() ? "भगवद्गीता" : "Bhagavad Gita"}`;
@@ -356,10 +354,10 @@ Object.assign(UI.en, {linkCopiedOnly:"Link copied", more:"More", words:"Word by 
 Object.assign(UI.hi, {linkCopiedOnly:"लिंक कॉपी हो गया", more:"और", words:"शब्दार्थ", life:"जीवन में", lifeBy:"गीताग्राफ़ का चिंतन",
   expl:"व्याख्या", book:"भगवद्गीता", trL:"हिन्दी अनुवाद", nVerses:k=>`${k} श्लोक`, contFrom:r=>`वाक्य ${r} से शुरू होता है`, contTo:r=>`वाक्य ${r} में आगे चलता है`,
   src:"संस्कृत: विकिस्रोत (CC BY-SA 4.0), GRETIL से मिलाया गया। अनुवाद, व्याख्या और चिंतन: गीताग्राफ़, AI की सहायता से लिखे गए।"});
-Object.assign(UI.en, {startQ:"Start with a question", fullMap:"Full map · all 700 verses", lifeqT:"Life questions", allQ:"All questions →", lifeqLede:"When you're facing one of these, start with what the Gita says about it.",
+Object.assign(UI.en, {lifeqT:"Life questions", allQ:"All questions →", lifeqLede:"When you're facing one of these, start with what the Gita says about it.",
   careNote:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.",
   versesN:n=>`${n} verses`, otherQ:"Other questions", howMade:"How this site is made →"});
-Object.assign(UI.hi, {startQ:"किसी प्रश्न से शुरू करें", fullMap:"पूरा नक्शा · सभी 700 श्लोक", lifeqT:"जीवन के प्रश्न", allQ:"सभी प्रश्न →", lifeqLede:"जब आप इनमें से किसी स्थिति में हों, गीता के इन श्लोकों से शुरू करें।",
+Object.assign(UI.hi, {lifeqT:"जीवन के प्रश्न", allQ:"सभी प्रश्न →", lifeqLede:"जब आप इनमें से किसी स्थिति में हों, गीता के इन श्लोकों से शुरू करें।",
   careNote:"गीता देखने का एक नज़रिया देती है, सहारे का विकल्प नहीं। अगर यह मन पर भारी है, तो किसी भरोसेमंद व्यक्ति या डॉक्टर से बात करें।",
   versesN:n=>`${n} श्लोक`, otherQ:"अन्य प्रश्न", howMade:"यह साइट कैसे बनी →"});
 let QS = [];
@@ -377,11 +375,6 @@ function lifeqRow(){
 function questionsView(){
   return `<header class="thead"><h1>${esc(u().lifeqT)}${shareBtn()}</h1><p class="desc" lang="${lang}">${esc(u().lifeqLede)}</p></header>
   <ul class="qlist">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}"><span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(qIntro(q))}</span><span class="qc">${esc(u().versesN(qVerses(q).length))}</span></a></li>`).join("")}</ul>`;
-}
-function exploreHome(){
-  return `<header class="thead"><h1>${esc(u().startQ)}</h1></header>
-  <ul class="qlist">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}"><span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(qIntro(q))}</span><span class="qc">${esc(u().versesN(qVerses(q).length))}</span></a></li>`).join("")}</ul>
-  <p class="muted" style="margin:20px 0 0"><a href="#exploremap">${esc(u().fullMap)}</a></p>`;
 }
 function questionView(q){
   return `<header class="thead"><p class="eyebrow"><a href="#questions">${esc(u().lifeqT)}</a></p><h1>${esc(qName(q))}${shareBtn()}</h1>
