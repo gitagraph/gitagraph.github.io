@@ -528,7 +528,7 @@ mark{background:color-mix(in srgb, var(--mark) 30%, transparent);color:inherit;b
 .gsearch[aria-current=page],.gnav .gsearch[aria-current=page]{border-color:var(--ink);color:var(--ink)}
 .gnav .gsearch[aria-current=page]::after{display:none}
 .gnav .gsearch{margin-left:auto;margin-right:8px}
-.gs-m{width:44px;padding:0;justify-content:center;flex:none}
+.gs-m{width:44px;padding:0;justify-content:center;flex:none;background:transparent;color:var(--ink)}
 .gs-m span{display:none}
 @media (min-width:700px){ .gs-m{display:none} }
 @media (max-width:1099px){ .gnav .gsearch{width:44px;padding:0;justify-content:center} .gnav .gsearch span{display:none} }

@@ -13,13 +13,13 @@ var g=localStorage.getItem("gg-lang"),l=g||localStorage.getItem("library-lang");
 <meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · A living library of wisdom">
 <meta property="og:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta property="og:url" content="https://gitagraph.com/">
 <meta property="og:site_name" content="Gitagraph · A living library of wisdom">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261113225403">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261113230023">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Gitagraph · A living library of wisdom: the Bhagavad Gita, the Ashtavakra Gita and the Upanishads, in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Gitagraph · A living library of wisdom">
-<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261113225403">
-<link rel="icon" href="shared/mark.svg?v=20261113225403" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261113225403" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261113225403">
+<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261113230023">
+<link rel="icon" href="shared/mark.svg?v=20261113230023" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261113230023" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261113230023">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap">
 <style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
@@ -42,10 +42,11 @@ a{color:inherit} :focus-visible{outline:2px solid var(--accent);outline-offset:2
   background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .top .brand{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:inherit}
 .top .brand .mark{width:32px;height:32px;flex:none}
-.brand .wm{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.brand .wm{display:flex;flex-direction:column;min-width:0;line-height:1.15;overflow:hidden}
+@media (max-width:430px){ .home .top .brand .proto, .home .top .brand .tg{display:none} }
 .brand .nm{font-family:var(--f-read);font-weight:600;font-size:19px;white-space:nowrap}
 :root[lang=hi] .brand .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
-.brand .tg{font-family:var(--f-read);font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand .tg{font-family:var(--f-read);font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.45;padding-bottom:1px}
 :root[lang=hi] .brand .tg{font-family:var(--f-hi);font-size:13.5px}
 .mark .bk{fill:var(--ink)} .mark .ct{fill:var(--bg)} .mark .nd{fill:#c2570c}
 .langpill.themebtn{width:44px;padding:0;display:inline-flex;align-items:center;justify-content:center}
@@ -179,7 +180,7 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .gsearch[aria-current=page],.gnav .gsearch[aria-current=page]{border-color:var(--ink);color:var(--ink)}
 .gnav .gsearch[aria-current=page]::after{display:none}
 .gnav .gsearch{margin-left:auto;margin-right:8px}
-.gs-m{width:44px;padding:0;justify-content:center;flex:none}
+.gs-m{width:44px;padding:0;justify-content:center;flex:none;background:transparent;color:var(--ink)}
 .gs-m span{display:none}
 @media (min-width:700px){ .gs-m{display:none} }
 @media (max-width:1099px){ .gnav .gsearch{width:44px;padding:0;justify-content:center} .gnav .gsearch span{display:none} }
@@ -305,8 +306,8 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
   <button class="langpill themebtn" id="themebtn" type="button"></button>
   <button class="langpill" id="lang" type="button" aria-label="हिन्दी में देखें">हि</button></header>
 <main class="wrap">
-  <section class="hero"><div class="hx"><p class="eb"><span class="l-en">Bhagavad Gita · Ashtavakra Gita · Upanishads</span><span class="l-hi">भगवद्गीता · अष्टावक्र गीता · उपनिषद्</span></p><h1><span class="l-en">Everyday questions, centuries of insight.</span><span class="l-hi">रोज़ के सवाल, सदियों की समझ।</span></h1><p><span class="l-en">Read the original Sanskrit with English and Hindi translations. Discover how verses, ideas and teachings connect.</span><span class="l-hi">मूल संस्कृत श्लोक हिंदी और अंग्रेज़ी अनुवाद के साथ पढ़ें। जानें कि अलग-अलग ग्रंथों के विचार और शिक्षाएँ एक-दूसरे से कैसे जुड़ते हैं।</span></p>
-    <div class="ctas"><a class="btn primary" href="gita/questions/"><span class="l-en">Start with a question</span><span class="l-hi">किसी सवाल से शुरू करें</span></a><a class="btn secondary" href="#scriptures"><span class="l-en">Browse the library</span><span class="l-hi">ग्रंथ देखें</span></a></div>
+  <section class="hero"><div class="hx"><p class="eb"><span class="l-en">Bhagavad Gita · Ashtavakra Gita · Upanishads</span><span class="l-hi">भगवद्गीता · अष्टावक्र गीता · उपनिषद्</span></p><h1><span class="l-en">Everyday questions, centuries of insight.</span><span class="l-hi">रोज़ के प्रश्न, सदियों की समझ।</span></h1><p><span class="l-en">Read the original Sanskrit with English and Hindi translations. Discover how verses, ideas and teachings connect.</span><span class="l-hi">मूल संस्कृत श्लोक हिंदी और अंग्रेज़ी अनुवाद के साथ पढ़ें। जानें कि अलग-अलग ग्रंथों के विचार और शिक्षाएँ एक-दूसरे से कैसे जुड़ते हैं।</span></p>
+    <div class="ctas"><a class="btn primary" href="gita/questions/"><span class="l-en">Start with a question</span><span class="l-hi">किसी प्रश्न से शुरू करें</span></a><a class="btn secondary" href="#scriptures"><span class="l-en">Browse the library</span><span class="l-hi">ग्रंथ देखें</span></a></div>
     <p class="resume" id="resume" hidden><a id="resume-a" href="gita/"><span class="l-en">Continue reading · Bhagavad Gita</span><span class="l-hi">पढ़ना जारी रखें · भगवद्गीता</span>&nbsp;<span id="resume-ref"></span>&nbsp;→</a></p>
     <script>
     // resume: continue where the reader left off in the Gita (the Gita app keeps "gita-recent"); runs before first paint
@@ -339,10 +340,10 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
     const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5), i = day - VW.d0;
     if(i >= 0 && i < VW.v.length) return drawVotd(VW.v[i]);
     const box = document.getElementById("votd"); box.style.setProperty("--vh", "clamp(270px, 440px - 15vw, 400px)");
-    fetch("home-verses/pool.json?v=20261113225403").then(r => r.json()).then(pool => {
+    fetch("home-verses/pool.json?v=20261113230023").then(r => r.json()).then(pool => {
       const gcd = (a,b) => b ? gcd(b, a % b) : a, step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
       const [c, v] = pool[(day * step) % pool.length].split(".");
-      return fetch(`home-verses/${c}.json?v=20261113225403`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
+      return fetch(`home-verses/${c}.json?v=20261113230023`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
     }).catch(() => { box.hidden = true; });
   })();
   </script>
@@ -389,8 +390,8 @@ document.getElementById("lang").onclick = () => setLang(document.documentElement
 // the language was chosen in <head> (the saved choice, else English) so the page paints in it; sync the controls
 setLang(document.documentElement.lang === "hi" ? "hi" : "en");
 </script>
-<script src="shared/shell.js?v=20261113225403" data-active="home" defer></script>
-<script src="shared/coach.js?v=20261113225403" defer></script>
+<script src="shared/shell.js?v=20261113230023" data-active="home" defer></script>
+<script src="shared/coach.js?v=20261113230023" defer></script>
 <script>
 try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
 if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Saved · Gitagraph</title><meta name="robots" content="noindex"><link rel="canonical" href="https://gitagraph.com/saved/">
-<link rel="icon" href="../shared/mark.svg?v=20261113225403" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261113225403" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261113225403">
+<link rel="icon" href="../shared/mark.svg?v=20261113230023" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261113230023" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261113230023">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -23,10 +23,11 @@ a{color:inherit} :focus-visible{outline:2px solid var(--accent);outline-offset:2
   background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .top .brand{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:inherit}
 .top .brand .mark{width:32px;height:32px;flex:none}
-.brand .wm{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.brand .wm{display:flex;flex-direction:column;min-width:0;line-height:1.15;overflow:hidden}
+@media (max-width:430px){ .home .top .brand .proto, .home .top .brand .tg{display:none} }
 .brand .nm{font-family:var(--f-read);font-weight:600;font-size:19px;white-space:nowrap}
 :root[lang=hi] .brand .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
-.brand .tg{font-family:var(--f-read);font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand .tg{font-family:var(--f-read);font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.45;padding-bottom:1px}
 :root[lang=hi] .brand .tg{font-family:var(--f-hi);font-size:13.5px}
 .mark .bk{fill:var(--ink)} .mark .ct{fill:var(--bg)} .mark .nd{fill:#c2570c}
 .langpill.themebtn{width:44px;padding:0;display:inline-flex;align-items:center;justify-content:center}
@@ -160,7 +161,7 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .gsearch[aria-current=page],.gnav .gsearch[aria-current=page]{border-color:var(--ink);color:var(--ink)}
 .gnav .gsearch[aria-current=page]::after{display:none}
 .gnav .gsearch{margin-left:auto;margin-right:8px}
-.gs-m{width:44px;padding:0;justify-content:center;flex:none}
+.gs-m{width:44px;padding:0;justify-content:center;flex:none;background:transparent;color:var(--ink)}
 .gs-m span{display:none}
 @media (min-width:700px){ .gs-m{display:none} }
 @media (max-width:1099px){ .gnav .gsearch{width:44px;padding:0;justify-content:center} .gnav .gsearch span{display:none} }
@@ -314,4 +315,4 @@ const b = document.getElementById("lang");
 function setLang(l){ document.documentElement.lang = l; b.textContent = l==="hi" ? "EN" : "हि"; try{ localStorage.setItem("library-lang", l); localStorage.setItem("gg-lang", l); }catch(e){} }
 b.onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
 try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))==="hi") setLang("hi"); }catch(e){}
-</script><script src="../shared/shell.js?v=20261113225403" data-active="saved" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../shared/shell.js?v=20261113230023" data-active="saved" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
