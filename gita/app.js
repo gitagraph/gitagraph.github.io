@@ -14,7 +14,7 @@
   };
   const ITEMS = [
     ["home", "", "Home", "होम"],
-    ["questions", "gita/questions/", "Questions", "सवाल"],
+    ["questions", "gita/questions/", "Questions", "प्रश्न"],
     ["library", "#scriptures", "Library", "ग्रंथालय"],
     ["map", "explore/", "Map", "नक्शा"],
     ["saved", "saved/", "Saved", "सहेजे"]
