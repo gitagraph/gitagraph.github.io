@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080f1e">
+<meta name="robots" content="noindex">
+<title>Universe · Gitagraph</title>
+<meta name="description" content="Explore the Bhagavad Gita, Ashtavakra Gita and Upanishads as one connected universe.">
+<style>
+:root{color-scheme:dark;--bg:#080f1e;--panel:rgba(12,21,37,.94);--line:rgba(196,177,132,.2);--gold:#e8cb8e;--text:#f0eadc;--muted:#a4adbc;--blue:#93bacd;--rose:#c4a6c6;--safe-b:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;overflow:hidden;overscroll-behavior:none}
+button,a{font:inherit;color:inherit}button{background:none;border:0;cursor:pointer}
+a{text-decoration:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#cv{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#cv:active{cursor:grabbing}
+header{position:fixed;left:0;right:0;top:0;height:60px;padding:0 max(16px,env(safe-area-inset-left)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;z-index:5;pointer-events:none;background:linear-gradient(var(--bg),transparent)}
+header>*{pointer-events:auto}
+.brand{display:flex;align-items:baseline;gap:10px;color:var(--gold);font:22px Georgia,"Noto Serif Devanagari",serif;letter-spacing:.01em}
+.brand small{font:11px system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.hbtns{display:flex;gap:8px}
+.pill{min-height:40px;min-width:40px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(12,21,37,.7);color:var(--text);font-size:14px}
+.pill[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
+.dock{position:fixed;left:max(16px,env(safe-area-inset-left));top:64px;display:flex;gap:8px;z-index:4}
+.zoom{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:calc(20px + var(--safe-b));display:flex;flex-direction:column;gap:6px;z-index:4}
+.zoom button{width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:rgba(12,21,37,.7);font-size:20px;color:var(--gold)}
+.panel{position:fixed;z-index:6;right:20px;top:72px;bottom:20px;width:380px;max-width:calc(100% - 40px);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 20px 22px;overflow-y:auto;overscroll-behavior:contain;backdrop-filter:blur(8px)}
+.panel.min{bottom:auto;height:auto;padding-bottom:14px}
+.panel.min .pbody{display:none}
+.phead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;gap:8px;align-items:center}
+.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--c,var(--gold));box-shadow:0 0 8px var(--c,var(--gold))}
+h2{font:400 26px/1.2 Georgia,"Noto Serif Devanagari",serif;margin:6px 0 0;color:var(--text)}
+h2:focus{outline:none}
+h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 6px;font-weight:600}
+.desc{color:#d4d0c4;margin-top:8px;font-size:15.5px;line-height:1.6}
+.sk{white-space:pre-line;font:400 21px/1.85 "Noto Serif Devanagari",Georgia,serif;color:var(--gold);margin:14px 0 6px}
+.tx{font:17px/1.6 Georgia,"Noto Serif Devanagari",serif;margin:8px 0}
+.item{display:flex;gap:12px;align-items:baseline;width:100%;text-align:left;padding:11px 2px;border-top:1px solid var(--line);color:var(--text);min-height:44px}
+.item .rf{flex:none;min-width:40px;color:var(--c,var(--gold));font-weight:600;font-size:14px}
+.item .tt{font:16px/1.4 Georgia,"Noto Serif Devanagari",serif}
+.item small{display:block;color:var(--muted);font:13px/1.4 system-ui,sans-serif;margin-top:2px}
+.item:hover .tt{color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 18px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);font-size:15px;margin:14px 10px 0 0}
+.btn.fill{background:var(--gold);color:#1a1405}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:36px;padding:6px 13px;border:1px solid var(--line);border-radius:999px;font-size:14px;color:var(--text)}
+.chip:hover{border-color:var(--gold)}
+.nav2{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
+.xnote{color:var(--muted);font-size:13px;margin-top:4px}
+.x{color:var(--muted);font-size:22px;min-width:40px;min-height:40px;border-radius:50%}
+.reader{position:fixed;inset:0;z-index:20;background:#0a1222;overflow-y:auto;padding:0 20px 80px}
+.reader[hidden]{display:none}
+.rbar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;background:#0a1222;border-bottom:1px solid var(--line);z-index:2;max-width:760px;margin:0 auto}
+.rbody{max-width:760px;margin:0 auto}
+.rbody h1{font:400 30px/1.25 Georgia,"Noto Serif Devanagari",serif;margin:28px 0 4px}
+.rv{padding:22px 0;border-top:1px solid var(--line);scroll-margin-top:70px}
+.rv.hit{background:linear-gradient(90deg,rgba(232,203,142,.09),transparent)}
+.rv .rn{color:var(--gold);font-weight:600;font-size:14px}
+.rv .narr{color:#d4d0c4;font-size:16px;line-height:1.7;margin:6px 0}
+.rnav{display:flex;justify-content:space-between;margin:34px 0 0}
+.legend{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:12px;display:none;gap:14px;font-size:12px;color:var(--muted);z-index:3}
+.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:var(--c)}
+@media(min-width:901px){.zoom{left:auto;right:calc(max(20px,env(safe-area-inset-right)) + 400px);bottom:20px;flex-direction:row}}
+@media(max-width:900px){
+ .panel{left:10px;right:10px;top:auto;bottom:calc(10px + var(--safe-b));width:auto;max-width:none;max-height:46dvh;border-radius:18px}
+ .zoom{bottom:auto;top:64px;left:auto;right:max(12px,env(safe-area-inset-right))}
+ .brand small{display:none}
+ .dock{top:64px}
+ h2{font-size:23px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}
+.loading{position:fixed;inset:0;display:grid;place-items:center;color:var(--muted);z-index:3;text-align:center;padding:30px}
+</style>
+</head>
+<body>
+<canvas id="cv" tabindex="0" role="img" aria-label="Scripture universe: three scriptures as clusters of chapters, each shloka a point of light. Arrow keys pan, plus and minus zoom. Every choice is also available in the panel."></canvas>
+<header>
+ <a class="brand" href="../" aria-label="Gitagraph home"><span>gitagraph</span><small id="sub"></small></a>
+ <div class="hbtns"><button class="pill" id="motion" aria-pressed="false"></button><button class="pill" id="lang"></button></div>
+</header>
+<div class="dock"><button class="pill" id="back"></button><button class="pill" id="home"></button></div>
+<div class="zoom"><button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">−</button></div>
+<aside class="panel" id="panel" aria-label="Details"></aside>
+<div class="legend" id="legend" aria-hidden="true"></div>
+<section class="reader" id="reader" hidden role="dialog" aria-modal="true" aria-labelledby="rtitle" tabindex="-1"></section>
+<div class="sr" id="live" aria-live="polite"></div>
+<div class="loading" id="loading">Loading the universe…</div>
+<script>
+'use strict';
+// Reads the canonical text files of each reader (../gita/, ../ashtavakra/, ../upanishads/). No text or relationship
+// is written here: structure comes from chapter/verse numbers, questions from gita/questions.json, ideas from the
+// tags on each Gita verse, and the Gita/Ashtavakra references of a story from upanishads/data.json.
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+let lang = "en";
+try{ const g = localStorage.getItem("gg-lang"); if(g === "hi" || g === "en") lang = g; }catch(e){}
+const T = {
+ en:{sub:"A living library of wisdom", back:"← Back", home:"✧ Universe", pause:"Pause motion", play:"Play motion", lang:"हिन्दी",
+  start:"Start with a question", startD:"Choose a life question and the verses that speak to it light up. Or tap any chapter to explore it.",
+  texts:"The three scriptures", chapters:"Chapters", verses:"Shlokas", stories:"Stories", read:"Read the whole chapter", readS:"Read the story",
+  open:"Open", close:"Close", min:"Hide", show:"Show", prev:"← Previous", next:"Next →", ideas:"Ideas in this verse", people:"People",
+  all:"All verses on this idea", chapter:"Chapter", verse:"Shloka", story:"Story", question:"Question", idea:"Idea", n:k => `${k} shlokas`, ns:k => `${k} stories`,
+  notedIn:"Mentioned in the story", noted:"The story points to", gitaV:"Bhagavad Gita", ashV:"Ashtavakra Gita", qStories:"Stories on this question", versesQ:"Verses for this question",
+  readIn:"Reading", pass:"Passages from the text", more:n => `…and ${n} more`, intro:"About this", hint:"Drag to move · pinch or scroll to zoom",
+  scripture:"Scripture", names:{g:"Bhagavad Gita", a:"Ashtavakra Gita", u:"Upanishads"}, loadErr:"The universe did not load. Reload the page to try again.",
+  moved:"Selected", care:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.", up:"Upanishad"},
+ hi:{sub:"ज्ञान का जीवंत ग्रंथालय", back:"← वापस", home:"✧ ब्रह्मांड", pause:"गति रोकें", play:"गति चलाएँ", lang:"English",
+  start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
+  texts:"तीन ग्रंथ", chapters:"अध्याय", verses:"श्लोक", stories:"कथाएँ", read:"पूरा अध्याय पढ़ें", readS:"कथा पढ़ें",
+  open:"खोलें", close:"बंद करें", min:"छिपाएँ", show:"दिखाएँ", prev:"← पिछला", next:"अगला →", ideas:"इस श्लोक के विचार", people:"पात्र",
+  all:"इस विचार के सभी श्लोक", chapter:"अध्याय", verse:"श्लोक", story:"कथा", question:"प्रश्न", idea:"विचार", n:k => `${k} श्लोक`, ns:k => `${k} कथाएँ`,
+  notedIn:"जिस कथा में इसका उल्लेख है", noted:"कथा जिन श्लोकों की ओर इशारा करती है", gitaV:"भगवद्गीता", ashV:"अष्टावक्र गीता", qStories:"इस प्रश्न की कथाएँ", versesQ:"इस प्रश्न के श्लोक",
+  readIn:"पढ़ रहे हैं", pass:"मूल पाठ के अंश", more:n => `…और ${n}`, intro:"परिचय", hint:"खींचकर घुमाएँ · ज़ूम के लिए पिंच करें",
+  scripture:"ग्रंथ", names:{g:"भगवद्गीता", a:"अष्टावक्र गीता", u:"उपनिषद"}, loadErr:"ब्रह्मांड लोड नहीं हुआ। दोबारा कोशिश करें।",
+  moved:"चुना गया", care:"गीता देखने का एक नज़रिया देती है, सहारे का विकल्प नहीं। अगर यह मन पर भारी है, तो किसी भरोसेमंद व्यक्ति या डॉक्टर से बात करें।", up:"उपनिषद्"}
+};
+const t = k => T[lang][k];
+const COL = {g:"#e8cb8e", a:"#c4a6c6", u:"#93bacd"};
+let paused = reduce.matches;
+
+// ---------- data ----------
+let GV = [], GH = new Map(), QS = [], AV = [], AH = new Map(), UP = [], ST = [];
+const nodes = [], byId = new Map(), roots = {};
+const gRef = new Map(), aRef = new Map();      // "2.47" -> node
+const chapOf = {g:[], a:[], u:[]};
+const lgrp = (en, hi) => lang === "hi" ? (hi || en) : en;
+
+function build(){
+  const place = (key, cx, cy, ring, count, label) => {
+    const r = {id:key, kind:"root", t:key, x:cx, y:cy, r:7, name:{en:T.en.names[key], hi:T.hi.names[key]}};
+    roots[key] = r; add(r); return r;
+  };
+  function add(n){ nodes.push(n); byId.set(n.id, n); return n; }
+  const G = place("g", -620, 60), A = place("a", 560, -250), U = place("u", 400, 420);
+  const gch = [...GH.values()].filter(h => h.type === "chapter").sort((a,b) => a.num - b.num);
+  const spiral = (c, n, step, mk) => { for(let i = 0; i < n; i++){ const rr = step*Math.sqrt(i + .6), th = i*2.39996; mk(i, c.x + rr*Math.cos(th), c.y + rr*Math.sin(th)); } };
+  gch.forEach(h => {
+    const a = -Math.PI/2 + (h.num-1)*2*Math.PI/18, c = add({id:"g"+h.num, kind:"chap", t:"g", num:h.num, h, x:G.x + 520*Math.cos(a), y:G.y + 520*Math.sin(a), r:5, name:{en:h.label, hi:h.hl || h.label}, sk:h.skt});
+    chapOf.g.push(c); c.kids = [];
+    const vs = GV.filter(v => v.c === h.num);
+    spiral(c, vs.length, 7.2, (i, x, y) => { const v = vs[i], n = add({id:`g${v.c}.${v.v}`, kind:"verse", t:"g", ch:c, d:v, ref:`${v.c}.${v.v}`, x, y}); gRef.set(n.ref, n); c.kids.push(n); });
+  });
+  const ach = [...AH.values()].filter(h => h.type === "chapter").sort((a,b) => a.num - b.num);
+  ach.forEach(h => {
+    const a = -Math.PI/2 + (h.num-1)*2*Math.PI/ach.length, c = add({id:"a"+h.num, kind:"chap", t:"a", num:h.num, h, x:A.x + 250*Math.cos(a), y:A.y + 250*Math.sin(a), r:5, name:{en:h.label, hi:h.hl || h.label}, sk:h.skt});
+    chapOf.a.push(c); c.kids = [];
+    const vs = AV.filter(v => v.c === h.num);
+    spiral(c, vs.length, 7, (i, x, y) => { const v = vs[i], n = add({id:`a${v.c}.${v.v}`, kind:"verse", t:"a", ch:c, d:v, ref:`${v.c}.${v.v}`, x, y}); aRef.set(n.ref, n); c.kids.push(n); });
+  });
+  UP.forEach((u, i) => {
+    const a = -Math.PI/2 + i*2*Math.PI/UP.length, c = add({id:"u:"+u.id, kind:"chap", t:"u", up:u, x:U.x + 230*Math.cos(a), y:U.y + 230*Math.sin(a), r:5, name:{en:u.name_en, hi:u.name_hi}, sk:u.native});
+    chapOf.u.push(c); c.kids = [];
+    const ss = ST.filter(s => s.up === u.id);
+    ss.forEach((s, j) => { const b = a + (j - (ss.length-1)/2)*.5 ; const rr = 46 + (j%2)*14;
+      const n = add({id:"u:"+s.id, kind:"story", t:"u", ch:c, s, x:c.x + rr*Math.cos(b), y:c.y + rr*Math.sin(b), r:4, name:{en:s.title_en, hi:s.title_hi}}); c.kids.push(n); });
+  });
+  // story -> verse references that already live in the Upanishads data
+  ST.forEach(s => { const n = byId.get("u:"+s.id); n.xg = (s.gita||[]).map(r => gRef.get(r)).filter(Boolean); n.xa = (s.ashtavakra||[]).map(r => aRef.get(r)).filter(Boolean); });
+  ST.forEach(s => { const n = byId.get("u:"+s.id); n.xg.forEach(v => (v.cites = v.cites || []).push(n)); n.xa.forEach(v => (v.cites = v.cites || []).push(n)); });
+}
+
+// ---------- state + routing ----------
+// #/  #/g  #/g/2  #/g/2/47  #/a/1/2  #/u/katha  #/u/nachiketa  #/q/grief  #/i/dharma  and "/read" in front of a text path
+let S = {kind:"home"}, readOpen = false, collapsed = false, lit = null, edges = [];
+function parse(h){
+  const p = h.replace(/^#\/?/, "").split("/").filter(Boolean);
+  let read = false; if(p[0] === "read"){ read = true; p.shift(); }
+  let st = {kind:"home"};
+  if(p[0] === "q" && QS.find(q => q.slug === p[1])) st = {kind:"q", q:QS.find(q => q.slug === p[1])};
+  else if(p[0] === "i" && GH.get(p[1])) st = {kind:"idea", h:GH.get(p[1])};
+  else if((p[0] === "g" || p[0] === "a") && !p[1]) st = {kind:"root", n:roots[p[0]]};
+  else if(p[0] === "g" || p[0] === "a"){
+    const ch = byId.get(p[0] + p[1]);
+    if(ch && p[2] && byId.get(`${p[0]}${p[1]}.${p[2]}`)) st = {kind:"verse", n:byId.get(`${p[0]}${p[1]}.${p[2]}`)};
+    else if(ch) st = {kind:"chap", n:ch};
+  } else if(p[0] === "u" && !p[1]) st = {kind:"root", n:roots.u};
+  else if(p[0] === "u" && byId.get("u:"+p[1])){ const n = byId.get("u:"+p[1]); st = {kind:n.kind === "story" ? "story" : "chap", n}; }
+  if(read && !(st.kind === "chap" || st.kind === "verse" || st.kind === "story")) read = false;
+  return {st, read};
+}
+const hashOf = n => n.kind === "root" ? `#/${n.t}` : n.kind === "verse" ? `#/${n.t}/${n.d.c}/${n.d.v}` : n.t === "u" ? `#/u/${n.id.slice(2)}` : `#/${n.t}/${n.num}`;
+const hashFor = st => st.kind === "q" ? `#/q/${st.q.slug}` : st.kind === "idea" ? `#/i/${st.h.id}` : st.n ? hashOf(st.n) : "#/";
+function apply(){
+  const r = parse(location.hash); S = r.st;
+  readOpen = r.read;
+  computeLit(); renderPanel(); renderReader(); fly();
+  $("back").disabled = !history.state || !history.state.nav;
+  $("home").setAttribute("aria-current", S.kind === "home" ? "true" : "false");
+  const label = S.kind === "q" ? qn(S.q) : S.kind === "idea" ? idn(S.h) : S.n ? nm(S.n) : "";
+  $("live").textContent = label ? `${t("moved")}: ${label}` : "";
+  dirty = true;
+}
+function nav(hash){ if(location.hash === hash) return; history.pushState({nav:1}, "", hash); apply(); }
+addEventListener("popstate", apply);
+
+// ---------- names ----------
+const nm = n => n.kind === "verse" ? (n.t === "a" ? "अ" : "") + n.ref : lang === "hi" ? (n.name.hi || n.name.en) : n.name.en;
+const qn = q => lang === "hi" ? q.q_hi : q.q_en, qi = q => lang === "hi" ? q.intro_hi : q.intro_en;
+const idn = h => lang === "hi" ? (h.hl || h.label) : h.label;
+const tr = d => lang === "hi" ? (d.hi || d.en) : d.en;
+function sa(d){
+  return String(d.sa || "").split("\n").map(s => s.trim()).filter(Boolean).map(l => l.replace(/\s*\|\|\s*([०-९]+)-([०-९]+)\s*\|\|/, " ॥ $1.$2 ॥").replace(/\|\|/g,"॥").replace(/\|/g,"।")).join("\n");
+}
+const col = n => COL[n.t || "g"];
+
+// ---------- lit set (question / idea) and connection paths ----------
+function computeLit(){
+  lit = null; edges = [];
+  const chain = list => { for(let i = 0; i < list.length - 1 && i < 60; i++) edges.push([list[i], list[i+1]]); };
+  if(S.kind === "q"){
+    const vs = S.q.verses.map(r => gRef.get(r)).filter(Boolean);
+    const ss = ST.filter(s => (s.life_questions || []).includes(S.q.slug)).map(s => byId.get("u:"+s.id));
+    lit = new Set([...vs, ...ss]); S.vs = vs; S.ss = ss; chain(vs);
+  } else if(S.kind === "idea"){
+    const vs = S.h.vs; lit = new Set(vs); S.vs = vs; chain(vs.slice(0, 40));
+  } else if(S.kind === "verse"){
+    lit = new Set([S.n, ...(S.n.cites || [])]); (S.n.cites || []).forEach(c => edges.push([S.n, c]));
+  } else if(S.kind === "story"){
+    lit = new Set([S.n, ...S.n.xg, ...S.n.xa]); [...S.n.xg, ...S.n.xa].forEach(v => edges.push([S.n, v]));
+  }
+}
+
+// ---------- panel ----------
+function qRow(q){ return `<a class="item" href="#/q/${q.slug}"><span class="tt">${esc(qn(q))}<small>${esc(t("n")(q.verses.length))}</small></span></a>`; }
+function vRow(n, extra){
+  const d = n.d; return `<a class="item" style="--c:${col(n)}" href="${hashOf(n)}"><span class="rf">${n.ref}</span><span class="tt">${esc(tr(d))}${extra ? `<small>${esc(extra)}</small>` : ""}</span></a>`;
+}
+const sRow = n => `<a class="item" style="--c:${col(n)}" href="${hashOf(n)}"><span class="rf">✦</span><span class="tt">${esc(nm(n))}<small>${esc(lgrp(n.s.hook_en, n.s.hook_hi))}</small></span></a>`;
+const cRow = n => `<a class="item" style="--c:${col(n)}" href="${hashOf(n)}"><span class="rf">${n.num != null ? n.num : "✦"}</span><span class="tt">${esc(nm(n))}<small>${esc(n.kind === "chap" && n.t !== "u" ? t("n")(n.kids.length) : t("ns")(n.kids.length))}</small></span></a>`;
+function head(eye, title, c){
+  return `<div class="phead"><div><div class="eyebrow" style="--c:${c || "var(--gold)"}"><i></i>${esc(eye)}</div><h2 id="ptitle" tabindex="-1">${esc(title)}</h2></div>
+  <button class="x" data-min aria-label="${esc(collapsed ? t("show") : t("min"))}" aria-expanded="${!collapsed}">${collapsed ? "⌃" : "⌄"}</button></div><div class="pbody">`;
+}
+function ideaChips(v){
+  const ids = [...new Set([...(v.d.k || []), ...(v.d.p || [])])].filter(id => GH.has(id) && GH.get(id).vs.length);
+  return ids.length ? `<h3>${esc(t("ideas"))}</h3><div class="chips">${ids.map(id => `<a class="chip" href="#/i/${id}">${esc(idn(GH.get(id)))}</a>`).join("")}</div>` : "";
+}
+function renderPanel(){
+  const p = $("panel"); let h = "";
+  if(S.kind === "home"){
+    h = head(t("scripture"), t("start")) + `<p class="desc">${esc(t("startD"))}</p>` + QS.map(qRow).join("") +
+      `<h3>${esc(t("texts"))}</h3>` + ["g","a","u"].map(k => `<a class="item" style="--c:${COL[k]}" href="#/${k}"><span class="tt">${esc(lgrp(T.en.names[k], T.hi.names[k]))}<small>${esc(k === "u" ? t("ns")(ST.length) : t("n")((k === "g" ? GV : AV).length))}</small></span></a>`).join("");
+  } else if(S.kind === "root"){
+    const k = S.n.t, list = chapOf[k];
+    h = head(t("scripture"), nm(S.n), COL[k]) + `<h3>${esc(k === "u" ? t("up") : t("chapters"))}</h3>` + list.map(cRow).join("");
+  } else if(S.kind === "chap"){
+    const n = S.n, k = n.t;
+    h = head(k === "u" ? t("up") : `${t("chapter")} ${n.num}`, nm(n), COL[k]);
+    if(k === "u") h += `<p class="desc">${esc(lgrp(n.up.desc_en, n.up.desc_hi))}</p>` + n.kids.map(sRow).join("");
+    else{ const hb = n.h; h += `<p class="xnote" lang="sa">${esc(n.sk || "")}</p><p class="desc">${esc(lang === "hi" ? (hb.hd || hb.desc) : hb.desc)}</p><a class="btn fill" href="#/read${hashOf(n).slice(1)}">${esc(t("read"))}</a>` +
+      `<h3>${esc(t("verses"))}</h3>` + n.kids.map(v => vRow(v)).join(""); }
+  } else if(S.kind === "verse"){
+    const n = S.n, d = n.d, ch = n.ch, i = ch.kids.indexOf(n), pv = ch.kids[i-1], nx = ch.kids[i+1], k = n.t;
+    h = head(`${t("chapter")} ${ch.num} · ${t("verse")}`, `${k === "a" ? lgrp("Ashtavakra", "अष्टावक्र") + " " : ""}${n.ref}`, COL[k]) +
+      `<p class="sk" lang="sa">${esc(sa(d))}</p><p class="tx" lang="${lang}">${esc(tr(d))}</p>` +
+      `<div class="nav2">${pv ? `<a class="chip" href="${hashOf(pv)}">${esc(t("prev"))}</a>` : "<span></span>"}${nx ? `<a class="chip" href="${hashOf(nx)}">${esc(t("next"))}</a>` : "<span></span>"}</div>` +
+      `<a class="btn" href="#/read${hashOf(n).slice(1)}">${esc(t("read"))}</a><a class="btn" href="${hashOf(ch)}">${esc(nm(ch))}</a>` + (k === "g" ? ideaChips(n) : "") +
+      (n.cites ? `<h3>${esc(t("notedIn"))}</h3>` + n.cites.map(sRow).join("") : "");
+  } else if(S.kind === "story"){
+    const n = S.n, s = n.s;
+    h = head(t("story"), nm(n), COL.u) + `<p class="desc">${esc(lgrp(s.hook_en, s.hook_hi))}</p><a class="btn fill" href="#/read${hashOf(n).slice(1)}">${esc(t("readS"))}</a>` +
+      (n.xg.length ? `<h3>${esc(t("noted"))} · ${esc(t("gitaV"))}</h3>` + n.xg.map(v => vRow(v)).join("") : "") +
+      (n.xa.length ? `<h3>${esc(t("noted"))} · ${esc(t("ashV"))}</h3>` + n.xa.map(v => vRow(v)).join("") : "");
+  } else if(S.kind === "q"){
+    h = head(t("question"), qn(S.q)) + `<p class="desc">${esc(qi(S.q))}</p>` + (S.q.care ? `<p class="xnote">${esc(t("care"))}</p>` : "") +
+      `<h3>${esc(t("versesQ"))}</h3>` + S.vs.map(v => vRow(v)).join("") + (S.ss.length ? `<h3>${esc(t("qStories"))}</h3>` + S.ss.map(sRow).join("") : "") +
+      `<a class="btn" href="../gita/questions/${S.q.slug}/">${esc(t("intro"))} →</a>`;
+  } else if(S.kind === "idea"){
+    const vs = S.vs;
+    h = head(t("idea"), idn(S.h)) + `<p class="desc">${esc(lang === "hi" ? (S.h.hd || S.h.desc || "") : (S.h.desc || ""))}</p><h3>${esc(t("all"))} · ${vs.length}</h3>` + vs.slice(0, 14).map(v => vRow(v)).join("") +
+      (vs.length > 14 ? `<p class="xnote">${esc(t("more")(vs.length - 14))}</p>` : "");
+  }
+  p.innerHTML = h + "</div>"; p.classList.toggle("min", collapsed); p.scrollTop = 0;
+  const hd = $("ptitle"); if(hd && started) hd.focus({preventScroll:true});
+}
+$("panel").addEventListener("click", e => { if(e.target.closest("[data-min]")){ collapsed = !collapsed; renderPanel(); fly(); } });
+
+// ---------- reader ----------
+function renderReader(){
+  const r = $("reader"); r.hidden = !readOpen;
+  if(!readOpen){ document.body.style.overflow = ""; r.innerHTML = ""; return; }
+  document.body.style.overflow = "hidden";
+  const n = S.n, focusRef = n.kind === "verse" ? n.ref : null, ch = n.kind === "verse" ? n.ch : n;
+  let body = "", title = nm(ch), eye = "", prevN, nextN;
+  if(n.kind === "story"){
+    const s = n.s, list = lang === "hi" ? s.story_hi : s.story_en;
+    eye = t("story");
+    body = `<p class="desc">${esc(lgrp(s.hook_en, s.hook_hi))}</p>` + (list || s.story_en).map(e => e.src === "narr" ? `<p class="narr" lang="${lang}">${esc(e.t)}</p>` : `<div class="rv"><div class="rn">${esc(e.ref || "")}</div><p class="tx" lang="${lang}">${esc(e.t)}</p></div>`).join("") +
+      ((s.verses || []).length ? `<h3>${esc(t("pass"))}</h3>` + s.verses.map(v => `<div class="rv"><div class="rn">${esc(v.ref)}</div><p class="sk" lang="sa">${esc(String(v.sa || "").replace(/\|\|/g,"॥").replace(/\|/g,"।"))}</p><p class="tx" lang="${lang}">${esc(lang === "hi" ? (v.hi || v.en) : v.en)}</p></div>`).join("") : "");
+  } else {
+    eye = `${t("chapter")} ${ch.num}`;
+    body = ch.kids.map(v => `<div class="rv" id="rv-${v.ref.replace(".","-")}"><div class="rn">${v.ref}</div><p class="sk" lang="sa">${esc(sa(v.d))}</p><p class="tx" lang="${lang}">${esc(tr(v.d))}</p></div>`).join("");
+    const all = chapOf[ch.t], i = all.indexOf(ch); prevN = all[i-1]; nextN = all[i+1];
+    body += `<div class="rnav">${prevN ? `<a class="chip" href="#/read${hashOf(prevN).slice(1)}">${esc(t("prev"))} ${esc(nm(prevN))}</a>` : "<span></span>"}${nextN ? `<a class="chip" href="#/read${hashOf(nextN).slice(1)}">${esc(nm(nextN))} ${esc(t("next").replace("→","").trim())} →</a>` : "<span></span>"}</div>`;
+  }
+  const back = n.kind === "verse" ? hashOf(n) : hashOf(ch);
+  r.innerHTML = `<div class="rbar"><span class="eyebrow" style="--c:${COL[ch.t]}"><i></i>${esc(eye)}</span><a class="chip" href="${back}" id="rclose">${esc(t("close"))} ✕</a></div><div class="rbody"><h1 id="rtitle" tabindex="-1">${esc(title)}</h1>${body}</div>`;
+  r.scrollTop = 0;
+  if(focusRef){ const el = $("rv-" + focusRef.replace(".","-")); if(el){ el.classList.add("hit"); el.scrollIntoView({block:"start"}); } }
+  else $("rtitle").focus({preventScroll:true});
+}
+$("reader").addEventListener("keydown", e => {
+  if(e.key === "Escape"){ e.preventDefault(); $("rclose")?.click(); }
+  if(e.key === "Tab"){ const f = [...$("reader").querySelectorAll("a,button")]; if(!f.length) return; const a = f[0], z = f[f.length-1];
+    if(e.shiftKey && (document.activeElement === a || document.activeElement === $("reader") || document.activeElement.id === "rtitle")){ e.preventDefault(); z.focus(); }
+    else if(!e.shiftKey && document.activeElement === z){ e.preventDefault(); a.focus(); } }
+});
+// links: real hrefs so everything works without the canvas; same-page hashes go through history
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[href^='#/']"); if(!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+  e.preventDefault(); nav(a.getAttribute("href"));
+});
+
+// ---------- camera ----------
+const cam = {x:0, y:0, z:.3}; let tgt = null, W = 0, H = 0, dpr = 1, dirty = true, started = false, hover = null, clock = 0;
+const cv = $("cv"), ctx = cv.getContext("2d");
+const toS = n => ({x:(n.x - cam.x)*cam.z + W/2, y:(n.y - cam.y)*cam.z + H/2});
+function insets(){ const wide = W > 900, pn = $("panel").getBoundingClientRect();
+  return wide ? {l:20, r:pn.width + 40, t:70, b:30} : {l:10, r:10, t:110, b:collapsed ? 80 : Math.min(H*.46, pn.height) + 20}; }
+function boundsOf(list){ const xs = list.map(n => n.x), ys = list.map(n => n.y); return {x0:Math.min(...xs), x1:Math.max(...xs), y0:Math.min(...ys), y1:Math.max(...ys)}; }
+function camFor(list, maxZ){
+  const b = boundsOf(list), I = insets(), aw = W - I.l - I.r, ah = H - I.t - I.b, bw = Math.max(40, b.x1 - b.x0 + 70), bh = Math.max(40, b.y1 - b.y0 + 70);
+  const z = Math.min(maxZ, aw/bw, ah/bh), cx = (b.x0 + b.x1)/2, cy = (b.y0 + b.y1)/2;
+  // keep the focus in the free part of the screen (not under the panel)
+  return {z, x:cx - ((I.l - I.r)/2)/z, y:cy - ((I.t - I.b)/2)/z};
+}
+function fly(){
+  if(!W) return;
+  let c;
+  if(S.kind === "home") c = camFor(nodes, 2);
+  else if(S.kind === "root") c = camFor(nodes.filter(n => n.t === S.n.t), 2);
+  else if(S.kind === "chap") c = camFor([S.n, ...S.n.kids], S.n.t === "u" ? 4 : 5);
+  else if(S.kind === "verse") c = camFor([S.n], 4);
+  else if(S.kind === "story") c = camFor([S.n, ...S.n.xg, ...S.n.xa, S.n.ch], 3);
+  else c = camFor((S.vs || []).slice(0, 400), 3.2);
+  if(readOpen){ dirty = true; }
+  tgt = reduce.matches ? null : {...c, t0:performance.now(), from:{...cam}}; if(!tgt) Object.assign(cam, c);
+  dirty = true; kick();
+}
+const ease = u => u < .5 ? 4*u*u*u : 1 - Math.pow(-2*u + 2, 3)/2;
+function step(now){
+  if(tgt){ const u = Math.min(1, (now - tgt.t0)/700), e = ease(u), f = tgt.from;
+    cam.z = Math.exp(Math.log(f.z) + (Math.log(tgt.z) - Math.log(f.z))*e); cam.x = f.x + (tgt.x - f.x)*e; cam.y = f.y + (tgt.y - f.y)*e; if(u >= 1) tgt = null; dirty = true; }
+}
+
+// ---------- draw ----------
+const stars = Array.from({length:150}, (_, i) => ({x:(Math.sin(i*12.9898)*43758.5453)%1, y:(Math.sin(i*78.233)*12345.678)%1, r:.4 + (i%5)*.2, a:.25 + (i%4)*.12}));
+function glow(x, y, r, c, a){ ctx.save(); ctx.globalAlpha = a; const g = ctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, c); g.addColorStop(1, "transparent"); ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r*2, r*2); ctx.restore(); }
+function draw(){
+  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.fillStyle = "#080f1e"; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle = "#dbe4f3";
+  for(const s of stars){ ctx.globalAlpha = Math.abs(s.a); ctx.beginPath(); ctx.arc(Math.abs((s.x*W - cam.x*.03 + W*3) % W), Math.abs((s.y*H - cam.y*.03 + H*3) % H), s.r, 0, 7); ctx.fill(); }
+  ctx.globalAlpha = 1;
+  const z = cam.z, filtering = !!lit && (S.kind === "q" || S.kind === "idea"), selId = S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
+  for(const k of ["g","a","u"]){ const p = toS(roots[k]); glow(p.x, p.y, Math.min(520, (k === "g" ? 640 : 330)*z), COL[k], .06); }
+  // constellation threads: text -> each chapter
+  ctx.lineWidth = .7;
+  for(const k of ["g","a","u"]){ const rp = toS(roots[k]); ctx.strokeStyle = COL[k]; ctx.globalAlpha = filtering ? .04 : .13;
+    for(const c of chapOf[k]){ const p = toS(c); ctx.beginPath(); ctx.moveTo(rp.x, rp.y); ctx.lineTo(p.x, p.y); ctx.stroke(); } }
+  // glowing connections (question path, idea thread, story references)
+  const live = !paused && !reduce.matches;
+  edges.forEach((e, i) => {
+    const a = toS(e[0]), b = toS(e[1]), cx = (a.x + b.x)/2 + (b.y - a.y)*.12, cy = (a.y + b.y)/2 - (b.x - a.x)*.12;
+    ctx.strokeStyle = "#e8cb8e"; ctx.globalAlpha = .55; ctx.lineWidth = 1.1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(cx, cy, b.x, b.y); ctx.stroke();
+    if(live && i < 30){ const u = (clock*.00009 + i*.173) % 1, v = 1 - u, x = v*v*a.x + 2*v*u*cx + u*u*b.x, y = v*v*a.y + 2*v*u*cy + u*u*b.y; glow(x, y, 9, "#f2d99e", .5); ctx.globalAlpha = 1; ctx.fillStyle = "#f6e2b0"; ctx.beginPath(); ctx.arc(x, y, 1.6, 0, 7); ctx.fill(); }
+  });
+  ctx.globalAlpha = 1;
+  // points
+  const vr = z < .5 ? 1.2 : z < 1.2 ? 1.8 : z < 3 ? 2.6 : 3.6;
+  for(const n of nodes){
+    if(n.kind === "root") continue;
+    const p = toS(n); if(p.x < -40 || p.x > W + 40 || p.y < -40 || p.y > H + 40) continue;
+    const isLit = lit && lit.has(n), sel = n.id === selId, dimC = chapSel && n.kind === "verse" && n.ch !== chapSel;
+    const alpha = filtering ? (isLit || sel ? 1 : .12) : dimC ? .3 : 1;
+    ctx.globalAlpha = alpha; ctx.fillStyle = COL[n.t];
+    const r = n.kind === "verse" ? (isLit ? vr*1.7 : vr) : n.kind === "story" ? 3.5 + z*.4 : 3.5 + Math.min(3, z*1.2);
+    if(n.kind !== "verse" || isLit || sel || n === hover) glow(p.x, p.y, isLit || sel ? 20 : 12, COL[n.t], isLit || sel ? .45 : .25);
+    ctx.beginPath(); ctx.arc(p.x, p.y, sel ? r*1.5 : n === hover ? r*1.4 : r, 0, 7); ctx.fill();
+    if(sel){ ctx.strokeStyle = COL[n.t]; ctx.lineWidth = .9; ctx.globalAlpha = .55; ctx.beginPath(); ctx.arc(p.x, p.y, r + 7 + (live ? Math.sin(clock*.002)*1.3 : 0), 0, 7); ctx.stroke(); }
+    ctx.globalAlpha = alpha;
+    const label = n.kind === "chap" ? (z > .45 || sel || n === hover) : n.kind === "story" ? (z > 1.3 || isLit || sel || n === hover) : (z > 3 && !filtering) || isLit && z > 1.2 || sel || n === hover;
+    if(label){
+      const txt = n.kind === "verse" ? n.ref : n.kind === "chap" ? (n.num ? `${n.num} · ${nm(n)}` : nm(n)) : nm(n);
+      ctx.font = n.kind === "verse" ? "10px system-ui,sans-serif" : "11.5px Georgia,serif"; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.shadowColor = "#080f1e"; ctx.shadowBlur = 6;
+      ctx.fillStyle = sel ? "#fff1cc" : n.kind === "chap" ? COL[n.t] : "#b6c0cf"; ctx.fillText(txt, p.x + r + 5, p.y); ctx.shadowBlur = 0;
+    } else if(n.kind === "chap" && z <= .45 && n.num && !filtering){ ctx.font = "9px system-ui"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = COL[n.t]; ctx.globalAlpha = .8; ctx.fillText(String(n.num), p.x, p.y + 12); }
+  }
+  ctx.globalAlpha = 1;
+  for(const k of ["g","a","u"]){ const r = roots[k], p = toS(r); glow(p.x, p.y, 34, COL[k], .35); ctx.fillStyle = COL[k]; ctx.beginPath(); ctx.arc(p.x, p.y, 6, 0, 7); ctx.fill();
+    ctx.font = (W < 600 ? "15px" : "20px") + " Georgia,'Noto Serif Devanagari',serif"; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.shadowColor = "#080f1e"; ctx.shadowBlur = 8; ctx.fillStyle = COL[k]; ctx.globalAlpha = filtering ? .55 : 1; ctx.fillText(nm(r), p.x, p.y + 16); ctx.shadowBlur = 0; ctx.globalAlpha = 1; }
+}
+let last = 0;
+const animated = () => !paused && !reduce.matches && (edges.length > 0 || (S.n && S.kind !== "root"));
+function loop(now){
+  clock = paused ? clock : clock + Math.min(50, now - (last || now)); last = now;
+  step(now);
+  const go = tgt || animated();
+  if(dirty || go){ draw(); dirty = false; }
+  raf = go ? requestAnimationFrame(loop) : 0;
+}
+let raf = 0; function kick(){ if(!raf) raf = requestAnimationFrame(loop); }
+function size(){ W = innerWidth; H = innerHeight; dpr = Math.min(2, devicePixelRatio || 1); cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr); dirty = true; }
+addEventListener("resize", () => { const first = !W; size(); if(first || !tgt) fly(); kick(); });
+
+// ---------- input ----------
+const ptrs = new Map(); let drag = null, pinch = null;
+const toW = (sx, sy) => ({x:(sx - W/2)/cam.z + cam.x, y:(sy - H/2)/cam.z + cam.y});
+function zoomAt(f, sx, sy){ const w = toW(sx, sy), z = Math.max(.12, Math.min(9, cam.z*f)); cam.z = z; cam.x = w.x - (sx - W/2)/z; cam.y = w.y - (sy - H/2)/z; tgt = null; dirty = true; kick(); }
+function hit(sx, sy, touch){
+  const R = touch ? 22 : 14; let best = null, bd = 1e9;
+  for(const n of nodes){
+    if(n.kind === "verse" && cam.z < 1.1 && !(lit && lit.has(n))) continue;
+    const p = toS(n), d = Math.hypot(p.x - sx, p.y - sy) - (n.kind === "verse" ? 0 : 4);
+    if(d < R && d < bd){ bd = d; best = n; }
+  }
+  return best;
+}
+cv.addEventListener("pointerdown", e => { cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, {x:e.clientX, y:e.clientY, t:e.pointerType});
+  if(ptrs.size === 1) drag = {x:e.clientX, y:e.clientY, cx:cam.x, cy:cam.y, moved:false}; else { drag = null; const [a,b] = [...ptrs.values()]; pinch = {d:Math.hypot(a.x-b.x, a.y-b.y), z:cam.z}; } });
+cv.addEventListener("pointermove", e => {
+  const pt = ptrs.get(e.pointerId);
+  if(!pt){ if(e.pointerType === "mouse"){ const h = hit(e.clientX, e.clientY); if(h !== hover){ hover = h; cv.style.cursor = h ? "pointer" : "grab"; dirty = true; kick(); } } return; }
+  pt.x = e.clientX; pt.y = e.clientY;
+  if(ptrs.size === 2 && pinch){ const [a,b] = [...ptrs.values()]; zoomAt(pinch.z*Math.hypot(a.x-b.x, a.y-b.y)/pinch.d/cam.z, (a.x+b.x)/2, (a.y+b.y)/2); return; }
+  if(drag){ const dx = e.clientX - drag.x, dy = e.clientY - drag.y; if(Math.hypot(dx, dy) > 5) drag.moved = true; if(drag.moved){ cam.x = drag.cx - dx/cam.z; cam.y = drag.cy - dy/cam.z; tgt = null; dirty = true; kick(); } }
+});
+const endp = e => { const was = ptrs.get(e.pointerId); ptrs.delete(e.pointerId); if(ptrs.size < 2) pinch = null;
+  if(drag && !drag.moved && was && e.type === "pointerup"){ const h = hit(e.clientX, e.clientY, was.t !== "mouse"); if(h) nav(hashOf(h)); else if(S.kind !== "home" && S.kind !== "root") nav("#/"); }
+  if(!ptrs.size) drag = null; };
+cv.addEventListener("pointerup", endp); cv.addEventListener("pointercancel", endp);
+cv.addEventListener("pointerleave", () => { if(hover){ hover = null; dirty = true; kick(); } });
+cv.addEventListener("wheel", e => { e.preventDefault(); zoomAt(Math.exp(-e.deltaY*.0015), e.clientX, e.clientY); }, {passive:false});
+cv.addEventListener("keydown", e => {
+  const s = 60/cam.z; let d = true;
+  if(e.key === "ArrowLeft") cam.x -= s; else if(e.key === "ArrowRight") cam.x += s; else if(e.key === "ArrowUp") cam.y -= s; else if(e.key === "ArrowDown") cam.y += s;
+  else if(e.key === "+" || e.key === "=") zoomAt(1.3, W/2, H/2); else if(e.key === "-") zoomAt(1/1.3, W/2, H/2);
+  else if(e.key === "Escape"){ history.back(); } else d = false;
+  if(d){ e.preventDefault(); tgt = null; dirty = true; kick(); }
+});
+$("zin").onclick = () => zoomAt(1.4, W/2, H/2); $("zout").onclick = () => zoomAt(1/1.4, W/2, H/2);
+$("home").onclick = () => nav("#/");
+$("back").onclick = () => { if(history.state && history.state.nav) history.back(); else nav("#/"); };
+function words(){
+  document.documentElement.lang = lang; $("sub").textContent = t("sub"); $("back").textContent = t("back"); $("home").textContent = t("home");
+  $("lang").textContent = t("lang"); $("lang").setAttribute("aria-label", lang === "hi" ? "Switch to English" : "हिन्दी में देखें");
+  $("motion").textContent = paused ? "▷" : "Ⅱ"; $("motion").setAttribute("aria-label", t(paused ? "play" : "pause")); $("motion").setAttribute("aria-pressed", String(paused));
+}
+$("lang").onclick = () => { lang = lang === "hi" ? "en" : "hi"; try{ localStorage.setItem("gg-lang", lang); }catch(e){} words(); renderPanel(); renderReader(); dirty = true; kick(); };
+$("motion").onclick = () => { paused = !paused; words(); dirty = true; kick(); };
+reduce.addEventListener("change", () => { paused = reduce.matches; words(); dirty = true; kick(); });
+
+// ---------- boot ----------
+const J = u => fetch(u).then(r => { if(!r.ok) throw 0; return r.json(); });
+Promise.all([J("../gita/verses.json"), J("../gita/hubs.json"), J("../gita/questions.json"), J("../ashtavakra/verses.json"), J("../ashtavakra/hubs.json"), J("../upanishads/data.json")])
+  .then(([gv, gh, qs, av, ah, ud]) => {
+    GV = gv; QS = qs; AV = av; UP = ud.upanishads; ST = ud.stories;
+    gh.forEach(h => { h.vs = []; GH.set(h.id, h); });
+    GV.forEach(v => [...(v.k || []), ...(v.p || [])].forEach(id => { const h = GH.get(id); if(h && !h.vs.includes(v)) h.vs.push(v); }));
+    ah.forEach(h => AH.set(h.id, h));
+    build();
+    GH.forEach(h => { h.vs = h.vs.map(v => gRef.get(`${v.c}.${v.v}`)).filter(Boolean); });
+    $("loading").remove(); words(); size(); apply(); started = true; kick();
+  })
+  .catch(() => { $("loading").textContent = T[lang].loadErr; });
+</script>
+</body>
+</html>
