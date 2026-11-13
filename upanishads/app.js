@@ -89,6 +89,8 @@ const store = {
   set(k,v){ try{ localStorage.setItem("upa-"+k, JSON.stringify(v)); }catch(e){} }
 };
 let lang = store.get("lang", null);
+// the language is one preference for the whole site ("gg-lang"); an older per-text choice seeds it once
+try{ const g = localStorage.getItem("gg-lang"); if(g==="en" || g==="hi") lang = g; else if(lang==="en" || lang==="hi") localStorage.setItem("gg-lang", lang); }catch(e){}
 if(lang!=="en" && lang!=="hi"){ try{ lang = localStorage.getItem("gita-lang") ? JSON.parse(localStorage.getItem("gita-lang")) : "en"; }catch(e){ lang = "en"; } if(lang!=="hi") lang = "en"; }
 const prefs = Object.assign({sa:true, iast:true, other:false, marks:false, size:1, theme:"system"}, store.get("prefs2",{}));
 // the theme is one preference for the whole site ("gg-theme"); an older per-text choice moves into it once
@@ -167,7 +169,7 @@ document.getElementById("helpbtn").onclick = () => sheet(`<h2>${esc(u().whyT)}</
 window.addEventListener("scroll", () => document.getElementById("top").classList.toggle("scrolled", window.scrollY > 4), {passive:true});
 const howBody = () => `<div class="howbody">${u().how.map(([h,items]) => `<h3>${esc(h)}</h3><ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>`).join("")}</div>`;
 
-function setLang(l){ lang = l; store.set("lang", l); document.documentElement.lang = l; render(true); }
+function setLang(l){ lang = l; store.set("lang", l); try{ localStorage.setItem("gg-lang", l); }catch(e){} document.documentElement.lang = l; render(true); }
 function applyPrefs(boot){
   document.documentElement.style.setProperty("--scale", prefs.size);
   if(prefs.theme==="system"){ if(!boot) document.documentElement.removeAttribute("data-theme"); }

@@ -121,7 +121,10 @@ const store = {
   get(k,d){ try{ const v = localStorage.getItem("gita-"+k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k,v){ try{ localStorage.setItem("gita-"+k, JSON.stringify(v)); }catch(e){} }
 };
-let lang = store.get("lang", "en"); if(lang!=="en" && lang!=="hi") lang = "en";
+let lang = store.get("lang", null);
+// the language is one preference for the whole site ("gg-lang"); an older per-text choice seeds it once
+try{ const g = localStorage.getItem("gg-lang"); if(g==="en" || g==="hi") lang = g; else if(lang==="en" || lang==="hi") localStorage.setItem("gg-lang", lang); }catch(e){}
+if(lang!=="en" && lang!=="hi") lang = "en";
 const prefs = Object.assign({sa:true, iast:true, other:false, size:1, theme:"system"}, store.get("prefs",{}));
 // the theme is one preference for the whole site ("gg-theme"); an older per-text choice moves into it once
 try{ const g = localStorage.getItem("gg-theme"); if(g) prefs.theme = g; else if(prefs.theme && prefs.theme !== "system") localStorage.setItem("gg-theme", prefs.theme); }catch(e){}
@@ -217,7 +220,7 @@ document.getElementById("setbtn").onclick = openSettings;
 document.getElementById("helpbtn").onclick = () => sheet(`<h2>${esc(u().whyT)}</h2><div class="howbody"><ul>${u().why.map(i=>`<li>${i}</li>`).join("")}</ul></div><h2 style="margin-top:18px">${esc(u().howT)}</h2>${howBody()}<div class="row"><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
 window.addEventListener("scroll", () => document.getElementById("top").classList.toggle("scrolled", window.scrollY > 4), {passive:true});
 
-function setLang(l){ lang = l; store.set("lang", l); document.documentElement.lang = l; render(true); }
+function setLang(l){ lang = l; store.set("lang", l); try{ localStorage.setItem("gg-lang", l); }catch(e){} document.documentElement.lang = l; render(true); }
 function applyPrefs(boot){
   document.documentElement.style.setProperty("--scale", prefs.size);
   if(prefs.theme==="system"){ if(!boot) document.documentElement.removeAttribute("data-theme"); }
