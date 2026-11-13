@@ -172,6 +172,13 @@ details.how[open] summary::after{content:"−"}
 .howbody ul{margin:0 0 6px;padding-left:18px;display:flex;flex-direction:column;gap:6px;line-height:1.55;font-size:15px}
 details.how .howbody{padding-bottom:16px}
 .helpbtn{font-weight:600;font-size:18px}
+/* phones: the title bar carries the site-wide search; Help moves into the Display sheet */
+#gsm{display:contents}
+.top .gs-m{border:0;background:transparent;color:var(--ink);border-radius:12px}
+.top .gs-m:hover{background:var(--sunk)}
+.top .gs-m svg{width:22px;height:22px}
+.sheet .helprow{display:none}
+@media (max-width:699px){ .top .helpbtn{display:none} .sheet .helprow{display:inline-flex} }
 
 .tagline{padding:2px 0 4px}
 .tagline h2{font-family:var(--f-read);font-weight:600;font-size:19px;margin:6px 0 2px;color:var(--accent)}
@@ -519,5 +526,19 @@ h2.big{font-family:var(--f-read);font-weight:600;font-size:22px;margin:40px 0 8p
 .gbar .brand .nm{font-family:var(--f-read);font-weight:600;font-size:19px;white-space:nowrap}
 :root[lang=hi] .gbar .brand .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
 .gbar .mark .bk{fill:var(--ink)} .gbar .mark .ct{fill:var(--bg)} .gbar .mark .nd{fill:#c2570c}
+
+/* site-wide search: a hint pill in the desktop header, an icon on phones */
+.gsearch,.gnav .gsearch{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);
+  color:var(--muted);text-decoration:none;font-family:var(--f-ui);font-size:15px;font-weight:400;line-height:1;white-space:nowrap;min-width:0}
+.gsearch svg,.gnav .gsearch svg{display:block;width:18px;height:18px;flex:none}
+.gsearch span{overflow:hidden;text-overflow:ellipsis}
+.gsearch:hover,.gnav .gsearch:hover{border-color:var(--ink);color:var(--ink);background:var(--surface)}
+.gsearch[aria-current=page],.gnav .gsearch[aria-current=page]{border-color:var(--ink);color:var(--ink)}
+.gnav .gsearch[aria-current=page]::after{display:none}
+.gnav .gsearch{margin-left:auto;margin-right:8px}
+.gs-m{width:44px;padding:0;justify-content:center;flex:none}
+.gs-m span{display:none}
+@media (min-width:700px){ .gs-m{display:none} }
+@media (max-width:1099px){ .gnav .gsearch{width:44px;padding:0;justify-content:center} .gnav .gsearch span{display:none} }
 
 .top .ttl{flex:1;min-width:0;margin:0;font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

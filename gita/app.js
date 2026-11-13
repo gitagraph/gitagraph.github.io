@@ -10,7 +10,8 @@
     questions: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.5-2.5 2-2.5 4"/><path d="M12 17v.5"/></svg>',
     library: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5c2.8-1 5.8-1 9 1v13c-3.2-2-6.2-2-9-1z"/><path d="M21 5.5c-2.8-1-5.8-1-9 1v13c3.2-2 6.2-2 9-1z"/></svg>',
     map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.6"/><circle cx="4.5" cy="6" r="1.8"/><circle cx="19.5" cy="6" r="1.8"/><circle cx="5" cy="18.5" r="1.8"/><circle cx="19" cy="18.5" r="1.8"/><path d="M6 7l4 3.500M18 7l-4 3.500M6.5 17.500l3.5-3.500M17.5 17.500L14 14"/></svg>',
-    saved: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.500h11v17l-5.5-4-5.5 4z"/></svg>'
+    saved: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.500h11v17l-5.5-4-5.5 4z"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/></svg>'
   };
   const ITEMS = [
     ["home", "", "Home", "होम"],
@@ -27,10 +28,15 @@
   const cur = (it, active) => (it[0] === active ? ' aria-current="page"' : "");
 
   const GGShell = {
-    // links for the desktop header
+    // links for the desktop header, then the site-wide search
     nav(o) {
       return ITEMS.filter(it => it[0] !== "home").map(it =>
-        `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}>${label(it, o.lang)}</a>`).join("");
+        `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}>${label(it, o.lang)}</a>`).join("") + GGShell.search(o);
+    },
+    // the link to /search/: a pill with a hint on wide screens, an icon elsewhere (o.icon: icon only, for phone bars)
+    search(o) {
+      const sr = ["search", "search/", "Search verses, ideas, people", "श्लोक, विचार, पात्र खोजें"], lb = o.lang ? (o.lang === "hi" ? "खोजें" : "Search") : "Search";
+      return `<a class="gsearch${o.icon ? " gs-m" : ""}" href="${o.root}search/" data-g="search" aria-label="${lb}"${cur(sr, o.active)}>${IC.search}<span>${label(sr, o.lang)}</span></a>`;
     },
     // the five phone tabs
     tabs(o) {
@@ -56,6 +62,7 @@
         n.className = "gnav"; n.setAttribute("aria-label", "Site");
         n.innerHTML = GGShell.nav({ root, active });
         brand.after(n);
+        n.insertAdjacentHTML("afterend", GGShell.search({ root, active, icon: true }));
       }
       if (!document.querySelector(".gtabs")) {
         const t = document.createElement("nav");
@@ -265,6 +272,7 @@ function drawShell(route){
     const R = BASE ? BASE.replace(/[^/]+\/$/, "") : "", act = /^question/.test(route.name) ? "questions" : "library";
     document.getElementById("gbar").innerHTML = GGShell.brand(R, lang) + `<nav class="gnav" aria-label="Site">${GGShell.nav({root:R, lang, active:act})}</nav>`;
     document.getElementById("tabs").innerHTML = GGShell.tabs({root:R, lang, active:act});
+    document.getElementById("gsm").innerHTML = GGShell.search({root:R, lang, icon:true});
     const tn = document.getElementById("tnav");
     tn.hidden = !["home","explore","index","search","saved","themes","texts"].includes(route.name);
     tn.innerHTML = NAV.filter(n => n[0]!=="explore" && n[0]!=="saved").map(([t,k,ic]) => `<a href="#${t}" ${sec===t?'aria-current="page"':""}>${ic}${esc(k==="index"?u().indexShort:u()[k])}</a>`).join("");
@@ -834,7 +842,7 @@ function openSettings(){
     ${sw("sa", u().sanskrit)}
     <div class="row"><span class="lbl">${esc(u().size)}</span>${seg("size", [[0.9,"A−"],[1,"A"],[1.12,"A+"],[1.25,"A++"]])}</div>
     <div class="row"><span class="lbl">${esc(u().theme)}</span>${seg("theme", [["system",u().system],["light",u().light],["dark",u().dark]])}</div>
-    <div class="row"><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
+    <div class="row"><button class="btn helprow" type="button" onclick="document.getElementById('helpbtn').click()">${esc(u().howT)}</button><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
   layer.querySelectorAll("[data-sw]").forEach(b => b.onclick = () => { const k = b.dataset.sw; prefs[k] = !prefs[k]; b.setAttribute("aria-checked", prefs[k]); applyPrefs(); render(true); });
   layer.querySelectorAll("[data-size]").forEach(b => b.onclick = () => { prefs.size = +b.dataset.size; layer.querySelectorAll("[data-size]").forEach(x=>x.setAttribute("aria-pressed", x===b)); applyPrefs(); if(current?.name==="explore") render(true); });
   layer.querySelectorAll("[data-theme]").forEach(b => b.onclick = () => { prefs.theme = b.dataset.theme; layer.querySelectorAll("[data-theme]").forEach(x=>x.setAttribute("aria-pressed", x===b)); applyPrefs(); if(graph) graph.recolor(); });
