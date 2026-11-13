@@ -1,11 +1,196 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><title>Moved to https://gitagraph.com/gita/saved/</title>
-<link rel="canonical" href="https://gitagraph.com/gita/saved/"><meta http-equiv="refresh" content="0; url=/gita/saved/">
-<script>location.replace("/gita/saved/" + location.search + location.hash);</script>
+<html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Saved · Gitagraph</title><meta name="robots" content="noindex"><link rel="canonical" href="https://gitagraph.com/saved/">
+<link rel="icon" href="../shared/mark.svg" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
+:root{--bg:#f6f5f0;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
+  --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111020;--surface:#1a1930;--sunk:#22213a;--ink:#efede6;--muted:#a9a7ba;--line:#2f2d48;--accent:#f0a552;--brand:#d6d0f2;--on-brand:#16112e;--gold:#d9a441;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111020;--surface:#1a1930;--sunk:#22213a;--ink:#efede6;--muted:#a9a7ba;--line:#2f2d48;--accent:#f0a552;--brand:#d6d0f2;--on-brand:#16112e;--gold:#d9a441;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--muted-hi:color-mix(in srgb,var(--muted) 60%,var(--ink))}}
+:root[data-theme="dark"]{--muted-hi:color-mix(in srgb,var(--muted) 60%,var(--ink))}
+:root{--mp:#9a5a14}
+.map-prev .mp{fill:var(--mp)} .map-prev .mc{fill:var(--accent)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--mp:#e6a35a}}
+:root[data-theme="dark"]{--mp:#e6a35a}
+.map-prev{display:block;width:100%;height:auto;max-height:150px;color:inherit}
+.map-prev .ml{fill:none;stroke:var(--muted);stroke-opacity:.32;stroke-width:1.4}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.5}
+a{color:inherit} :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px} [hidden]{display:none!important}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:8px;padding-block:8px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.top .brand{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:inherit}
+.top .brand .mark{width:32px;height:32px;flex:none}
+.brand .wm{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.brand .nm{font-family:var(--f-read);font-weight:600;font-size:19px;white-space:nowrap}
+:root[lang=hi] .brand .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.brand .tg{font-family:var(--f-read);font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:root[lang=hi] .brand .tg{font-family:var(--f-hi);font-size:13.5px}
+.mark .bk{fill:var(--brand)} .mark .nd{fill:var(--gold)} .mark .ln{stroke:var(--gold)}
+.langpill.themebtn{width:44px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+.themebtn svg{width:18px;height:18px}
+.langpill{font:inherit;font-size:14px;font-weight:600;height:44px;min-width:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 48px}
+.hero{padding:24px 0 8px}
+.hero h1{font-family:var(--f-read);font-weight:600;font-size:clamp(28px,5vw,42px);line-height:1.18;margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance;max-width:24ch}
+:root[lang=hi] .hero h1{font-family:var(--f-hi);font-weight:400;line-height:1.35}
+.hero p{font-family:var(--f-read);color:var(--muted);font-size:17px;line-height:1.65;margin:0;max-width:60ch}
+:root[lang=hi] .hero p{font-family:var(--f-hi);line-height:1.85}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+.btn{flex:0 1 auto;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:12px;border:1.5px solid transparent;font-weight:600;font-size:16px;text-align:center;text-decoration:none}
+.btn.primary{background:var(--brand);color:var(--on-brand)}
+.btn.primary:hover{background:color-mix(in srgb,var(--brand) 86%,var(--bg))}
+.btn.secondary{border-color:var(--muted);color:var(--ink)}
+.btn.secondary:hover{border-color:var(--ink)}
+@media (max-width:460px){ .btn{flex:1 1 100%} }
+.hero p.resume{margin:12px 0 0;font-family:var(--f-ui);font-size:16px}
+.nw{white-space:nowrap}
+.resume a{display:inline-flex;align-items:center;min-height:44px;color:var(--accent);font-weight:600;text-decoration:none}
+.sec{margin:40px 0 0}
+.sec h2{font-family:var(--f-read);font-weight:600;font-size:clamp(21px,2.6vw,24px);line-height:1.3;margin:0 0 14px}
+.sec h2::before{content:"";display:block;width:28px;height:2px;background:var(--gold);margin:0 0 10px}
+:root[lang=hi] .sec h2{font-family:var(--f-hi);font-weight:400}
+.qcards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+@media (min-width:700px){ .qcards{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.card{display:flex;flex-direction:column;gap:6px;height:100%;padding:18px 20px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit}
+a.card:hover{border-color:var(--accent)}
+.qcard .qt{font-family:var(--f-read);font-weight:600;font-size:19px;line-height:1.35}
+:root[lang=hi] .qcard .qt{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.qcard .qm{margin-top:auto;padding-top:4px;color:var(--muted);font-size:14px;line-height:1.5}
+.more{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;color:var(--accent);font-weight:600;text-decoration:none}
+.go{color:var(--accent);font-weight:600}
+.votd{min-height:var(--vh,0px)}
+.votd .ey{margin:0;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+:root[lang=hi] .votd .ey{letter-spacing:0;text-transform:none;font-size:14px}
+.votd .sa{font-family:var(--f-skt);font-size:21px;line-height:1.75;margin:10px 0 0}
+.votd .tx{font-family:var(--f-read);font-size:17.5px;line-height:1.65;margin:10px 0 0;max-width:62ch}
+:root[lang=hi] .votd .tx{font-family:var(--f-hi);line-height:1.85}
+.votd .more{margin-top:4px}
+.cx{display:grid;grid-template-columns:minmax(0,1fr);gap:10px 28px;align-items:center}
+@media (min-width:700px){ .cx{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)} }
+.cx .ds{display:block;margin:0;color:var(--muted);line-height:1.6}
+.cx .go{display:inline-flex;align-items:center;min-height:44px;margin-top:2px;font-size:16px;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px;text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:12px}
+.text{--c:var(--lc);display:flex;flex-direction:column;gap:4px;height:100%;padding:18px 20px;border-radius:16px;background:var(--surface);
+  border:1px solid var(--line);border-top:3px solid var(--c);text-decoration:none;color:inherit}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .text{--c:var(--ld)}}
+:root[data-theme="dark"] .text{--c:var(--ld)}
+a.text:hover{border-color:var(--c)}
+.text .nat{font-family:var(--f-skt);font-size:26px;line-height:1.35;color:var(--c)}
+.text .nm{font-family:var(--f-read);font-weight:600;font-size:19px}
+:root[lang=hi] .text .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.text .ds{color:var(--muted);line-height:1.55;margin:2px 0 0}
+.text .ft{margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.text .go{color:var(--c)}
+.text.soon{opacity:.62}
+.text .pill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.note{margin:36px 0 0;color:var(--muted);font-size:14px;line-height:1.6;max-width:70ch}
+/* Hindi secondary text: Devanagari needs more size and line height than Latin to read at the same weight */
+:root[lang=hi] .qcard .qm,:root[lang=hi] .text .ft{font-size:15px;line-height:1.7}
+:root[lang=hi] .cx .ds,:root[lang=hi] .text .ds{font-size:16.5px;line-height:1.75}
+:root[lang=hi] .note{font-size:15px;line-height:1.8}
+:root[lang=hi] :is(.qcard .qm,.cx .ds,.text .ds,.text .ft,.note,.votd .ey){color:var(--muted-hi)}
+/* phones: tighter section rhythm and card padding; touch targets stay 44px+ */
+@media (max-width:480px){ .hero{padding-top:14px} .ctas{margin-top:18px} .sec{margin-top:30px} .sec h2{margin-bottom:10px} .sec h2::before{margin-bottom:8px}
+  .card,.text{padding:15px 16px} .qcards,.grid{gap:10px} .text .ft{padding-top:8px} .note{margin-top:26px} .wrap{padding-bottom:28px} }
+.l-hi{display:none} :root[lang=hi] .l-hi{display:revert} :root[lang=hi] .l-en{display:none}
+.foot{margin:12px 0 0;font-size:14px;color:var(--muted)}
+.foot a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;color:var(--accent);font-weight:600}
+.doc h2{font-family:var(--f-read);font-size:22px;margin:30px 0 8px}
+:root[lang=hi] .doc h2{font-family:var(--f-hi);font-weight:400}
+.doc p,.doc li{line-height:1.7;max-width:68ch}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px}
+.doc th,.doc td{border-top:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+.doc th{font-size:13px;color:var(--muted);font-weight:600}
+.tw{overflow-x:auto}
+.proto{display:inline-block;font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:0 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px;vertical-align:3px;line-height:1.6}
+:root[lang=hi] .proto{letter-spacing:0;text-transform:none;font-size:11.5px}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important;scroll-behavior:auto!important} }
+html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
+
+/* Site shell: the one navigation every page shares (home, the map, the documents and all three readers).
+   Desktop: links in the header. Phone: a five-tab bar. The markup comes from shell.js.
+   The readers inline this file into app.css at build time, so it also works offline. */
+.gnav{display:none}
+.gnav a{display:inline-flex;align-items:center;height:44px;padding:0 13px;border-radius:12px;color:var(--ink);text-decoration:none;
+  font-family:var(--f-ui);font-size:16px;font-weight:500;line-height:1;white-space:nowrap;position:relative}
+.gnav a:hover{background:var(--sunk)}
+.gnav a[aria-current=page]{font-weight:600}
+.gnav a[aria-current=page]::after{content:"";position:absolute;left:13px;right:13px;bottom:7px;height:2px;border-radius:2px;background:currentColor}
+.gnav .gsp{flex:1}
+.gnav svg{display:none}
+
+.gtabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+  background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);
+  padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.gtabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:64px;min-width:0;
+  font-family:var(--f-ui);font-size:12px;font-weight:600;line-height:1.2;color:var(--muted);text-decoration:none}
+.gtabs a svg{width:23px;height:23px}
+.gtabs .gi{display:grid;place-items:center;width:56px;height:30px;border-radius:999px}
+.gtabs a[aria-current=page]{color:var(--ink)}
+.gtabs a[aria-current=page] .gi{background:color-mix(in srgb,var(--ink) 10%,transparent)}
+:root[lang=hi] .gtabs a{font-size:13px}
+
+/* pages with the tab bar keep their last lines clear of it; the map lifts its own floating controls the same way */
+@media (max-width:699px){
+  body.gg-tabs{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px));--safe-b:calc(64px + env(safe-area-inset-bottom,0px))}
+}
+@media (min-width:700px){
+  .gtabs{display:none}
+  .gnav{display:flex;align-items:center;gap:2px;flex:1;min-width:0;margin-left:16px}
+  .top .brand,.gbar .brand{flex:none}
+}
+
+/* the reader's desktop bar: brand + the same links */
+.gbar .brand{display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:inherit}
+.gbar .brand .mark{width:30px;height:30px;flex:none}
+.gbar .brand .nm{font-family:var(--f-read);font-weight:600;font-size:19px;white-space:nowrap}
+:root[lang=hi] .gbar .brand .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.gbar .mark .bk{fill:var(--ink)} .gbar .mark .nd{fill:#c18b27} .gbar .mark .ln{stroke:#c18b27}
+
+.saved-list{list-style:none;margin:0 0 28px;padding:0}
+.saved-list a{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-top:1px solid var(--line);text-decoration:none}
+.saved-list li:last-child a{border-bottom:1px solid var(--line)}
+.saved-list .rf{font-family:var(--f-read);font-weight:600;font-size:18px;min-width:58px;color:var(--c,var(--ink))}
+.saved-list .ch{flex:1;min-width:0;color:var(--muted)}
+.saved-list .go{color:var(--muted)}
+.saved-empty{color:var(--muted);max-width:52ch}
+</style></head>
+<body><header class="top"><a class="brand" href="../" title="Gitagraph: ancient wisdom, connected"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path class="ln" fill="none" stroke-width="1.7" stroke-linecap="round" d="M6.5 12.5C8.5 7.5 12 5.5 16 5.2C20 5.5 23.5 7.5 25.5 12.5M6.5 12.5C11 12.2 15 14.8 16 19.5M25.5 12.5C21 12.2 17 14.8 16 19.5"/><circle class="nd" cx="16" cy="5.2" r="3"/><circle class="nd" cx="6.5" cy="12.5" r="3"/><circle class="nd" cx="25.5" cy="12.5" r="3"/><circle class="nd" cx="16" cy="19.5" r="2.4"/><path class="bk" d="M1 26.2C6.5 24.4 12 24.8 14.6 27.4Q16 28.9 17.4 27.4C20 24.8 25.5 24.4 31 26.2L29.6 22C24.5 20.8 19.2 21.6 16.7 23.8Q16 24.4 15.3 23.8C12.8 21.6 7.5 20.8 2.4 22Z"/></svg><span class="wm"><span class="nm"><span class="l-en">Gitagraph</span><span class="l-hi">गीताग्राफ़</span><span class="proto"><span class="l-en">Beta</span><span class="l-hi">बीटा</span></span></span><span class="tg"><span class="l-en">A living library of wisdom</span><span class="l-hi">प्राचीन ज्ञान, एक सूत्र में।</span></span></span></a>
+<button class="langpill" id="lang" type="button">हि</button></header>
+<main class="wrap doc"><section class="hero"><h1><span class="l-en">Saved</span><span class="l-hi">सहेजे</span></h1></section>
+<div id="saved"></div>
+<p class="saved-empty" id="none" hidden><span class="l-en">Verses you save appear here. Tap Save on any verse to keep it.</span><span class="l-hi">आप जो श्लोक सहेजेंगे, वे यहाँ दिखेंगे। किसी भी श्लोक पर सहेजें दबाएँ।</span></p>
+</main>
 <script>
-try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
-if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {
-  if (new URL(r.scope).pathname === "/") r.update().catch(() => {});
-})).catch(() => {});
-</script>
-</head><body><p>This page has moved to <a href="/gita/saved/">https://gitagraph.com/gita/saved/</a>.</p></body></html>
+const TEXTS = [{"path":"gita/","key":"gita-saved","en":"Bhagavad Gita","hi":"भगवद्गीता","c":"#0b6b70","cd":"#4cc0c2","ch":{"1":["Arjuna's Despondency","अर्जुन का विषाद"],"2":["Sankhya Yoga","सांख्य योग"],"3":["Karma Yoga","कर्म योग"],"4":["Knowledge and Renunciation of Action","ज्ञान कर्म संन्यास योग"],"5":["Renunciation of Action","कर्म संन्यास योग"],"6":["Meditation","ध्यान योग"],"7":["Knowledge and Realisation","ज्ञान विज्ञान योग"],"8":["The Imperishable Brahman","अक्षर ब्रह्म योग"],"9":["The Royal Secret","राजविद्या राजगुह्य योग"],"10":["Divine Glories","विभूति योग"],"11":["The Cosmic Form","विश्वरूप दर्शन योग"],"12":["Devotion","भक्ति योग"],"13":["The Field and its Knower","क्षेत्र क्षेत्रज्ञ विभाग योग"],"14":["The Three Gunas","गुणत्रय विभाग योग"],"15":["The Supreme Person","पुरुषोत्तम योग"],"16":["Divine and Demonic Natures","दैवासुर संपद् विभाग योग"],"17":["Three Kinds of Faith","श्रद्धात्रय विभाग योग"],"18":["Liberation through Renunciation","मोक्ष संन्यास योग"]}},{"path":"ashtavakra/","key":"avg-saved","en":"Ashtavakra Gita","hi":"अष्टावक्र गीता","c":"#4f46a5","cd":"#a9a2f2","ch":{"1":["The Witness","साक्षी"],"2":["Janaka's Wonder","जनक का आश्चर्य"],"3":["The Test","परीक्षा"],"4":["The Knower at Play","ज्ञानी की लीला"],"5":["Four Ways to Dissolve","विलय के चार मार्ग"],"6":["Boundless as Space","आकाश जैसा अनंत"],"7":["The Shoreless Ocean","अनंत सागर"],"8":["Bondage and Freedom","बंधन और मुक्ति"],"9":["Weariness with the World","संसार से उदासीनता"],"10":["Letting Go of Desire","इच्छा का त्याग"],"11":["Wisdom","ज्ञान"],"12":["Thus I Abide","ऐसे ही मैं स्थित हूँ"],"13":["I Live at Ease","मैं सुख से रहता हूँ"],"14":["The Quiet Heart","शांत हृदय"],"15":["You Are That","तुम वही हो"],"16":["Forget Everything","सब कुछ भूल जाओ"],"17":["The One Who Knows","तत्त्वज्ञानी का स्वरूप"],"18":["Peace","शांति"],"19":["Rest in the Self","आत्मा में विश्राम"],"20":["Free While Living","जीते जी मुक्ति"]}},{"path":"upanishads/","key":"upa-saved","en":"Upanishads","hi":"उपनिषद्","c":"#8a5a12","cd":"#e2b36a","st":{"nachiketa":["1.1–1.2","Nachiketa and Death","नचिकेता और यम"],"satyakama":["4.4","Satyakama tells the truth","सत्यकाम का सच"],"shvetaketu":["6.1–6.16","Shvetaketu: 'You are that'","श्वेतकेतु: 'तुम वही हो'"],"indra-virochana":["8.7–8.12","Indra, Virochana and the reflection in water","इंद्र, विरोचन और पानी में परछाईं"],"two-birds":["3.1.1–7","Two birds on one tree","एक पेड़ पर दो पक्षी"],"bhrigu":["3.1–3.6","Bhrigu finds bliss","भृगु को आनंद मिला"],"maitreyi":["2.4 and 4.5","Maitreyi asks for what does not die","मैत्रेयी ने वह माँगा जो मरता नहीं"],"da-da-da":["5.2–5.3","What the thunder says: Da, Da, Da","बादल क्या कहता है: द, द, द"],"yaksha":["3–4","The Yaksha, the gods and Uma","यक्ष, देवता और उमा"],"chariot":["1.3.3–15","The chariot of the self","आत्मा का रथ"],"satyakama-teachers":["4.5–4.9","Satyakama's four teachers","सत्यकाम के चार गुरु"],"raikva":["4.1–4.3","Raikva, the man with the cart","गाड़ीवाले रैक्व"],"narada":["7.1–7.26","Narada learns that names are not enough","नारद ने जाना कि नाम काफ़ी नहीं"],"teachers-farewell":["1.11","The teacher's farewell","गुरु की विदाई"],"balaki":["2.1","Proud Balaki and King Ajatashatru","अभिमानी बालाकि और राजा अजातशत्रु"],"senses-quarrel":["5.1","The quarrel of the senses","इंद्रियों का झगड़ा"],"upakosala":["4.10–4.15","Upakosala and the fires","उपकोसल और अग्नियाँ"],"ushasti":["1.10–1.11","Ushasti in the famine","अकाल में उषस्ति"],"isha":["1–2, 4–8, 15–16","Everything is wrapped in the Lord","सब कुछ ईश्वर से ढका है"],"asato-ma":["1.3.28","From what is not to what is","असत् से सत् की ओर"],"janaka-light":["4.3.1–6","Janaka asks: what is a person's light?","जनक का प्रश्न: मनुष्य का प्रकाश क्या है?"],"shaunaka":["1.1.1–7, 1.2.12–13","Shaunaka's question: two kinds of knowing","शौनक का प्रश्न: जानने के दो प्रकार"],"ashvapati":["5.11–5.18","Six scholars learn from King Ashvapati","छह विद्वान राजा अश्वपति से सीखते हैं"],"pippalada":["1.1–1.5, 6.1–6.8","Six seekers come to Pippalada","पिप्पलाद के पास छह जिज्ञासु"],"gargi":["3.6, 3.8","Gargi questions Yajnavalkya","गार्गी के प्रश्न"],"om-four-states":["1–12","Om and the four states","ओम् और चार अवस्थाएँ"]}}];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let total = 0, html = "";
+for(const t of TEXTS){
+  let refs = []; try{ refs = JSON.parse(localStorage.getItem(t.key) || "[]"); }catch(e){}
+  if(t.st){   // stories: saved by id; only ids this build knows are shown
+    refs = (Array.isArray(refs) ? refs : []).filter(id => Object.prototype.hasOwnProperty.call(t.st, id));
+    if(!refs.length) continue;
+    total += refs.length;
+    html += `<h2><span class="l-en">${esc(t.en)}</span><span class="l-hi">${esc(t.hi)}</span> · ${refs.length}</h2><ol class="saved-list" style="--c:${t.c}">` + refs.map(id => {
+      const s = t.st[id];
+      return `<li><a href="../${t.path}story/${encodeURIComponent(id)}/"><span class="ch" style="color:inherit"><span class="l-en">${esc(s[1])}</span><span class="l-hi">${esc(s[2])}</span></span><span class="go" aria-hidden="true">→</span></a></li>`; }).join("") + "</ol>";
+    continue;
+  }
+  refs = (Array.isArray(refs) ? refs : []).filter(r => /^\d+\.\d+$/.test(r)).sort((a,b) => { const [ac,av] = a.split(".").map(Number), [bc,bv] = b.split(".").map(Number); return ac-bc || av-bv; });
+  if(!refs.length) continue;
+  total += refs.length;
+  html += `<h2><span class="l-en">${esc(t.en)}</span><span class="l-hi">${esc(t.hi)}</span> · ${refs.length}</h2><ol class="saved-list" style="--c:${t.c}">` + refs.map(r => {
+    const [c,v] = r.split("."), ch = t.ch[c] || ["",""];
+    return `<li><a href="../${t.path}chapter/${c}/verse/${v}/"><span class="rf">${r}</span><span class="ch"><span class="l-en">${esc(ch[0])}</span><span class="l-hi">${esc(ch[1])}</span></span><span class="go" aria-hidden="true">→</span></a></li>`; }).join("") + "</ol>";
+}
+document.getElementById("saved").innerHTML = html;
+document.getElementById("none").hidden = total > 0;
+const b = document.getElementById("lang");
+function setLang(l){ document.documentElement.lang = l; b.textContent = l==="hi" ? "EN" : "हि"; try{ localStorage.setItem("library-lang", l); localStorage.setItem("gg-lang", l); }catch(e){} }
+b.onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
+try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))==="hi") setLang("hi"); }catch(e){}
+</script><script src="../shared/shell.js?v=20261113212722" data-active="saved" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>

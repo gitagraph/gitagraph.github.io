@@ -35,7 +35,7 @@
 
   function button() {
     const top = document.querySelector(".top");
-    if (!top) return;
+    if (!top || window.GGShell) return;   // the site shell's Library link replaces this button
     let b = document.getElementById("libbtn");
     if (!b) {
       b = document.createElement("button");
