@@ -2,10 +2,10 @@ b,strong{font-weight:600}
 /* Layout: reading-first. Phone = one column + bottom tabs; tablet = icon rail + reader; desktop = rail + story list + reader + context column.
    Same design system as the Gita and Ashtavakra readers; accent is the library's Upanishads colour. */
 :root{
-  --bg:#f6f4ef; --surface:#ffffff; --sunk:#eceee8; --ink:#16202c; --muted:#5d6672; --line:#dcdfd8;
+  --bg:#f6f5f0; --surface:#ffffff; --sunk:#eeece4; --ink:#1b1838; --muted:#5a596b; --line:#e2e0d6;
   --accent:#8a5a12; --accent-ink:#ffffff; --mark:#2c6fa8;
   --t-story:#8a5a12; --t-theme:#a32f50; --t-up:#2c6fa8;
-  --t-person:#9a5a14; --t-idea:#4f7a12; --t-path:#a32f50; --t-guna:#667412; --t-section:#58606f; --t-chapter:#16202c;
+  --t-person:#9a5a14; --t-idea:#4f7a12; --t-path:#a32f50; --t-guna:#667412; --t-section:#58606f; --t-chapter:#1b1838;
   --f-read:"Literata", Georgia, "Times New Roman", serif;
   --f-ui:"Mukta", system-ui, -apple-system, "Segoe UI", sans-serif;
   --f-skt:"Tiro Devanagari Sanskrit", "Noto Serif Devanagari", "Kohinoor Devanagari", serif;
@@ -13,16 +13,16 @@ b,strong{font-weight:600}
   --scale:1; --r:10px; --tab-h:64px;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
-  --bg:#0e1219; --surface:#161c26; --sunk:#1c2330; --ink:#e7e9ee; --muted:#9aa3b1; --line:#2a3240;
+  --bg:#111020; --surface:#1a1930; --sunk:#22213a; --ink:#efede6; --muted:#a9a7ba; --line:#2f2d48;
   --accent:#e2b36a; --accent-ink:#2a1c05; --mark:#7cb8ec;
   --t-story:#e2b36a; --t-theme:#f0809b; --t-up:#7cb8ec;
-  --t-person:#e6a35a; --t-idea:#b7d36a; --t-path:#f0809b; --t-guna:#c2d264; --t-section:#a7b0c2; --t-chapter:#e7e9ee;
+  --t-person:#e6a35a; --t-idea:#b7d36a; --t-path:#f0809b; --t-guna:#c2d264; --t-section:#a7b0c2; --t-chapter:#efede6;
   color-scheme:dark }}
 :root[data-theme="dark"]{
-  --bg:#0e1219; --surface:#161c26; --sunk:#1c2330; --ink:#e7e9ee; --muted:#9aa3b1; --line:#2a3240;
+  --bg:#111020; --surface:#1a1930; --sunk:#22213a; --ink:#efede6; --muted:#a9a7ba; --line:#2f2d48;
   --accent:#e2b36a; --accent-ink:#2a1c05; --mark:#7cb8ec;
   --t-story:#e2b36a; --t-theme:#f0809b; --t-up:#7cb8ec;
-  --t-person:#e6a35a; --t-idea:#b7d36a; --t-path:#f0809b; --t-guna:#c2d264; --t-section:#a7b0c2; --t-chapter:#e7e9ee;
+  --t-person:#e6a35a; --t-idea:#b7d36a; --t-path:#f0809b; --t-guna:#c2d264; --t-section:#a7b0c2; --t-chapter:#efede6;
   color-scheme:dark }
 
 *{box-sizing:border-box}

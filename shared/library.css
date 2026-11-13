@@ -4,7 +4,7 @@
 .lib-btn .lib-lab{display:none;font-size:14px;font-weight:600}
 @media (min-width:700px){ .lib-btn .lib-lab{display:inline} }
 .lib-menu{position:fixed;z-index:70;width:min(320px,calc(100vw - 16px));max-height:min(70vh,520px);overflow-y:auto;
-  background:var(--surface,#fff);color:var(--ink,#16202c);border:1px solid var(--line,#ddd);border-radius:16px;padding:8px;
+  background:var(--surface,#fff);color:var(--ink,#1b1838);border:1px solid var(--line,#ddd);border-radius:16px;padding:8px;
   box-shadow:0 12px 32px rgb(0 0 0 / .2);display:flex;flex-direction:column;gap:2px}
 .lib-h{margin:6px 10px 6px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted,#666)}
 :root[lang=hi] .lib-h{letter-spacing:0;text-transform:none;font-size:14px}

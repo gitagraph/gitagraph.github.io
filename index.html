@@ -8,25 +8,25 @@ var g=localStorage.getItem("gg-lang"),l=g||localStorage.getItem("library-lang");
 <title>Gitagraph · Timeless wisdom for every stage of life</title>
 <meta name="description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi.">
 <link rel="canonical" href="https://gitagraph.com/">
-<meta name="theme-color" content="#f4f5f1" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0e1219" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f5f0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111020" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Timeless wisdom for every stage of life">
 <meta property="og:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta property="og:url" content="https://gitagraph.com/">
 <meta property="og:site_name" content="Gitagraph · Timeless wisdom for every stage of life">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261113183551">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261113210107">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Gitagraph · A living library of wisdom: the Bhagavad Gita, the Ashtavakra Gita and the Upanishads, in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Gitagraph · Timeless wisdom for every stage of life">
-<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261113183551">
+<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261113210107">
 <link rel="icon" href="shared/mark.svg" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap">
 <style>
-:root{--bg:#f4f5f1;--surface:#fff;--sunk:#eceee8;--ink:#16202c;--muted:#5d6672;--line:#dcdfd8;--accent:#0b6b70;--brand:#201a43;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
+:root{--bg:#f6f5f0;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0e1219;--surface:#161c26;--sunk:#1c2330;--ink:#e7e9ee;--muted:#9aa3b1;--line:#2a3240;--accent:#4cc0c2;--brand:#d6d0f2;--on-brand:#16112e;--gold:#d9a441;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0e1219;--surface:#161c26;--sunk:#1c2330;--ink:#e7e9ee;--muted:#9aa3b1;--line:#2a3240;--accent:#4cc0c2;--brand:#d6d0f2;--on-brand:#16112e;--gold:#d9a441;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111020;--surface:#1a1930;--sunk:#22213a;--ink:#efede6;--muted:#a9a7ba;--line:#2f2d48;--accent:#f0a552;--brand:#d6d0f2;--on-brand:#16112e;--gold:#d9a441;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111020;--surface:#1a1930;--sunk:#22213a;--ink:#efede6;--muted:#a9a7ba;--line:#2f2d48;--accent:#f0a552;--brand:#d6d0f2;--on-brand:#16112e;--gold:#d9a441;color-scheme:dark}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--muted-hi:color-mix(in srgb,var(--muted) 60%,var(--ink))}}
 :root[data-theme="dark"]{--muted-hi:color-mix(in srgb,var(--muted) 60%,var(--ink))}
 :root{--mp:#9a5a14}
@@ -170,10 +170,10 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
     const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5), i = day - VW.d0;
     if(i >= 0 && i < VW.v.length) return drawVotd(VW.v[i]);
     const box = document.getElementById("votd"); box.style.setProperty("--vh", "clamp(270px, 440px - 15vw, 400px)");
-    fetch("home-verses/pool.json?v=20261113183551").then(r => r.json()).then(pool => {
+    fetch("home-verses/pool.json?v=20261113210107").then(r => r.json()).then(pool => {
       const gcd = (a,b) => b ? gcd(b, a % b) : a, step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
       const [c, v] = pool[(day * step) % pool.length].split(".");
-      return fetch(`home-verses/${c}.json?v=20261113183551`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
+      return fetch(`home-verses/${c}.json?v=20261113210107`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
     }).catch(() => { box.closest("section").hidden = true; });
   })();
   </script>
@@ -215,7 +215,7 @@ document.getElementById("lang").onclick = () => setLang(document.documentElement
 // the language was chosen in <head> (the saved choice, else English) so the page paints in it; sync the controls
 setLang(document.documentElement.lang === "hi" ? "hi" : "en");
 </script>
-<script src="shared/coach.js?v=20261113183551" defer></script>
+<script src="shared/coach.js?v=20261113210107" defer></script>
 <script>
 try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
 if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {
