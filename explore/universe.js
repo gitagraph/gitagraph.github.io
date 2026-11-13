@@ -369,9 +369,7 @@ function draw(){
   ctx.fillStyle = palette.muted;
   for(const s of stars){ ctx.globalAlpha = Math.abs(s.a); ctx.beginPath(); ctx.arc(Math.abs((s.x*W - cam.x*.03 + W*3) % W), Math.abs((s.y*H - cam.y*.03 + H*3) % H), s.r, 0, 7); ctx.fill(); }
   ctx.globalAlpha = 1;
-  // phone small card on an idea: stay in the idea web, zoomed in on it, with the idea marked
-  const ideaPeek = S.kind === "idea" && phone.matches && collapsed;
-  const web = S.kind === "home" || ideaPeek, z = cam.z, filtering = !!lit && (S.kind === "q" || S.kind === "idea" && !ideaPeek), selId = ideaPeek ? `i:${S.t}:${S.id}` : S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
+  const ideaPeek = isIdeaPeek(), web = webMode(), z = cam.z, filtering = !!lit && (S.kind === "q" || S.kind === "idea" && !ideaPeek), selId = ideaPeek ? `i:${S.t}:${S.id}` : S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
   for(const k of ['g','a','u']){const p=toS(roots[k]);glow(p.x,p.y,Math.min(520,(k==='g'?760:560)*z),COL[k],palette.dark?.12:.055);glow(p.x-80*z,p.y+65*z,Math.min(330,470*z),COL[k==='g'?'u':'g'],palette.dark?.055:.025);}
   // constellation threads: text -> each chapter
   ctx.lineWidth = .7;
@@ -455,10 +453,13 @@ if(tapTimer!==null){clearTimeout(tapTimer);if(prior?.node)nav(hashOf(prior.node)
 
 const toW = (sx, sy) => ({x:(sx - W/2)/cam.z + cam.x, y:(sy - H/2)/cam.z + cam.y});
 function zoomAt(f, sx, sy){ const w = toW(sx, sy-60), z = Math.max(.12, Math.min(9, cam.z*f)); cam.z = z; cam.x = w.x - (sx - W/2)/z; cam.y = w.y - (sy - 60 - H/2)/z; tgt=null;cv.setAttribute("data-camera-state","settled");dirty=true;kick();}
+// phone small card on an idea: stay in the idea web, zoomed in on it, with the idea marked; its bubbles stay tappable
+const isIdeaPeek = () => S.kind === "idea" && phone.matches && collapsed;
+const webMode = () => S.kind === "home" || isIdeaPeek();
 function hit(sx, sy, touch){
   const R = touch ? 22 : 14; let best = null, bd = 1e9;
   for(const n of nodes){
-    if(S.kind === "home" ? n.kind !== "idea" && n.kind !== "root" && !overviewStars.has(n) : n.kind === "idea") continue;
+    if(webMode() ? n.kind !== "idea" && n.kind !== "root" && !overviewStars.has(n) : n.kind === "idea") continue;
     if((n.kind === "verse"||n.kind==="passage") && cam.z < 1.1 && !(lit && lit.has(n))) continue;
     const p = toS(n), d = Math.hypot(p.x - sx, p.y - (sy-60)) - ((n.kind === "verse"||n.kind==="passage") ? 0 : 4);
     if(d < R && d < bd){ bd = d; best = n; }
