@@ -381,24 +381,26 @@ function draw(){
   ctx.fillStyle = palette.muted;
   for(const s of stars){ ctx.globalAlpha = Math.abs(s.a); ctx.beginPath(); ctx.arc(Math.abs((s.x*W - cam.x*.03 + W*3) % W), Math.abs((s.y*H - cam.y*.03 + H*3) % H), s.r, 0, 7); ctx.fill(); }
   ctx.globalAlpha = 1;
-  const ideaPeek = isIdeaPeek(), web = webMode(), z = cam.z, filtering = !!lit && (S.kind === "q" || S.kind === "idea" && !ideaPeek), selId = ideaPeek ? `i:${S.t}:${S.id}` : S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
+  const ideaPeek = isIdeaPeek(), web = webMode(), z = cam.z, deep = deepOf(z), home = S.kind === "home", filtering = !!lit && (S.kind === "q" || S.kind === "idea" && !ideaPeek), selId = ideaPeek ? `i:${S.t}:${S.id}` : S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
   for(const k of ['g','a','u']){const p=toS(roots[k]);glow(p.x,p.y,Math.min(520,(k==='g'?760:560)*z),COL[k],palette.dark?.12:.055);glow(p.x-80*z,p.y+65*z,Math.min(330,470*z),COL[k==='g'?'u':'g'],palette.dark?.055:.025);}
   // constellation threads: text -> each chapter
   ctx.lineWidth = .7;
+  const wa = 1 - .75*deep;   // the idea web's strength as the overview is zoomed in
+  if(home){ const o = String(Math.max(0, 1 - deep*1.6).toFixed(2)), hero = $("hero"); if(hero.style.opacity !== o){ hero.style.opacity = o; hero.style.pointerEvents = o === "0.00" ? "none" : ""; } }
   if(web){
     const live0 = !paused && !reduce.matches;
-    for(const n of ideas){ const rp = toS(roots[n.t]), p = toS(n); ctx.strokeStyle = COL[n.t]; ctx.globalAlpha = .12; ctx.beginPath(); ctx.moveTo(rp.x, rp.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+    for(const n of ideas){ const rp = toS(roots[n.t]), p = toS(n); ctx.strokeStyle = COL[n.t]; ctx.globalAlpha = .12*wa; ctx.beginPath(); ctx.moveTo(rp.x, rp.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
     iedges.forEach((e, i) => { const a = toS(e.a), b = toS(e.b), cx = (a.x + b.x)/2 + (b.y - a.y)*.13, cy = (a.y + b.y)/2 - (b.x - a.x)*.13;
-      ctx.strokeStyle = e.cross ? palette.gold : COL[e.a.t]; ctx.globalAlpha = e.cross ? .5 : .3; ctx.lineWidth = e.cross ? 1 : .7; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(cx, cy, b.x, b.y); ctx.stroke();
-      if(live0 && (e.cross || i % 3 === 0)){ const u = (clock*.00006 + i*.211) % 1, v = 1 - u, x = v*v*a.x + 2*v*u*cx + u*u*b.x, y = v*v*a.y + 2*v*u*cy + u*u*b.y; glow(x, y, 8, palette.gold, .4); ctx.globalAlpha = 1; ctx.fillStyle = palette.gold; ctx.beginPath(); ctx.arc(x, y, 1.3, 0, 7); ctx.fill(); } });
+      ctx.strokeStyle = e.cross ? palette.gold : COL[e.a.t]; ctx.globalAlpha = (e.cross ? .5 : .3)*wa; ctx.lineWidth = e.cross ? 1 : .7; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(cx, cy, b.x, b.y); ctx.stroke();
+      if(live0 && wa > .5 && (e.cross || i % 3 === 0)){ const u = (clock*.00006 + i*.211) % 1, v = 1 - u, x = v*v*a.x + 2*v*u*cx + u*u*b.x, y = v*v*a.y + 2*v*u*cy + u*u*b.y; glow(x, y, 8, palette.gold, .4); ctx.globalAlpha = 1; ctx.fillStyle = palette.gold; ctx.beginPath(); ctx.arc(x, y, 1.3, 0, 7); ctx.fill(); } });
     ctx.globalAlpha = 1;
   }
-  else for(const k of ['g','a','u']){const rp=toS(roots[k]);ctx.strokeStyle=COL[k];ctx.lineWidth=.65;
-    chapOf[k].forEach((c,i)=>{const p=toS(c),bend=(i%2?1:-1)*.15;ctx.globalAlpha=filtering?.035:.11;ctx.beginPath();ctx.moveTo(rp.x,rp.y);ctx.quadraticCurveTo((rp.x+p.x)/2+(p.y-rp.y)*bend,(rp.y+p.y)/2-(p.x-rp.x)*bend,p.x,p.y);ctx.stroke();
-    if(i>0){const q=toS(chapOf[k][i-1]);ctx.globalAlpha=filtering?.025:.16;ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.quadraticCurveTo((q.x+p.x)/2+(p.y-q.y)*.08,(q.y+p.y)/2-(p.x-q.x)*.08,p.x,p.y);ctx.stroke();}
+  if(!web || home && deep > 0) for(const k of ['g','a','u']){const rp=toS(roots[k]);ctx.strokeStyle=COL[k];ctx.lineWidth=.65;
+    chapOf[k].forEach((c,i)=>{const p=toS(c),bend=(i%2?1:-1)*.15;ctx.globalAlpha=(filtering?.035:.11)*(home?deep:1);ctx.beginPath();ctx.moveTo(rp.x,rp.y);ctx.quadraticCurveTo((rp.x+p.x)/2+(p.y-rp.y)*bend,(rp.y+p.y)/2-(p.x-rp.x)*bend,p.x,p.y);ctx.stroke();
+    if(i>0){const q=toS(chapOf[k][i-1]);ctx.globalAlpha=(filtering?.025:.16)*(home?deep:1);ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.quadraticCurveTo((q.x+p.x)/2+(p.y-q.y)*.08,(q.y+p.y)/2-(p.x-q.x)*.08,p.x,p.y);ctx.stroke();}
     });ctx.globalAlpha=1;}
   // These bridge threads are the existing story-to-verse citations, not tag-name equivalences.
-  if(web){overviewEdges.forEach(([a,b],i)=>{const p=toS(a),q=toS(b),cx=(p.x+q.x)/2+(q.y-p.y)*.2,cy=(p.y+q.y)/2-(q.x-p.x)*.2;ctx.strokeStyle=COL[a.t];ctx.globalAlpha=palette.dark?.18:.13;ctx.lineWidth=.75;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.quadraticCurveTo(cx,cy,q.x,q.y);ctx.stroke();if(!paused&&!reduce.matches){const t=(clock*.000045+i*.171)%1,u=1-t,x=u*u*p.x+2*u*t*cx+t*t*q.x,y=u*u*p.y+2*u*t*cy+t*t*q.y;glow(x,y,10,palette.gold,.35);ctx.globalAlpha=.9;ctx.fillStyle=palette.gold;ctx.beginPath();ctx.arc(x,y,1.2,0,7);ctx.fill();}});ctx.globalAlpha=1;}
+  if(web){overviewEdges.forEach(([a,b],i)=>{const p=toS(a),q=toS(b),cx=(p.x+q.x)/2+(q.y-p.y)*.2,cy=(p.y+q.y)/2-(q.x-p.x)*.2;ctx.strokeStyle=COL[a.t];ctx.globalAlpha=(palette.dark?.18:.13)*wa;ctx.lineWidth=.75;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.quadraticCurveTo(cx,cy,q.x,q.y);ctx.stroke();if(!paused&&!reduce.matches){const t=(clock*.000045+i*.171)%1,u=1-t,x=u*u*p.x+2*u*t*cx+t*t*q.x,y=u*u*p.y+2*u*t*cy+t*t*q.y;glow(x,y,10,palette.gold,.35);ctx.globalAlpha=.9;ctx.fillStyle=palette.gold;ctx.beginPath();ctx.arc(x,y,1.2,0,7);ctx.fill();}});ctx.globalAlpha=1;}
 
   if(!web&&z>.35){for(const c of chapOf.g.concat(chapOf.a)){if(S.n!==c&&S.n?.ch!==c)continue;const p=toS(c);if(p.x<-180||p.x>W+180||p.y<-180||p.y>H+180)continue;ctx.strokeStyle=COL[c.t];ctx.globalAlpha=.1;ctx.lineWidth=.6;ctx.beginPath();ctx.ellipse(p.x,p.y,Math.max(30,...c.kids.map(n=>n.orr))*z,Math.max(30,...c.kids.map(n=>n.orr))*.65*z,-.12,0,Math.PI*2);ctx.stroke();if(S.n===c||S.n?.ch===c){for(const n of c.kids){const q=toS(n);ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}}ctx.globalAlpha=1;}
   // glowing connections (question path, idea thread, story references)
@@ -413,17 +415,18 @@ function draw(){
   const vr = z < .5 ? 1.2 : z < 1.2 ? 1.8 : z < 3 ? 2.6 : 3.6;
   for(const n of (filtering && drawOrder) || nodes){
     if(n.kind === "root") continue;
-    if(web ? n.kind !== "idea"&&!overviewStars.has(n) : n.kind === "idea") continue;
+    const f = fadeOf(n, deep);
+    if(home ? f < .03 : web ? n.kind !== "idea"&&!overviewStars.has(n) : n.kind === "idea") continue;
     const p = toS(n); if(p.x < -40 || p.x > W + 40 || p.y < -40 || p.y > H + 40) continue;
     const isLit = lit && lit.has(n), sel = n.id === selId, dimC = chapSel && n.kind === "verse" && n.ch !== chapSel;
-    const alpha=(filtering?(isLit||sel?1:litCh.has(n)?.85:.12):dimC?.3:1)*(0.78+(n.depth||0)/1100);
+    const alpha=(filtering?(isLit||sel?1:litCh.has(n)?.85:.12):dimC?.3:1)*(0.78+(n.depth||0)/1100)*f;
     ctx.globalAlpha = alpha; ctx.fillStyle = COL[n.t];
     const r = n.kind === "idea" ? 3 + Math.sqrt(n.tags.size)*.6 : (n.kind === "verse"||n.kind === "passage") ? (isLit ? vr*1.7 : vr) : n.kind === "story" ? 3.5 + z*.4 : 3.5 + Math.min(3, z*1.2);
     if((n.kind !== "verse"&&n.kind!=="passage") || isLit || sel || n === hover) glow(p.x, p.y, isLit || sel ? 20 : 12, COL[n.t], isLit || sel ? .45 : .25);
     ctx.beginPath(); ctx.arc(p.x,p.y,sel?r*1.5:n===hover?r*1.4:r,0,7);ctx.fill();if(n.kind==='chap'||n.kind==='idea'||n.kind==='story'||sel)sphere(p.x,p.y,sel?r*1.5:n===hover?r*1.4:r,COL[n.t]);
     if(sel){ ctx.strokeStyle = COL[n.t]; ctx.lineWidth = .9; ctx.globalAlpha = .55; ctx.beginPath(); ctx.arc(p.x, p.y, r + 7 + (live ? Math.sin(clock*.002)*1.3 : 0), 0, 7); ctx.stroke(); }
     ctx.globalAlpha = alpha;
-    const label = web&&overviewStars.has(n)&&n!==hover?false:n.kind === "idea" ? true : n.kind === "chap" ? (z > .45 && !filtering || litCh.has(n) || sel || n === hover) : n.kind === "story" ? (z > 1.3 && !filtering || isLit || sel || n === hover) : (z > 3 && !filtering) || isLit || sel || n === hover;
+    const label = f < .5 && n !== hover ? false : web&&overviewStars.has(n)&&n!==hover&&deep<.5?false:n.kind === "idea" ? true : n.kind === "chap" ? (z > .45 && !filtering || litCh.has(n) || sel || n === hover) : n.kind === "story" ? (z > 1.3 && !filtering || isLit || sel || n === hover) : (z > 3 && !filtering) || isLit || sel || n === hover;
     if(label){
       const txt = n.kind === "idea" ? nm(n) : (n.kind === "verse"||n.kind === "passage") ? n.ref : n.kind === "chap" ? (n.num ? (sel?`${t("chapter")} ${n.num}`:`${n.num} · ${nm(n)}`) : nm(n)) : nm(n);
       ctx.font = n.kind === "verse" ? "10px system-ui,sans-serif" : n.kind === "idea" ? "12.5px "+fontRead : "11.5px "+fontRead; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.shadowColor = palette.bg; ctx.shadowBlur = 6;
@@ -469,10 +472,13 @@ function zoomAt(f, sx, sy){ const w = toW(sx, sy-60), z = Math.max(.12, Math.min
 // phone small card on an idea: stay in the idea web, zoomed in on it, with the idea marked; its bubbles stay tappable
 const isIdeaPeek = () => S.kind === "idea" && phone.matches && collapsed;
 const webMode = () => S.kind === "home" || isIdeaPeek();
+// overview zoom works like a map: zooming in fades the idea web into the chapter constellations and their shlokas (0 = web, 1 = constellations)
+const deepOf = z => S.kind !== "home" ? (webMode() ? 0 : 1) : Math.max(0, Math.min(1, (z - .32)/.3));
+const fadeOf = (n, deep) => S.kind !== "home" ? 1 : n.kind === "idea" ? 1 - .65*deep : n.kind === "root" || overviewStars.has(n) ? 1 : deep;
 function hit(sx, sy, touch){
   const R = touch ? 22 : 14; let best = null, bd = 1e9;
   for(const n of nodes){
-    if(webMode() ? n.kind !== "idea" && n.kind !== "root" && !overviewStars.has(n) : n.kind === "idea") continue;
+    if(S.kind === "home" ? fadeOf(n, deepOf(cam.z)) < .4 : webMode() ? n.kind !== "idea" && n.kind !== "root" && !overviewStars.has(n) : n.kind === "idea") continue;
     if((n.kind === "verse"||n.kind==="passage") && cam.z < 1.1 && !(lit && lit.has(n))) continue;
     const p = toS(n), d = Math.hypot(p.x - sx, p.y - (sy-60)) - ((n.kind === "verse"||n.kind==="passage") ? 0 : 4);
     if(d < R && d < bd){ bd = d; best = n; }
