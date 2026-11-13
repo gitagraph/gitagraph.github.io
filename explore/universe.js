@@ -447,8 +447,11 @@ addEventListener("resize", () => { const first = !W; size(); if(first || !tgt) f
 const ptrs = new Map(); let drag = null, pinch = null, lastTap=null, tapTimer=null;
 function cancelTap(){if(tapTimer!==null)clearTimeout(tapTimer);tapTimer=null;lastTap=null;}
 function doubleZoom(sx,sy){const from={...cam};zoomAt(1.8,sx,sy);const next={...cam};if(!reduce.matches){Object.assign(cam,from);tgt={...next,t0:performance.now(),from};cv.setAttribute("data-camera-state","moving");}dirty=true;kick();}
-function tap(n,event,touch){if(!touch){if(n)nav(hashOf(n));return;}const now=performance.now(),prior=lastTap;if(prior&&now-prior.time<=320&&Math.hypot(prior.x-event.clientX,prior.y-event.clientY)<28){cancelTap();doubleZoom(event.clientX,event.clientY);return;}
-if(tapTimer!==null){clearTimeout(tapTimer);if(prior?.node)nav(hashOf(prior.node));}lastTap={time:now,x:event.clientX,y:event.clientY,node:n};tapTimer=setTimeout(()=>{const selected=lastTap?.node;tapTimer=null;lastTap=null;if(selected)nav(hashOf(selected));},320);}
+// phones: tapping the bubble that is already selected, or double-tapping a bubble, opens its tray full screen
+const isSel = n => !!n && (S.n === n || n.kind === "idea" && S.kind === "idea" && n.t === S.t && n.hid === S.id);
+function openTray(n){ if(!isSel(n)) nav(hashOf(n)); collapsed = false; peekOpen = true; renderPanel(); fly(); }
+function tap(n,event,touch){if(!touch){if(n){if(phone.matches&&collapsed&&isSel(n))openTray(n);else nav(hashOf(n));}return;}const now=performance.now(),prior=lastTap;if(prior&&now-prior.time<=320&&Math.hypot(prior.x-event.clientX,prior.y-event.clientY)<28){cancelTap();if(phone.matches&&n&&prior.node===n){openTray(n);return;}doubleZoom(event.clientX,event.clientY);return;}
+if(tapTimer!==null){clearTimeout(tapTimer);if(prior?.node)nav(hashOf(prior.node));}lastTap={time:now,x:event.clientX,y:event.clientY,node:n};tapTimer=setTimeout(()=>{const selected=lastTap?.node;tapTimer=null;lastTap=null;if(selected){if(phone.matches&&collapsed&&isSel(selected))openTray(selected);else nav(hashOf(selected));}},320);}
 
 const toW = (sx, sy) => ({x:(sx - W/2)/cam.z + cam.x, y:(sy - H/2)/cam.z + cam.y});
 function zoomAt(f, sx, sy){ const w = toW(sx, sy-60), z = Math.max(.12, Math.min(9, cam.z*f)); cam.z = z; cam.x = w.x - (sx - W/2)/z; cam.y = w.y - (sy - 60 - H/2)/z; tgt=null;cv.setAttribute("data-camera-state","settled");dirty=true;kick();}
@@ -476,7 +479,7 @@ const endp = e => { const was = ptrs.get(e.pointerId); ptrs.delete(e.pointerId);
   if(drag && !drag.moved && was && e.type === "pointerup"){ const h = hit(e.clientX, e.clientY, was.t !== "mouse"); tap(h,e,was.t==="touch"); }
   if(e.type==="pointercancel")cancelTap();
   if(ptrs.size===1){const p=[...ptrs.values()][0];drag={x:p.x,y:p.y,cx:cam.x,cy:cam.y,moved:true};}else if(!ptrs.size)drag=null; };
-cv.addEventListener("dblclick",e=>{e.preventDefault();doubleZoom(e.clientX,e.clientY);});
+cv.addEventListener("dblclick",e=>{e.preventDefault();if(phone.matches&&!collapsed&&peekOpen)return;doubleZoom(e.clientX,e.clientY);});
 cv.addEventListener("pointerup", endp); cv.addEventListener("pointercancel", endp);
 cv.addEventListener("pointerleave", () => { if(hover){ hover = null; dirty = true; kick(); } });
 cv.addEventListener("wheel", e => { e.preventDefault(); zoomAt(Math.exp(-e.deltaY*.0015), e.clientX, e.clientY); }, {passive:false});
