@@ -2,7 +2,7 @@ b,strong{font-weight:600}
 /* Layout: reading-first. Phone = one column + bottom tabs; tablet = icon rail + reader; desktop = rail + story list + reader + context column.
    Same design system as the Gita and Ashtavakra readers; accent is the library's Upanishads colour. */
 :root{
-  --bg:#f6f5f0; --surface:#ffffff; --sunk:#eeece4; --ink:#1b1838; --muted:#5a596b; --line:#e2e0d6;
+  --bg:#faf8f4; --surface:#ffffff; --sunk:#eeece4; --ink:#1b1838; --muted:#5a596b; --line:#e2e0d6;
   --accent:#8a5a12; --accent-ink:#ffffff; --mark:#2c6fa8;
   --t-story:#8a5a12; --t-theme:#a32f50; --t-up:#2c6fa8;
   --t-person:#9a5a14; --t-idea:#4f7a12; --t-path:#a32f50; --t-guna:#667412; --t-section:#58606f; --t-chapter:#1b1838;

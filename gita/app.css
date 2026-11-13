@@ -1,7 +1,7 @@
 b,strong{font-weight:600}
 /* Layout: reading-first. Phone = one column + bottom tabs; tablet = icon rail + reader; desktop = rail + chapter list + reader + context column. */
 :root{
-  --bg:#f6f5f0; --surface:#ffffff; --sunk:#eeece4; --ink:#1b1838; --muted:#5a596b; --line:#e2e0d6;
+  --bg:#faf8f4; --surface:#ffffff; --sunk:#eeece4; --ink:#1b1838; --muted:#5a596b; --line:#e2e0d6;
   --accent:#0b6b70; --accent-ink:#ffffff; --mark:#b8720c;
   --sp-krishna:#2c58c4; --sp-arjuna:#b9501d; --sp-sanjaya:#4d7a1c; --sp-dhrit:#7a4b98; --sp-duryo:#a8283c;
   --t-person:#9a5a14; --t-concept:#0b6b70; --t-path:#a32f50; --t-guna:#667412; --t-section:#58606f; --t-chapter:#1b1838;
