@@ -518,6 +518,6 @@ h2.big{font-family:var(--f-read);font-weight:600;font-size:22px;margin:40px 0 8p
 .gbar .brand .mark{width:30px;height:30px;flex:none}
 .gbar .brand .nm{font-family:var(--f-read);font-weight:600;font-size:19px;white-space:nowrap}
 :root[lang=hi] .gbar .brand .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
-.gbar .mark .bk{fill:var(--ink)} .gbar .mark .nd{fill:#c18b27} .gbar .mark .ln{stroke:#c18b27}
+.gbar .mark .bk{fill:var(--ink)} .gbar .mark .ct{fill:var(--bg)} .gbar .mark .nd{fill:#c2570c}
 
 .top .ttl{flex:1;min-width:0;margin:0;font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
