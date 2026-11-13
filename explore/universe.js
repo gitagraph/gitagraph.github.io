@@ -133,8 +133,10 @@ function setPositions(now){
 // ---------- state + routing ----------
 // #/  #/g  #/g/2  #/g/2/47  #/a/1/2  #/u/katha  #/u/nachiketa  #/q/grief  #/i/dharma  and "/read" in front of a text path
 let S = {kind:"home"}, readOpen = false, collapsed = false, lit = null, edges = [];
-// phones: details open full screen with a Back button; the overview opens on the map.
+// phones: tapping the map zooms in and shows a small card; tapping the card opens the details full screen.
+// Links followed inside the full screen (and the Chapters list) stay full screen. Back returns to where the reader was.
 const phone = matchMedia("(max-width:900px)");
+let fullNext = false, peekOpen = false;
 function parse(h){
   const p = h.replace(/^#\/?/, "").split("/").filter(Boolean);
   let read = false; if(p[0] === "read"){ read = true; p.shift(); }
@@ -163,7 +165,8 @@ function apply(){
   readOpen = false;
   if(r.read){history.replaceState({...history.state,universe:true},"",hashFor(S));rememberView();location.assign(readerHref(S.n));return;}
   const restoring = history.state?.view && history.state.view.hash === (location.hash || "#/");
-  if(!restoring && phone.matches) collapsed = S.kind === "home";
+  if(!restoring && phone.matches){ collapsed = !fullNext || S.kind === "home"; peekOpen = false; }
+  fullNext = false;
   computeLit();renderPanel();
   if(!restoreView(history.state?.view))fly();
   $("back").disabled = !history.state || !history.state.nav;
@@ -280,13 +283,14 @@ function renderPanel(focus=true){
 }
 $("panel").addEventListener("click", e => {
   // phone full screen: Back returns to where the reader was (previous view, its camera and scroll); with nowhere to go back to, fold down to the map
-  if(e.target.closest("[data-pback]")){ if(history.state?.nav) history.back(); else { collapsed = true; renderPanel(); fly(); } return; }
-  if(e.target.closest("[data-min]") || (collapsed && phone.matches && e.target.closest(".phead"))){ collapsed = !collapsed; renderPanel(); fly(); } });
+  if(e.target.closest("[data-pback]")){ if(!peekOpen && history.state?.nav) history.back(); else { collapsed = true; peekOpen = false; renderPanel(); fly(); } return; }
+  if(phone.matches && !collapsed && e.target.closest('a[href^="#"]')) fullNext = true;
+  if(e.target.closest("[data-min]") || (collapsed && phone.matches && e.target.closest(".phead"))){ if(phone.matches) peekOpen = collapsed; collapsed = !collapsed; renderPanel(); fly(); } });
 
 // Existing native reading routes are the sole reading UI.
 function readerHref(n){if(n.t==='u'&&n.kind==='chap')return `../upanishads/upanishad/${encodeURIComponent(n.up.id)}/`;if(n.t==='u')return `../upanishads/story/${encodeURIComponent((n.story||n).s.id)}/`;const book=n.t==='g'?'gita':'ashtavakra',c=n.kind==='verse'?n.d.c:n.num;return `../${book}/chapter/${c}/${n.kind==='verse'?`verse/${n.d.v}/`:''}`;}
-function rememberView(){history.replaceState({...history.state,universe:true,view:{hash:location.hash||'#/',cam:tgt?{x:tgt.x,y:tgt.y,z:tgt.z}:{...cam},collapsed,scroll:$('panel').scrollTop}},'',location.href);}
-function restoreView(view){if(!view||view.hash!==(location.hash||'#/'))return false;Object.assign(cam,view.cam);tgt=null;cv.setAttribute("data-camera-state","settled");collapsed=!!view.collapsed;$('panel').classList.toggle('min',collapsed);$('panel').scrollTop=view.scroll||0;dirty=true;return true;}
+function rememberView(){history.replaceState({...history.state,universe:true,view:{hash:location.hash||'#/',cam:tgt?{x:tgt.x,y:tgt.y,z:tgt.z}:{...cam},collapsed,peek:peekOpen,scroll:$('panel').scrollTop}},'',location.href);}
+function restoreView(view){if(!view||view.hash!==(location.hash||'#/'))return false;Object.assign(cam,view.cam);tgt=null;cv.setAttribute("data-camera-state","settled");collapsed=!!view.collapsed;peekOpen=!!view.peek;$('panel').classList.toggle('min',collapsed);$('panel').scrollTop=view.scroll||0;dirty=true;return true;}
 addEventListener('pagehide',rememberView);addEventListener('pageshow',e=>{if(started){try{const l=localStorage.getItem('gg-lang'),t=localStorage.getItem('gg-theme');if(['en','hi'].includes(l))lang=l;if(['system','dark','light'].includes(t))theme=t;}catch{}refreshWords();if(e.persisted)restoreView(history.state?.view);kick();}});
 document.addEventListener('click',e=>{const a=e.target.closest('a[data-reader]');if(a&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey)rememberView();});
 // links: real hrefs so everything works without the canvas; same-page hashes go through history
@@ -322,6 +326,8 @@ function fly(){
   else if(S.kind === "chap") c = camFor([S.n, ...S.n.kids], S.n.t === "u" ? 4 : 5);
   else if(S.kind === "verse"||S.kind === "passage") c = camFor([S.n],4);
   else if(S.kind === "story") c = camFor([S.n, ...S.n.xg, ...S.n.xa, S.n.ch], 3);
+  // a phone's small card: zoom in on the tapped idea itself, not out to every verse that carries it
+  else if(S.kind === "idea" && phone.matches && collapsed && iBy.get(`${S.t}:${S.id}`)) c = camFor([iBy.get(`${S.t}:${S.id}`)], .8);
   else c = camFor([...(lit || [])].slice(0, 600), 3.2);
   if(readOpen){ dirty = true; }
   tgt = reduce.matches ? null : {...c, t0:performance.now(), from:{...cam}}; if(!tgt) Object.assign(cam, c);
@@ -352,7 +358,9 @@ function draw(){
   ctx.fillStyle = palette.muted;
   for(const s of stars){ ctx.globalAlpha = Math.abs(s.a); ctx.beginPath(); ctx.arc(Math.abs((s.x*W - cam.x*.03 + W*3) % W), Math.abs((s.y*H - cam.y*.03 + H*3) % H), s.r, 0, 7); ctx.fill(); }
   ctx.globalAlpha = 1;
-  const web = S.kind === "home", z = cam.z, filtering = !!lit && (S.kind === "q" || S.kind === "idea"), selId = S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
+  // phone small card on an idea: stay in the idea web, zoomed in on it, with the idea marked
+  const ideaPeek = S.kind === "idea" && phone.matches && collapsed;
+  const web = S.kind === "home" || ideaPeek, z = cam.z, filtering = !!lit && (S.kind === "q" || S.kind === "idea" && !ideaPeek), selId = ideaPeek ? `i:${S.t}:${S.id}` : S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
   for(const k of ['g','a','u']){const p=toS(roots[k]);glow(p.x,p.y,Math.min(520,(k==='g'?760:560)*z),COL[k],palette.dark?.12:.055);glow(p.x-80*z,p.y+65*z,Math.min(330,470*z),COL[k==='g'?'u':'g'],palette.dark?.055:.025);}
   // constellation threads: text -> each chapter
   ctx.lineWidth = .7;
@@ -374,7 +382,7 @@ function draw(){
   if(!web&&z>.35){for(const c of chapOf.g.concat(chapOf.a)){if(S.n!==c&&S.n?.ch!==c)continue;const p=toS(c);if(p.x<-180||p.x>W+180||p.y<-180||p.y>H+180)continue;ctx.strokeStyle=COL[c.t];ctx.globalAlpha=.1;ctx.lineWidth=.6;ctx.beginPath();ctx.ellipse(p.x,p.y,Math.max(30,...c.kids.map(n=>n.orr))*z,Math.max(30,...c.kids.map(n=>n.orr))*.65*z,-.12,0,Math.PI*2);ctx.stroke();if(S.n===c||S.n?.ch===c){for(const n of c.kids){const q=toS(n);ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}}ctx.globalAlpha=1;}
   // glowing connections (question path, idea thread, story references)
   const live = !paused && !reduce.matches;
-  edges.forEach((e, i) => {
+  if(!ideaPeek) edges.forEach((e, i) => {
     const a = toS(e[0]), b = toS(e[1]), cx = (a.x + b.x)/2 + (b.y - a.y)*.12, cy = (a.y + b.y)/2 - (b.x - a.x)*.12;
     ctx.strokeStyle = palette.gold; ctx.globalAlpha = .55; ctx.lineWidth = 1.1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(cx, cy, b.x, b.y); ctx.stroke();
     if(live && i < 30){ const u = (clock*.00009 + i*.173) % 1, v = 1 - u, x = v*v*a.x + 2*v*u*cx + u*u*b.x, y = v*v*a.y + 2*v*u*cy + u*u*b.y; glow(x, y, 9, palette.gold, .5); ctx.globalAlpha = 1; ctx.fillStyle = palette.gold; ctx.beginPath(); ctx.arc(x, y, 1.6, 0, 7); ctx.fill(); }
@@ -466,7 +474,7 @@ cv.addEventListener("keydown", e => {
   if(d){ e.preventDefault(); tgt = null; dirty = true; kick(); }
 });
 $("zin").onclick = () => zoomAt(1.4, W/2, H/2+60); $("zout").onclick = () => zoomAt(1/1.4, W/2, H/2+60);
-$("home").onclick = () => nav("#/"); $("chaps").onclick = () => nav("#/chapters");
+$("home").onclick = () => nav("#/"); $("chaps").onclick = () => { fullNext = true; nav("#/chapters"); };
 $("back").onclick = () => { if(history.state && history.state.nav) history.back(); else nav("#/"); };
 function words(){
   document.documentElement.lang = lang; $("back").textContent = t("back"); $("home").textContent = t("home"); $("chaps").textContent = t("chapters2"); $("heb").textContent = t("eb"); $("hh").innerHTML = t("h1"); $("hp").textContent = t("hp");
