@@ -175,7 +175,9 @@ function apply(){
   $("live").textContent = label ? `${t("moved")}: ${label}` : "";
   dirty = true;
 }
-function nav(hash){cancelTap();if(location.hash===hash)return;rememberView();history.pushState({universe:true,nav:(history.state?.nav||0)+1},'',hash);apply();}
+function nav(hash,replace){cancelTap();if(location.hash===hash)return;rememberView();if(replace)history.replaceState({universe:true,nav:history.state?.nav||0},'',hash);else history.pushState({universe:true,nav:(history.state?.nav||0)+1},'',hash);apply();}
+// phones: hopping from bubble to bubble on the map replaces the entry, so Back returns to where the reader came from
+const mapNav = n => nav(hashOf(n), phone.matches && collapsed && S.kind !== "home");
 addEventListener("popstate",()=>{apply();kick();});addEventListener("hashchange",()=>{if(started&&hashFor(S)!==location.hash){apply();kick();}});
 
 // ---------- names ----------
@@ -296,7 +298,7 @@ $("panel").addEventListener("click", e => {
   // phone full screen: Back returns to where the reader was (previous view, its camera and scroll); with nowhere to go back to, fold down to the map
   if(e.target.closest("[data-pback]")){ if(!peekOpen && history.state?.nav) history.back(); else { collapsed = true; peekOpen = false; renderPanel(); fly(); } return; }
   if(phone.matches && !collapsed && e.target.closest('a[href^="#"]')) fullNext = true;
-  if(e.target.closest("[data-min]") || (collapsed && phone.matches && e.target.closest(".phead"))){ if(phone.matches) peekOpen = collapsed; collapsed = !collapsed; renderPanel(); fly(); } });
+  if(e.target.closest("[data-min]") || (collapsed && phone.matches)){ if(phone.matches) peekOpen = collapsed; collapsed = !collapsed; renderPanel(); fly(); } });
 
 // Existing native reading routes are the sole reading UI.
 function readerHref(n){if(n.t==='u'&&n.kind==='chap')return `../upanishads/upanishad/${encodeURIComponent(n.up.id)}/`;if(n.t==='u')return `../upanishads/story/${encodeURIComponent((n.story||n).s.id)}/`;const book=n.t==='g'?'gita':'ashtavakra',c=n.kind==='verse'?n.d.c:n.num;return `../${book}/chapter/${c}/${n.kind==='verse'?`verse/${n.d.v}/`:''}`;}
@@ -447,9 +449,9 @@ function cancelTap(){if(tapTimer!==null)clearTimeout(tapTimer);tapTimer=null;las
 function doubleZoom(sx,sy){const from={...cam};zoomAt(1.8,sx,sy);const next={...cam};if(!reduce.matches){Object.assign(cam,from);tgt={...next,t0:performance.now(),from};cv.setAttribute("data-camera-state","moving");}dirty=true;kick();}
 // phones: tapping the bubble that is already selected, or double-tapping a bubble, opens its tray full screen
 const isSel = n => !!n && (S.n === n || n.kind === "idea" && S.kind === "idea" && n.t === S.t && n.hid === S.id);
-function openTray(n){ if(!isSel(n)) nav(hashOf(n)); collapsed = false; peekOpen = true; renderPanel(); fly(); }
-function tap(n,event,touch){if(!touch){if(n){if(phone.matches&&collapsed&&isSel(n))openTray(n);else nav(hashOf(n));}return;}const now=performance.now(),prior=lastTap;if(prior&&now-prior.time<=320&&Math.hypot(prior.x-event.clientX,prior.y-event.clientY)<28){cancelTap();if(phone.matches&&n&&prior.node===n){openTray(n);return;}doubleZoom(event.clientX,event.clientY);return;}
-if(tapTimer!==null){clearTimeout(tapTimer);if(prior?.node)nav(hashOf(prior.node));}lastTap={time:now,x:event.clientX,y:event.clientY,node:n};tapTimer=setTimeout(()=>{const selected=lastTap?.node;tapTimer=null;lastTap=null;if(selected){if(phone.matches&&collapsed&&isSel(selected))openTray(selected);else nav(hashOf(selected));}},320);}
+function openTray(n){ if(!isSel(n)) mapNav(n); collapsed = false; peekOpen = true; renderPanel(); fly(); }
+function tap(n,event,touch){if(!touch){if(n){if(phone.matches&&collapsed&&isSel(n))openTray(n);else mapNav(n);}return;}const now=performance.now(),prior=lastTap;if(prior&&now-prior.time<=320&&Math.hypot(prior.x-event.clientX,prior.y-event.clientY)<28){cancelTap();if(phone.matches&&n&&prior.node===n){openTray(n);return;}doubleZoom(event.clientX,event.clientY);return;}
+if(tapTimer!==null){clearTimeout(tapTimer);if(prior?.node)mapNav(prior.node);}lastTap={time:now,x:event.clientX,y:event.clientY,node:n};tapTimer=setTimeout(()=>{const selected=lastTap?.node;tapTimer=null;lastTap=null;if(selected){if(phone.matches&&collapsed&&isSel(selected))openTray(selected);else mapNav(selected);}},320);}
 
 const toW = (sx, sy) => ({x:(sx - W/2)/cam.z + cam.x, y:(sy - H/2)/cam.z + cam.y});
 function zoomAt(f, sx, sy){ const w = toW(sx, sy-60), z = Math.max(.12, Math.min(9, cam.z*f)); cam.z = z; cam.x = w.x - (sx - W/2)/z; cam.y = w.y - (sy - 60 - H/2)/z; tgt=null;cv.setAttribute("data-camera-state","settled");dirty=true;kick();}
