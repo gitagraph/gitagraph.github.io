@@ -9,7 +9,7 @@ let lang = "en";
 try{ const g = localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"); if(g === "hi" || g === "en") lang = g; }catch(e){}
 const T = {
  en:{sub:"A living library of wisdom", back:"← Back", home:"✧ Universe", pause:"Pause motion", play:"Play motion", lang:"हिन्दी",
-  chapters2:"Chapters", chapD:"Every chapter is a constellation; its shlokas orbit it. Tap one to explore.", eb:"Many scriptures. One boundless discovery.", h1:"The living<br>scripture <em>universe.</em>", hp:"Follow an idea. Cross a scripture. Discover the threads that connect us.", ideasTitle:"Ideas across the texts", sameIdea:"The same idea in other texts", inText:"In this text", tales:"Stories", crossNote:"Suggested by Gitagraph for reading alongside. The themes are related; the teachings are not the same, and traditions read them differently.", start:"Start with a question", startD:"Choose a life question and the verses that speak to it light up. Or tap any chapter to explore it.",
+  chapters2:"Chapters", qs:"Questions", chapD:"Every chapter is a constellation; its shlokas orbit it. Tap one to explore.", eb:"Many scriptures. One boundless discovery.", h1:"The living<br>scripture <em>universe.</em>", hp:"Follow an idea. Cross a scripture. Discover the threads that connect us.", ideasTitle:"Ideas across the texts", sameIdea:"The same idea in other texts", inText:"In this text", tales:"Stories", crossNote:"Suggested by Gitagraph for reading alongside. The themes are related; the teachings are not the same, and traditions read them differently.", start:"Start with a question", startD:"Choose a life question and the verses that speak to it light up. Or tap any chapter to explore it.",
   texts:"The three scriptures", chapters:"Chapters", verses:"Shlokas", stories:"Stories", read:"Read the whole chapter", readS:"Read the story",readV:"Read in the original reader",
   open:"Open", close:"Close", min:"Hide", show:"Show", prev:"← Previous", next:"Next →", ideas:"Ideas in this verse", people:"People",
   all:"All verses on this idea", chapter:"Chapter", verse:"Shloka", story:"Story", question:"Question", idea:"Idea", n:k => `${k} shlokas`, ns:k => `${k} stories`,
@@ -18,7 +18,7 @@ const T = {
   scripture:"Scripture", names:{g:"Bhagavad Gita", a:"Ashtavakra Gita", u:"Upanishads"}, loadErr:"The universe did not load. Reload the page to try again.",
   moved:"Selected", care:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.", up:"Upanishad"},
  hi:{sub:"ज्ञान का जीवंत ग्रंथालय", back:"← वापस", home:"✧ ब्रह्मांड", pause:"गति रोकें", play:"गति चलाएँ", lang:"English",
-  chapters2:"अध्याय", chapD:"हर अध्याय एक तारामंडल है, श्लोक उसकी परिक्रमा करते हैं। किसी को छूकर देखें।", eb:"कई ग्रंथ। एक असीम खोज।", h1:"जीवंत<br>ग्रंथ <em>ब्रह्मांड।</em>", hp:"किसी विचार के पीछे चलें। ग्रंथों के पार जाएँ। जानें कि क्या-क्या आपस में जुड़ा है।", ideasTitle:"ग्रंथों के विचार", sameIdea:"दूसरे ग्रंथों में यही विचार", inText:"इस ग्रंथ में", tales:"कथाएँ", crossNote:"गीताग्राफ़ का सुझाव, साथ में पढ़ने के लिए। विषय जुड़े हैं, पर शिक्षाएँ एक जैसी नहीं हैं, और परंपराएँ इन्हें अलग-अलग ढंग से पढ़ती हैं।", start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
+  chapters2:"अध्याय", qs:"प्रश्न", chapD:"हर अध्याय एक तारामंडल है, श्लोक उसकी परिक्रमा करते हैं। किसी को छूकर देखें।", eb:"कई ग्रंथ। एक असीम खोज।", h1:"जीवंत<br>ग्रंथ <em>ब्रह्मांड।</em>", hp:"किसी विचार के पीछे चलें। ग्रंथों के पार जाएँ। जानें कि क्या-क्या आपस में जुड़ा है।", ideasTitle:"ग्रंथों के विचार", sameIdea:"दूसरे ग्रंथों में यही विचार", inText:"इस ग्रंथ में", tales:"कथाएँ", crossNote:"गीताग्राफ़ का सुझाव, साथ में पढ़ने के लिए। विषय जुड़े हैं, पर शिक्षाएँ एक जैसी नहीं हैं, और परंपराएँ इन्हें अलग-अलग ढंग से पढ़ती हैं।", start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
   texts:"तीन ग्रंथ", chapters:"अध्याय", verses:"श्लोक", stories:"कथाएँ", read:"पूरा अध्याय पढ़ें", readS:"कथा पढ़ें",readV:"मूल पाठक में पढ़ें",
   open:"खोलें", close:"बंद करें", min:"छिपाएँ", show:"दिखाएँ", prev:"← पिछला", next:"अगला →", ideas:"इस श्लोक के विचार", people:"पात्र",
   all:"इस विचार के सभी श्लोक", chapter:"अध्याय", verse:"श्लोक", story:"कथा", question:"प्रश्न", idea:"विचार", n:k => `${k} श्लोक`, ns:k => `${k} कथाएँ`,
@@ -164,13 +164,14 @@ function apply(){
   const r = parse(location.hash); S = r.st;
   readOpen = false;
   if(r.read){history.replaceState({...history.state,universe:true},"",hashFor(S));rememberView();location.assign(readerHref(S.n));return;}
-  const restoring = history.state?.view && history.state.view.hash === (location.hash || "#/");
-  if(!restoring && phone.matches){ collapsed = !fullNext || S.kind === "home"; peekOpen = false; }
+  const view = history.state?.view, restoring = view && view.hash === (location.hash || "#/");
+  if(restoring){ collapsed = !!view.collapsed; peekOpen = !!view.peek; }
+  else if(phone.matches){ collapsed = !fullNext; peekOpen = false; }   // phones: the map first; a tray opens only when asked for
   fullNext = false;
   computeLit();orderLit();renderPanel();
   if(!restoreView(history.state?.view))fly();
   $("back").disabled = !history.state || !history.state.nav;
-  $("home").setAttribute("aria-current", S.kind === "home" ? "true" : "false"); $("chaps").setAttribute("aria-current", S.kind === "chapters" ? "true" : "false"); $("hero").classList.toggle("on", S.kind === "home");
+  $("home").setAttribute("aria-current", S.kind === "home" ? "true" : "false"); $("chaps").setAttribute("aria-current", S.kind === "chapters" ? "true" : "false"); $("qs").setAttribute("aria-current", S.kind === "home" && !collapsed ? "true" : "false"); $("hero").classList.toggle("on", S.kind === "home");
   const label = S.kind === "q" ? qn(S.q) : S.kind === "idea" ? lgrp(S.m.en, S.m.hi) : S.n ? nm(S.n) : "";
   $("live").textContent = label ? `${t("moved")}: ${label}` : "";
   dirty = true;
@@ -246,7 +247,7 @@ function ideaChips(v){
   return ids.length ? `<h3>${esc(t("ideas"))}</h3><div class="chips">${ids.map(id => `<a class="chip" href="#/i/${v.t}/${id}">${esc(idn(map.get(id)))}</a>`).join("")}</div>` : "";
 }
 function renderPanel(focus=true){
-  const p = $("panel"); let h = "";
+  const p = $("panel"); let h = ""; const r0 = p.getBoundingClientRect(), was = p.classList.contains("min");
   if(S.kind === "home"){
     h = head(t("scripture"), t("start")) + `<p class="desc">${esc(t("startD"))}</p>` + QS.map(qRow).join("") +
       `<a class="item" href="#/chapters"><span class="tt">${esc(t("chapters2"))}<small>${esc(t("chapD"))}</small></span></a>` +
@@ -291,24 +292,28 @@ function renderPanel(focus=true){
         (k !== "u" && list.length > (k === S.t ? 12 : 6) ? `<p class="xnote">${esc(t("more")(list.length - (k === S.t ? 12 : 6)))}</p>` : "");
       if(k !== S.t) h += `<p class="xnote">${esc(t("crossNote"))}</p>`; });
   }
-  p.innerHTML = h + "</div>"; p.classList.toggle("min", collapsed); p.scrollTop = 0;
+  p.innerHTML = h + "</div>"; setMin(p, r0, was); p.scrollTop = 0;
   const hd = $("ptitle"); if(hd && started && focus) hd.focus({preventScroll:true});
 }
 $("panel").addEventListener("click", e => {
   // phone full screen: Back returns to where the reader was (previous view, its camera and scroll); with nowhere to go back to, fold down to the map
-  if(e.target.closest("[data-pback]")){ if(!peekOpen && history.state?.nav) history.back(); else { collapsed = true; peekOpen = false; renderPanel(); fly(); } return; }
+  if(e.target.closest("[data-pback]")){ if(history.state?.nav) history.back(); else { collapsed = true; peekOpen = false; renderPanel(); fly(); } return; }
   if(phone.matches && !collapsed && e.target.closest('a[href^="#"]')) fullNext = true;
   if(e.target.closest("[data-min]") || (collapsed && phone.matches)){ if(phone.matches && collapsed){ riseTray(); return; } collapsed = !collapsed; renderPanel(); fly(); } });
-// phones: the small card slides up into the full page (transform only, so it stays smooth); the map behind it is left as it is
-function riseTray(){ const pn = $("panel"), from = pn.getBoundingClientRect().top; collapsed = false; peekOpen = true; renderPanel();
-  if(reduce.matches) return; const by = from - pn.getBoundingClientRect().top; if(by <= 0) return;
-  pn.style.setProperty("--rise", by + "px"); pn.classList.remove("rise"); void pn.offsetWidth; pn.classList.add("rise");
-  const done = () => pn.classList.remove("rise"); pn.addEventListener("animationend", done, {once:true}); setTimeout(done, 400); }
+// phones: open the tray as its own history step, so the phone's Back closes it back to the bubble
+function riseTray(){ rememberView(); history.pushState({universe:true, nav:(history.state?.nav || 0) + 1}, "", location.href);
+  collapsed = false; peekOpen = true; renderPanel(); $("qs").setAttribute("aria-current", S.kind === "home" ? "true" : "false"); }
+// phones: the tray slides between card and full page (transform only, run by the compositor); on the overview the card is hidden
+function setMin(p, r0, was){ const gone = phone.matches && collapsed && S.kind === "home";
+  p.classList.toggle("min", collapsed); p.classList.toggle("gone", gone);
+  if(was === collapsed || !phone.matches || reduce.matches || gone || !r0.height || !p.animate) return;
+  const by = r0.top - p.getBoundingClientRect().top; if(Math.abs(by) < 2) return;
+  const a = p.animate([{transform:`translateY(${by}px)`}, {transform:"none"}], {duration:280, easing:"cubic-bezier(.2,.8,.2,1)"}); setTimeout(() => a.cancel(), 450); }
 
 // Existing native reading routes are the sole reading UI.
 function readerHref(n){if(n.t==='u'&&n.kind==='chap')return `../upanishads/upanishad/${encodeURIComponent(n.up.id)}/`;if(n.t==='u')return `../upanishads/story/${encodeURIComponent((n.story||n).s.id)}/`;const book=n.t==='g'?'gita':'ashtavakra',c=n.kind==='verse'?n.d.c:n.num;return `../${book}/chapter/${c}/${n.kind==='verse'?`verse/${n.d.v}/`:''}`;}
 function rememberView(){history.replaceState({...history.state,universe:true,view:{hash:location.hash||'#/',cam:tgt?{x:tgt.x,y:tgt.y,z:tgt.z}:{...cam},collapsed,peek:peekOpen,scroll:$('panel').scrollTop}},'',location.href);}
-function restoreView(view){if(!view||view.hash!==(location.hash||'#/'))return false;Object.assign(cam,view.cam);tgt=null;cv.setAttribute("data-camera-state","settled");collapsed=!!view.collapsed;peekOpen=!!view.peek;$('panel').classList.toggle('min',collapsed);$('panel').scrollTop=view.scroll||0;dirty=true;return true;}
+function restoreView(view){if(!view||view.hash!==(location.hash||'#/'))return false;Object.assign(cam,view.cam);tgt=null;cv.setAttribute("data-camera-state","settled");collapsed=!!view.collapsed;peekOpen=!!view.peek;$('panel').classList.toggle('min',collapsed);$('panel').classList.toggle('gone',phone.matches&&collapsed&&S.kind==='home');$('panel').scrollTop=view.scroll||0;dirty=true;return true;}
 addEventListener('pagehide',rememberView);addEventListener('pageshow',e=>{if(started){try{const l=localStorage.getItem('gg-lang'),t=localStorage.getItem('gg-theme');if(['en','hi'].includes(l))lang=l;if(['system','dark','light'].includes(t))theme=t;}catch{}refreshWords();if(e.persisted)restoreView(history.state?.view);kick();}});
 document.addEventListener('click',e=>{const a=e.target.closest('a[data-reader]');if(a&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey)rememberView();});
 // links: real hrefs so everything works without the canvas; same-page hashes go through history
@@ -501,9 +506,10 @@ cv.addEventListener("keydown", e => {
 });
 $("zin").onclick = () => zoomAt(1.4, W/2, H/2+60); $("zout").onclick = () => zoomAt(1/1.4, W/2, H/2+60);
 $("home").onclick = () => nav("#/"); $("chaps").onclick = () => { fullNext = true; nav("#/chapters"); };
+$("qs").onclick = () => { if(S.kind !== "home"){ fullNext = true; nav("#/"); } else if(phone.matches){ if(collapsed) riseTray(); } else if(collapsed){ collapsed = false; renderPanel(); fly(); } };
 $("back").onclick = () => { if(history.state && history.state.nav) history.back(); else nav("#/"); };
 function words(){
-  document.documentElement.lang = lang; $("back").textContent = t("back"); $("home").textContent = t("home"); $("chaps").textContent = t("chapters2"); $("heb").textContent = t("eb"); $("hh").innerHTML = t("h1"); $("hp").textContent = t("hp");
+  document.documentElement.lang = lang; $("back").textContent = t("back"); $("home").textContent = t("home"); $("chaps").textContent = t("chapters2"); $("qs").textContent = t("qs"); $("heb").textContent = t("eb"); $("hh").innerHTML = t("h1"); $("hp").textContent = t("hp");
   $('cv').setAttribute('aria-label',lang==='hi'?'शास्त्र ब्रह्मांड। कीबोर्ड के लिए अध्याय सूची चुनें। तीर से घूमें और + / − से ज़ूम करें।':'Scripture universe. Use the chapter list for accessible navigation; arrow keys pan and plus or minus zoom.');$('panel').setAttribute('aria-label',lang==='hi'?'विवरण':'Details');$('zin').setAttribute('aria-label',lang==='hi'?'पास देखें':'Zoom in');$('zout').setAttribute('aria-label',lang==='hi'?'दूर देखें':'Zoom out');
   document.title=(lang==="hi"?"ब्रह्मांड":"Explore")+" · Gitagraph";$("hint").textContent=t("hint");$("guide").setAttribute("aria-label",lang==="hi"?"मार्गदर्शिका":"Guide");
   $("lang").textContent = lang==="hi"?"EN":"हि"; $("lang").setAttribute("aria-label", lang === "hi" ? "Switch to English" : "हिन्दी में देखें");
