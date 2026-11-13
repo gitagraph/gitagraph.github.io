@@ -78,6 +78,7 @@
 
 // ===================== icons =====================
 const IC = {
+  texts:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5h4v15H5zM9 4.5h4v15H9zM14.2 6.3l3.8-1 3.4 13.4-3.8 1z"/></svg>',
   read:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5c2.8-1 5.8-1 9 1v13c-3.2-2-6.2-2-9-1z"/><path d="M21 5.5c-2.8-1-5.8-1-9 1v13c3.2-2 6.2-2 9-1z"/></svg>',
   themes:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5 12 3.5l8 4-8 4z"/><path d="M4 12l8 4 8-4"/><path d="M4 16.5l8 4 8-4"/></svg>',
   index:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8.5" cy="8" r="3.2"/><path d="M2.8 19.5c.8-3.3 3-5 5.7-5s4.9 1.7 5.7 5"/><path d="M15.5 6.5h6M15.5 10.5h6M17.5 14.5h4"/></svg>',
@@ -212,7 +213,7 @@ const trLines = v => (v.iast||"").split("\n").map(s=>s.trim()).filter(Boolean);
 
 // ===================== shell =====================
 const NAV = [["home","stories",IC.read],["themes","themes",IC.themes],["index","index",IC.index],["search","search",IC.search]];
-function section(r){ return r.name==="themes"||r.name==="theme" ? "themes" : r.name==="index"||r.name==="topic"||r.name==="texts"||r.name==="up" ? "index" : r.name==="search" ? "search" : r.name==="saved" ? "saved" : "home"; }
+function section(r){ return r.name==="themes"||r.name==="theme" ? "themes" : r.name==="texts"||r.name==="up" ? "texts" : r.name==="index"||r.name==="topic" ? "index" : r.name==="search" ? "search" : r.name==="saved" ? "saved" : "home"; }
 function drawShell(route){
   const sec = section(route);
   const tab = ([t,k,ic]) => `<a href="#${t}" ${sec===t?'aria-current="page"':""}><span class="ico">${ic}</span>${esc(k==="index"?u().indexShort:u()[k])}</a>`;
@@ -227,7 +228,9 @@ function drawShell(route){
     document.getElementById("gsm").innerHTML = GGShell.search({root:R, lang, icon:true});
     const tn = document.getElementById("tnav");
     tn.hidden = !["home","explore","index","search","saved","themes","texts"].includes(route.name);
-    tn.innerHTML = NAV.map(([t,k,ic]) => `<a href="#${t}" ${sec===t?'aria-current="page"':""}>${ic}${esc(k==="index"?u().indexShort:u()[k])}</a>`).join("");
+    // the row under the title also offers the nine Upanishads themselves, right after Stories
+    const TN = [NAV[0], ["texts","texts",IC.texts], ...NAV.slice(1)];
+    tn.innerHTML = TN.map(([t,k,ic]) => `<a href="#${t}" ${sec===t?'aria-current="page"':""}>${ic}${esc(k==="index"?u().indexShort:k==="texts"&&lang!=="hi"?"Upanishads":u()[k])}</a>`).join("");
   }
   const cur = route.name==="story" ? route.s.id : "";
   document.getElementById("side").innerHTML = UP.filter(x=>x.ss.length).map(x => `<h2>${esc(L(x,"name"))}</h2><ol>` + x.ss.map(s =>

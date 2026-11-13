@@ -434,7 +434,7 @@ h2.big{font-family:var(--f-read);font-weight:600;font-size:22px;margin:40px 0 8p
 .tnav a svg{width:18px;height:18px}
 .tnav a:hover{color:var(--ink)}
 .tnav a[aria-current=page]{background:color-mix(in srgb, var(--accent) 13%, transparent);color:var(--ink)}
-@media (max-width:419px){ .tnav a{padding:0 11px} .tnav a svg{display:none} }
+@media (max-width:419px){ .tnav{gap:0} .tnav a{padding:0 6px;font-size:14px} .tnav a svg{display:none} }
 @media (min-width:700px){
   :root{--gb:56px}
   .app{grid-template-columns:minmax(0,1fr)}
