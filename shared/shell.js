@@ -16,7 +16,7 @@
     ["home", "", "Home", "होम"],
     ["questions", "gita/questions/", "Questions", "प्रश्न"],
     ["library", "#scriptures", "Library", "ग्रंथालय"],
-    ["map", "explore/", "Map", "नक्शा"],
+    ["map", "explore/", "Graph", "ग्राफ़"],
     ["saved", "saved/", "Saved", "सहेजे"]
   ];
   const MARK = '<svg class="mark" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><rect class="bk" x="6" y="6" width="108" height="108" rx="26"/><path class="ct" d="M87.49 38.1H74.86L75.07 98H73.99L65.47 92.5L65.9 38.1H45.82L46.04 75.87Q46.04 78.57 43.56 78.57Q41.83 78.57 39.08 76.84Q36.32 75.12 33.63 72.47Q30.93 69.83 29.09 66.97Q27.26 64.11 27.26 61.95Q27.26 60.98 27.9 60.22Q28.55 59.47 29.96 59.47H36.86L36.97 38.1H22.18L18.51 31.08V30H83.82L87.49 37.02Z"/><circle class="nd" cx="88.5" cy="33.6" r="11.5"/></svg>';   // the Ga mark: written by tools/make_mark.py, kept here for the readers

@@ -16,7 +16,7 @@
     ["home", "", "Home", "होम"],
     ["questions", "gita/questions/", "Questions", "प्रश्न"],
     ["library", "#scriptures", "Library", "ग्रंथालय"],
-    ["map", "explore/", "Map", "नक्शा"],
+    ["map", "explore/", "Graph", "ग्राफ़"],
     ["saved", "saved/", "Saved", "सहेजे"]
   ];
   const MARK = '<svg class="mark" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><rect class="bk" x="6" y="6" width="108" height="108" rx="26"/><path class="ct" d="M87.49 38.1H74.86L75.07 98H73.99L65.47 92.5L65.9 38.1H45.82L46.04 75.87Q46.04 78.57 43.56 78.57Q41.83 78.57 39.08 76.84Q36.32 75.12 33.63 72.47Q30.93 69.83 29.09 66.97Q27.26 64.11 27.26 61.95Q27.26 60.98 27.9 60.22Q28.55 59.47 29.96 59.47H36.86L36.97 38.1H22.18L18.51 31.08V30H83.82L87.49 37.02Z"/><circle class="nd" cx="88.5" cy="33.6" r="11.5"/></svg>';   // the Ga mark: written by tools/make_mark.py, kept here for the readers
@@ -90,7 +90,7 @@ const IC = {
 
 // ===================== interface text =====================
 const UI = {
-  en:{ app:"Bhagavad Gita", read:"Read", explore:"Map", index:"People & ideas", indexShort:"Index", search:"Search", saved:"Saved", settings:"Display",
+  en:{ app:"Bhagavad Gita", read:"Read", explore:"Graph", index:"People & ideas", indexShort:"Index", search:"Search", saved:"Saved", settings:"Display",
     lede:"The song of the Lord: Krishna's teaching to Arjuna on the field of Kurukshetra, in 18 chapters and 700 verses. Sanskrit with fresh English and Hindi translations, linked to every person and idea.",
     chapters:"Chapters", chapter:"Chapter", verse:"Verse", verses:"verses", vOf:(a,b)=>`Verse ${a} of ${b}`, readOf:(a,b)=>`${a} of ${b} read`,
     cont:"Continue reading", votd:"Verse of the day", start:"Start at the beginning", startT:"Chapter 1 opens on the battlefield, with a blind king asking what happened.",
@@ -106,7 +106,7 @@ const UI = {
     about:"About this text", aboutT:"Sanskrit text: Sanskrit Wikisource (sa.wikisource.org, \"भगवद्गीता\"), used under CC BY-SA 4.0, checked verse by verse against the GRETIL e-text (Göttingen), with five typing errors corrected. The transliteration is generated from that Devanagari. The English and Hindi translations were written fresh for this project with AI assistance. 700 verses, as in Wikisource and GRETIL.",
     proto:"Beta", type:{chapter:"Chapter",person:"Person / place",concept:"Idea",path:"Yoga",guna:"Guna",section:"Section"},
     leg:{krishna:"Krishna",arjuna:"Arjuna",sanjaya:"Sanjaya",hub:"Person / idea"} },
-  hi:{ app:"भगवद्गीता", read:"पढ़ें", explore:"नक्शा", index:"पात्र और विचार", indexShort:"सूची", search:"खोजें", saved:"सहेजे", settings:"प्रदर्शन",
+  hi:{ app:"भगवद्गीता", read:"पढ़ें", explore:"ग्राफ़", index:"पात्र और विचार", indexShort:"सूची", search:"खोजें", saved:"सहेजे", settings:"प्रदर्शन",
     lede:"भगवान का गीत: कुरुक्षेत्र में कृष्ण का अर्जुन को उपदेश, 18 अध्यायों और 700 श्लोकों में। संस्कृत के साथ नए हिंदी और अंग्रेज़ी अनुवाद, हर पात्र और विचार से जुड़े।",
     chapters:"अध्याय", chapter:"अध्याय", verse:"श्लोक", verses:"श्लोक", vOf:(a,b)=>`श्लोक ${a} / ${b}`, readOf:(a,b)=>`${b} में से ${a} पढ़े`,
     cont:"पढ़ना जारी रखें", votd:"आज का श्लोक", start:"शुरुआत से पढ़ें", startT:"पहला अध्याय युद्धभूमि पर खुलता है, जहाँ एक अंधे राजा पूछते हैं कि क्या हुआ।",
@@ -145,7 +145,7 @@ Object.assign(UI.en, {
     ["Read",["<b>Start reading</b> opens Chapter 1, verse 1. Use <b>Next →</b> under a verse, or the <b>›</b> arrow at the top, to go verse by verse.",
       "Each verse shows the Sanskrit, how to say it, and its meaning. Tap <b>हि / EN</b> at the top to switch language. <b>Display</b> sets text size, theme and what is shown.",
       "Tap <b>Save</b> to keep a verse. Your saved verses are under <b>Saved</b>."]],
-    ["Explore the map",["Open <b>Map</b>. Every dot is a shloka. Its colour shows who is speaking: Krishna, Arjuna, Sanjaya, Dhritarashtra or Duryodhana.",
+    ["Explore the graph",["Open <b>Graph</b>. Every dot is a shloka. Its colour shows who is speaking: Krishna, Arjuna, Sanjaya, Dhritarashtra or Duryodhana.",
       "Pinch or scroll to zoom in and out, and drag to move around. The <b>⤢</b> button shows everything again.",
       "Tap a <b>chapter</b> on the ring, then <b>Read chapter</b>, to read it from start to end.",
       "Tap a <b>person</b>, like Karna, to read every scene they are in.",
@@ -176,7 +176,7 @@ Object.assign(UI.hi, {
     ["पढ़ें",["<b>पढ़ना शुरू करें</b> दबाएँ, अध्याय 1 का पहला श्लोक खुलेगा। श्लोक के नीचे <b>अगला →</b> या ऊपर <b>›</b> से श्लोक-दर-श्लोक आगे बढ़ें।",
       "हर श्लोक में संस्कृत, उसका उच्चारण और अर्थ है। ऊपर <b>हि / EN</b> से भाषा बदलें। <b>प्रदर्शन</b> में अक्षर का आकार, थीम और क्या दिखे, चुनें।",
       "<b>सहेजें</b> से श्लोक सहेजें। सहेजे गए श्लोक <b>सहेजे</b> में मिलेंगे।"]],
-    ["नक्शा देखें",["<b>नक्शा</b> खोलें। हर बिंदु एक श्लोक है। रंग बताता है कि कौन बोल रहा है: श्रीकृष्ण, अर्जुन, संजय, धृतराष्ट्र या दुर्योधन।",
+    ["ग्राफ़ देखें",["<b>ग्राफ़</b> खोलें। हर बिंदु एक श्लोक है। रंग बताता है कि कौन बोल रहा है: श्रीकृष्ण, अर्जुन, संजय, धृतराष्ट्र या दुर्योधन।",
       "पिंच या स्क्रॉल करके ज़ूम करें, खींचकर नक्शा घुमाएँ। <b>⤢</b> से फिर पूरा नक्शा दिखेगा।",
       "घेरे पर किसी <b>अध्याय</b> को टैप करें, फिर <b>अध्याय पढ़ें</b>, और पूरा अध्याय शुरू से पढ़ें।",
       "किसी <b>पात्र</b>, जैसे कर्ण, पर टैप करें और उनके सभी प्रसंग पढ़ें।",

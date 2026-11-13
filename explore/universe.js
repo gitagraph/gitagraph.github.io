@@ -517,7 +517,7 @@ $("back").onclick = () => { if(history.state && history.state.nav) history.back(
 function words(){
   document.documentElement.lang = lang; $("back").textContent = t("back"); $("home").textContent = t("home"); $("chaps").textContent = t("chapters2"); $("qs").textContent = t("qs"); $("heb").textContent = t("eb"); $("hh").innerHTML = t("h1"); $("hp").textContent = t("hp");
   $('cv').setAttribute('aria-label',lang==='hi'?'शास्त्र ब्रह्मांड। कीबोर्ड के लिए अध्याय सूची चुनें। तीर से घूमें और + / − से ज़ूम करें।':'Scripture universe. Use the chapter list for accessible navigation; arrow keys pan and plus or minus zoom.');$('panel').setAttribute('aria-label',lang==='hi'?'विवरण':'Details');$('zin').setAttribute('aria-label',lang==='hi'?'पास देखें':'Zoom in');$('zout').setAttribute('aria-label',lang==='hi'?'दूर देखें':'Zoom out');
-  document.title=(lang==="hi"?"नक्शा":"Map")+" · Gitagraph";$("hint").textContent=t("hint");$("guide").setAttribute("aria-label",lang==="hi"?"मार्गदर्शिका":"Guide");
+  document.title=(lang==="hi"?"ग्राफ़":"Graph")+" · Gitagraph";$("hint").textContent=t("hint");$("guide").setAttribute("aria-label",lang==="hi"?"मार्गदर्शिका":"Guide");
   $("lang").textContent = lang==="hi"?"EN":"हि"; $("lang").setAttribute("aria-label", lang === "hi" ? "Switch to English" : "हिन्दी में देखें");
   $("motion").textContent = paused ? "▷" : "Ⅱ"; $("motion").setAttribute("aria-label", t(paused ? "play" : "pause")); $("motion").setAttribute("aria-pressed", String(paused));
 }
