@@ -90,7 +90,7 @@ const IC = {
 
 // ===================== interface text =====================
 const UI = {
-  en:{ app:"Bhagavad Gita", read:"Read", explore:"Explore", index:"People & ideas", indexShort:"Index", search:"Search", saved:"Saved", settings:"Display",
+  en:{ app:"Bhagavad Gita", read:"Read", explore:"Map", index:"People & ideas", indexShort:"Index", search:"Search", saved:"Saved", settings:"Display",
     lede:"The song of the Lord: Krishna's teaching to Arjuna on the field of Kurukshetra, in 18 chapters and 700 verses. Sanskrit with fresh English and Hindi translations, linked to every person and idea.",
     chapters:"Chapters", chapter:"Chapter", verse:"Verse", verses:"verses", vOf:(a,b)=>`Verse ${a} of ${b}`, readOf:(a,b)=>`${a} of ${b} read`,
     cont:"Continue reading", votd:"Verse of the day", start:"Start at the beginning", startT:"Chapter 1 opens on the battlefield, with a blind king asking what happened.",
@@ -145,7 +145,7 @@ Object.assign(UI.en, {
     ["Read",["<b>Start reading</b> opens Chapter 1, verse 1. Use <b>Next →</b> under a verse, or the <b>›</b> arrow at the top, to go verse by verse.",
       "Each verse shows the Sanskrit, how to say it, and its meaning. Tap <b>हि / EN</b> at the top to switch language. <b>Display</b> sets text size, theme and what is shown.",
       "Tap <b>Save</b> to keep a verse. Your saved verses are under <b>Saved</b>."]],
-    ["Explore the map",["Open <b>Explore</b>. Every dot is a shloka. Its colour shows who is speaking: Krishna, Arjuna, Sanjaya, Dhritarashtra or Duryodhana.",
+    ["Explore the map",["Open <b>Map</b>. Every dot is a shloka. Its colour shows who is speaking: Krishna, Arjuna, Sanjaya, Dhritarashtra or Duryodhana.",
       "Pinch or scroll to zoom in and out, and drag to move around. The <b>⤢</b> button shows everything again.",
       "Tap a <b>chapter</b> on the ring, then <b>Read chapter</b>, to read it from start to end.",
       "Tap a <b>person</b>, like Karna, to read every scene they are in.",
@@ -523,7 +523,7 @@ function homeView(){
   let how = store.get("how", null);
   if(how===null) store.set("how", "closed");          // open by itself on the first visit only
   return `<section class="hero"><p class="skt">श्रीमद्भगवद्गीता</p><h1>${isHi() ? "भगवद्गीता" : "The Bhagavad Gita"}</h1></section>
-  <section class="tagline"><h2>${esc(u().forallT)}</h2><p class="lede2">${esc(u().tagLede)}</p><p class="hook">${esc(u().tagHook)}</p></section>
+  <section class="tagline"><h2>${esc(u().forallT)}</h2><p class="hook">${esc(u().tagHook)}</p></section>
   ${last ? `<a class="contbar" href="#${last.id}"><span><b>${esc(u().contL)}</b> · ${last.ref} ${esc(name(CH[last.c-1]))}</span><span aria-hidden="true">→</span></a>` : ""}
   <section class="votd" aria-label="${esc(u().votd)}"><p class="eyebrow">${esc(u().votd)} · ${vd.ref}</p>
     ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(saH).join("<br>")}</p>` : ""}

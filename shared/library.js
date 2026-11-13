@@ -14,8 +14,8 @@
     document.head.appendChild(c);
   }
   const T = {
-    en: { all: "All texts", more: "More texts", other: "Other texts", soon: "Coming soon", home: "All texts →", how: "How this site is made →", verses: n => `${n} verses` },
-    hi: { all: "सभी ग्रंथ", more: "और ग्रंथ", other: "अन्य ग्रंथ", soon: "जल्द आ रहा है", home: "सभी ग्रंथ →", how: "यह साइट कैसे बनी →", verses: n => `${n} श्लोक` }
+    en: { all: "All texts", more: "More texts", other: "Other texts", soon: "Coming soon", home: "Library →", how: "How this site is made →", verses: n => `${n} verses` },
+    hi: { all: "सभी ग्रंथ", more: "और ग्रंथ", other: "अन्य ग्रंथ", soon: "जल्द आ रहा है", home: "ग्रंथालय →", how: "यह साइट कैसे बनी →", verses: n => `${n} श्लोक` }
   };
   const L = () => ((document.documentElement.lang || "en").startsWith("hi") ? "hi" : "en");
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));

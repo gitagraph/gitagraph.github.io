@@ -90,7 +90,7 @@ const IC = {
 
 // ===================== interface text =====================
 const UI = {
-  en:{ app:"Ashtavakra Gita", read:"Read", explore:"Explore", index:"People & ideas", indexShort:"Index", search:"Search", saved:"Saved", settings:"Display",
+  en:{ app:"Ashtavakra Gita", read:"Read", explore:"Map", index:"People & ideas", indexShort:"Index", search:"Search", saved:"Saved", settings:"Display",
     lede:"The sage Ashtavakra and King Janaka on the Self, freedom and peace, in 20 chapters and 298 verses. Sanskrit with fresh English and Hindi translations, linked to every person and idea.",
     chapters:"Chapters", chapter:"Chapter", verse:"Verse", verses:"verses", vOf:(a,b)=>`Verse ${a} of ${b}`, readOf:(a,b)=>`${a} of ${b} read`,
     cont:"Continue reading", votd:"Verse of the day", start:"Start at the beginning", startT:"A king asks three questions: how does one gain knowledge, freedom and dispassion?",
@@ -149,7 +149,7 @@ Object.assign(UI.en, {
     ["Read",["<b>Start reading</b> opens Chapter 1, verse 1. Use <b>Next →</b> under a verse, or the <b>›</b> arrow at the top, to go verse by verse.",
       "Each verse shows the Sanskrit, how to say it, and its meaning. Tap <b>हि / EN</b> at the top to switch language. <b>Display</b> sets text size, theme and what is shown.",
       "Tap <b>Save</b> to keep a verse. Your saved verses are under <b>Saved</b>."]],
-    ["Explore the map",["Open <b>Explore</b>. Every small dot is a verse.",
+    ["Explore the map",["Open <b>Map</b>. Every small dot is a verse.",
       "Pinch or scroll to zoom in and out, and drag to move around. The <b>⤢</b> button shows everything again.",
       "Tap a <b>chapter</b> on the ring, then <b>Read chapter</b>, to read it from start to end.",
       "Tap an <b>idea</b>, like the witness or the ocean, to read every verse that speaks of it."]],
@@ -460,7 +460,7 @@ function homeView(){
   let how = store.get("how", null);
   if(how===null) store.set("how", "closed");          // open by itself on the first visit only
   return `<section class="hero"><p class="skt">अष्टावक्रगीता</p><h1>${isHi() ? "अष्टावक्र गीता" : "The Ashtavakra Gita"}</h1></section>
-  <section class="tagline"><h2>${esc(u().forallT)}</h2><p class="lede2">${esc(u().tagLede)}</p><p class="hook">${esc(u().tagHook)}</p></section>
+  <section class="tagline"><h2>${esc(u().forallT)}</h2><p class="hook">${esc(u().tagHook)}</p></section>
   ${last ? `<a class="contbar" href="#${last.id}"><span><b>${esc(u().contL)}</b> · ${last.ref} ${esc(name(CH[last.c-1]))}</span><span aria-hidden="true">→</span></a>` : ""}
   <section class="votd" aria-label="${esc(u().votd)}"><p class="eyebrow">${esc(u().votd)} · ${vd.ref}</p>
     ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(saH).join("<br>")}</p>` : ""}
