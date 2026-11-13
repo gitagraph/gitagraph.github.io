@@ -99,7 +99,7 @@ const UI = {
     min:n=>`${n} min read`, nStories:n=>n===1?"1 story":`${n} stories`, story:"Story", teaching:"Teaching",
     forWho:"Who this is for", legendOff:"To see which passages follow the Sanskrit closely, turn on \"Mark passages close to the text\" in Display.", legend:"Passages marked on the left follow the Sanskrit closely; the rest is connective narration.",
     sources:"The source verses", sourcesT:"The Sanskrit this story rests on, with fresh English and Hindi translations.",
-    learning:"The learning", moreT:"More: where this comes from, the Sanskrit, other readings", carry:"Carry this with you", readings:"Readings differ",
+    learning:"The learning", moreT:"More: where this comes from, other readings", toSrc:"Read the Sanskrit verses", carry:"Carry this with you", readings:"Readings differ",
     whereFrom:"Where this comes from", upanishad:"Upanishad", veda:"Veda", section:"Section", period:"Period", people:"People", ideas:"Ideas",
     edition:"Sanskrit text", checked:"Checked against", themesH:"Themes", related:"Related stories", sameIdea:"The same idea elsewhere",
     gita:"Bhagavad Gita", ashtavakra:"Ashtavakra Gita", prev:"Previous story", next:"Next story", save:"Save", savedL:"Saved",
@@ -132,7 +132,7 @@ const UI = {
     min:n=>`${n} मिनट`, nStories:n=>`${n} कथाएँ`, story:"कथा", teaching:"उपदेश",
     forWho:"यह किसके लिए है", legendOff:"कौन-से अंश संस्कृत के करीब हैं, यह देखने के लिए प्रदर्शन में \"मूल के करीब वाले अंश चिह्नित करें\" चालू करें।", legend:"बाईं ओर रेखा वाले अंश संस्कृत के करीब हैं; बाकी जोड़ने वाला वर्णन है।",
     sources:"मूल मंत्र", sourcesT:"वह संस्कृत जिस पर यह कथा टिकी है, नए हिंदी और अंग्रेज़ी अनुवाद के साथ।",
-    learning:"सीख", moreT:"और: यह कहाँ से है, संस्कृत, अन्य व्याख्याएँ", carry:"इसे साथ रखें", readings:"अलग-अलग व्याख्याएँ",
+    learning:"सीख", moreT:"और: यह कहाँ से है, अन्य व्याख्याएँ", toSrc:"संस्कृत मंत्र पढ़ें", carry:"इसे साथ रखें", readings:"अलग-अलग व्याख्याएँ",
     whereFrom:"यह कहाँ से है", upanishad:"उपनिषद्", veda:"वेद", section:"खंड", period:"समय", people:"पात्र", ideas:"विचार",
     edition:"संस्कृत पाठ", checked:"मिलान", themesH:"विषय", related:"संबंधित कथाएँ", sameIdea:"यही विचार अन्यत्र",
     gita:"भगवद्गीता", ashtavakra:"अष्टावक्र गीता", prev:"पिछली कथा", next:"अगली कथा", save:"सहेजें", savedL:"सहेजा गया",
@@ -447,11 +447,20 @@ function storyView(s){
   <h1>${esc(L(s,"title"))}</h1>
   <p class="forline" lang="${lang}">${esc(L(s,"for"))}</p>
   ${L(s,"insight") ? `<p class="insight1" lang="${lang}">${esc(L(s,"insight"))}</p>` : ""}
+  ${s.verses.length ? `<p class="tosrc"><a href="#${vid(s.verses[0].ref)}">${esc(u().toSrc)} ↓</a></p>` : ""}
   <div class="tale ${prefs.marks?"":"nomarks"}">${paras}</div>
 
   <h2 class="big">${esc(u().learning)}</h2>
   <div class="learn" lang="${lang}">${String(L(s,"learning")).split(/\n+/).map(p=>`<p>${esc(p)}</p>`).join("")}</div>
   ${take && take.length ? `<div class="carry"><p class="eyebrow">${esc(u().carry)}</p><ul lang="${lang}">${take.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>` : ""}
+
+  <h2 class="big" id="sources">${esc(u().sources)}</h2>
+  <p class="srcnote" lang="${lang}">${esc(u().sourcesT)}</p>
+  ${s.verses.map(v => `<section class="sv" id="${vid(v.ref)}" tabindex="-1"><div class="rf"><b>${esc(L(x,"name"))} ${esc(v.ref)}</b>${v.speaker && HB.has(v.speaker) ? `<span>${esc(hname(HB.get(v.speaker)))}</span>` : ""}</div>
+    ${prefs.sa ? `<p class="vsa" lang="sa">${saLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>` : ""}
+    ${prefs.iast && v.iast ? `<p class="viast" lang="sa-Latn">${trLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>` : ""}
+    <p class="vtr ${isHi()?"hi":""}" lang="${lang}">${esc(isHi()?v.hi:v.en)}</p>
+    ${prefs.other ? `<p class="vtr2 ${isHi()?"":"hi"}" lang="${isHi()?"en":"hi"}"><b>${isHi()?"EN":"हिन्दी"}</b>${esc(isHi()?v.en:v.hi)}</p>` : ""}</section>`).join("")}
 
   <details class="more" id="more"><summary>${esc(u().moreT)}</summary>
   <p class="legend2"><i></i>${esc(prefs.marks ? u().legend : u().legendOff)}</p>
@@ -466,12 +475,6 @@ function storyView(s){
     ${ths.length ? `<dt>${esc(u().themesH)}</dt><dd>${ths.map(t=>`<a href="#th-${t.id}">${esc(L(t,"label"))}</a>`).join(", ")}</dd>` : ""}
     <dt>${esc(u().edition)}</dt><dd><a href="${esc(s.source_url)}" target="_blank" rel="noopener">${isHi()?"संस्कृत विकिस्रोत":"Sanskrit Wikisource"}: ${esc(s.source_title)}</a> (CC BY-SA 4.0)</dd>
   </dl>
-  <h2 class="sec" id="sources">${esc(u().sources)}</h2>
-  ${s.verses.map(v => `<section class="sv" id="${vid(v.ref)}" tabindex="-1"><div class="rf"><b>${esc(L(x,"name"))} ${esc(v.ref)}</b>${v.speaker && HB.has(v.speaker) ? `<span>${esc(hname(HB.get(v.speaker)))}</span>` : ""}</div>
-    ${prefs.sa ? `<p class="vsa" lang="sa">${saLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>` : ""}
-    ${prefs.iast && v.iast ? `<p class="viast" lang="sa-Latn">${trLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>` : ""}
-    <p class="vtr ${isHi()?"hi":""}" lang="${lang}">${esc(isHi()?v.hi:v.en)}</p>
-    ${prefs.other ? `<p class="vtr2 ${isHi()?"":"hi"}" lang="${isHi()?"en":"hi"}"><b>${isHi()?"EN":"हिन्दी"}</b>${esc(isHi()?v.en:v.hi)}</p>` : ""}</section>`).join("")}
   ${s.readings && s.readings.length ? `<h2 class="sec">${esc(u().readings)}</h2><div class="readings" lang="${lang}">${s.readings.map(r=>`<p>${esc(isHi()?r.hi:r.en)}</p>`).join("")}</div>` : ""}
   ${xr ? `<h2 class="sec">${esc(u().sameIdea)}</h2><div class="xref">${xr}</div>` : ""}
   <p class="credits">${u().suggest}</p>
@@ -490,8 +493,7 @@ function markRead(s){
   recent = [s.id, ...recent.filter(r=>r!==s.id)].slice(0,30); store.set("recent",recent);
 }
 function wireStory(s){
-  // a jump to a source verse opens "More" first
-  document.querySelectorAll('a[href^="#v-"]').forEach(l => l.addEventListener("click", () => { const d = document.getElementById("more"); if(d) d.open = true; }, true));
+  // the source verses sit in the open, after the learning, so a jump to one needs no unfolding
 }
 
 // ===================== themes, texts, topics =====================

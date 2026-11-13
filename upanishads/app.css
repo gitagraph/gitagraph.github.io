@@ -350,6 +350,10 @@ mark{background:color-mix(in srgb, var(--mark) 30%, transparent);color:inherit;b
 .insight1{font-family:var(--f-read);font-weight:600;font-size:calc(20px * var(--scale));line-height:1.45;color:var(--accent);margin:18px 0 0;max-width:40ch;text-wrap:balance}
 :root[lang=hi] .insight1{font-family:var(--f-hi);font-weight:400;font-size:calc(21px * var(--scale));line-height:1.65}
 details.more{margin-top:34px;border-top:1px solid var(--line)}
+/* the Sanskrit is offered at the top and shown in the open after the learning */
+.tosrc{margin:14px 0 0}
+.tosrc a{display:inline-flex;align-items:center;min-height:44px;color:var(--accent);font-weight:600;font-size:15px;text-decoration:underline;text-underline-offset:4px}
+.srcnote{margin:0 0 6px;color:var(--muted);max-width:62ch}
 details.more summary{cursor:pointer;list-style:none;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--accent);font-weight:600;font-size:15.5px}
 details.more summary::-webkit-details-marker{display:none}
 details.more summary::after{content:"+";font-size:22px;color:var(--muted)}
