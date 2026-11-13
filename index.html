@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);
+var l=localStorage.getItem("library-lang")||((navigator.language||"").toLowerCase().startsWith("hi")?"hi":"en");if(l==="hi")document.documentElement.lang="hi"}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Gitagraph · Timeless wisdom for every stage of life</title>
 <meta name="description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi.">
@@ -12,112 +13,110 @@
 <meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Timeless wisdom for every stage of life">
 <meta property="og:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta property="og:url" content="https://gitagraph.com/">
 <meta property="og:site_name" content="Gitagraph · Timeless wisdom for every stage of life">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261112171841">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261113095434">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Gitagraph · Timeless wisdom for every stage of life (गीताग्राफ़ · जीवन के हर पड़ाव के लिए शाश्वत ज्ञान): the Bhagavad Gita, the Ashtavakra Gita and the Upanishads, in Sanskrit, English and Hindi">
+<meta property="og:image:alt" content="Gitagraph · Ancient wisdom. Connected.: the Bhagavad Gita, the Ashtavakra Gita and the Upanishads, in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Gitagraph · Timeless wisdom for every stage of life">
-<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261112171841">
+<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261113095434">
 <link rel="icon" href="shared/mark.svg" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap">
 <style>
-:root{--bg:#f4f5f1;--surface:#fff;--sunk:#eceee8;--ink:#16202c;--muted:#5d6672;--line:#dcdfd8;--accent:#0b6b70;
+:root{--bg:#f4f5f1;--surface:#fff;--sunk:#eceee8;--ink:#16202c;--muted:#5d6672;--line:#dcdfd8;--accent:#0b6b70;--brand:#201a43;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0e1219;--surface:#161c26;--sunk:#1c2330;--ink:#e7e9ee;--muted:#9aa3b1;--line:#2a3240;--accent:#4cc0c2;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0e1219;--surface:#161c26;--sunk:#1c2330;--ink:#e7e9ee;--muted:#9aa3b1;--line:#2a3240;--accent:#4cc0c2;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0e1219;--surface:#161c26;--sunk:#1c2330;--ink:#e7e9ee;--muted:#9aa3b1;--line:#2a3240;--accent:#4cc0c2;--brand:#d6d0f2;--on-brand:#16112e;--gold:#d9a441;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1219;--surface:#161c26;--sunk:#1c2330;--ink:#e7e9ee;--muted:#9aa3b1;--line:#2a3240;--accent:#4cc0c2;--brand:#d6d0f2;--on-brand:#16112e;--gold:#d9a441;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--muted-hi:color-mix(in srgb,var(--muted) 60%,var(--ink))}}
+:root[data-theme="dark"]{--muted-hi:color-mix(in srgb,var(--muted) 60%,var(--ink))}
 :root{--mp:#9a5a14}
 .map-prev .mp{fill:var(--mp)} .map-prev .mc{fill:var(--accent)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--mp:#e6a35a}}
 :root[data-theme="dark"]{--mp:#e6a35a}
-.door svg.map-prev,.map-prev{display:block;width:100%;height:auto;max-height:132px;margin:4px 0 2px;color:inherit}
+.map-prev{display:block;width:100%;height:auto;max-height:150px;color:inherit}
 .map-prev .ml{fill:none;stroke:var(--muted);stroke-opacity:.32;stroke-width:1.4}
-.door .rv{display:flex;flex-direction:column;gap:1px;min-width:0;color:var(--muted);font-size:14.5px;line-height:1.5;margin-top:-2px}
-.door .rv span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.door .rv .rs{font-family:var(--f-skt)}
-.door .qls{display:flex;flex-direction:column;gap:2px;margin-top:2px}
-.door .ql{color:inherit;text-decoration:none;line-height:1.45;padding:5px 0;border-bottom:1px solid var(--line)}
-.door .ql:last-child{border-bottom:0}
-.door .ql:hover{color:var(--accent)}
-a.go{text-decoration:none}
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.5}
 a{color:inherit} :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px} [hidden]{display:none!important}
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:8px;padding-block:8px;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.top .brand{flex:1;min-width:0;display:flex;align-items:center;gap:8px;font-weight:600;font-size:17px;text-decoration:none;color:inherit}
-.top .brand span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.top .brand .mark{width:22px;height:22px;flex:none}
-.mark .e{stroke:var(--muted);stroke-opacity:.7} .mark .t{fill:var(--accent)} .mark .b{fill:var(--mp)}
-.langpill.themebtn{width:36px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+.top .brand{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:inherit}
+.top .brand .mark{width:32px;height:32px;flex:none}
+.brand .wm{display:flex;flex-direction:column;min-width:0;line-height:1.15}
+.brand .nm{font-family:var(--f-read);font-weight:600;font-size:19px;white-space:nowrap}
+:root[lang=hi] .brand .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.brand .tg{font-family:var(--f-read);font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:root[lang=hi] .brand .tg{font-family:var(--f-hi);font-size:13.5px}
+.mark .bk{fill:var(--brand)} .mark .nd{fill:var(--gold)} .mark .ln{stroke:var(--gold)}
+.langpill.themebtn{width:44px;padding:0;display:inline-flex;align-items:center;justify-content:center}
 .themebtn svg{width:18px;height:18px}
-.langpill{font:inherit;font-size:14px;font-weight:600;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.langpill{font:inherit;font-size:14px;font-weight:600;height:44px;min-width:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
 .wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 48px}
-.hero{padding:20px 0 8px}
-.hero .om{font-family:var(--f-skt);font-size:40px;line-height:1;color:var(--accent);margin:0 0 8px}
-.hero .tag{font-family:var(--f-read);font-weight:600;font-size:clamp(20px,3.4vw,26px);color:var(--accent);margin:0 0 10px}
-:root[lang=hi] .hero .tag{font-family:var(--f-hi);font-weight:400}
-.hero h1{font-family:var(--f-read);font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.15;margin:0 0 10px;letter-spacing:-.01em;text-wrap:balance}
-:root[lang=hi] .hero h1{font-family:var(--f-hi);font-weight:400}
+.hero{padding:24px 0 8px}
+.hero h1{font-family:var(--f-read);font-weight:600;font-size:clamp(28px,5vw,42px);line-height:1.18;margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance;max-width:24ch}
+:root[lang=hi] .hero h1{font-family:var(--f-hi);font-weight:400;line-height:1.35}
 .hero p{font-family:var(--f-read);color:var(--muted);font-size:17px;line-height:1.65;margin:0;max-width:60ch}
 :root[lang=hi] .hero p{font-family:var(--f-hi);line-height:1.85}
-.grid{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:14px}
-.text{--c:var(--lc);position:relative;display:flex;flex-direction:column;gap:4px;height:100%;padding:20px 20px 18px;border-radius:16px;background:var(--surface);
-  border:1px solid var(--line);border-top:5px solid var(--c);text-decoration:none;color:inherit}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .text{--c:var(--ld)}}
-:root[data-theme="dark"] .text{--c:var(--ld)}
-a.text:hover{border-color:var(--c)}
-.text .nat{font-family:var(--f-skt);font-size:28px;line-height:1.3;color:var(--c)}
-.text .nm{font-family:var(--f-read);font-weight:600;font-size:19px}
-:root[lang=hi] .text .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
-.text .ds{color:var(--muted);line-height:1.55;margin:4px 0 0}
-.text .ft{margin-top:auto;padding-top:14px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
-.text .go{color:var(--c);font-weight:600}
-.text.soon{opacity:.62}
-.grid .featured{grid-column:1 / -1}
-.tlist{list-style:none;margin:26px 0 0;padding:0;border-top:1px solid var(--line)}
-.tl{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:4px 12px;align-items:baseline;padding:12px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit}
-a.tl:hover .tm{color:var(--accent)}
-.tl .tn{font-family:var(--f-skt);font-size:19px}
-.tl .tm{font-weight:600;min-width:0}
-.tl .tc{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
-.tl .tgo{color:var(--accent);font-weight:600}
-.tl.soon{opacity:.6}
-@media (max-width:420px){ .tl{grid-template-columns:auto minmax(0,1fr) auto} .tl .tn{grid-column:1 / -1} }
-.hero .tag2{margin:0;color:var(--muted);font-size:17px}
-.doors{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
-@media (min-width:700px){ .doors{grid-template-columns:repeat(3,minmax(0,1fr))} }
-.door{display:flex;flex-direction:column;gap:6px;height:100%;padding:18px 20px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit}
-.door:hover{border-color:var(--accent)}
-.door svg{width:28px;height:28px;color:var(--accent)}
-.door .dt{font-family:var(--f-read);font-weight:600;font-size:21px}
-:root[lang=hi] .door .dt{font-family:var(--f-hi);font-weight:400;font-size:22px}
-.door .ds{color:var(--muted);line-height:1.5}
-.door .go{margin-top:auto;padding-top:6px;color:var(--accent);font-weight:600;font-size:15px}
-.votd{margin:22px 0 0;padding:20px 22px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+.btn{flex:0 1 auto;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:12px;border:1.5px solid transparent;font-weight:600;font-size:16px;text-align:center;text-decoration:none}
+.btn.primary{background:var(--brand);color:var(--on-brand)}
+.btn.primary:hover{background:color-mix(in srgb,var(--brand) 86%,var(--bg))}
+.btn.secondary{border-color:var(--muted);color:var(--ink)}
+.btn.secondary:hover{border-color:var(--ink)}
+@media (max-width:460px){ .btn{flex:1 1 100%} }
+.hero p.resume{margin:12px 0 0;font-family:var(--f-ui);font-size:16px}
+.nw{white-space:nowrap}
+.resume a{display:inline-flex;align-items:center;min-height:44px;color:var(--accent);font-weight:600;text-decoration:none}
+.sec{margin:40px 0 0}
+.sec h2{font-family:var(--f-read);font-weight:600;font-size:clamp(21px,2.6vw,24px);line-height:1.3;margin:0 0 14px}
+.sec h2::before{content:"";display:block;width:28px;height:2px;background:var(--gold);margin:0 0 10px}
+:root[lang=hi] .sec h2{font-family:var(--f-hi);font-weight:400}
+.qcards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+@media (min-width:700px){ .qcards{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.card{display:flex;flex-direction:column;gap:6px;height:100%;padding:18px 20px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit}
+a.card:hover{border-color:var(--accent)}
+.qcard .qt{font-family:var(--f-read);font-weight:600;font-size:19px;line-height:1.35}
+:root[lang=hi] .qcard .qt{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.qcard .qm{margin-top:auto;padding-top:4px;color:var(--muted);font-size:14px;line-height:1.5}
+.more{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;color:var(--accent);font-weight:600;text-decoration:none}
+.go{color:var(--accent);font-weight:600}
+.votd{min-height:var(--vh,0px)}
 .votd .ey{margin:0;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
 :root[lang=hi] .votd .ey{letter-spacing:0;text-transform:none;font-size:14px}
 .votd .sa{font-family:var(--f-skt);font-size:21px;line-height:1.75;margin:10px 0 0}
 .votd .tx{font-family:var(--f-read);font-size:17.5px;line-height:1.65;margin:10px 0 0;max-width:62ch}
 :root[lang=hi] .votd .tx{font-family:var(--f-hi);line-height:1.85}
-.votd a{display:inline-block;margin-top:12px;color:var(--accent);font-weight:600;text-decoration:none}
-.text.feat{padding:26px 26px 22px;border-top-width:7px;background:color-mix(in srgb, var(--c) 6%, var(--surface))}
-.text.feat .nat{font-size:clamp(34px,6vw,46px)}
-.text.feat .nm{font-size:clamp(22px,3.5vw,28px)}
-.text.feat .ds{font-size:17px;max-width:56ch}
-.text.feat .go{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:12px;background:var(--c);color:var(--surface)}
+.votd .more{margin-top:4px}
+.cx{display:grid;grid-template-columns:minmax(0,1fr);gap:10px 28px;align-items:center}
+@media (min-width:700px){ .cx{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)} }
+.cx .ds{display:block;margin:0;color:var(--muted);line-height:1.6}
+.cx .go{display:inline-flex;align-items:center;min-height:44px;margin-top:2px;font-size:16px;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px;text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:12px}
+.text{--c:var(--lc);display:flex;flex-direction:column;gap:4px;height:100%;padding:18px 20px;border-radius:16px;background:var(--surface);
+  border:1px solid var(--line);border-top:3px solid var(--c);text-decoration:none;color:inherit}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .text{--c:var(--ld)}}
+:root[data-theme="dark"] .text{--c:var(--ld)}
+a.text:hover{border-color:var(--c)}
+.text .nat{font-family:var(--f-skt);font-size:26px;line-height:1.35;color:var(--c)}
+.text .nm{font-family:var(--f-read);font-weight:600;font-size:19px}
+:root[lang=hi] .text .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.text .ds{color:var(--muted);line-height:1.55;margin:2px 0 0}
+.text .ft{margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.text .go{color:var(--c)}
+.text.soon{opacity:.62}
 .text .pill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 10px}
-.note{margin:28px 0 0;color:var(--muted);font-size:14px;line-height:1.6;max-width:70ch}
+.note{margin:36px 0 0;color:var(--muted);font-size:14px;line-height:1.6;max-width:70ch}
+/* Hindi secondary text: Devanagari needs more size and line height than Latin to read at the same weight */
+:root[lang=hi] .qcard .qm,:root[lang=hi] .text .ft{font-size:15px;line-height:1.7}
+:root[lang=hi] .cx .ds,:root[lang=hi] .text .ds{font-size:16.5px;line-height:1.75}
+:root[lang=hi] .note{font-size:15px;line-height:1.8}
+:root[lang=hi] :is(.qcard .qm,.cx .ds,.text .ds,.text .ft,.note,.votd .ey){color:var(--muted-hi)}
+/* phones: tighter section rhythm and card padding; touch targets stay 44px+ */
+@media (max-width:480px){ .hero{padding-top:14px} .ctas{margin-top:18px} .sec{margin-top:30px} .sec h2{margin-bottom:10px} .sec h2::before{margin-bottom:8px}
+  .card,.text{padding:15px 16px} .qcards,.grid{gap:10px} .text .ft{padding-top:8px} .note{margin-top:26px} .wrap{padding-bottom:28px} }
 .l-hi{display:none} :root[lang=hi] .l-hi{display:revert} :root[lang=hi] .l-en{display:none}
-.lifeq{margin:30px 0 0}
-.lifeq h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 6px}
-:root[lang=hi] .lifeq h2{letter-spacing:0;text-transform:none;font-size:15px}
-.lifeq p{margin:0 0 12px;color:var(--muted)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{display:inline-flex;align-items:center;min-height:40px;padding:4px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);text-decoration:none;font-size:15px}
-.chip:hover{border-color:var(--muted)}
-.foot{margin:28px 0 0;font-size:14px;color:var(--muted)}
-.foot a{color:var(--accent);font-weight:600}
+.foot{margin:12px 0 0;font-size:14px;color:var(--muted)}
+.foot a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;color:var(--accent);font-weight:600}
 .doc h2{font-family:var(--f-read);font-size:22px;margin:30px 0 8px}
 :root[lang=hi] .doc h2{font-family:var(--f-hi);font-weight:400}
 .doc p,.doc li{line-height:1.7;max-width:68ch}
@@ -125,56 +124,81 @@ a.tl:hover .tm{color:var(--accent)}
 .doc th,.doc td{border-top:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
 .doc th{font-size:13px;color:var(--muted);font-weight:600}
 .tw{overflow-x:auto}
-.hero h1 .mark{display:inline-block;width:.74em;height:.74em;vertical-align:-.08em;margin-right:.22em}
-.proto{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px;vertical-align:middle}
-:root[lang=hi] .proto{letter-spacing:0;text-transform:none;font-size:12px}
+.proto{display:inline-block;font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:0 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px;vertical-align:3px;line-height:1.6}
+:root[lang=hi] .proto{letter-spacing:0;text-transform:none;font-size:11.5px}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important;scroll-behavior:auto!important} }
+html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 </style>
 </head>
 <body>
-<header class="top home-top"><span class="brand" aria-hidden="true"></span>
+<header class="top"><a class="brand" href="./" title="Gitagraph: ancient wisdom, connected"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path class="ln" fill="none" stroke-width="1.7" stroke-linecap="round" d="M6.5 12.5C8.5 7.5 12 5.5 16 5.2C20 5.5 23.5 7.5 25.5 12.5M6.5 12.5C11 12.2 15 14.8 16 19.5M25.5 12.5C21 12.2 17 14.8 16 19.5"/><circle class="nd" cx="16" cy="5.2" r="3"/><circle class="nd" cx="6.5" cy="12.5" r="3"/><circle class="nd" cx="25.5" cy="12.5" r="3"/><circle class="nd" cx="16" cy="19.5" r="2.4"/><path class="bk" d="M1 26.2C6.5 24.4 12 24.8 14.6 27.4Q16 28.9 17.4 27.4C20 24.8 25.5 24.4 31 26.2L29.6 22C24.5 20.8 19.2 21.6 16.7 23.8Q16 24.4 15.3 23.8C12.8 21.6 7.5 20.8 2.4 22Z"/></svg><span class="wm"><span class="nm"><span class="l-en">Gitagraph</span><span class="l-hi">गीताग्राफ़</span><span class="proto"><span class="l-en">Beta</span><span class="l-hi">बीटा</span></span></span><span class="tg"><span class="l-en">Ancient wisdom. Connected.</span><span class="l-hi">प्राचीन ज्ञान, आपस में जुड़ा।</span></span></span></a>
   <button class="langpill themebtn" id="themebtn" type="button"></button>
   <button class="langpill" id="lang" type="button" aria-label="हिन्दी में देखें">हि</button></header>
 <main class="wrap">
-  <section class="hero"><h1 id="h1"><svg class="mark" viewBox="0 0 32 32" role="img" aria-label="Gitagraph: the Gita as a web of connections"><title>Gitagraph: the Gita as a web of connections</title><path class="e" d="M12 19.5L20 12.5M12 19.5L4.5 15M12 19.5L6 26.5M12 19.5L14.5 28.2M20 12.5L17.5 3.8M20 12.5L26 6M20 12.5L27.5 17" stroke-width="1.8" fill="none" stroke-linecap="round"/><circle class="t" cx="4.5" cy="15" r="2.2"/><circle class="t" cx="6" cy="26.5" r="2.2"/><circle class="t" cx="14.5" cy="28.2" r="2.2"/><circle class="b" cx="17.5" cy="3.8" r="2.2"/><circle class="b" cx="26" cy="6" r="2.2"/><circle class="b" cx="27.5" cy="17" r="2.2"/><circle class="t" cx="12" cy="19.5" r="4.4"/><circle class="b" cx="20" cy="12.5" r="4.4"/></svg><span id="h1t">Gitagraph</span><span class="proto" id="beta">Beta</span></h1>
-    <p class="tag"><span class="l-en">Timeless wisdom for every stage of life.</span><span class="l-hi">जीवन के हर पड़ाव के लिए शाश्वत ज्ञान।</span></p>
-    </section>
-  <ul class="doors"><li><a class="door" id="door-read" href="gita/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5c2.8-1 5.8-1 9 1v13c-3.2-2-6.2-2-9-1z"/><path d="M21 5.5c-2.8-1-5.8-1-9 1v13c3.2-2 6.2-2 9-1z"/></svg><span class="dt"><span class="l-en">Read</span><span class="l-hi">पढ़ें</span></span><span class="ds" id="door-read-ds"><span class="l-en">Start with the Gita</span><span class="l-hi">गीता से शुरू करें</span></span><span class="rv" id="door-read-rv" hidden></span><span class="go"><span class="l-en">Open the Gita →</span><span class="l-hi">गीता खोलें →</span></span></a></li><li><a class="door" href="gita/explore/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.6"/><circle cx="4.5" cy="6" r="1.8"/><circle cx="19.5" cy="5" r="1.8"/><circle cx="18.5" cy="18.5" r="1.8"/><circle cx="5" cy="18" r="1.8"/><path d="M6 7l4.2 3.4M17.9 6.2l-4 4M17.2 17.2l-3.4-3.4M6.5 16.8l3.6-3"/></svg><span class="dt"><span class="l-en">Explore</span><span class="l-hi">खोजें</span></span><svg class="map-prev" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A small view of the Gita map: Krishna and Arjuna at the centre, joined to the people and ideas that share their verses" data-alt-hi="गीता के नक्शे की एक छोटी झलक: बीच में कृष्ण और अर्जुन, जो उन पात्रों और विचारों से जुड़े हैं जो उनके श्लोकों में आते हैं"><path class="ml" d="M361 100Q388 76 401 43M361 100Q424 80 471 34M361 100Q416 94 462 65M361 100Q452 108 537 75M361 100Q423 115 485 100M361 100Q446 133 537 125M361 100Q407 129 462 135M361 100Q408 146 471 165M361 100Q374 133 401 157M210 158Q234 133 245 100M157 172Q209 146 245 100M163 145Q209 132 245 100M245 100Q165 107 97 149M132 125Q191 126 245 100M64 117Q156 130 245 100M245 100Q182 85 120 100M64 82Q152 113 245 100M245 100Q191 74 132 75M245 100Q177 58 97 51M245 100Q209 67 163 54M245 100Q209 53 157 28M245 100Q234 67 210 42M361 100Q303 86 245 100M462 65Q434 47 401 43M163 145Q130 139 97 149M471 34Q435 30 401 43M401 43Q248 10 97 51M132 125Q138 100 132 75M537 75Q473 43 401 43M485 100Q514 94 537 75M485 100Q450 61 401 43M157 172Q163 159 163 145M157 172Q174 114 163 54M157 172Q121 116 64 82M537 75Q501 61 462 65"/><g class="mp"><circle cx="401" cy="43" r="6.2"/><circle cx="471" cy="34" r="5.5"/><circle cx="462" cy="65" r="5.4"/><circle cx="537" cy="75" r="5.2"/><circle cx="485" cy="100" r="5.2"/><circle cx="537" cy="125" r="5.1"/><circle cx="462" cy="135" r="4.9"/><circle cx="471" cy="165" r="4.9"/><circle cx="401" cy="157" r="4.9"/><circle cx="361" cy="100" r="16.5"/></g><g class="mc"><circle cx="210" cy="158" r="6.6"/><circle cx="157" cy="172" r="6.5"/><circle cx="163" cy="145" r="6.4"/><circle cx="97" cy="149" r="6.3"/><circle cx="132" cy="125" r="6.3"/><circle cx="64" cy="117" r="6.2"/><circle cx="120" cy="100" r="6.2"/><circle cx="64" cy="82" r="6.2"/><circle cx="132" cy="75" r="6.2"/><circle cx="97" cy="51" r="6.2"/><circle cx="163" cy="54" r="6.1"/><circle cx="157" cy="28" r="6.1"/><circle cx="210" cy="42" r="6.1"/><circle cx="245" cy="100" r="16.5"/></g></svg><span class="go"><span class="l-en">See how the Gita connects →</span><span class="l-hi">देखें गीता कैसे जुड़ती है →</span></span></a></li><li><div class="door"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3 4 3 8 0 12-3-4-3-8 0-12z"/><path d="M4 11c3 0 6 2 8 4-3 1-6 0-8-4zM20 11c-3 0-6 2-8 4 3 1 6 0 8-4z"/><path d="M5 20h14"/></svg><span class="dt"><span class="l-en">Reflect</span><span class="l-hi">मनन करें</span></span><span class="qls"><a class="ql" href="gita/questions/restless-mind/"><span class="l-en">Restless mind, can&#x27;t focus</span><span class="l-hi">चंचल मन, ध्यान न लगना</span></a><a class="ql" href="gita/questions/what-is-a-good-life/"><span class="l-en">How should I live?</span><span class="l-hi">कैसे जियें?</span></a><a class="ql" href="gita/questions/grief/"><span class="l-en">Grieving a loss</span><span class="l-hi">किसी के खोने का शोक</span></a></span><a class="go" href="gita/questions/"><span class="l-en">All questions →</span><span class="l-hi">सभी प्रश्न →</span></a></div></li></ul>
-  <section class="votd" id="votd" hidden aria-live="polite"></section>
-  <ul class="tlist"><li><a class="tl" href="gita/"><span class="tn" lang="sa" style="color:#0b6b70">श्रीमद्भगवद्गीता</span><span class="tm"><span class="l-en">Bhagavad Gita</span><span class="l-hi">भगवद्गीता</span></span><span class="tc"><span class="l-en">700 verses</span><span class="l-hi">700 श्लोक</span></span><span class="tgo" aria-hidden="true">→</span></a></li><li><a class="tl" href="ashtavakra/"><span class="tn" lang="sa" style="color:#4f46a5">अष्टावक्रगीता</span><span class="tm"><span class="l-en">Ashtavakra Gita</span><span class="l-hi">अष्टावक्र गीता</span></span><span class="tc"><span class="l-en">298 verses</span><span class="l-hi">298 श्लोक</span></span><span class="tgo" aria-hidden="true">→</span></a></li><li><a class="tl" href="upanishads/"><span class="tn" lang="sa" style="color:#8a5a12">उपनिषद्</span><span class="tm"><span class="l-en">Upanishads</span><span class="l-hi">उपनिषद्</span></span><span class="tc"><span class="l-en">26 stories</span><span class="l-hi">26 कथाएँ</span></span><span class="tgo" aria-hidden="true">→</span></a></li></ul>
-  <p class="foot note" id="note">Every text is free, has no ads and works offline once opened. The Sanskrit comes from public-domain editions; the translations are new and written to be easy to read.</p>
+  <section class="hero"><h1><span class="l-en">Explore the Bhagavad Gita, Ashtavakra Gita &amp; Upanishads</span><span class="l-hi">भगवद्गीता, अष्टावक्र गीता और उपनिषदों को जानें</span></h1><p><span class="l-en">Read the original Sanskrit with English and Hindi translations. Discover how verses, ideas and teachings connect.</span><span class="l-hi">मूल संस्कृत श्लोक हिंदी और अंग्रेज़ी अनुवाद के साथ पढ़ें। जानें कि अलग-अलग ग्रंथों के विचार और शिक्षाएँ एक-दूसरे से कैसे जुड़ते हैं।</span></p>
+    <div class="ctas"><a class="btn primary" href="gita/questions/"><span class="l-en">Explore a question</span><span class="l-hi">प्रश्नों से खोज शुरू करें</span></a><a class="btn secondary" href="#scriptures"><span class="l-en">Browse the scriptures</span><span class="l-hi">ग्रंथ पढ़ें</span></a></div>
+    <p class="resume" id="resume" hidden><a id="resume-a" href="gita/"><span class="l-en">Continue reading · Bhagavad Gita</span><span class="l-hi">पढ़ना जारी रखें · भगवद्गीता</span>&nbsp;<span id="resume-ref"></span>&nbsp;→</a></p>
+    <script>
+    // resume: continue where the reader left off in the Gita (the Gita app keeps "gita-recent"); runs before first paint
+    try{ const last = JSON.parse(localStorage.getItem("gita-recent") || "[]")[0];
+      if(/^\d+\.\d+$/.test(last || "")){ const [c,v] = last.split(".");
+        document.getElementById("resume-a").href = `gita/chapter/${c}/verse/${v}/`;
+        document.getElementById("resume-ref").textContent = last; document.getElementById("resume").hidden = false; } }catch(e){}
+    </script></section>
+  <section class="sec" aria-labelledby="q-h"><h2 id="q-h"><span class="l-en">Begin with a question</span><span class="l-hi">एक प्रश्न से शुरुआत करें</span></h2><ul class="qcards"><li><a class="card qcard" href="gita/questions/who-am-i/"><span class="qt"><span class="l-en">Who am I?</span><span class="l-hi">मैं कौन हूँ?</span></span><span class="qm"><span class="nw"><span class="l-en">5 Gita verses</span><span class="l-hi">5 गीता श्लोक</span></span> · <span class="nw"><span class="l-en">3 Ashtavakra verses</span><span class="l-hi">3 अष्टावक्र श्लोक</span></span> · <span class="nw"><span class="l-en">3 Upanishad stories</span><span class="l-hi">3 उपनिषद् कथाएँ</span></span></span></a></li><li><a class="card qcard" href="gita/questions/restless-mind/"><span class="qt"><span class="l-en">Restless mind, can&#x27;t focus</span><span class="l-hi">चंचल मन, ध्यान न लगना</span></span><span class="qm"><span class="nw"><span class="l-en">5 Gita verses</span><span class="l-hi">5 गीता श्लोक</span></span> · <span class="nw"><span class="l-en">3 Ashtavakra verses</span><span class="l-hi">3 अष्टावक्र श्लोक</span></span> · <span class="nw"><span class="l-en">2 Upanishad stories</span><span class="l-hi">2 उपनिषद् कथाएँ</span></span></span></a></li><li><a class="card qcard" href="gita/questions/results/"><span class="qt"><span class="l-en">Afraid of failure, attached to results</span><span class="l-hi">असफलता का डर, फल की चिंता</span></span><span class="qm"><span class="nw"><span class="l-en">6 Gita verses</span><span class="l-hi">6 गीता श्लोक</span></span> · <span class="nw"><span class="l-en">3 Ashtavakra verses</span><span class="l-hi">3 अष्टावक्र श्लोक</span></span> · <span class="nw"><span class="l-en">2 Upanishad stories</span><span class="l-hi">2 उपनिषद् कथाएँ</span></span></span></a></li></ul><a class="more" href="gita/questions/"><span class="l-en">All 10 questions →</span><span class="l-hi">सभी 10 प्रश्न →</span></a></section>
+  <section class="sec" aria-labelledby="v-h"><h2 id="v-h"><span class="l-en">Today&#x27;s verse</span><span class="l-hi">आज का श्लोक</span></h2><div class="card votd" id="votd"></div></section>
+  <script>
+  // Today's verse: the same verse and the same rule as the Gita site's own (IST date; skips chapter 1, narration and
+  // verses naming three or more people). The next 31 days are written into the page at build time and drawn
+  // here, before first paint, so nothing below moves. Past that window it fetches today's chapter into a box that keeps its space.
+  const VW = {"d0":20770,"v":[[18,24,"यत्तु कामेप्सुना कर्म साहंकारेण वा पुनः |\nक्रियते बहुलायासं तद्राजसमुदाहृतम् ||१८-२४||","But an action done by one craving desires, or with ego, involving a great deal of strain, is called rajasic.","परंतु जो कर्म कामनाओं की इच्छा से, या अहंकार के साथ, और बहुत परिश्रम से किया जाता है, वह राजस कहलाता है।"],[2,52,"यदा ते मोहकलिलं बुद्धिर्व्यतितरिष्यति |\nतदा गन्तासि निर्वेदं श्रोतव्यस्य श्रुतस्य च ||२-५२||","When your understanding crosses beyond the thicket of delusion, you will become indifferent to what you have heard and what is yet to be heard.","जब तुम्हारी बुद्धि मोह के इस दलदल को पार कर लेगी, तब तुम जो सुन चुके हो और जो अभी सुनना बाकी है, दोनों से उदासीन हो जाओगे।"],[4,35,"यज्ज्ञात्वा न पुनर्मोहमेवं यास्यसि पाण्डव |\nयेन भूतान्यशेषेण द्रक्ष्यस्यात्मन्यथो मयि ||४-३५||","Knowing that, Pandava, you will not fall into such confusion again, and through it you will see all beings without exception in yourself, and then in me.","हे पांडव, उसे जानकर तुम फिर इस प्रकार मोह में नहीं पड़ोगे, और उसी से तुम सब प्राणियों को पूरी तरह पहले अपने में और फिर मुझमें देखोगे।"],[7,14,"दैवी ह्येषा गुणमयी मम माया दुरत्यया |\nमामेव ये प्रपद्यन्ते मायामेतां तरन्ति ते ||७-१४||","This divine maya of mine, made of the gunas, is very hard to get past; but those who take refuge in me alone cross beyond it.","मेरी यह गुणमयी दैवी माया बड़ी कठिनाई से पार की जाती है; पर जो केवल मेरी शरण लेते हैं, वे इस माया को पार कर जाते हैं।"],[10,20,"अहमात्मा गुडाकेश सर्वभूताशयस्थितः |\nअहमादिश्च मध्यं च भूतानामन्त एव च ||१०-२०||","I am the Self, Gudakesha, seated in the heart of every being. I am the beginning, the middle and the end of all beings.","हे गुडाकेश, मैं सब प्राणियों के हृदय में बसी आत्मा हूँ। मैं ही सब प्राणियों का आदि, मध्य और अंत हूँ।"],[13,12,"ज्ञेयं यत्तत्प्रवक्ष्यामि यज्ज्ञात्वामृतमश्नुते |\nअनादि मत्परं ब्रह्म न सत्तन्नासदुच्यते ||१३-१२||","I will now tell you what is to be known, knowing which one tastes immortality: the beginningless supreme Brahman, of which it is said neither that it is nor that it is not.","अब मैं वह बताऊँगा जो जानने योग्य है, जिसे जानकर मनुष्य अमरता पाता है — वह अनादि परम ब्रह्म, जिसे न 'सत्' कहा जाता है, न 'असत्'।"],[17,4,"यजन्ते सात्त्विका देवान्यक्षरक्षांसि राजसाः |\nप्रेतान्भूतगणांश्चान्ये यजन्ते तामसा जनाः ||१७-४||","Sattvic people worship the gods; rajasic people worship yakshas and rakshasas; and tamasic people worship ghosts and hosts of spirits.","सात्त्विक लोग देवताओं की पूजा करते हैं, राजसिक लोग यक्षों और राक्षसों की, और तामसिक लोग प्रेतों और भूतगणों की पूजा करते हैं।"],[18,73,"अर्जुन उवाच |\nनष्टो मोहः स्मृतिर्लब्धा त्वत्प्रसादान्मयाच्युत |\nस्थितोऽस्मि गतसन्देहः करिष्ये वचनं तव ||१८-७३||","My delusion is gone; by your grace, Achyuta, my memory has been restored. I stand firm, my doubts are cleared, and I will do as you say.","हे अच्युत, आपकी कृपा से मेरा मोह नष्ट हो गया है और मुझे अपनी स्मृति फिर से मिल गई है। मैं दृढ़ हूँ, मेरे संदेह दूर हो गए हैं, और मैं आपकी आज्ञा का पालन करूँगा।"],[3,29,"प्रकृतेर्गुणसंमूढाः सज्जन्ते गुणकर्मसु |\nतानकृत्स्नविदो मन्दान्कृत्स्नविन्न विचालयेत् ||३-२९||","Those deluded by the qualities of nature cling to the workings of those qualities. One who knows the whole should not unsettle such slow people who know only in part.","प्रकृति के गुणों से मोहित लोग गुणों और कर्मों में आसक्त रहते हैं। पूर्ण ज्ञान वाले को चाहिए कि ऐसे अधूरी समझ वाले मंदबुद्धि लोगों को विचलित न करे।"],[6,13,"समं कायशिरोग्रीवं धारयन्नचलं स्थिरः |\nसम्प्रेक्ष्य नासिकाग्रं स्वं दिशश्चानवलोकयन् ||६-१३||","Holding body, head and neck straight and motionless, staying steady, he should gaze at the tip of his own nose without looking about in any direction.","शरीर, सिर और गर्दन को सीधा और अचल रखकर, स्थिर होकर, अपनी नाक के अग्रभाग पर दृष्टि जमाए और इधर-उधर की दिशाओं में न देखे।"],[9,5,"न च मत्स्थानि भूतानि पश्य मे योगमैश्वरम् |\nभूतभृन्न च भूतस्थो ममात्मा भूतभावनः ||९-५||","And yet beings do not rest in me either: see my divine power. My Self sustains all beings and brings them into existence, yet it does not dwell in them.","फिर भी प्राणी मुझमें स्थित नहीं हैं; मेरी इस ईश्वरीय योग-शक्ति को देखो। मेरी आत्मा सब प्राणियों का पालन करती है और उन्हें उत्पन्न करती है, फिर भी उनमें स्थित नहीं है।"],[11,38,"त्वमादिदेवः पुरुषः पुराण- |\nस्त्वमस्य विश्वस्य परं निधानम् |\nवेत्तासि वेद्यं च परं च धाम |\nत्वया ततं विश्वमनन्तरूप ||११-३८||","You are the first god, the ancient Person; you are the final resting place of this universe. You are the knower and the known and the highest abode. By you this universe is pervaded, O you of infinite forms.","आप आदि देव और पुराण पुरुष हैं, आप ही इस विश्व के परम आश्रय हैं। आप ही जानने वाले हैं, जानने योग्य हैं और परम धाम हैं। हे अनंत रूपों वाले, यह सारा विश्व आपसे व्याप्त है।"],[14,27,"ब्रह्मणो हि प्रतिष्ठाहममृतस्याव्ययस्य च |\nशाश्वतस्य च धर्मस्य सुखस्यैकान्तिकस्य च ||१४-२७||","For I am the foundation of Brahman — of the immortal and imperishable, of eternal dharma, and of absolute bliss.","क्योंकि मैं ही ब्रह्म का आधार हूँ — अमर और अविनाशी का, सनातन धर्म का, और परम एकांतिक सुख का।"],[18,25,"अनुबन्धं क्षयं हिंसामनवेक्ष्य च पौरुषम् |\nमोहादारभ्यते कर्म यत्तत्तामसमुच्यते ||१८-२५||","An action undertaken out of delusion, without regard for its consequences, loss, harm to others, or one's own capacity, is called tamasic.","जो कर्म परिणाम, हानि, दूसरों को होने वाली पीड़ा और अपनी सामर्थ्य का विचार किए बिना मोह के कारण शुरू किया जाता है, वह तामस कहलाता है।"],[2,53,"श्रुतिविप्रतिपन्ना ते यदा स्थास्यति निश्चला |\nसमाधावचला बुद्धिस्तदा योगमवाप्स्यसि ||२-५३||","When your understanding, now unsettled by conflicting teachings, stands firm and unmoving in meditative absorption, then you will attain yoga.","अनेक तरह की बातें सुनकर विचलित हुई तुम्हारी बुद्धि जब समाधि में अचल और स्थिर हो जाएगी, तब तुम योग को प्राप्त कर लोगे।"],[4,36,"अपि चेदसि पापेभ्यः सर्वेभ्यः पापकृत्तमः |\nसर्वं ज्ञानप्लवेनैव वृजिनं सन्तरिष्यसि ||४-३६||","Even if you were the worst of all sinners, you would cross over every wrong by the boat of knowledge alone.","यदि तुम सब पापियों से भी बढ़कर पापी हो, तो भी ज्ञान रूपी नाव से तुम सारे पाप के सागर को पार कर जाओगे।"],[7,15,"न मां दुष्कृतिनो मूढाः प्रपद्यन्ते नराधमाः |\nमाययापहृतज्ञाना आसुरं भावमाश्रिताः ||७-१५||","Evildoers, the deluded and the lowest of people do not turn to me — their understanding stolen by maya, they have taken on a demonic disposition.","दुष्कर्म करने वाले, मूढ़ और नीच मनुष्य मेरी शरण नहीं आते; माया ने उनका ज्ञान हर लिया है और वे आसुरी स्वभाव का आश्रय लिए रहते हैं।"],[10,21,"आदित्यानामहं विष्णुर्ज्योतिषां रविरंशुमान् |\nमरीचिर्मरुतामस्मि नक्षत्राणामहं शशी ||१०-२१||","Among the Adityas I am Vishnu; among lights, the radiant sun; among the Maruts I am Marichi; and among the stars, the moon.","आदित्यों में मैं विष्णु हूँ, प्रकाश देने वालों में किरणों वाला सूर्य हूँ, मरुतों में मरीचि हूँ और नक्षत्रों में चंद्रमा हूँ।"],[13,13,"सर्वतः पाणिपादं तत्सर्वतोऽक्षिशिरोमुखम् |\nसर्वतः श्रुतिमल्लोके सर्वमावृत्य तिष्ठति ||१३-१३||","Its hands and feet are everywhere, its eyes, heads and faces everywhere, its ears everywhere in the world; it stands enveloping all.","उसके हाथ-पैर सब ओर हैं, आँखें, सिर और मुख सब ओर हैं, और कान भी संसार में सब ओर हैं; वह सबको ढककर स्थित है।"],[17,5,"अशास्त्रविहितं घोरं तप्यन्ते ये तपो जनाः |\nदम्भाहंकारसंयुक्ताः कामरागबलान्विताः ||१७-५||","Those people who undergo harsh austerities not sanctioned by scripture, driven by hypocrisy and ego, and carried along by the force of desire and attachment…","जो लोग शास्त्र में न बताए गए कठोर तप करते हैं, पाखंड और अहंकार से भरे होते हैं, और कामना तथा आसक्ति के बल से प्रेरित होते हैं…"],[2,2,"कुतस्त्वा कश्मलमिदं विषमे समुपस्थितम् |\nअनार्यजुष्टमस्वर्ग्यमकीर्तिकरमर्जुन ||२-२||","Where has this confusion come from, Arjuna, at such a critical moment? It is not fitting for a noble person; it leads neither to heaven nor to honour.","हे अर्जुन, इस कठिन घड़ी में यह मोह तुम्हें कहाँ से आ घेरा? यह श्रेष्ठ लोगों को शोभा नहीं देता, न स्वर्ग दिलाता है, न यश।"],[3,30,"मयि सर्वाणि कर्माणि संन्यस्याध्यात्मचेतसा |\nनिराशीर्निर्ममो भूत्वा युध्यस्व विगतज्वरः ||३-३०||","Hand over all your actions to me, with your mind fixed on the Self; free of craving and of the sense of \"mine\", and with your fever gone, fight.","अपने चित्त को आत्मा में लगाकर सब कर्म मुझे अर्पित कर दो, और आशा तथा ममता से मुक्त होकर, मन का संताप छोड़कर युद्ध करो।"],[6,14,"प्रशान्तात्मा विगतभीर्ब्रह्मचारिव्रते स्थितः |\nमनः संयम्य मच्चित्तो युक्त आसीत मत्परः ||६-१४||","Calm within, free of fear, firm in the vow of celibacy, restraining the mind and fixing his thought on me, he should sit joined in yoga, with me as his highest goal.","भीतर से शांत, भयरहित और ब्रह्मचर्य के व्रत में दृढ़ रहकर, मन को संयमित करके और मुझमें चित्त लगाकर, मुझे ही परम लक्ष्य मानता हुआ योगयुक्त होकर बैठे।"],[9,6,"यथाकाशस्थितो नित्यं वायुः सर्वत्रगो महान् |\nतथा सर्वाणि भूतानि मत्स्थानीत्युपधारय ||९-६||","Just as the great wind, moving everywhere, always remains within space, understand that in the same way all beings remain within me.","जैसे हर जगह बहने वाली विशाल वायु सदा आकाश में ही स्थित रहती है, वैसे ही समझो कि सब प्राणी मुझमें स्थित हैं।"],[11,39,"वायुर्यमोऽग्निर्वरुणः शशाङ्कः |\nप्रजापतिस्त्वं प्रपितामहश्च |\nनमो नमस्तेऽस्तु सहस्रकृत्वः |\nपुनश्च भूयोऽपि नमो नमस्ते ||११-३९||","You are Vayu, Yama, Agni, Varuna and the moon; you are Prajapati and the great-grandsire. Salutations to you, a thousand times salutations, and again and again salutations to you!","आप ही वायु, यम, अग्नि, वरुण और चंद्रमा हैं; आप ही प्रजापति और प्रपितामह हैं। आपको नमस्कार है, हज़ार बार नमस्कार है, और फिर से बार-बार नमस्कार है।"],[15,1,"ऊर्ध्वमूलमधःशाखमश्वत्थं प्राहुरव्ययम् |\nछन्दांसि यस्य पर्णानि यस्तं वेद स वेदवित् ||१५-१||","They speak of an imperishable ashvattha (sacred fig) tree whose roots point upward and whose branches spread downward. Its leaves are the Vedic hymns, and whoever understands this tree truly knows the Veda.","कहते हैं कि एक अविनाशी अश्वत्थ (पीपल) का वृक्ष है, जिसकी जड़ें ऊपर की ओर हैं और शाखाएँ नीचे की ओर फैली हैं। वेद के छंद उसके पत्ते हैं। जो इस वृक्ष को जान लेता है, वही वेद का सच्चा जानकार है।"],[18,26,"मुक्तसङ्गोऽनहंवादी धृत्युत्साहसमन्वितः |\nसिद्ध्यसिद्ध्योर्निर्विकारः कर्ता सात्त्विक उच्यते ||१८-२६||","A doer who is free of attachment, does not talk of 'I', is full of steadiness and zeal, and is unmoved by success or failure, is called sattvic.","जो कर्ता आसक्ति से मुक्त है, 'मैं' की बात नहीं करता, धैर्य और उत्साह से भरा है, और सफलता या असफलता में विचलित नहीं होता, वह सात्त्विक कहलाता है।"],[2,54,"अर्जुन उवाच |\nस्थितप्रज्ञस्य का भाषा समाधिस्थस्य केशव |\nस्थितधीः किं प्रभाषेत किमासीत व्रजेत किम् ||२-५४||","Keshava, how is one of steady wisdom, settled in meditation, described? How does a person of steady mind speak, how does he sit, how does he move?","हे केशव, स्थिर बुद्धि वाले, समाधि में टिके मनुष्य की क्या पहचान है? स्थिर बुद्धि वाला कैसे बोलता है, कैसे बैठता है, कैसे चलता है?"],[4,37,"यथैधांसि समिद्धोऽग्निर्भस्मसात्कुरुतेऽर्जुन |\nज्ञानाग्निः सर्वकर्माणि भस्मसात्कुरुते तथा ||४-३७||","Arjuna, as a blazing fire turns firewood to ash, so the fire of knowledge turns all actions to ash.","हे अर्जुन, जैसे जलती हुई आग ईंधन को राख कर देती है, वैसे ही ज्ञान रूपी आग सब कर्मों को राख कर देती है।"],[7,16,"चतुर्विधा भजन्ते मां जनाः सुकृतिनोऽर्जुन |\nआर्तो जिज्ञासुरर्थार्थी ज्ञानी च भरतर्षभ ||७-१६||","Four kinds of virtuous people worship me, Arjuna: the distressed, the seeker of knowledge, the seeker of wealth, and the wise, best of the Bharatas.","हे अर्जुन, चार प्रकार के पुण्यात्मा लोग मुझे भजते हैं — हे भरतश्रेष्ठ, दुःखी, जिज्ञासु, धन चाहने वाला और ज्ञानी।"],[10,22,"वेदानां सामवेदोऽस्मि देवानामस्मि वासवः |\nइन्द्रियाणां मनश्चास्मि भूतानामस्मि चेतना ||१०-२२||","Among the Vedas I am the Sama Veda; among the gods I am Indra; among the senses I am the mind; and in living beings I am consciousness.","वेदों में मैं सामवेद हूँ, देवताओं में इंद्र हूँ, इंद्रियों में मन हूँ और प्राणियों में चेतना हूँ।"]]};
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  function saBody(sa){
+    const ls = sa.split("\n").map(x => x.trim()).filter(Boolean);
+    if(ls.length > 1 && /(उवाच|ुवाच)\s*[|।]?\s*$/.test(ls[0])) ls.shift();
+    // a danda never starts a line on its own: it is held to the word before it
+    return ls.map(x => x.replace(/\s*\|\|\s*([०-९]+)-([०-९]+)\s*\|\|/, "\u00a0॥\u00a0$1.$2\u00a0॥").replace(/\|\|/g,"॥").replace(/\|/g,"।").replace(/\s+([।॥])/g, "\u00a0$1"));
+  }
+  function drawVotd([c, v, sa, en, hi]){
+    const box = document.getElementById("votd");
+    box.innerHTML = `<p class="ey"><span class="l-en">Bhagavad Gita</span><span class="l-hi">भगवद्गीता</span> ${c}.${v}</p>
+      <p class="sa" lang="sa">${saBody(sa).map(esc).join("<br>")}</p><p class="tx"><span class="l-en">${esc(en)}</span><span class="l-hi">${esc(hi)}</span></p>
+      <a class="more" href="gita/chapter/${c}/verse/${v}/"><span class="l-en">Read in context →</span><span class="l-hi">संदर्भ में पढ़ें →</span></a>`;
+    box.style.removeProperty("--vh");
+  }
+  (function(){
+    const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5), i = day - VW.d0;
+    if(i >= 0 && i < VW.v.length) return drawVotd(VW.v[i]);
+    const box = document.getElementById("votd"); box.style.setProperty("--vh", "clamp(270px, 440px - 15vw, 400px)");
+    fetch("home-verses/pool.json?v=20261113095434").then(r => r.json()).then(pool => {
+      const gcd = (a,b) => b ? gcd(b, a % b) : a, step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
+      const [c, v] = pool[(day * step) % pool.length].split(".");
+      return fetch(`home-verses/${c}.json?v=20261113095434`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
+    }).catch(() => { box.closest("section").hidden = true; });
+  })();
+  </script>
+  <section class="sec" aria-labelledby="x-h"><h2 id="x-h"><span class="l-en">Explore the connections</span><span class="l-hi">विचारों के बीच संबंध खोजें</span></h2>
+    <a class="card cx" href="gita/explore/"><svg class="map-prev" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A small view of the Gita map: Krishna and Arjuna at the centre, joined to the people and ideas that share their verses" data-alt-hi="गीता के नक्शे की एक छोटी झलक: बीच में कृष्ण और अर्जुन, जो उन पात्रों और विचारों से जुड़े हैं जो उनके श्लोकों में आते हैं"><path class="ml" d="M361 100Q388 76 401 43M361 100Q424 80 471 34M361 100Q416 94 462 65M361 100Q452 108 537 75M361 100Q423 115 485 100M361 100Q446 133 537 125M361 100Q407 129 462 135M361 100Q408 146 471 165M361 100Q374 133 401 157M210 158Q234 133 245 100M157 172Q209 146 245 100M163 145Q209 132 245 100M245 100Q165 107 97 149M132 125Q191 126 245 100M64 117Q156 130 245 100M245 100Q182 85 120 100M64 82Q152 113 245 100M245 100Q191 74 132 75M245 100Q177 58 97 51M245 100Q209 67 163 54M245 100Q209 53 157 28M245 100Q234 67 210 42M361 100Q303 86 245 100M462 65Q434 47 401 43M163 145Q130 139 97 149M471 34Q435 30 401 43M401 43Q248 10 97 51M132 125Q138 100 132 75M537 75Q473 43 401 43M485 100Q514 94 537 75M485 100Q450 61 401 43M157 172Q163 159 163 145M157 172Q174 114 163 54M157 172Q121 116 64 82M537 75Q501 61 462 65"/><g class="mp"><circle cx="401" cy="43" r="6.2"/><circle cx="471" cy="34" r="5.5"/><circle cx="462" cy="65" r="5.4"/><circle cx="537" cy="75" r="5.2"/><circle cx="485" cy="100" r="5.2"/><circle cx="537" cy="125" r="5.1"/><circle cx="462" cy="135" r="4.9"/><circle cx="471" cy="165" r="4.9"/><circle cx="401" cy="157" r="4.9"/><circle cx="361" cy="100" r="16.5"/></g><g class="mc"><circle cx="210" cy="158" r="6.6"/><circle cx="157" cy="172" r="6.5"/><circle cx="163" cy="145" r="6.4"/><circle cx="97" cy="149" r="6.3"/><circle cx="132" cy="125" r="6.3"/><circle cx="64" cy="117" r="6.2"/><circle cx="120" cy="100" r="6.2"/><circle cx="64" cy="82" r="6.2"/><circle cx="132" cy="75" r="6.2"/><circle cx="97" cy="51" r="6.2"/><circle cx="163" cy="54" r="6.1"/><circle cx="157" cy="28" r="6.1"/><circle cx="210" cy="42" r="6.1"/><circle cx="245" cy="100" r="16.5"/></g></svg><span><span class="ds"><span class="l-en">See how the people and ideas in the Gita&#x27;s verses connect, then follow those links from one verse to the next.</span><span class="l-hi">देखें कि गीता के श्लोकों में कौन-से पात्र और विचार एक-दूसरे से जुड़े हैं। फिर इन संबंधों के सहारे एक श्लोक से दूसरे तक पहुँचें।</span></span><span class="go"><span class="l-en">See how the Gita connects →</span><span class="l-hi">देखें गीता कैसे जुड़ती है →</span></span></span></a></section>
+  <section class="sec" id="scriptures" aria-labelledby="s-h"><h2 id="s-h"><span class="l-en">Browse the scriptures</span><span class="l-hi">ग्रंथ पढ़ें</span></h2>
+    <ul class="grid"><li><a class="text" href="gita/" style="--lc:#0b6b70;--ld:#4cc0c2"><span class="nat" lang="sa">श्रीमद्भगवद्गीता</span><span class="nm"><span class="l-en">Bhagavad Gita</span><span class="l-hi">भगवद्गीता</span></span><span class="ds"><span class="l-en">Krishna&#x27;s teaching to Arjuna on the field of Kurukshetra, in 18 chapters.</span><span class="l-hi">कुरुक्षेत्र में श्रीकृष्ण का अर्जुन को उपदेश, 18 अध्यायों में।</span></span><span class="ft"><span><span class="l-en">700 verses</span><span class="l-hi">700 श्लोक</span></span><span class="go"><span class="l-en">Read →</span><span class="l-hi">पढ़ें →</span></span></span></a></li><li><a class="text" href="ashtavakra/" style="--lc:#4f46a5;--ld:#a9a2f2"><span class="nat" lang="sa">अष्टावक्रगीता</span><span class="nm"><span class="l-en">Ashtavakra Gita</span><span class="l-hi">अष्टावक्र गीता</span></span><span class="ds"><span class="l-en">The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.</span><span class="l-hi">ऋषि अष्टावक्र और राजा जनक का आत्मा, मुक्ति और शांति पर संवाद, 20 अध्यायों में।</span></span><span class="ft"><span><span class="l-en">298 verses</span><span class="l-hi">298 श्लोक</span></span><span class="go"><span class="l-en">Read →</span><span class="l-hi">पढ़ें →</span></span></span></a></li><li><a class="text" href="upanishads/" style="--lc:#8a5a12;--ld:#e2b36a"><span class="nat" lang="sa">उपनिषद्</span><span class="nm"><span class="l-en">Upanishads</span><span class="l-hi">उपनिषद्</span></span><span class="ds"><span class="l-en">26 stories from nine principal Upanishads, retold from the Sanskrit: Nachiketa, Maitreyi, Gargi and more.</span><span class="l-hi">नौ प्रमुख उपनिषदों की 26 कथाएँ, संस्कृत से नए सिरे से: नचिकेता, मैत्रेयी, गार्गी और अन्य।</span></span><span class="ft"><span><span class="l-en">26 stories</span><span class="l-hi">26 कथाएँ</span></span><span class="go"><span class="l-en">Read →</span><span class="l-hi">पढ़ें →</span></span></span></a></li></ul></section>
+  <p class="note"><span class="l-en">Every text is free and has no ads. The app works fully offline. In a browser, once you open a text, its verses or stories stay readable offline; the Gita&#x27;s longer explanations and paintings only once you have viewed them. The Sanskrit comes from public-domain editions; the translations are new and written to be easy to read.</span><span class="l-hi">हर ग्रंथ मुफ़्त है, बिना विज्ञापन। ऐप पूरी तरह ऑफ़लाइन चलता है। ब्राउज़र में किसी ग्रंथ को एक बार खोलने के बाद उसके श्लोक या कथाएँ ऑफ़लाइन भी पढ़ी जा सकती हैं; गीता की विस्तृत व्याख्याएँ और चित्र केवल वही, जिन्हें आप देख चुके हैं। संस्कृत पाठ सार्वजनिक डोमेन संस्करणों से है; अनुवाद नए हैं और सरल भाषा में लिखे गए हैं।</span></p>
   <p class="foot"><a href="how-its-made/"><span class="l-en">How this site is made</span><span class="l-hi">यह साइट कैसे बनी</span></a> · <a href="privacy/"><span class="l-en">Privacy</span><span class="l-hi">गोपनीयता</span></a></p>
 </main>
 <script>
-const LIB = {"brand_en": "Gitagraph", "brand_hi": "गीताग्राफ़", "title_en": "Timeless wisdom for every stage of life", "title_hi": "जीवन के हर पड़ाव के लिए शाश्वत ज्ञान", "tag2_en": "For curious minds — read, explore, reflect.", "tag2_hi": "जिज्ञासु मन के लिए — पढ़ें, खोजें, मनन करें।", "lede_en": "India's sacred texts, verse by verse, in Sanskrit with simple English and Hindi. Easy for someone opening them for the first time, and a reference for someone who has read them many times.", "lede_hi": "भारत के पवित्र ग्रंथ, श्लोक-दर-श्लोक, संस्कृत के साथ सरल हिंदी और अंग्रेज़ी में। पहली बार पढ़ने वालों के लिए आसान, और बार-बार पढ़ चुके लोगों के लिए संदर्भ।", "texts": [{"id": "gita", "path": "gita/", "name_en": "Bhagavad Gita", "name_hi": "भगवद्गीता", "native": "श्रीमद्भगवद्गीता", "desc_en": "Krishna's teaching to Arjuna on the field of Kurukshetra, in 18 chapters.", "desc_hi": "कुरुक्षेत्र में श्रीकृष्ण का अर्जुन को उपदेश, 18 अध्यायों में।", "verses": 700, "status": "live", "accent": "#0b6b70", "accent_dark": "#4cc0c2", "featured": true}, {"id": "ashtavakra", "path": "ashtavakra/", "name_en": "Ashtavakra Gita", "name_hi": "अष्टावक्र गीता", "native": "अष्टावक्रगीता", "desc_en": "The sage Ashtavakra and King Janaka on the Self, freedom and stillness, in 20 chapters.", "desc_hi": "ऋषि अष्टावक्र और राजा जनक का आत्मा, मुक्ति और शांति पर संवाद, 20 अध्यायों में।", "verses": 298, "status": "live", "accent": "#4f46a5", "accent_dark": "#a9a2f2"}, {"id": "upanishads", "path": "upanishads/", "name_en": "Upanishads", "name_hi": "उपनिषद्", "native": "उपनिषद्", "desc_en": "26 stories from nine principal Upanishads, retold from the Sanskrit: Nachiketa, Maitreyi, Gargi and more.", "desc_hi": "नौ प्रमुख उपनिषदों की 26 कथाएँ, संस्कृत से नए सिरे से: नचिकेता, मैत्रेयी, गार्गी और अन्य।", "verses": null, "count_en": "26 stories", "count_hi": "26 कथाएँ", "status": "live", "accent": "#8a5a12", "accent_dark": "#e2b36a"}]};
-const UI = {"en": {"verses": "{n} verses", "soon": "Coming soon", "open": "Read →", "start": "Start reading →", "toggle": "हि", "beta": "Beta", "brand": "Gitagraph", "note": "Every text is free, has no ads and works offline once opened. The Sanskrit comes from public-domain editions; the translations are new and written to be easy to read."}, "hi": {"verses": "{n} श्लोक", "soon": "जल्द आ रहा है", "open": "पढ़ें →", "start": "पढ़ना शुरू करें →", "toggle": "EN", "beta": "बीटा", "brand": "गीताग्राफ़", "note": "हर ग्रंथ मुफ़्त है, बिना विज्ञापन, और एक बार खुलने के बाद ऑफ़लाइन भी चलता है। संस्कृत पाठ सार्वजनिक डोमेन संस्करणों से है; अनुवाद नए हैं और सरल भाषा में लिखे गए हैं।"}};
-const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-function card(t, l){
-  const u = UI[l], nm = l==="hi" ? t.name_hi : t.name_en, ds = l==="hi" ? t.desc_hi : t.desc_en, f = !!t.featured;
-  const style = `style="--lc:${esc(t.accent)};--ld:${esc(t.accent_dark || t.accent)}"`;
-  const body = `<span class="nat" lang="sa">${esc(t.native)}</span><span class="nm">${esc(nm)}</span><span class="ds">${esc(ds)}</span>`;
-  return t.status==="live"
-    ? `<li class="${f ? "featured" : ""}"><a class="text${f ? " feat" : ""}" href="${esc(t.path)}" ${style}>${body}<span class="ft"><span>${esc(u.verses.replace("{n}", t.verses))}</span><span class="go">${esc(f ? u.start : u.open)}</span></span></a></li>`
-    : `<li><div class="text soon" ${style} aria-disabled="true">${body}<span class="ft"><span></span><span class="pill">${esc(u.soon)}</span></span></div></li>`;
-}
-const ORDERED = [...LIB.texts].sort((a,b) => (b.featured?1:0) - (a.featured?1:0));
+const TITLE = {"en": "Gitagraph · Timeless wisdom for every stage of life", "hi": "गीताग्राफ़ · जीवन के हर पड़ाव के लिए शाश्वत ज्ञान"};
 function setLang(l){
   document.documentElement.lang = l;
   try{ localStorage.setItem("library-lang", l); }catch(e){}
-  const u = UI[l];
-  document.getElementById("h1t").textContent = l==="hi" ? LIB.brand_hi : LIB.brand_en;
-  document.getElementById("beta").textContent = u.beta;
-  document.getElementById("note").textContent = u.note;
-  const br = document.getElementById("brand"); if(br) br.textContent = u.brand;
-  const b = document.getElementById("lang"); b.textContent = u.toggle; b.setAttribute("aria-label", l==="hi" ? "Switch to English" : "हिन्दी में देखें");
-  document.title = l==="hi" ? `${LIB.brand_hi} · ${LIB.title_hi}` : `${LIB.brand_en} · ${LIB.title_en}`;
+  const b = document.getElementById("lang"); b.textContent = l==="hi" ? "EN" : "हि"; b.setAttribute("aria-label", l==="hi" ? "Switch to English" : "हिन्दी में देखें");
+  document.title = TITLE[l];
   const mp = document.querySelector(".map-prev");
   if(mp){ mp.dataset.altEn = mp.dataset.altEn || mp.getAttribute("aria-label"); mp.setAttribute("aria-label", l==="hi" ? mp.dataset.altHi : mp.dataset.altEn); }
-  drawVotd(); if(typeof drawRead === "function") drawRead(); if(typeof drawTheme === "function") drawTheme();
+  drawTheme();
 }
 // theme: one preference for the whole site ("gg-theme"), shared with every text and the app
-const TH_ICON = {system:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>',
-  dark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>',
-  light:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'};
+const TH_ICON = {system:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>',
+  dark:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>',
+  light:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'};
 const TH_NAME = {en:{system:"Theme: system", dark:"Theme: dark", light:"Theme: light"}, hi:{system:"थीम: सिस्टम", dark:"थीम: गहरी", light:"थीम: हल्की"}};
 let theme = "system"; try{ theme = localStorage.getItem("gg-theme") || "system"; }catch(e){}
 function drawTheme(){
@@ -187,64 +211,11 @@ document.getElementById("themebtn").onclick = () => {
   if(theme === "system") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme", theme);
   drawTheme();
 };
-drawTheme();
 document.getElementById("lang").onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
-// Read door: continue where the reader left off; READREF is the verse it opens (1.1 for a first visit)
-let READREF = {ref: "1.1", shown: false}, VMAP = null;
-// a quiet preview of that verse under the door's sub-line: first Sanskrit line and one line of translation,
-// or only the reference when it is also today's verse (shown in full just below)
-function drawRead(){
-  const box = document.getElementById("door-read-rv"), v = VMAP && VMAP.get(READREF.ref);
-  if(!v){ box.hidden = true; return; }
-  const hi = document.documentElement.lang === "hi";
-  if(VD && READREF.ref === `${VD.c}.${VD.v}`){
-    box.innerHTML = READREF.shown ? "" : `<span>${esc(READREF.ref)}</span>`; box.hidden = READREF.shown; return; }
-  box.innerHTML = `<span class="rs" lang="sa">${esc(saBody(v.sa)[0].replace(/\s*[।॥].*$/, ""))}</span><span class="rt">${esc(hi ? v.hi : v.en)}</span>`;
-  box.hidden = false;
-}
-// Read door: continue where the reader left off in the Gita (the Gita app keeps "gita-recent")
-try{
-  const last = JSON.parse(localStorage.getItem("gita-recent") || "[]")[0];
-  if(last) READREF = {ref: last, shown: true};
-  if(last){ const [c,v] = last.split(".");
-    document.getElementById("door-read").href = `gita/chapter/${c}/verse/${v}/`;
-    document.getElementById("door-read-ds").innerHTML = `<span class="l-en">Continue · ${esc(last)}</span><span class="l-hi">जारी रखें · ${esc(last)}</span>`; }
-}catch(e){}
-// Verse of the day: the same verse and the same rule as the Gita site's own (IST date; skips chapter 1,
-// narration and verses naming three or more people), loaded after the page so the home stays light.
-let VD = null;
-function saBody(sa){
-  const ls = sa.split("\n").map(x => x.trim()).filter(Boolean);
-  if(ls.length > 1 && /(उवाच|ुवाच)\s*[|।]?\s*$/.test(ls[0])) ls.shift();
-  return ls.map(x => x.replace(/\s*\|\|\s*([०-९]+)-([०-९]+)\s*\|\|/, "\u00a0॥\u00a0$1.$2\u00a0॥").replace(/\|\|/g,"॥").replace(/\|/g,"।"));
-}
-function drawVotd(){
-  const box = document.getElementById("votd"); if(!VD){ box.hidden = true; return; }
-  const hi = document.documentElement.lang === "hi", v = VD, ref = `${v.c}.${v.v}`;
-  box.innerHTML = `<p class="ey">${hi ? "आज का श्लोक · भगवद्गीता" : "Verse of the day · Bhagavad Gita"} ${ref}</p>
-    <p class="sa" lang="sa">${saBody(v.sa).map(esc).join("<br>")}</p><p class="tx">${esc(hi ? v.hi : v.en)}</p>
-    <a href="gita/chapter/${v.c}/verse/${v.v}/">${hi ? "संदर्भ में पढ़ें →" : "Read in context →"}</a>`;
-  box.hidden = false;
-}
-// today's pool and only the chapter files it needs (the continue verse's chapter too), never all 700 verses
-const HV = c => fetch(`home-verses/${c}.json?v=20261112171841`).then(r => r.json());
-fetch("home-verses/pool.json?v=20261112171841").then(r => r.json()).then(pool => {
-  const gcd = (a,b) => b ? gcd(b, a % b) : a;
-  const step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
-  const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5);
-  const today = pool[(day * step) % pool.length], tc = today.split(".")[0], rc = READREF.ref.split(".")[0];
-  return Promise.all([HV(tc), rc === tc ? null : HV(rc)]).then(([a, b]) => {
-    VMAP = new Map();
-    [[tc, a], [rc, b || a]].forEach(([c, d]) => Object.entries(d).forEach(([v, [sa, en, hi]]) => VMAP.set(`${c}.${v}`, {c:+c, v:+v, sa, en, hi})));
-    VD = VMAP.get(today); drawVotd(); drawRead();
-  });
-}).catch(() => {});
-// first visit: follow the browser's language (Hindi if it starts with "hi"); the coachmark shows how to switch
-let saved = (navigator.language || "").toLowerCase().startsWith("hi") ? "hi" : "en";
-try{ saved = localStorage.getItem("library-lang") || saved; }catch(e){}
-if(saved==="hi") setLang("hi");
+// the language was chosen in <head> (saved choice, else the browser's language) so the page paints in it; sync the controls
+setLang(document.documentElement.lang === "hi" ? "hi" : "en");
 </script>
-<script src="shared/coach.js?v=20261112171841" defer></script>
+<script src="shared/coach.js?v=20261113095434" defer></script>
 <script>
 try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
 if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {
