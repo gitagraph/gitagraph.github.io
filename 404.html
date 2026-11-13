@@ -266,7 +266,10 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .home .band .ds{margin:16px 0 24px;color:var(--muted);font-size:clamp(17px,1.5vw,19px);line-height:1.6;max-width:46ch}
 :root[lang=hi] .home .band .ds{line-height:1.8}
 .home .band .btn{background:var(--ink);color:#1b1838}
-.home .band .map-prev{max-height:220px}
+.home .band .map-prev{max-height:220px;overflow:visible}
+/* the graph preview on the dark band: brighter threads and a soft glow on the two central nodes (no motion) */
+.home .band .map-prev .ml{stroke-opacity:.5}
+.home .band .map-prev .mc{filter:drop-shadow(0 0 9px color-mix(in srgb,var(--accent) 75%,transparent))}
 @media (min-width:900px){ .home .band{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding-block:88px} }
 .home .ft{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 24px;padding:56px 0 40px}
 .home .ft .fc{grid-column:1/-1}

@@ -456,10 +456,10 @@ Object.assign(UI.en, {linkCopiedOnly:"Link copied", more:"More", words:"Word by 
 Object.assign(UI.hi, {linkCopiedOnly:"लिंक कॉपी हो गया", more:"और", words:"शब्दार्थ", life:"जीवन में", lifeBy:"गीताग्राफ़ का चिंतन",
   expl:"व्याख्या", book:"भगवद्गीता", trL:"हिन्दी अनुवाद", nVerses:k=>`${k} श्लोक`, contFrom:r=>`वाक्य ${r} से शुरू होता है`, contTo:r=>`वाक्य ${r} में आगे चलता है`,
   src:"संस्कृत: विकिस्रोत (CC BY-SA 4.0), GRETIL से मिलाया गया। अनुवाद, व्याख्या और चिंतन: गीताग्राफ़, AI की सहायता से लिखे गए।"});
-Object.assign(UI.en, {lifeqT:"Life questions", allQ:"All questions →", lifeqLede:"When you're facing one of these, start with what the Gita says about it.",
+Object.assign(UI.en, {lifeqT:"Life questions", allQ:"All questions →", lifeqLede:"When you're facing one of these, start with what the texts say about it.",
   careNote:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.",
   versesN:n=>`${n} verses`, otherQ:"Other questions", howMade:"How this site is made →"});
-Object.assign(UI.hi, {lifeqT:"जीवन के प्रश्न", allQ:"सभी प्रश्न →", lifeqLede:"जब आप इनमें से किसी स्थिति में हों, गीता के इन श्लोकों से शुरू करें।",
+Object.assign(UI.hi, {lifeqT:"जीवन के प्रश्न", allQ:"सभी प्रश्न →", lifeqLede:"जब आप इनमें से किसी स्थिति में हों, देखें कि ग्रंथ इस बारे में क्या कहते हैं।",
   careNote:"गीता देखने का एक नज़रिया देती है, सहारे का विकल्प नहीं। अगर यह मन पर भारी है, तो किसी भरोसेमंद व्यक्ति या डॉक्टर से बात करें।",
   versesN:n=>`${n} श्लोक`, otherQ:"अन्य प्रश्न", howMade:"यह साइट कैसे बनी →"});
 let QS = [];
@@ -474,9 +474,16 @@ function lifeqRow(){
   if(!QS.length) return "";
   return `<section class="lifeq"><h2 class="sec">${esc(u().lifeqT)}</h2><div class="chips">${QS.map(q => `<a class="chip" href="#q-${q.slug}">${esc(qName(q))}</a>`).join("")}<a class="chip chip-more" href="#questions">${esc(u().allQ)}</a></div></section>`;
 }
+// the texts a question draws on, named on its card (the verse counts are on the question's own page)
+function qTexts(q){
+  const hi = lang === "hi", t = [hi ? "भगवद्गीता" : "Bhagavad Gita"];
+  if(q.av && q.av.items && q.av.items.length) t.push(hi ? "अष्टावक्र गीता" : "Ashtavakra Gita");
+  if(q.up && q.up.length) t.push(hi ? "उपनिषद्" : "Upanishads");
+  return t.join(" · ");
+}
 function questionsView(){
   return `<header class="thead"><h1>${esc(u().lifeqT)}${shareBtn()}</h1><p class="desc" lang="${lang}">${esc(u().lifeqLede)}</p></header>
-  <ul class="qlist">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}">${q.sil || ""}<span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(qIntro(q))}</span><span class="qc">${esc(u().versesN(qVerses(q).length))}</span></a></li>`).join("")}</ul>`;
+  <ul class="qlist">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}">${q.sil || ""}<span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(qIntro(q))}</span><span class="qc">${esc(qTexts(q))}</span></a></li>`).join("")}</ul>`;
 }
 function questionView(q){
   return `<header class="thead"><p class="eyebrow"><a href="#questions">${esc(u().lifeqT)}</a></p><h1>${esc(qName(q))}${shareBtn()}</h1>
