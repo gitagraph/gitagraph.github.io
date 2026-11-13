@@ -167,7 +167,7 @@ function apply(){
   const restoring = history.state?.view && history.state.view.hash === (location.hash || "#/");
   if(!restoring && phone.matches){ collapsed = !fullNext || S.kind === "home"; peekOpen = false; }
   fullNext = false;
-  computeLit();renderPanel();
+  computeLit();orderLit();renderPanel();
   if(!restoreView(history.state?.view))fly();
   $("back").disabled = !history.state || !history.state.nav;
   $("home").setAttribute("aria-current", S.kind === "home" ? "true" : "false"); $("chaps").setAttribute("aria-current", S.kind === "chapters" ? "true" : "false"); $("hero").classList.toggle("on", S.kind === "home");
@@ -202,8 +202,14 @@ function ideaNodes(t, id){
 // ---------- lit set (question / idea) and connection paths ----------
 // the idea being explored stays on screen as a hub; its threads run from it to each verse (or story) that carries it
 let hub = null;
+// while a question or idea is lit: the chapters/texts holding lit items, and a drawing order that gives their names first claim on space
+let litCh = new Set(), drawOrder = null;
+function orderLit(){ if(!lit) return; for(const n of lit) if(n.ch) litCh.add(n.ch);
+  // names first (stories, then the chapters/texts that hold lit items), then verse numbers, then the rest
+  const v = n => n.kind === "verse" || n.kind === "passage";
+  drawOrder = nodes.filter(n => lit.has(n) && !v(n)).concat(nodes.filter(n => litCh.has(n)), nodes.filter(n => lit.has(n) && v(n)), nodes.filter(n => !lit.has(n) && !litCh.has(n))); }
 function computeLit(){
-  lit = null; edges = []; hub = null;
+  lit = null; edges = []; hub = null; litCh = new Set(); drawOrder = null;
   const chain = list => { for(let i = 0; i < list.length - 1 && i < 60; i++) edges.push([list[i], list[i+1]]); };
   if(S.kind === "q"){
     const vs = [...S.q.verses.map(r => gRef.get(r)), ...(S.q.av?.items||[]).map(v=>aRef.get(v.ref))].filter(Boolean);
@@ -395,19 +401,19 @@ function draw(){
   ctx.globalAlpha = 1;
   // points
   const vr = z < .5 ? 1.2 : z < 1.2 ? 1.8 : z < 3 ? 2.6 : 3.6;
-  for(const n of nodes){
+  for(const n of (filtering && drawOrder) || nodes){
     if(n.kind === "root") continue;
     if(web ? n.kind !== "idea"&&!overviewStars.has(n) : n.kind === "idea") continue;
     const p = toS(n); if(p.x < -40 || p.x > W + 40 || p.y < -40 || p.y > H + 40) continue;
     const isLit = lit && lit.has(n), sel = n.id === selId, dimC = chapSel && n.kind === "verse" && n.ch !== chapSel;
-    const alpha=(filtering?(isLit||sel?1:.12):dimC?.3:1)*(0.78+(n.depth||0)/1100);
+    const alpha=(filtering?(isLit||sel?1:litCh.has(n)?.85:.12):dimC?.3:1)*(0.78+(n.depth||0)/1100);
     ctx.globalAlpha = alpha; ctx.fillStyle = COL[n.t];
     const r = n.kind === "idea" ? 3 + Math.sqrt(n.tags.size)*.6 : (n.kind === "verse"||n.kind === "passage") ? (isLit ? vr*1.7 : vr) : n.kind === "story" ? 3.5 + z*.4 : 3.5 + Math.min(3, z*1.2);
     if((n.kind !== "verse"&&n.kind!=="passage") || isLit || sel || n === hover) glow(p.x, p.y, isLit || sel ? 20 : 12, COL[n.t], isLit || sel ? .45 : .25);
     ctx.beginPath(); ctx.arc(p.x,p.y,sel?r*1.5:n===hover?r*1.4:r,0,7);ctx.fill();if(n.kind==='chap'||n.kind==='idea'||n.kind==='story'||sel)sphere(p.x,p.y,sel?r*1.5:n===hover?r*1.4:r,COL[n.t]);
     if(sel){ ctx.strokeStyle = COL[n.t]; ctx.lineWidth = .9; ctx.globalAlpha = .55; ctx.beginPath(); ctx.arc(p.x, p.y, r + 7 + (live ? Math.sin(clock*.002)*1.3 : 0), 0, 7); ctx.stroke(); }
     ctx.globalAlpha = alpha;
-    const label = web&&overviewStars.has(n)&&n!==hover?false:n.kind === "idea" ? true : n.kind === "chap" ? (z > .45 || sel || n === hover) : n.kind === "story" ? (z > 1.3 || isLit || sel || n === hover) : (z > 3 && !filtering) || isLit && z > 1.2 || sel || n === hover;
+    const label = web&&overviewStars.has(n)&&n!==hover?false:n.kind === "idea" ? true : n.kind === "chap" ? (z > .45 && !filtering || litCh.has(n) || sel || n === hover) : n.kind === "story" ? (z > 1.3 && !filtering || isLit || sel || n === hover) : (z > 3 && !filtering) || isLit || sel || n === hover;
     if(label){
       const txt = n.kind === "idea" ? nm(n) : (n.kind === "verse"||n.kind === "passage") ? n.ref : n.kind === "chap" ? (n.num ? (sel?`${t("chapter")} ${n.num}`:`${n.num} · ${nm(n)}`) : nm(n)) : nm(n);
       ctx.font = n.kind === "verse" ? "10px system-ui,sans-serif" : n.kind === "idea" ? "12.5px "+fontRead : "11.5px "+fontRead; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.shadowColor = palette.bg; ctx.shadowBlur = 6;
