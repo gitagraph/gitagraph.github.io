@@ -119,7 +119,7 @@ const store = {
   get(k,d){ try{ const v = localStorage.getItem("avg-"+k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
   set(k,v){ try{ localStorage.setItem("avg-"+k, JSON.stringify(v)); }catch(e){} }
 };
-let lang = store.get("lang", (navigator.language || "").toLowerCase().startsWith("hi") ? "hi" : "en"); if(lang!=="en" && lang!=="hi") lang = "en";
+let lang = store.get("lang", "en"); if(lang!=="en" && lang!=="hi") lang = "en";
 const prefs = Object.assign({sa:true, iast:true, other:false, size:1, theme:"system"}, store.get("prefs",{}));
 // the theme is one preference for the whole site ("gg-theme"); an older per-text choice moves into it once
 try{ const g = localStorage.getItem("gg-theme"); if(g) prefs.theme = g; else if(prefs.theme && prefs.theme !== "system") localStorage.setItem("gg-theme", prefs.theme); }catch(e){}
