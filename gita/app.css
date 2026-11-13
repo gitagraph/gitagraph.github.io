@@ -351,10 +351,28 @@ mark{background:color-mix(in srgb, var(--mark) 30%, transparent);color:inherit;b
 @media (min-width:700px){ .explore{height:calc(100dvh - 61px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))} }
 .explore canvas{display:block;width:100%;height:100%;cursor:grab}
 .explore canvas:active{cursor:grabbing}
-.zbtns{position:absolute;right:max(12px, env(safe-area-inset-right,0px));top:12px;display:flex;flex-direction:column;gap:6px}
+.zbtns{position:absolute;right:max(12px, env(safe-area-inset-right,0px));top:8px;display:flex;flex-direction:column;gap:6px}
 .zbtns button{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:20px;display:grid;place-items:center}
 .zbtns svg{width:20px;height:20px}
-.ghint{position:absolute;left:max(12px, env(safe-area-inset-left,0px));top:12px;right:72px;font-size:13.5px;font-weight:600;color:var(--ink);opacity:.72;pointer-events:none}
+.qbar{position:absolute;z-index:3;left:0;right:68px;top:8px;display:flex;gap:8px;overflow-x:auto;padding:2px 4px 6px max(12px, env(safe-area-inset-left,0px));scrollbar-width:none;touch-action:pan-x}
+.qbar::-webkit-scrollbar{display:none}
+.qbar button{flex:none;min-height:40px;padding:4px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:14.5px;line-height:1.2;cursor:pointer;white-space:nowrap}
+.qbar button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.qbar button{transition:background-color .15s,border-color .15s}
+@media (prefers-reduced-motion:reduce){ .qbar button{transition:none} }
+.qbar .qx{padding:4px 12px;font-weight:600}
+@media (hover:hover){ .qbar button:hover{border-color:var(--muted)} }
+.qbar button:focus-visible,.gpanel a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.qlistp{list-style:none;margin:8px 0 0;padding:0}
+.qlistp a{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--line);color:inherit;text-decoration:none}
+.qlistp .rf{flex:none;min-width:38px;font-weight:600;color:var(--accent);font-size:14px}
+.qlistp .sa{font-family:var(--f-skt);font-size:14px;line-height:1.5;margin:0 0 2px;color:var(--ink)}
+.qlistp .tx{font-family:var(--f-read);font-size:14.5px;line-height:1.45;margin:0}
+:root[lang=hi] .qlistp .tx{font-family:var(--f-hi)}
+.gpanel.qp{max-height:44%;overflow-y:auto;overscroll-behavior:contain}
+.gpanel.qp .ds{display:block;-webkit-line-clamp:unset}
+@media (min-width:900px){ .gpanel.qp{max-height:calc(100% - 72px)} }
+.ghint{position:absolute;left:max(12px, env(safe-area-inset-left,0px));top:58px;right:72px;font-size:13.5px;font-weight:600;color:var(--ink);opacity:.72;pointer-events:none}
 .mapcoach{position:absolute;z-index:6;max-width:min(250px,calc(100% - 24px));padding:10px 14px;border-radius:14px;background:var(--ink);color:var(--bg);font:15px/1.4 "Mukta",system-ui,sans-serif;box-shadow:0 10px 30px rgb(0 0 0 / .25);pointer-events:none}
 .mapcoach::before{content:"";position:absolute;top:-6px;left:calc(var(--ax,50%) - 7px);width:14px;height:14px;background:inherit;transform:rotate(45deg);border-radius:2px}
 .legend{position:absolute;left:max(12px, env(safe-area-inset-left,0px));bottom:12px;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;color:var(--muted);pointer-events:none;right:12px}
@@ -366,7 +384,7 @@ mark{background:color-mix(in srgb, var(--mark) 30%, transparent);color:inherit;b
 :root[lang=hi] .gpanel .ds{font-family:var(--f-hi)}
 .gpanel .row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .gpanel .x{position:absolute;right:6px;top:6px}
-@media (min-width:900px){ .gpanel{left:auto;right:76px;top:12px;bottom:auto;width:340px} }
+@media (min-width:900px){ .gpanel{left:auto;right:76px;top:60px;bottom:auto;width:340px} }
 
 /* ---------- sheet ---------- */
 .scrim{position:fixed;inset:0;z-index:50;background:rgb(10 14 20 / .42);display:flex;align-items:flex-end;justify-content:center}

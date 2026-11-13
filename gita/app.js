@@ -30,7 +30,7 @@ const UI = {
     searchPh:"Search Krishna, dharma, karmaṇy… or 2.47", tryThese:"Try", none:"No matches. Try a name, an idea, a Sanskrit word or a verse number like 2.47.",
     topics:"People & ideas", versesH:"Verses", savedEmpty:"Verses you save appear here. Tap Save on any verse to keep it.", recent:"Recently read", noRecent:"Verses you open will be listed here.",
     showMore:n=>`Show ${n} more`, back:"Back", open:"Open", openCh:"Read chapter", allVerses:n=>`All ${n} verses`,
-    ghint:"Tap any dot · pinch to zoom · drag to move", mapCoach:"Tap a dot to see its verses", sanskrit:"Sanskrit", iast:"Transliteration", second:"Second translation", size:"Text size", theme:"Theme",
+    pickQ:"Start with a question", clearQ:"Clear question", openQ:"Open question", ghint:"Tap any dot · pinch to zoom · drag to move", mapCoach:"Tap a dot to see its verses", sanskrit:"Sanskrit", iast:"Transliteration", second:"Second translation", size:"Text size", theme:"Theme",
     language:"Language", system:"System", light:"Light", dark:"Dark", done:"Done", swipe:"Swipe left or right for the next verse",
     about:"About this text", aboutT:"Sanskrit text: Sanskrit Wikisource (sa.wikisource.org, \"भगवद्गीता\"), used under CC BY-SA 4.0, checked verse by verse against the GRETIL e-text (Göttingen), with five typing errors corrected. The transliteration is generated from that Devanagari. The English and Hindi translations were written fresh for this project with AI assistance. 700 verses, as in Wikisource and GRETIL.",
     proto:"Beta", type:{chapter:"Chapter",person:"Person / place",concept:"Idea",path:"Yoga",guna:"Guna",section:"Section"},
@@ -46,7 +46,7 @@ const UI = {
     searchPh:"खोजें: कृष्ण, धर्म, कर्म… या 2.47", tryThese:"आज़माएँ", none:"कुछ नहीं मिला। कोई नाम, विचार, संस्कृत शब्द या 2.47 जैसी श्लोक संख्या आज़माएँ।",
     topics:"पात्र और विचार", versesH:"श्लोक", savedEmpty:"आप जो श्लोक सहेजेंगे, वे यहाँ दिखेंगे। किसी भी श्लोक पर 'सहेजें' दबाएँ।", recent:"हाल में पढ़े", noRecent:"आप जो श्लोक खोलेंगे, वे यहाँ दिखेंगे।",
     showMore:n=>`${n} और दिखाएँ`, back:"वापस", open:"खोलें", openCh:"अध्याय पढ़ें", allVerses:n=>`सभी ${n} श्लोक`,
-    ghint:"किसी भी बिंदु को छुएँ · ज़ूम के लिए पिंच करें · खींचकर घुमाएँ", mapCoach:"किसी बिंदु को छूकर उसके श्लोक देखें", sanskrit:"संस्कृत", iast:"लिप्यंतरण", second:"दूसरा अनुवाद", size:"अक्षर का आकार", theme:"थीम",
+    pickQ:"किसी प्रश्न से शुरू करें", clearQ:"प्रश्न हटाएँ", openQ:"प्रश्न खोलें", ghint:"किसी भी बिंदु को छुएँ · ज़ूम के लिए पिंच करें · खींचकर घुमाएँ", mapCoach:"किसी बिंदु को छूकर उसके श्लोक देखें", sanskrit:"संस्कृत", iast:"लिप्यंतरण", second:"दूसरा अनुवाद", size:"अक्षर का आकार", theme:"थीम",
     language:"भाषा", system:"सिस्टम", light:"हल्की", dark:"गहरी", done:"ठीक है", swipe:"अगले श्लोक के लिए बाएँ या दाएँ स्वाइप करें",
     about:"इस पाठ के बारे में", aboutT:"संस्कृत पाठ: संस्कृत विकिस्रोत (sa.wikisource.org, \"भगवद्गीता\"), CC BY-SA 4.0 के अंतर्गत, गॉटिंगेन के GRETIL पाठ से श्लोक-दर-श्लोक मिलाकर, पाँच टंकण त्रुटियाँ सुधारी गईं। लिप्यंतरण इसी देवनागरी से बनाया गया है। हिंदी और अंग्रेज़ी अनुवाद इस परियोजना के लिए AI की सहायता से नए लिखे गए हैं। विकिस्रोत और GRETIL की तरह 700 श्लोक।",
     proto:"बीटा", type:{chapter:"अध्याय",person:"व्यक्ति / स्थान",concept:"विचार",path:"योग",guna:"गुण",section:"खंड"},
@@ -308,7 +308,7 @@ function render(keepScroll){
     else if(route.name==="about"){ ttl.textContent = u().aboutPage; view.innerHTML = page(aboutView(), homeCtx()); }
     else if(route.name==="questions"){ ttl.textContent = u().lifeqT; view.innerHTML = page(questionsView(), homeCtx()); }
     else if(route.name==="question"){ ttl.textContent = qName(route.q); view.innerHTML = page(questionView(route.q), questionsCtx(route.q)); }
-    else if(route.name==="explore"){ ttl.textContent = u().explore; view.innerHTML = exploreView(); startGraph(); }
+    else if(route.name==="explore"){ ttl.textContent = u().explore; view.innerHTML = exploreView(); wireQbar(); startGraph(); }
     wireCommon();
     // a built page arrives with its own search-friendly title; keep it until the reader moves on
     if(!(BASE && firstRender)) document.title = route.name==="home" ? (isHi() ? "भगवद्गीता · संस्कृत, हिंदी और अंग्रेज़ी" : "Bhagavad Gita · Sanskrit, English and Hindi") : `${ttl.textContent} · ${isHi() ? "भगवद्गीता" : "Bhagavad Gita"}`;
@@ -764,13 +764,30 @@ document.addEventListener("keydown", e => {
 });
 
 // ===================== explore (canvas map) =====================
-let graph = null;
+let graph = null, exQ = null;   // exQ: the life question lit up on the map (slug)
 function exploreView(){
+  const hasQ = QS.length > 0;
   return `<div class="explore" id="ex"><canvas id="cv" aria-label="${esc(u().explore)}"></canvas>
+    ${hasQ ? `<div class="qbar" id="qbar" role="group" aria-label="${esc(u().pickQ)}">${exQ ? `<button type="button" class="qx" data-qx aria-label="${esc(u().clearQ)}">×</button>` : ""}${QS.map(q => `<button type="button" data-q="${q.slug}" aria-pressed="${q.slug===exQ}">${esc(qName(q))}</button>`).join("")}</div>` : ""}
     <div class="ghint">${esc(u().ghint)}</div>
     <div class="zbtns"><button id="zin" aria-label="Zoom in">${IC.plus}</button><button id="zout" aria-label="Zoom out">${IC.minus}</button><button id="zfit" aria-label="Fit">${IC.fit}</button></div>
     <div class="legend"><span><i class="dot d-krishna"></i>${esc(u().leg.krishna)}</span><span><i class="dot d-arjuna"></i>${esc(u().leg.arjuna)}</span><span><i class="dot d-sanjaya"></i>${esc(u().leg.sanjaya)}</span><span><i class="dot d-person"></i>${esc(u().people)}</span><span><i class="dot d-concept"></i>${esc(u().ideas)}</span></div>
     <div id="gp"></div></div>`;
+}
+function wireQbar(){
+  document.querySelectorAll("#qbar [data-q]").forEach(b => b.onclick = () => setExQ(exQ === b.dataset.q ? null : b.dataset.q));
+  const x = document.querySelector("#qbar [data-qx]"); if(x) x.onclick = () => setExQ(null);
+}
+function setExQ(slug){
+  exQ = slug;
+  const bar = document.getElementById("qbar"); if(!bar) return;
+  const keep = bar.scrollLeft;
+  bar.querySelectorAll("[data-qx]").forEach(n => n.remove());
+  if(slug) bar.insertAdjacentHTML("afterbegin", `<button type="button" class="qx" data-qx aria-label="${esc(u().clearQ)}">×</button>`);
+  bar.querySelectorAll("[data-q]").forEach(b => b.setAttribute("aria-pressed", b.dataset.q === slug));
+  wireQbar(); bar.scrollLeft = keep;
+  if(graph) graph.setQ();
+  const on = bar.querySelector('[aria-pressed="true"]'); if(on && on.scrollIntoView) on.scrollIntoView({block:"nearest", inline:"nearest"});
 }
 function stopGraph(){ if(graph){ graph.destroy(); graph = null; } }
 // d3 is loaded only when the map opens, never on reading pages (the app build points D3_SRC at its bundled copy)
@@ -819,12 +836,14 @@ function makeGraph(){
   const {nodes, links, dots, nb} = layout;
   const wrap = document.getElementById("ex"), cv = document.getElementById("cv"), ctx = cv.getContext("2d");
   let W = 0, Hh = 0, dpr = 1, T = d3.zoomIdentity, sel = null, col = {};
-  let hov = null, pulse0 = 0;                                  // hovered or pressed node/dot; start of the first-visit pulse
+  let hov = null, pulse0 = 0, qSet = null, dark = false;                                  // hovered or pressed node/dot; start of the first-visit pulse
   const hubs2 = nodes.filter(n => n.kind==="hub").sort((a,b) => b.h.vs.length - a.h.vs.length).slice(0,2);
   const KEYHUBS = new Set(hubs2.map(n => n.h.id)), lead = hubs2[0];   // their labels always show; the pulse marks the first
   const recolor = () => {
     const cs = getComputedStyle(document.documentElement);
     ["--ink","--muted","--line","--surface","--accent","--mark","--t-person","--t-concept","--t-path","--t-guna","--sp-krishna","--sp-arjuna","--sp-sanjaya","--sp-dhrit","--sp-duryo"].forEach(k => col[k] = cs.getPropertyValue(k).trim());
+    const bg = col["--surface"].replace("#",""); const lum = bg.length>=6 ? parseInt(bg.slice(0,2),16)*.3 + parseInt(bg.slice(2,4),16)*.59 + parseInt(bg.slice(4,6),16)*.11 : 255;
+    dark = lum < 110;
     draw();
   };
   const fill = n => n.kind==="chapter" ? col["--accent"] : col["--t-"+n.h.type] || col["--muted"];
@@ -839,14 +858,16 @@ function makeGraph(){
     const k = T.k;
     ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height);
     ctx.setTransform(dpr*k,0,0,dpr*k,dpr*T.x,dpr*T.y);
-    const focus = sel ? new Set([sel.id, ...(nb.get(sel.id)||[])]) : null;
-    const vfocus = sel && sel.type!=="chapter" && HB.get(sel.id) ? new Set(HB.get(sel.id).vs.map(v=>v.ref)) : null;
+    const qs = !sel && qSet ? qSet : null;                      // a lit-up life question, unless the reader picked a node
+    const focus = sel ? new Set([sel.id, ...(nb.get(sel.id)||[])]) : qs ? qs.ids : null;
+    const vfocus = sel && sel.type!=="chapter" && HB.get(sel.id) ? new Set(HB.get(sel.id).vs.map(v=>v.ref)) : qs ? qs.refs : null;
+    const glow = qs && dark;
     // links
     ctx.lineWidth = 1/k;
     links.forEach(l => {
-      const a = l.source, b = l.target; const on = focus && (a.h.id===sel.id || b.h.id===sel.id);
+      const a = l.source, b = l.target; const on = focus && (sel ? (a.h.id===sel.id || b.h.id===sel.id) : (focus.has(a.h.id) && focus.has(b.h.id)));
       if(focus && !on) return;
-      ctx.strokeStyle = on ? col["--muted"] : col["--line"]; ctx.globalAlpha = on ? .75 : .55;
+      ctx.strokeStyle = on ? col["--muted"] : col["--line"]; ctx.globalAlpha = on ? (qs ? .4 : .75) : .55;
       ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
     });
     ctx.globalAlpha = 1;
@@ -854,15 +875,18 @@ function makeGraph(){
     const vr = Math.max(2.4, Math.min(4.6, 3.2));
     dots.forEach(d => {
       const dim = (vfocus && !vfocus.has(d.v.ref)) || (sel && sel.type==="chapter" && d.v.c!==sel.num);
-      ctx.globalAlpha = dim ? .13 : 1; ctx.fillStyle = spc(d.v);
-      ctx.beginPath(); ctx.arc(d.x,d.y,d===hov ? vr*1.6 : vr,0,7); ctx.fill();
+      ctx.globalAlpha = dim ? (qs ? .07 : .13) : 1; ctx.fillStyle = spc(d.v);
+      if(glow && !dim){ ctx.shadowColor = spc(d.v); ctx.shadowBlur = 9*dpr; }
+      ctx.beginPath(); ctx.arc(d.x,d.y,d===hov ? vr*1.6 : qs && !dim ? vr*1.5 : vr,0,7); ctx.fill();
+      ctx.shadowBlur = 0;
     });
     ctx.globalAlpha = 1;
     // nodes
     nodes.forEach(n => {
       const dim = focus && !focus.has(n.h.id);
-      ctx.globalAlpha = dim ? .15 : 1; ctx.fillStyle = fill(n);
-      ctx.beginPath(); ctx.arc(n.x,n.y,n===hov ? n.r*1.22 : n.r,0,7); ctx.fill();
+      ctx.globalAlpha = dim ? (qs ? .08 : .15) : 1; ctx.fillStyle = fill(n);
+      if(glow && !dim){ ctx.shadowColor = fill(n); ctx.shadowBlur = 14*dpr; }
+      ctx.beginPath(); ctx.arc(n.x,n.y,n===hov ? n.r*1.22 : n.r,0,7); ctx.fill(); ctx.shadowBlur = 0;
       ctx.lineWidth = (sel && sel.id===n.h.id ? 3 : 1.5)/k; ctx.strokeStyle = sel && sel.id===n.h.id ? col["--ink"] : col["--surface"]; ctx.stroke();
     });
     ctx.globalAlpha = 1;
@@ -881,7 +905,7 @@ function makeGraph(){
     CH.forEach(c => {
       const a = angOf(c.num), rows = Math.ceil(c.vs.length/COLS), r = R0 + rows*ROWH + 14/k + 4;
       const x = r*Math.cos(a), y = r*Math.sin(a), ca = Math.cos(a);
-      const dim = sel && sel.type==="chapter" && sel.num!==c.num;
+      const dim = (sel && sel.type==="chapter" && sel.num!==c.num) || (qs && !qs.ids.has(c.id));
       ctx.globalAlpha = dim ? .3 : 1;
       label(k < 0.75 ? String(c.num) : `${c.num}. ${name(c)}`, x, y, k < 0.75 ? 14 : 13, 600, Math.abs(ca) < .25 ? "center" : ca > 0 ? "left" : "right", col["--accent"]);
     });
@@ -907,7 +931,7 @@ function makeGraph(){
   }
   function panel(h, v){
     const gp = document.getElementById("gp");
-    if(!h && !v){ gp.innerHTML = ""; return; }
+    if(!h && !v){ if(qSet){ qPanel(); } else gp.innerHTML = ""; return; }
     if(v){
       gp.innerHTML = `<div class="gpanel"><button class="ibtn x" data-gx aria-label="Close">${IC.close}</button><span class="pill"><i class="dot d-${voice(v)}"></i>${esc(name(HB.get(voice(v))))}</span>
         <p class="nm">${v.ref}</p><p class="ds" lang="${lang}">${esc(tr(v))}</p><div class="row"><a class="btn primary" href="#${v.id}">${esc(u().open)}</a></div></div>`;
@@ -918,6 +942,34 @@ function makeGraph(){
         <div class="row"><a class="btn primary" href="#${isC?`c${h.num}`:`t-${h.id}`}">${esc(isC ? u().openCh : u().allVerses(h.vs.length))}</a></div></div>`;
     }
     gp.querySelector("[data-gx]").onclick = () => { sel = null; panel(); draw(); };
+  }
+  function qPanel(){
+    const gp = document.getElementById("gp"), q = qSet.q;
+    gp.innerHTML = `<div class="gpanel qp"><button class="ibtn x" data-gx aria-label="${esc(u().clearQ)}">${IC.close}</button>
+      <p class="nm">${esc(qName(q))}</p><p class="ds" lang="${lang}">${esc(qIntro(q))}</p>
+      <ul class="qlistp">${qVerses(q).map(v => { const s = prefs.sa ? saLines(v) : null;
+        return `<li><a href="#${v.id}"><span class="rf">${v.ref}</span><span>${s ? `<p class="sa" lang="sa">${esc(s.body[0])}${s.body.length>1?"…":""}</p>` : ""}<p class="tx" lang="${lang}">${esc(tr(v))}</p></span></a></li>`; }).join("")}</ul>
+      <div class="row"><a class="btn primary" href="#q-${q.slug}">${esc(u().openQ)}</a></div></div>`;
+    gp.querySelector("[data-gx]").onclick = () => setExQ(null);
+  }
+  function setQ(){
+    const q = exQ && qBySlug(exQ);
+    if(!q){ qSet = null; sel = null; panel(); draw(); if(W) sv.transition().duration(dur).call(zoom.transform, fitT()); return; }
+    const refs = new Set(q.verses), ids = new Set();
+    qVerses(q).forEach(v => { v.tags.forEach(t => ids.add(t)); ids.add("ch"+v.c); });
+    qSet = {q, refs, ids}; sel = null; qPanel(); draw(); zoomToQ();
+  }
+  // bring the lit-up verses into view, in the part of the map the panel does not cover
+  function zoomToQ(){
+    if(!qSet || !W) return;
+    const pts = dots.filter(d => qSet.refs.has(d.v.ref));
+    if(!pts.length) return;
+    const xs = pts.map(d => d.x), ys = pts.map(d => d.y);
+    const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+    const wide = W >= 900, top = 56, aw = wide ? W - 440 : W, ah = wide ? Hh - top : Hh * .5 - top;
+    const k = Math.max(fitT().k, Math.min(2.2, 0.8 * Math.min(aw / Math.max(60, x1-x0+60), ah / Math.max(60, y1-y0+60))));
+    const cx = (x0+x1)/2, cy = (y0+y1)/2;
+    sv.transition().duration(dur).call(zoom.transform, d3.zoomIdentity.translate(aw/2 - cx*k, top + ah/2 - cy*k).scale(k));
   }
   const zoom = d3.zoom().scaleExtent([0.15, 8]).on("zoom", e => { T = e.transform; draw(); });
   const sv = d3.select(cv).call(zoom).on("dblclick.zoom", null);
@@ -946,7 +998,7 @@ function makeGraph(){
   const mq = matchMedia("(prefers-color-scheme: dark)"); const onMq = () => recolor(); mq.addEventListener("change", onMq);
   const mo = new MutationObserver(recolor); mo.observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
   if(document.fonts) document.fonts.ready.then(draw);
-  size(); recolor(); sv.call(zoom.transform, fitT());
+  size(); recolor(); sv.call(zoom.transform, fitT()); if(exQ) setQ();
   const CK = "map-coach-" + (BASE || "preview");
   let seen = true; try{ seen = localStorage.getItem(CK) === "1"; }catch(e){}
   if(!seen && lead) setTimeout(() => {
@@ -959,7 +1011,7 @@ function makeGraph(){
     const close = () => { b.remove(); window.removeEventListener("pointerdown", close, true); };
     window.addEventListener("pointerdown", close, true); setTimeout(close, 6000);
   }, 350);
-  return { recolor, destroy(){ ro.disconnect(); mq.removeEventListener("change", onMq); mo.disconnect(); } };
+  return { recolor, setQ, destroy(){ ro.disconnect(); mq.removeEventListener("change", onMq); mo.disconnect(); } };
 }
 
 // ===================== boot =====================
