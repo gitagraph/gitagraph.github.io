@@ -76,3 +76,9 @@ button{font-family:var(--f-ui)}
 @media(min-width:1100px){.hero{max-width:290px}.hero h1{max-width:290px}}
 @media(max-width:900px){.panel{top:auto;bottom:calc(98px + var(--safe-b));max-height:34dvh;width:auto;left:12px;right:12px}.panel.min{top:auto;bottom:calc(98px + var(--safe-b))}.zoom{top:122px;bottom:auto!important;right:14px!important;flex-direction:column}.dock{top:auto;bottom:calc(22px + var(--safe-b));left:50%;gap:0;white-space:nowrap;max-width:calc(100vw - 24px)}.dock .pill{padding:6px 10px;font-size:13px}.top .brand .tg{display:none}.hero{display:none!important}.hint{font-size:10px}}
 @media(max-width:420px){.top{padding-left:12px;padding-right:12px;gap:6px}.top .brand{gap:7px}.top .brand .nm{font-size:16px}.top .brand .mark{width:27px;height:27px}.top .langpill{padding:0 10px}.dock{padding:4px}.dock .pill{padding:6px 8px;font-size:12px}.panel{padding:15px 17px}.panel h2{font-size:23px}}
+@media(max-width:900px){
+ .panel:not(.min){top:var(--top-h,60px);bottom:0;left:0;right:0;max-height:none;width:auto;border-radius:0;border-width:1px 0 0;z-index:7;padding:0 18px calc(24px + var(--safe-b));background:var(--surface);box-shadow:none}
+ .panel:not(.min) .phead{position:sticky;top:0;z-index:1;background:var(--surface);padding:14px 0 10px;margin-bottom:6px;border-bottom:1px solid var(--line);flex-direction:row-reverse;justify-content:flex-end;gap:12px;align-items:flex-start}
+ .panel .mapbtn{flex:none;width:auto;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font:600 14px var(--f-ui);color:var(--ink);white-space:nowrap}
+ .panel.min .phead{cursor:pointer}
+}

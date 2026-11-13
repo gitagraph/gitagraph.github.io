@@ -133,6 +133,8 @@ function setPositions(now){
 // ---------- state + routing ----------
 // #/  #/g  #/g/2  #/g/2/47  #/a/1/2  #/u/katha  #/u/nachiketa  #/q/grief  #/i/dharma  and "/read" in front of a text path
 let S = {kind:"home"}, readOpen = false, collapsed = false, lit = null, edges = [];
+// phones: details open full screen with a Back button; the overview opens on the map.
+const phone = matchMedia("(max-width:900px)");
 function parse(h){
   const p = h.replace(/^#\/?/, "").split("/").filter(Boolean);
   let read = false; if(p[0] === "read"){ read = true; p.shift(); }
@@ -160,6 +162,8 @@ function apply(){
   const r = parse(location.hash); S = r.st;
   readOpen = false;
   if(r.read){history.replaceState({...history.state,universe:true},"",hashFor(S));rememberView();location.assign(readerHref(S.n));return;}
+  const restoring = history.state?.view && history.state.view.hash === (location.hash || "#/");
+  if(!restoring && phone.matches) collapsed = S.kind === "home";
   computeLit();renderPanel();
   if(!restoreView(history.state?.view))fly();
   $("back").disabled = !history.state || !history.state.nav;
@@ -219,7 +223,7 @@ const sRow = n => `<a class="item" style="--c:${col(n)}" href="${hashOf(n)}"><sp
 const cRow = n => `<a class="item" style="--c:${col(n)}" href="${hashOf(n)}"><span class="rf">${n.num != null ? n.num : "✦"}</span><span class="tt">${esc(nm(n))}<small>${esc(n.kind === "chap" && n.t !== "u" ? t("n")(n.kids.length) : t("ns")(n.kids.length))}</small></span></a>`;
 function head(eye, title, c){
   return `<div class="phead"><div><div class="eyebrow" style="--c:${c || "var(--gold)"}"><i></i>${esc(eye)}</div><h2 id="ptitle" tabindex="-1">${esc(title)}</h2></div>
-  <button class="x" data-min aria-label="${esc(collapsed ? t("show") : t("min"))}" aria-expanded="${!collapsed}">${collapsed ? "⌃" : "⌄"}</button></div><div class="pbody">`;
+  ${phone.matches && !collapsed ? `<button class="x mapbtn" data-pback>${esc(t("back"))}</button>` : `<button class="x" data-min aria-label="${esc(collapsed ? t("show") : t("min"))}" aria-expanded="${!collapsed}">${collapsed ? "⌃" : "⌄"}</button>`}</div><div class="pbody">`;
 }
 function ideaChips(v){
   const map=v.t==="a"?AH:GH;const ids=[...new Set([...(v.d.k||[]),...(v.d.p||[])])].filter(id=>map.has(id)&&ideaMeta(v.t,id));
@@ -274,7 +278,10 @@ function renderPanel(focus=true){
   p.innerHTML = h + "</div>"; p.classList.toggle("min", collapsed); p.scrollTop = 0;
   const hd = $("ptitle"); if(hd && started && focus) hd.focus({preventScroll:true});
 }
-$("panel").addEventListener("click", e => { if(e.target.closest("[data-min]")){ collapsed = !collapsed; renderPanel(); fly(); } });
+$("panel").addEventListener("click", e => {
+  // phone full screen: Back returns to where the reader was (previous view, its camera and scroll); with nowhere to go back to, fold down to the map
+  if(e.target.closest("[data-pback]")){ if(history.state?.nav) history.back(); else { collapsed = true; renderPanel(); fly(); } return; }
+  if(e.target.closest("[data-min]") || (collapsed && phone.matches && e.target.closest(".phead"))){ collapsed = !collapsed; renderPanel(); fly(); } });
 
 // Existing native reading routes are the sole reading UI.
 function readerHref(n){if(n.t==='u'&&n.kind==='chap')return `../upanishads/upanishad/${encodeURIComponent(n.up.id)}/`;if(n.t==='u')return `../upanishads/story/${encodeURIComponent((n.story||n).s.id)}/`;const book=n.t==='g'?'gita':'ashtavakra',c=n.kind==='verse'?n.d.c:n.num;return `../${book}/chapter/${c}/${n.kind==='verse'?`verse/${n.d.v}/`:''}`;}
