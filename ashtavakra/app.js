@@ -52,8 +52,10 @@ const UI = {
     proto:"बीटा", type:{chapter:"अध्याय",person:"व्यक्ति",concept:"विचार",section:"खंड"},
     leg:{ashtavakra:"अष्टावक्र",janaka:"जनक",hub:"पात्र / विचार"} }
 };
-Object.assign(UI.en, {linkCopiedOnly:"Link copied", more:"More"});
-Object.assign(UI.hi, {linkCopiedOnly:"लिंक कॉपी हो गया", more:"और"});
+Object.assign(UI.en, {linkCopiedOnly:"Link copied", more:"More", expl:"Explanation", book:"Ashtavakra Gita", trL:"", nVerses:k=>`${k} verses`,
+  src:"Sanskrit: Wikisource (CC BY-SA 4.0), checked against GRETIL. Translation: Gitagraph, written with AI assistance."});
+Object.assign(UI.hi, {linkCopiedOnly:"लिंक कॉपी हो गया", more:"और", expl:"व्याख्या", book:"अष्टावक्र गीता", trL:"हिन्दी अनुवाद", nVerses:k=>`${k} श्लोक`,
+  src:"संस्कृत: विकिस्रोत (CC BY-SA 4.0), GRETIL से मिलाया गया। अनुवाद: गीताग्राफ़, AI की सहायता से लिखा गया।"});
 Object.assign(UI.en, {
   forallT:"Ashtavakra for all", forallLede:"For someone opening the Ashtavakra Gita for the first time, and for someone who has read it many times.",
   tagLede:"For first-time readers and for those who return to it again and again.",
@@ -169,6 +171,8 @@ function saLines(v){
   const body = lines.map(l => l.replace(/\s*\|\|\s*([०-९]+)-([०-९]+)\s*\|\|/, "\u00a0॥\u00a0$1.$2\u00a0॥").replace(/\|\|/g,"॥").replace(/\|/g,"।").replace(/ ([।॥])/g," $1"));
   return {uvaca, body};
 }
+// the verse number travels with the last word: "॥" allows a line break after it, even before a no-break space
+const saH = l => esc(l).replace(/\u00a0(॥\u00a0[०-९]+\.[०-९]+\u00a0॥)$/, '\u00a0<span class="vn">$1</span>');
 function trLines(v){
   const lines = v.tr.split("\n").map(s=>s.trim()).filter(Boolean);
   if(lines.length > 1 && /uvāca\s*[|।]?\s*$/.test(lines[0])) lines.shift();
@@ -360,7 +364,7 @@ function homeView(){
   <section class="tagline"><h2>${esc(u().forallT)}</h2><p class="lede2">${esc(u().tagLede)}</p><p class="hook">${esc(u().tagHook)}</p></section>
   ${last ? `<a class="contbar" href="#${last.id}"><span><b>${esc(u().contL)}</b> · ${last.ref} ${esc(name(CH[last.c-1]))}</span><span aria-hidden="true">→</span></a>` : ""}
   <section class="votd" aria-label="${esc(u().votd)}"><p class="eyebrow">${esc(u().votd)} · ${vd.ref}</p>
-    ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(esc).join("<br>")}</p>` : ""}
+    ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(saH).join("<br>")}</p>` : ""}
     <p class="tx" lang="${lang}">${esc(tr(vd))}</p>
     <div class="row"><a class="btn primary" href="#${vd.id}">${esc(u().readCtx)}</a><button class="btn" id="sharebtn" data-ref="${vd.ref}">${esc(u().share)}</button></div></section>
   ${last ? "" : `<a class="btn primary startbtn" href="#v1-1">${esc(u().startR)} <small>· ${esc(u().startSub)}</small></a>`}
@@ -431,28 +435,21 @@ function chapterCtx(c){
 function verseView(v){
   const c = CH[v.c-1], s = saLines(v), sp = HB.get(voice(v));
   const prev = V[v.i-1], next = V[v.i+1];
-  const ppl = v.tags.map(id=>HB.get(id)).filter(h=>h.type==="person");
-  const ide = v.tags.map(id=>HB.get(id)).filter(h=>h.type!=="person");
-  const chip = h => `<button class="chip" data-tag="${h.id}"><i class="dot d-${h.type}"></i>${esc(name(h))}<span class="k">${h.vs.length}</span></button>`;
   const saved = savedSet.has(v.ref);
   return `<article class="verse" id="verse">
     <div class="vtop"><a href="#c${c.num}">${esc(u().chapter)} ${c.num} · ${esc(name(c))}</a><span>${esc(u().vOf(v.v, c.vs.length))}</span></div>
-    <h2 class="vref">${v.ref}${shareBtn()}</h2>
+    <h2 class="vref"><span class="vbook">${esc(u().book)}</span> ${v.ref}${shareBtn()}</h2>
     <p class="speaker"><i class="dot d-${voice(v)}"></i>${esc(name(sp))}${s.uvaca ? ` <span class="uvaca">· ${esc(s.uvaca)}</span>` : ""}</p>
-    ${prefs.sa ? `<p class="vsa" lang="sa">${s.body.map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>` : ""}
-    <p class="vtr ${isHi()?"hi":""}" lang="${lang}">${esc(tr(v))}</p>
+    ${prefs.sa ? `<p class="vsa" lang="sa">${s.body.map(l=>`<span class="ln">${saH(l)}</span>`).join("")}</p>` : ""}
+    ${u().trL ? `<p class="vtr-l">${esc(u().trL)}</p>` : ""}<p class="vtr ${isHi()?"hi":""}" lang="${lang}">${esc(tr(v))}</p>
     ${expFirst(v)}
     <div class="vactions">
       <button class="btn ${saved?"on":""}" id="savebtn" aria-pressed="${saved}">${IC.saved}<span>${esc(saved?u().savedL:u().save)}</span></button>
     </div>
     <details class="vmore"><summary>${esc(u().more)}</summary>
-      <p class="viast" lang="sa-Latn">${trLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>
       ${expFull(v)}
+      <p class="viast" lang="sa-Latn">${trLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>
       <p class="vtr2 ${isHi()?"":"hi"}" lang="${isHi()?"en":"hi"}"><b>${isHi()?"EN":"हिन्दी"}</b>${esc(tr2(v))}</p>
-      <div class="vtags">
-        ${ppl.length ? `<div class="grp"><p class="eyebrow">${esc(u().people)}</p><div class="chips">${ppl.map(chip).join("")}</div></div>` : ""}
-        ${ide.length ? `<div class="grp"><p class="eyebrow">${esc(u().ideas)}</p><div class="chips">${ide.map(chip).join("")}</div></div>` : ""}
-      </div>
       <p><button class="btn" id="copybtn">${IC.copy}<span>${esc(u().copy)}</span></button></p>
     </details>
     <nav class="vnav">
@@ -460,17 +457,18 @@ function verseView(v){
       ${next ? `<a class="nx" href="#${next.id}"><small>${esc(u().next)} →</small><b>${next.ref}</b><span class="t">${esc(tr(next))}</span></a>` : "<span></span>"}
     </nav>
     <span class="swipehint">${esc(u().swipe)}</span>
+    <p class="vsrc">${esc(u().src)} <a href="#about">${esc(u().aboutLink)}</a></p>
   </article>`;
 }
 // Explanations (coming): when a verse carries v.exp = {en, hi}, its first sentence shows under the
 // translation and the full text inside "More". Nothing renders until the data exists.
 const expText = v => v.exp ? (isHi() ? v.exp.hi : v.exp.en) || "" : "";
 const expFirst = v => { const t = expText(v); if(!t) return ""; const m = t.match(/^.+?[.!?।](\s|$)/); return `<p class="vexp" lang="${lang}">${esc(m ? m[0].trim() : t)}</p>`; };
-const expFull = v => { const t = expText(v); return t ? `<div class="vexpfull" lang="${lang}">${t.split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join("")}</div>` : ""; };
+const expFull = v => { const t = expText(v); return t ? `<p class="eyebrow">${esc(u().expl)}</p><div class="vexpfull" lang="${lang}">${t.split(/\n\n+/).map(p => `<p>${esc(p)}</p>`).join("")}</div>` : ""; };
 function verseCtx(v){
   const tags = v.tags.map(id=>HB.get(id));
   const c = CH[v.c-1];
-  return `<h3>${esc(u().inVerse)}</h3>` + topicRows(tags, h=>h.vs.length) +
+  return `<h3>${esc(u().inVerse)}</h3>` + topicRows(tags, h=>u().nVerses(h.vs.length)) +
     `<h3>${esc(u().chapter)} ${c.num}</h3><a class="card" href="#c${c.num}"><span class="ref">${esc(name(c))}</span><p class="tx" lang="${lang}" style="margin-top:6px;font-size:14.5px">${esc(descOf(c))}</p></a>`;
 }
 function markRead(v){

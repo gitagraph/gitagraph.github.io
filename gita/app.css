@@ -51,6 +51,8 @@ button{font:inherit;color:inherit}
 .ibtn:hover{background:var(--sunk)}
 .ibtn svg{width:22px;height:22px}
 .langpill{font-size:14px;font-weight:600;border:1px solid var(--line);height:36px;border-radius:999px;min-width:0;padding:0 12px}
+.langpill{position:relative}.langpill::after{content:"";position:absolute;inset:-4px 0}  /* 44px to tap, 36px to see */
+@media (max-width:379px){ .top{gap:2px} }  /* room for "श्लोक 8.10" on the smallest phones */
 .content{padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px));padding-block:8px 24px;max-width:760px;margin:0 auto}
 .ctx{padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px));padding-block:0 24px;max-width:760px;margin:0 auto}
 
@@ -217,7 +219,8 @@ details.how .howbody{padding-bottom:16px}
 .vexpfull p{font-family:var(--f-read);line-height:1.7;max-width:62ch}
 .vlife-l{margin:14px 0 0;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
 :root[lang=hi] .vlife-l{letter-spacing:0;text-transform:none;font-size:13.5px}
-.vlife{font-family:var(--f-read);font-size:calc(16px * var(--scale));line-height:1.6;margin:4px 0 0;max-width:62ch}
+.vlife{font-family:var(--f-read);font-size:calc(16px * var(--scale));line-height:1.6;margin:6px 0 0;max-width:62ch;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.vlife-l span{text-transform:none;letter-spacing:0;font-weight:400}
 :root[lang=hi] .vlife{font-family:var(--f-hi);line-height:1.8}
 .vwords{margin:6px 0 14px;display:grid;gap:4px;max-width:62ch}
 .vwords div{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px}
@@ -259,12 +262,18 @@ details.how .howbody{padding-bottom:16px}
 /* ---------- verse ---------- */
 .verse{padding:12px 0 0;touch-action:pan-y}
 .vtop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
-.vtop a{color:var(--accent);font-weight:600}
+.vtop a{color:var(--accent);font-weight:600;display:inline-flex;align-items:center;min-height:44px}
 .vref{font-family:var(--f-read);font-weight:600;font-size:clamp(30px,6vw,40px);margin:14px 0 0;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 .speaker{display:flex;align-items:center;gap:8px;margin:6px 0 0;font-size:15px;color:var(--muted)}
 .speaker .uvaca{font-family:var(--f-skt);font-size:16px}
 .vsa{font-family:var(--f-skt);font-size:calc(23px * var(--scale));line-height:1.75;margin:22px 0 0;color:var(--ink)}
 .vsa .ln{display:block}
+.vbook{display:block;font-family:var(--f-ui);font-size:14px;font-weight:400;letter-spacing:0;color:var(--muted);margin-bottom:-2px}
+.vtr-l{margin:22px 0 -16px;font-size:13.5px;color:var(--muted);font-weight:600}
+.vcont{display:inline-flex;align-items:center;min-height:44px;margin:8px 0 -8px;font-size:14.5px;color:var(--accent);font-weight:600}
+.vsrc{margin:18px 0 0;font-size:13px;line-height:1.55;color:var(--muted);max-width:62ch}
+.vsrc a{color:var(--accent)}
+.vn{white-space:nowrap}
 .viast{font-family:var(--f-read);font-style:italic;font-size:calc(16px * var(--scale));line-height:1.7;color:var(--muted);margin:14px 0 0}
 .viast .ln{display:block}
 .vtr{font-family:var(--f-read);font-size:calc(19px * var(--scale));line-height:1.65;margin:24px 0 0;padding-left:16px;border-left:3px solid var(--accent);max-width:62ch}
