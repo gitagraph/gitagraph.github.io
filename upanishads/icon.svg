@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-<rect width="512" height="512" fill="#8a5a12"/>
-<circle cx="256" cy="256" r="196" fill="none" stroke="#f3dcae" stroke-width="10"/>
-<text x="256" y="300" font-family="Kohinoor Devanagari, Devanagari Sangam MN, sans-serif" font-size="250" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">उ</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="512" height="512"><rect width="120" height="120" fill="#1B1838"/><g transform="translate(9 9) scale(.85)"><path fill="#F6F5F0" d="M87.49 38.1H74.86L75.07 98H73.99L65.47 92.5L65.9 38.1H45.82L46.04 75.87Q46.04 78.57 43.56 78.57Q41.83 78.57 39.08 76.84Q36.32 75.12 33.63 72.47Q30.93 69.83 29.09 66.97Q27.26 64.11 27.26 61.95Q27.26 60.98 27.9 60.22Q28.55 59.47 29.96 59.47H36.86L36.97 38.1H22.18L18.51 31.08V30H83.82L87.49 37.02Z"/><circle fill="#C2570C" cx="88.5" cy="33.6" r="11.5"/></g></svg>

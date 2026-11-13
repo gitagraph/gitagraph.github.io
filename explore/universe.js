@@ -8,23 +8,23 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)");
 let lang = "en";
 try{ const g = localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"); if(g === "hi" || g === "en") lang = g; }catch(e){}
 const T = {
- en:{sub:"A living library of wisdom", back:"← Back", home:"✧ Universe", pause:"Pause motion", play:"Play motion", lang:"हिन्दी",
+ en:{sub:"A living library of wisdom", back:"← Back", home:"✧ Overview", pause:"Pause motion", play:"Play motion", lang:"हिन्दी",
   chapters2:"Chapters", qs:"Questions", chapD:"Every chapter is a constellation. Tap one to see its shlokas.", eb:"Bhagavad Gita · Ashtavakra Gita · Upanishads", h1:"One idea,<br><em>many texts.</em>", hp:"See how chapters, verses and stories connect, then follow those links from one verse to the next.", ideasTitle:"Ideas across the texts", sameIdea:"The same idea in other texts", inText:"In this text", tales:"Stories", crossNote:"Suggested by Gitagraph for reading alongside. The themes are related; the teachings are not the same, and traditions read them differently.", start:"Start with a question", startD:"Choose a life question and the verses that speak to it light up. Or tap any chapter to explore it.",
   texts:"The three scriptures", chapters:"Chapters", verses:"Shlokas", stories:"Stories", read:"Read the whole chapter", readS:"Read the story",readV:"Read in the original reader",
   open:"Open", close:"Close", min:"Hide", show:"Show", prev:"← Previous", next:"Next →", ideas:"Ideas in this verse", people:"People",
   all:"All verses on this idea", chapter:"Chapter", verse:"Shloka", story:"Story", question:"Question", idea:"Idea", n:k => `${k} shlokas`, ns:k => `${k} stories`,
   notedIn:"Suggested alongside these Upanishad stories", noted:"Suggested alongside", gitaV:"Bhagavad Gita", ashV:"Ashtavakra Gita", qStories:"Stories on this question", versesQ:"Verses for this question",
   readIn:"Reading", pass:"Passages from the text", more:n => `…and ${n} more`, intro:"About this", hint:"Drag to move · pinch / double-tap to zoom",
-  scripture:"Scripture", names:{g:"Bhagavad Gita", a:"Ashtavakra Gita", u:"Upanishads"}, loadErr:"The universe did not load. Reload the page to try again.",
+  scripture:"Scripture", names:{g:"Bhagavad Gita", a:"Ashtavakra Gita", u:"Upanishads"}, loadErr:"The graph did not load. Reload the page to try again.",
   moved:"Selected", care:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.", up:"Upanishad"},
- hi:{sub:"ज्ञान का जीवंत ग्रंथालय", back:"← वापस", home:"✧ ब्रह्मांड", pause:"गति रोकें", play:"गति चलाएँ", lang:"English",
+ hi:{sub:"ज्ञान का जीवंत ग्रंथालय", back:"← वापस", home:"✧ पूरा ग्राफ़", pause:"गति रोकें", play:"गति चलाएँ", lang:"English",
   chapters2:"अध्याय", qs:"प्रश्न", chapD:"हर अध्याय एक तारामंडल है। किसी अध्याय को छूकर उसके श्लोक देखें।", eb:"भगवद्गीता · अष्टावक्र गीता · उपनिषद्", h1:"एक विचार,<br><em>कई ग्रंथों में।</em>", hp:"देखें कि अध्याय, श्लोक और कथाएँ कैसे जुड़ते हैं। फिर इन संबंधों के सहारे एक श्लोक से दूसरे तक पहुँचें।", ideasTitle:"ग्रंथों के विचार", sameIdea:"दूसरे ग्रंथों में यही विचार", inText:"इस ग्रंथ में", tales:"कथाएँ", crossNote:"गीताग्राफ़ का सुझाव, साथ में पढ़ने के लिए। विषय जुड़े हैं, पर शिक्षाएँ एक जैसी नहीं हैं, और परंपराएँ इन्हें अलग-अलग ढंग से पढ़ती हैं।", start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
   texts:"तीन ग्रंथ", chapters:"अध्याय", verses:"श्लोक", stories:"कथाएँ", read:"पूरा अध्याय पढ़ें", readS:"कथा पढ़ें",readV:"मूल पाठक में पढ़ें",
   open:"खोलें", close:"बंद करें", min:"छिपाएँ", show:"दिखाएँ", prev:"← पिछला", next:"अगला →", ideas:"इस श्लोक के विचार", people:"पात्र",
   all:"इस विचार के सभी श्लोक", chapter:"अध्याय", verse:"श्लोक", story:"कथा", question:"प्रश्न", idea:"विचार", n:k => `${k} श्लोक`, ns:k => `${k} कथाएँ`,
   notedIn:"इन उपनिषद कथाओं के साथ सुझाया गया", noted:"साथ में पढ़ने का सुझाव", gitaV:"भगवद्गीता", ashV:"अष्टावक्र गीता", qStories:"इस प्रश्न की कथाएँ", versesQ:"इस प्रश्न के श्लोक",
   readIn:"पढ़ रहे हैं", pass:"मूल पाठ के अंश", more:n => `…और ${n}`, intro:"परिचय", hint:"खींचकर घुमाएँ · पिंच / दो बार टैप से ज़ूम करें",
-  scripture:"ग्रंथ", names:{g:"भगवद्गीता", a:"अष्टावक्र गीता", u:"उपनिषद"}, loadErr:"ब्रह्मांड लोड नहीं हुआ। दोबारा कोशिश करें।",
+  scripture:"ग्रंथ", names:{g:"भगवद्गीता", a:"अष्टावक्र गीता", u:"उपनिषद्"}, loadErr:"ग्राफ़ लोड नहीं हुआ। दोबारा कोशिश करें।",
   moved:"चुना गया", care:"गीता देखने का एक नज़रिया देती है, सहारे का विकल्प नहीं। अगर यह मन पर भारी है, तो किसी भरोसेमंद व्यक्ति या डॉक्टर से बात करें।", up:"उपनिषद्"}
 };
 const t = k => T[lang][k];
