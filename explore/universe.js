@@ -200,8 +200,10 @@ function ideaNodes(t, id){
 }
 
 // ---------- lit set (question / idea) and connection paths ----------
+// the idea being explored stays on screen as a hub; its threads run from it to each verse (or story) that carries it
+let hub = null;
 function computeLit(){
-  lit = null; edges = [];
+  lit = null; edges = []; hub = null;
   const chain = list => { for(let i = 0; i < list.length - 1 && i < 60; i++) edges.push([list[i], list[i+1]]); };
   if(S.kind === "q"){
     const vs = [...S.q.verses.map(r => gRef.get(r)), ...(S.q.av?.items||[]).map(v=>aRef.get(v.ref))].filter(Boolean);
@@ -209,7 +211,10 @@ function computeLit(){
     lit = new Set([...vs, ...ss]); S.vs = vs; S.ss = ss; chain(vs.filter(v => v.t === "g")); chain(vs.filter(v => v.t === "a"));
   } else if(S.kind === "idea"){
     const own = ideaNodes(S.t, S.id); S.sets = {}; S.sets[S.t] = own; const all = [...own];
-    lit = new Set(own); S.vs=own; chain(own.slice(0,40));
+    lit = new Set(own); S.vs=own;
+    if(own.length){ hub = iBy.get(`${S.t}:${S.id}`) || {id:`i:${S.t}:${S.id}`, kind:"idea", t:S.t, depth:0, name:{en:S.m.en, hi:S.m.hi},
+      x:own.reduce((a, n) => a + n.x, 0)/own.length, y:own.reduce((a, n) => a + n.y, 0)/own.length};
+      own.slice(0, 80).forEach(v => edges.push([hub, v])); }
   } else if(S.kind === "verse"){
     lit = new Set([S.n, ...(S.n.cites || [])]); (S.n.cites || []).forEach(c => edges.push([S.n, c]));
   } else if(S.kind === "story"){
@@ -328,7 +333,7 @@ function fly(){
   else if(S.kind === "story") c = camFor([S.n, ...S.n.xg, ...S.n.xa, S.n.ch], 3);
   // a phone's small card: zoom in on the tapped idea itself, not out to every verse that carries it
   else if(S.kind === "idea" && phone.matches && collapsed && iBy.get(`${S.t}:${S.id}`)) c = camFor([iBy.get(`${S.t}:${S.id}`)], .8);
-  else c = camFor([...(lit || [])].slice(0, 600), 3.2);
+  else c = camFor([...(lit || [])].slice(0, 600).concat(hub ? [hub] : []), 3.2);
   if(readOpen){ dirty = true; }
   tgt = reduce.matches ? null : {...c, t0:performance.now(), from:{...cam}}; if(!tgt) Object.assign(cam, c);
   cv.setAttribute("data-camera-state",tgt?"moving":"settled");dirty = true; kick();
@@ -411,6 +416,9 @@ function draw(){
     } else if(n.kind === "chap" && z <= .45 && n.num && !filtering){ ctx.font = "9px system-ui"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillStyle = COL[n.t]; ctx.globalAlpha = .8; ctx.fillText(String(n.num), p.x, p.y + 12); }
   }
   ctx.globalAlpha = 1;
+  if(hub && !web){ const p = toS(hub), c = COL[hub.t]; glow(p.x, p.y, 40, c, .45); ctx.fillStyle = c; ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, 7); ctx.fill(); sphere(p.x, p.y, 9, c);
+    ctx.strokeStyle = c; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(p.x, p.y, 14, 0, 7); ctx.stroke();
+    ctx.font = "600 15px "+fontRead; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.shadowColor = palette.bg; ctx.shadowBlur = 8; ctx.fillStyle = palette.ink; ctx.fillText(nm(hub), p.x + 20, p.y); ctx.shadowBlur = 0; }
   for(const k of ["g","a","u"]){ const r = roots[k], p = toS(r); glow(p.x, p.y, 34, COL[k], .35); ctx.fillStyle = COL[k]; ctx.beginPath(); ctx.arc(p.x,p.y,6,0,7);ctx.fill();sphere(p.x,p.y,7,COL[k]);
     ctx.font = (W < 600 ? "15px" : "20px") + " "+fontRead; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.shadowColor = palette.bg; ctx.shadowBlur = 8; ctx.fillStyle = COL[k]; ctx.globalAlpha = filtering ? .55 : 1; ctx.fillText(nm(r), p.x, p.y + 16); ctx.shadowBlur = 0; ctx.globalAlpha = 1; }
 }
