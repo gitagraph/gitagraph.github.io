@@ -9,7 +9,7 @@ let lang = "en";
 try{ const g = localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"); if(g === "hi" || g === "en") lang = g; }catch(e){}
 const T = {
  en:{sub:"A living library of wisdom", back:"← Back", home:"✧ Universe", pause:"Pause motion", play:"Play motion", lang:"हिन्दी",
-  chapters2:"Chapters", qs:"Questions", chapD:"Every chapter is a constellation; its shlokas orbit it. Tap one to explore.", eb:"Bhagavad Gita · Ashtavakra Gita · Upanishads", h1:"One idea,<br><em>many texts.</em>", hp:"See how chapters, verses and stories connect, then follow those links from one verse to the next.", ideasTitle:"Ideas across the texts", sameIdea:"The same idea in other texts", inText:"In this text", tales:"Stories", crossNote:"Suggested by Gitagraph for reading alongside. The themes are related; the teachings are not the same, and traditions read them differently.", start:"Start with a question", startD:"Choose a life question and the verses that speak to it light up. Or tap any chapter to explore it.",
+  chapters2:"Chapters", qs:"Questions", chapD:"Every chapter is a constellation. Tap one to see its shlokas.", eb:"Bhagavad Gita · Ashtavakra Gita · Upanishads", h1:"One idea,<br><em>many texts.</em>", hp:"See how chapters, verses and stories connect, then follow those links from one verse to the next.", ideasTitle:"Ideas across the texts", sameIdea:"The same idea in other texts", inText:"In this text", tales:"Stories", crossNote:"Suggested by Gitagraph for reading alongside. The themes are related; the teachings are not the same, and traditions read them differently.", start:"Start with a question", startD:"Choose a life question and the verses that speak to it light up. Or tap any chapter to explore it.",
   texts:"The three scriptures", chapters:"Chapters", verses:"Shlokas", stories:"Stories", read:"Read the whole chapter", readS:"Read the story",readV:"Read in the original reader",
   open:"Open", close:"Close", min:"Hide", show:"Show", prev:"← Previous", next:"Next →", ideas:"Ideas in this verse", people:"People",
   all:"All verses on this idea", chapter:"Chapter", verse:"Shloka", story:"Story", question:"Question", idea:"Idea", n:k => `${k} shlokas`, ns:k => `${k} stories`,
@@ -18,7 +18,7 @@ const T = {
   scripture:"Scripture", names:{g:"Bhagavad Gita", a:"Ashtavakra Gita", u:"Upanishads"}, loadErr:"The universe did not load. Reload the page to try again.",
   moved:"Selected", care:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.", up:"Upanishad"},
  hi:{sub:"ज्ञान का जीवंत ग्रंथालय", back:"← वापस", home:"✧ ब्रह्मांड", pause:"गति रोकें", play:"गति चलाएँ", lang:"English",
-  chapters2:"अध्याय", qs:"प्रश्न", chapD:"हर अध्याय एक तारामंडल है, श्लोक उसकी परिक्रमा करते हैं। किसी को छूकर देखें।", eb:"भगवद्गीता · अष्टावक्र गीता · उपनिषद्", h1:"एक विचार,<br><em>कई ग्रंथों में।</em>", hp:"देखें कि अध्याय, श्लोक और कथाएँ कैसे जुड़ते हैं। फिर इन संबंधों के सहारे एक श्लोक से दूसरे तक पहुँचें।", ideasTitle:"ग्रंथों के विचार", sameIdea:"दूसरे ग्रंथों में यही विचार", inText:"इस ग्रंथ में", tales:"कथाएँ", crossNote:"गीताग्राफ़ का सुझाव, साथ में पढ़ने के लिए। विषय जुड़े हैं, पर शिक्षाएँ एक जैसी नहीं हैं, और परंपराएँ इन्हें अलग-अलग ढंग से पढ़ती हैं।", start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
+  chapters2:"अध्याय", qs:"प्रश्न", chapD:"हर अध्याय एक तारामंडल है। किसी अध्याय को छूकर उसके श्लोक देखें।", eb:"भगवद्गीता · अष्टावक्र गीता · उपनिषद्", h1:"एक विचार,<br><em>कई ग्रंथों में।</em>", hp:"देखें कि अध्याय, श्लोक और कथाएँ कैसे जुड़ते हैं। फिर इन संबंधों के सहारे एक श्लोक से दूसरे तक पहुँचें।", ideasTitle:"ग्रंथों के विचार", sameIdea:"दूसरे ग्रंथों में यही विचार", inText:"इस ग्रंथ में", tales:"कथाएँ", crossNote:"गीताग्राफ़ का सुझाव, साथ में पढ़ने के लिए। विषय जुड़े हैं, पर शिक्षाएँ एक जैसी नहीं हैं, और परंपराएँ इन्हें अलग-अलग ढंग से पढ़ती हैं।", start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
   texts:"तीन ग्रंथ", chapters:"अध्याय", verses:"श्लोक", stories:"कथाएँ", read:"पूरा अध्याय पढ़ें", readS:"कथा पढ़ें",readV:"मूल पाठक में पढ़ें",
   open:"खोलें", close:"बंद करें", min:"छिपाएँ", show:"दिखाएँ", prev:"← पिछला", next:"अगला →", ideas:"इस श्लोक के विचार", people:"पात्र",
   all:"इस विचार के सभी श्लोक", chapter:"अध्याय", verse:"श्लोक", story:"कथा", question:"प्रश्न", idea:"विचार", n:k => `${k} श्लोक`, ns:k => `${k} कथाएँ`,
@@ -416,6 +416,7 @@ function draw(){
   for(const n of (filtering && drawOrder) || nodes){
     if(n.kind === "root") continue;
     const f = fadeOf(n, deep);
+    if(f < .03 && small(n)) continue;
     if(home ? f < .03 : web ? n.kind !== "idea"&&!overviewStars.has(n) : n.kind === "idea") continue;
     const p = toS(n); if(p.x < -40 || p.x > W + 40 || p.y < -40 || p.y > H + 40) continue;
     const isLit = lit && lit.has(n), sel = n.id === selId, dimC = chapSel && n.kind === "verse" && n.ch !== chapSel;
@@ -478,7 +479,9 @@ const deepOf = z => S.kind !== "home" ? (webMode() ? 0 : 1) : Math.max(0, Math.m
 // On the overview the shlokas (and a story's passages) stay hidden until the reader has zoomed well into a chapter:
 // at chapter scale they are clutter around the names. Opening a chapter shows its own shlokas.
 const closeUp = () => Math.max(0, Math.min(1, (cam.z - 1.6)/.5));
-const fadeOf = (n, deep) => S.kind !== "home" ? 1 : n.kind === "idea" ? 1 - .65*deep : n.kind === "root" || overviewStars.has(n) ? 1 : (n.kind === "verse" || n.kind === "passage") ? closeUp() : deep;
+// the same holds on the Chapters view and on a single text: chapter names first, shlokas only close up
+const small = n => n.kind === "verse" || n.kind === "passage";
+const fadeOf = (n, deep) => S.kind === "chapters" || S.kind === "root" ? (small(n) && !(lit && lit.has(n)) ? closeUp() : 1) : S.kind !== "home" ? 1 : n.kind === "idea" ? 1 - .65*deep : n.kind === "root" || overviewStars.has(n) ? 1 : (n.kind === "verse" || n.kind === "passage") ? closeUp() : deep;
 function hit(sx, sy, touch){
   const R = touch ? 22 : 14; let best = null, bd = 1e9;
   const openCh = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
@@ -486,6 +489,7 @@ function hit(sx, sy, touch){
     if(S.kind === "home" ? fadeOf(n, deepOf(cam.z)) < .4 : webMode() ? n.kind !== "idea" && n.kind !== "root" && !overviewStars.has(n) : n.kind === "idea") continue;
     if((n.kind === "verse"||n.kind==="passage") && cam.z < 1.1 && !(lit && lit.has(n))) continue;
     if(openCh && n.kind === "verse" && n.ch !== openCh && !(lit && lit.has(n))) continue;   // not drawn, so not tappable
+    if(small(n) && fadeOf(n, 1) < .4) continue;
     const p = toS(n), d = Math.hypot(p.x - sx, p.y - (sy-60)) - ((n.kind === "verse"||n.kind==="passage") ? 0 : 4);
     if(d < R && d < bd){ bd = d; best = n; }
   }
