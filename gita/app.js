@@ -539,6 +539,35 @@ const howBody = () => `<div class="howbody">${u().how.map(([h,items]) => `<h3>${
 // Shared from Hindi, a link goes through its /hi/ page, whose preview card (WhatsApp and the like) is in Hindi; that page
 // then opens the same address here in Hindi. Only addresses that have such a page are changed.
 const hiShare = u => isHi() && /\/(?:(?:gita|ashtavakra)\/(?:chapter\/\d+\/verse\/\d+\/)?|upanishads\/(?:story\/[^\/]+\/)?)$/.test(u) ? u.replace(/^(https?:\/\/[^\/]+)\//, "$1/hi/") : u;
+// A verse as a picture to send (1080x1350): the Sanskrit, the translation in the reading language, the reference and the
+// site's name. It is drawn on a canvas inside the page and handed to the phone's own share sheet; nothing is uploaded.
+async function verseImage(v){
+  const W = 1080, H = 1350, M = 96, c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
+  const cs = getComputedStyle(document.documentElement), F = k => cs.getPropertyValue(k).trim() || "serif";
+  const fSa = F("--f-skt"), fTr = isHi() ? F("--f-hi") : F("--f-read"), fUi = F("--f-ui"), book = isHi() ? "भगवद्गीता" : "Bhagavad Gita";
+  try{ await Promise.all([document.fonts.load(`48px ${fSa}`, "कृ"), document.fonts.load(`36px ${fTr}`, isHi() ? "कृ" : "a"), document.fonts.load(`600 30px ${fUi}`, "a")]); }catch(e){}
+  const wrap = (text, font, maxW) => { x.font = font; const out = [];
+    for(const para of String(text).split("\n")){ let line = ""; for(const w of para.split(/ +/)){ const t = line ? line + " " + w : w; if(x.measureText(t).width > maxW && line){ out.push(line); line = w; } else line = t; } if(line) out.push(line); }
+    return out; };
+  let sz = 50, tz = 38, sa, tl, bh;
+  for(;;){ sa = saLines(v).body.flatMap(l => wrap(l, `${sz}px ${fSa}`, W - 2*M)); tl = wrap(tr(v), `${tz}px ${fTr}`, W - 2*M);
+    bh = sa.length*sz*1.62 + 54 + tl.length*tz*1.56; if(bh <= H - 2*M - 250 || sz <= 30) break; sz -= 3; tz -= 2; }
+  x.fillStyle = "#faf8f4"; x.fillRect(0, 0, W, H); x.textBaseline = "top";
+  x.fillStyle = "#c2570c"; x.font = `600 30px ${fUi}`; x.fillText(`${book} ${v.ref}`, M, M);
+  let y = M + 110 + Math.max(0, (H - 2*M - 250 - bh)/2);
+  x.fillStyle = "#1b1838"; x.font = `${sz}px ${fSa}`; for(const l of sa){ x.fillText(l, M, y); y += sz*1.62; }
+  y += 54; x.fillStyle = "#4a4960"; x.font = `${tz}px ${fTr}`; for(const l of tl){ x.fillText(l, M, y); y += tz*1.56; }
+  x.fillStyle = "#e2e0d6"; x.fillRect(M, H - M - 74, W - 2*M, 2);
+  x.fillStyle = "#1b1838"; x.font = isHi() ? `34px ${fTr}` : `600 34px ${F("--f-read")}`; x.fillText(isHi() ? "गीताग्राफ़" : "Gitagraph", M, H - M - 40);
+  x.fillStyle = "#5a596b"; x.font = `30px ${fUi}`; const site = "gitagraph.com"; x.fillText(site, W - M - x.measureText(site).width, H - M - 36);
+  return new Promise(res => c.toBlob(res, "image/png"));
+}
+async function shareVerseImage(v){
+  const blob = await verseImage(v); if(!blob){ toast(u().copyFail); return; }
+  const name = `gita-${v.ref.replace(".", "-")}.png`, file = new File([blob], name, {type:"image/png"});
+  if(navigator.canShare && navigator.canShare({files:[file]})){ try{ await navigator.share({files:[file], title:`${isHi() ? "भगवद्गीता" : "Bhagavad Gita"} ${v.ref}`}); }catch(e){} return; }
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
 const verseUrl = v => BASE ? location.origin + pathOf(v.id) : `${SITE}chapter/${v.c}/verse/${v.v}/`;
 function homeView(){
   const last = recent.length ? VB.get(recent[0]) : null;
@@ -640,6 +669,7 @@ function verseView(v){
     <div id="exp1" data-ref="${v.ref}"></div>
     <div class="vactions">
       <button class="btn ${saved?"on":""}" id="savebtn" aria-pressed="${saved}">${IC.saved}<span>${esc(saved?u().savedL:u().save)}</span></button>
+      ${window.Capacitor ? "" : `<button class="btn" id="imgbtn">${IC.share}<span>${esc(isHi() ? "चित्र के रूप में साझा करें" : "Share as image")}</span></button>`}
     </div>
     <details class="vmore"><summary>${esc(u().more)}</summary>
       <div id="exp2"></div>
@@ -700,6 +730,7 @@ function markRead(v){
   recent = [v.ref, ...recent.filter(r=>r!==v.ref)].slice(0,30); store.set("recent",recent);
 }
 function wireVerse(v){
+  const ib = document.getElementById("imgbtn"); if(ib) ib.onclick = () => shareVerseImage(v);
   const sb = document.getElementById("savebtn");
   sb.onclick = () => {
     if(savedSet.has(v.ref)) savedSet.delete(v.ref); else savedSet.add(v.ref);
