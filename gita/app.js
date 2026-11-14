@@ -517,12 +517,24 @@ function citeHtml(text, q){
 function qSummary(q){
   const t = isHi() ? q.summary_hi : q.summary_en; if(!t) return "";
   const lines = t.split(/(?<=\)[.।])\s+/).filter(Boolean);
-  return `<section class="qsum"><h2 class="sec">${isHi() ? "ग्रंथ क्या कहते हैं" : "What the texts say"}</h2><p class="qsum-n">${isHi() ? "संपादकीय सार: हर वाक्य के साथ उसका आधार दिया गया है।" : "An editorial summary. Each sentence shows the passages it rests on."}</p>${lines.map(l => `<p lang="${lang}">${citeHtml(l.replace(/\s*\(([^()]*)\)\s*[.।]?$/, (m, i) => (isHi() ? "।" : ".") + " (" + i + ")"), q)}</p>`).join("")}</section>`;
+  // closed by default: the two-line intro is the summary; this is the longer reading for whoever wants it
+  return `<details class="qsum"><summary>${isHi() ? "ग्रंथ क्या कहते हैं, स्रोतों के साथ" : "What the texts say, with sources"}</summary><p class="qsum-n">${isHi() ? "संपादकीय सार: हर वाक्य के साथ उसका आधार दिया गया है।" : "An editorial summary. Each sentence shows the passages it rests on."}</p>${lines.map(l => `<p lang="${lang}">${citeHtml(l.replace(/\s*\(([^()]*)\)\s*[.।]?$/, (m, i) => (isHi() ? "।" : ".") + " (" + i + ")"), q)}</p>`).join("")}</details>`;
+}
+// The short summary card and, beside it, three everyday examples to swipe through. Each example names the verse it
+// reads from; the line under them says plainly that these are readings, not professional advice.
+function qCards(q){
+  const hi = isHi(), brief = hi ? q.brief_hi : q.brief_en, pr = q.practice || [];
+  if(!brief && !pr.length) return "";
+  const cite = r => r ? citeHtml("(" + r + ")", q) : "";
+  return `<section class="qcards2">${brief ? `<div class="qbrief"><p class="qk">${hi ? "संक्षेप में" : "In short"}</p><p lang="${lang}">${esc(brief)}</p></div>` : ""}` +
+    (pr.length ? `<p class="qk qk2">${hi ? "रोज़मर्रा के जीवन में" : "In daily life"}</p><div class="qprac" tabindex="0" role="group" aria-label="${hi ? "रोज़मर्रा के जीवन में" : "In daily life"}">${pr.map((x, i) =>
+      `<article class="qpc"><p class="qpn">${i + 1} / ${pr.length}</p><h3 lang="${lang}">${esc(hi ? x.title_hi : x.title_en)}</h3><p lang="${lang}">${esc(hi ? x.text_hi : x.text_en)}</p>${cite(x.ref)}</article>`).join("")}</div>
+      <p class="qdis" lang="${lang}">${hi ? "ये श्लोकों को रोज़ के जीवन से जोड़कर पढ़ने के उदाहरण हैं, सोचने के लिए। ये किसी पेशेवर सलाह का विकल्प नहीं हैं।" : "These are everyday readings of the verses, offered as food for thought. They are not a substitute for professional advice."}</p>` : "") + `</section>`;
 }
 const qWhy = (q, key) => { const w = q.why && q.why[key]; const t = w && (isHi() ? w.hi : w.en); return t ? `<p class="why" lang="${lang}">${esc(t)}</p>` : ""; };
 function questionView(q){
   return `<header class="thead"><p class="eyebrow"><a href="#questions">${esc(u().lifeqT)}</a></p><h1>${esc(qName(q))}${shareBtn()}</h1>
-    <p class="desc" lang="${lang}">${esc(qIntro(q))}</p>${q.care ? `<p class="care" lang="${lang}">${esc((isHi() ? q.care_hi : q.care_en) || u().careNote)}</p>` : ""}</header>${qSummary(q)}${crossGroups(q)}
+    <p class="desc" lang="${lang}">${esc(qIntro(q))}</p>${q.care ? `<p class="care" lang="${lang}">${esc((isHi() ? q.care_hi : q.care_en) || u().careNote)}</p>` : ""}</header>${qCards(q)}${qSummary(q)}${crossGroups(q)}
   ${q.av || q.up ? `<h2 class="sec">${isHi() ? "भगवद्गीता" : "Bhagavad Gita"}</h2>` : ""}
   <ol class="qverses">${qVerses(q).map(v => { const s = saLines(v); return `<li class="qv"><p class="ref">${v.ref} <span class="muted">· ${esc(name(HB.get(voice(v))))}</span></p>
     ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(saH).join("<br>")}</p>` : ""}<p class="tx" lang="${lang}">${esc(tr(v))}</p>${qWhy(q, "G " + v.ref)}

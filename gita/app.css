@@ -207,7 +207,27 @@ details.how .howbody{padding-bottom:16px}
 :root[lang=hi] .qcard .qn{font-family:var(--f-hi);font-weight:400;font-size:19px}
 .qcard .qi{color:var(--muted);line-height:1.55;font-size:15px}
 .qcard .qc{margin-top:auto;font-size:13px;color:var(--accent);font-weight:600}
-.qsum{margin:26px 0 0;max-width:66ch}
+.qcards2{margin:22px 0 0}
+.qk{margin:0 0 8px;font-family:var(--f-ui);font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+:root[lang=hi] .qk{letter-spacing:0;text-transform:none;font-size:14.5px}
+.qk2{margin-top:22px}
+.qbrief{max-width:66ch;padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+.qbrief p[lang]{margin:0;font-family:var(--f-read);font-size:calc(17px * var(--scale));line-height:1.7}
+:root[lang=hi] .qbrief p[lang]{font-family:var(--f-hi);line-height:1.9}
+.qprac{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:2px 2px 10px;margin:0 -2px;scrollbar-width:thin}
+.qpc{flex:0 0 min(86%,340px);scroll-snap-align:start;padding:18px 20px;border:1px solid var(--line);border-radius:16px;background:var(--sunk)}
+.qpc .qpn{margin:0 0 6px;font-family:var(--f-ui);font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.qpc h3{margin:0 0 8px;font-family:var(--f-read);font-weight:600;font-size:calc(18px * var(--scale));line-height:1.35}
+.qpc p[lang]{margin:0;font-size:calc(15.5px * var(--scale));line-height:1.65}
+:root[lang=hi] .qpc h3,:root[lang=hi] .qpc p[lang]{font-family:var(--f-hi);font-weight:400;line-height:1.8}
+.qpc .cite{display:block;margin-top:10px;font-family:var(--f-ui);font-size:13.5px}
+.qpc .cite a{color:var(--accent);font-weight:600}
+.qdis{margin:4px 0 0;max-width:66ch;font-size:13px;line-height:1.5;color:var(--muted)}
+.qsum{margin:22px 0 0;max-width:66ch}
+.qsum summary{display:inline-flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;list-style:none;font-family:var(--f-ui);font-size:15px;font-weight:600;color:var(--accent)}
+.qsum summary::-webkit-details-marker{display:none}
+.qsum summary::after{content:"";width:7px;height:7px;border-right:1.8px solid currentColor;border-bottom:1.8px solid currentColor;transform:rotate(45deg);margin-top:-4px;transition:transform .15s}
+.qsum[open] summary::after{transform:rotate(-135deg);margin-top:3px}
 .qsum-n{margin:6px 0 14px;font-size:14px;color:var(--muted)}
 .qsum p[lang]{margin:0 0 14px;font-family:var(--f-read);font-size:calc(17px * var(--scale));line-height:1.7}
 :root[lang=hi] .qsum p[lang]{font-family:var(--f-hi);line-height:1.9}
