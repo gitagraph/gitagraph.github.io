@@ -623,7 +623,8 @@ function topicView(h){
     <h1>${esc(name(h))}${shareBtn()}</h1><p class="sk">${esc(h.skt||"")}</p><p class="meta">${esc(metaOf(h))}</p><p class="desc" lang="${lang}">${esc(descOf(h))}</p>
     <div class="stats">${isP && h.speak.length ? `<div><b>${h.speak.length}</b><span>${esc(u().spokenBy)}</span></div>` : ""}
       <div><b>${isP ? h.vs.length - h.speak.length : h.vs.length}</b><span>${esc(isP ? u().mentionedIn : u().inVerses)}</span></div>
-      <div><b>${chs}</b><span>${esc(u().chaptersIn)}</span></div></div></header>
+      <div><b>${chs}</b><span>${esc(u().chaptersIn)}</span></div></div>
+    ${EXPLORE && h.type!=="chapter" ? `<p style="margin:18px 0 0"><a class="btn" href="${EXPLORE}#/i/a/${encodeURIComponent(h.id)}">${esc(isHi() ? "ग्राफ़ में देखें" : "See in Graph")} →</a></p>` : ""}</header>
   <div class="striplab"><span>${esc(u().perChapter)}</span><span>${esc(u().tapCh)}</span></div>
   <div class="strip" role="group" aria-label="${esc(u().perChapter)}">${h.chc.slice(1).map((k,i) =>
     `<button data-ch="${i+1}" aria-pressed="${tFilter.ch===i+1}" title="${u().chapter} ${i+1}: ${k}" style="background:${k ? `color-mix(in srgb, var(--t-${h.type==="chapter"?"concept":h.type}) ${Math.round(18 + 82*k/max)}%, var(--sunk))` : "var(--sunk)"}"><span>${i+1}</span></button>`).join("")}</div>
