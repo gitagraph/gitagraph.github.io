@@ -609,16 +609,23 @@ function imageSheet(blob, name){
   const url = URL.createObjectURL(blob), hi = isHi(), d = document.createElement("div");
   d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true"); d.setAttribute("aria-label", hi ? "श्लोक का चित्र" : "Verse image");
   d.style.cssText = "position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:16px;background:rgba(17,16,32,.72);overflow:auto";
-  const canCopy = !!(navigator.clipboard && window.ClipboardItem);
+  // offered only where the browser says it can put a picture on the clipboard (some, like Firefox on phones, cannot)
+  const canCopy = !!(navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) && (!ClipboardItem.supports || ClipboardItem.supports("image/png"));
   const btn = "min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 15px var(--f-ui);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center";
   d.innerHTML = `<div style="width:min(420px,100%);background:var(--bg);border-radius:20px;padding:16px;box-shadow:0 20px 60px #0006">
     <img src="${url}" alt="" style="display:block;width:100%;border-radius:12px;border:1px solid var(--line)">
-    <p style="margin:12px 2px 12px;font:14.5px/1.5 var(--f-ui);color:var(--muted)">${esc(hi ? "यह ब्राउज़र चित्र सीधे साझा नहीं कर सकता। चित्र को दबाकर रखें और साझा करें, या नीचे से सहेजें।" : "This browser cannot share a picture directly. Press and hold the picture to share it, or save it below.")}</p>
+    <p data-note style="margin:12px 2px 12px;font:14.5px/1.5 var(--f-ui);color:var(--muted)">${esc(hi ? "यह ब्राउज़र चित्र सीधे साझा नहीं कर सकता। चित्र को दबाकर रखें और साझा करें, या नीचे से सहेजें।" : "This browser cannot share a picture directly. Press and hold the picture to share it, or save it below.")}</p>
     <div style="display:flex;flex-wrap:wrap;gap:8px"><a download="${esc(name)}" href="${url}" style="${btn};background:var(--ink);color:var(--bg);border-color:var(--ink)">${esc(hi ? "चित्र सहेजें" : "Save image")}</a>${canCopy ? `<button type="button" data-copy style="${btn}">${esc(hi ? "चित्र कॉपी करें" : "Copy image")}</button>` : ""}<button type="button" data-close style="${btn}">${esc(hi ? "बंद करें" : "Close")}</button></div></div>`;
   const close = () => { d.remove(); URL.revokeObjectURL(url); document.removeEventListener("keydown", onKey); };
   const onKey = e => { if(e.key === "Escape") close(); };
   d.addEventListener("click", e => { if(e.target === d || e.target.closest("[data-close]")) close();
-    else if(e.target.closest("[data-copy]")) navigator.clipboard.write([new ClipboardItem({"image/png": blob})]).then(() => toast(u().copied), () => toast(u().copyFail)); });
+    else if(e.target.closest("[data-copy]")){
+      // the result is shown on the button itself: a toast would sit underneath this sheet and never be seen
+      const b = e.target.closest("[data-copy]"), label = b.textContent; b.disabled = true;
+      let job; try{ job = navigator.clipboard.write([new ClipboardItem({"image/png": blob})]); }catch(err){ job = Promise.reject(err); }
+      job.then(() => { b.textContent = hi ? "कॉपी हो गया ✓" : "Copied ✓"; setTimeout(() => { b.textContent = label; b.disabled = false; }, 2200); },
+        () => { b.remove(); d.querySelector("[data-note]").textContent = hi ? "यह ब्राउज़र चित्र कॉपी नहीं कर सकता। चित्र को दबाकर रखें और साझा करें, या नीचे से सहेजें।" : "This browser cannot copy a picture. Press and hold the picture to share it, or save it below."; });
+    } });
   document.addEventListener("keydown", onKey); document.body.appendChild(d); (d.querySelector("[data-close]") || d).focus();
 }
 const verseUrl = v => BASE ? location.origin + pathOf(v.id) : `${SITE}chapter/${v.c}/verse/${v.v}/`;
