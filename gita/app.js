@@ -647,27 +647,51 @@ const howBody = () => `<div class="howbody">${u().how.map(([h,items]) => `<h3>${
 // Shared from Hindi, a link goes through its /hi/ page, whose preview card (WhatsApp and the like) is in Hindi; that page
 // then opens the same address here in Hindi. Only addresses that have such a page are changed.
 const hiShare = u => isHi() && /\/(?:(?:gita|ashtavakra)\/(?:chapter\/\d+\/verse\/\d+\/)?|upanishads\/(?:story\/[^\/]+\/)?)$/.test(u) ? u.replace(/^(https?:\/\/[^\/]+)\//, "$1/hi/") : u;
-// A verse as a picture to send (1080x1350): the Sanskrit, the translation in the reading language, the reference and the
-// site's name. It is drawn on a canvas inside the page and handed to the phone's own share sheet; nothing is uploaded.
+// A verse as a picture to send (1080x1350), drawn as a page of a book: a small emblem, the reference, the Sanskrit, the
+// translation in the reading language and the site's name. It is drawn on a canvas inside the page and handed to the
+// phone's own share sheet; nothing is uploaded.
+const EMBLEM = '<path d="M80 122C52 126 28 114 14 94C42 90 66 102 80 122Z" opacity=".45"/><path d="M80 122C108 126 132 114 146 94C118 90 94 102 80 122Z" opacity=".45"/><path d="M80 122C56 114 40 92 38 66C60 74 74 96 80 122Z" opacity=".7"/><path d="M80 122C104 114 120 92 122 66C100 74 86 96 80 122Z" opacity=".7"/><path d="M80 44C96 70 96 100 80 122C64 100 64 70 80 44Z"/><rect x="24" y="134" width="112" height="5" rx="2.5" opacity=".45"/>';
+// the emblem as a picture the canvas can draw (the inner markup of a 160x160 silhouette, in the card's ochre)
+async function emblemImage(svgInner){
+  try{ const s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="320" height="320" fill="#b0722a">${svgInner.replace(/currentColor/g, "#b0722a")}</svg>`;
+    const im = new Image(); await new Promise((ok, no) => { im.onload = ok; im.onerror = no; im.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(s); }); return im;
+  }catch(e){ return null; }
+}
 async function verseImage(v){
-  const W = 1080, H = 1350, M = 96, c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
+  const W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
   const cs = getComputedStyle(document.documentElement), F = k => cs.getPropertyValue(k).trim() || "serif";
   const fSa = F("--f-skt"), fTr = isHi() ? F("--f-hi") : F("--f-read"), fUi = F("--f-ui"), book = isHi() ? "भगवद्गीता" : "Bhagavad Gita";
   try{ await Promise.race([Promise.all([document.fonts.load(`48px ${fSa}`, "कृ"), document.fonts.load(`36px ${fTr}`, isHi() ? "कृ" : "a"), document.fonts.load(`600 30px ${fUi}`, "a")]), new Promise(r => setTimeout(r, 1200))]); }catch(e){}   // never wait long for a font
+  const em = await emblemImage(((q => q ? q.sil.replace(/^<svg[^>]*>|<\/svg>$/g, "") : EMBLEM)(QS.find(q => q.sil && q.verses.includes(v.ref)))));
+  // the room: warm and dark, with a soft light at the top right
+  let g = x.createRadialGradient(W/2, 0, 0, W/2, 0, H*1.05); g.addColorStop(0, "#5a3a22"); g.addColorStop(.6, "#2e1c10"); g.addColorStop(1, "#1c110a"); x.fillStyle = g; x.fillRect(0, 0, W, H);
+  g = x.createRadialGradient(850, 110, 0, 850, 110, 240); g.addColorStop(0, "rgba(255,196,110,.5)"); g.addColorStop(.45, "rgba(255,170,80,.12)"); g.addColorStop(1, "rgba(255,170,80,0)"); x.fillStyle = g; x.fillRect(560, -140, 560, 520);
+  // the page: paper, with the edges of the pages under it showing on the left
+  const PX = 104, PY = 90, PW = 886, PH = 1170, CX = PX + PW/2, MAXW = PW - 2*82;
+  const rr = (X, Y, w, h, a, b) => { x.beginPath(); x.moveTo(X + a, Y); x.lineTo(X + w - b, Y); x.quadraticCurveTo(X + w, Y, X + w, Y + b); x.lineTo(X + w, Y + h - b); x.quadraticCurveTo(X + w, Y + h, X + w - b, Y + h);
+    x.lineTo(X + a, Y + h); x.quadraticCurveTo(X, Y + h, X, Y + h - a); x.lineTo(X, Y + a); x.quadraticCurveTo(X, Y, X + a, Y); x.closePath(); };
+  [["#cbb991", -30, 12], ["#d8c8a6", -20, 8], ["#e3d5b6", -10, 4]].forEach(([col, dx, inset]) => { x.fillStyle = col; rr(PX + dx, PY + inset, PW, PH - 2*inset, 10, 26); x.fill(); });
+  x.save(); x.shadowColor = "rgba(0,0,0,.5)"; x.shadowBlur = 70; x.shadowOffsetY = 36;
+  g = x.createLinearGradient(PX, 0, PX + PW, 0); g.addColorStop(0, "#e9dcc0"); g.addColorStop(.05, "#f6ecd6"); g.addColorStop(.5, "#faf2e0"); g.addColorStop(1, "#f5ead2"); x.fillStyle = g; rr(PX, PY, PW, PH, 10, 26); x.fill(); x.restore();
   const wrap = (text, font, maxW) => { x.font = font; const out = [];
     for(const para of String(text).split("\n")){ let line = ""; for(const w of para.split(/ +/)){ const t = line ? line + " " + w : w; if(x.measureText(t).width > maxW && line){ out.push(line); line = w; } else line = t; } if(line) out.push(line); }
     return out; };
-  let sz = 50, tz = 38, sa, tl, bh;
-  for(;;){ sa = saLines(v).body.flatMap(l => wrap(l, `${sz}px ${fSa}`, W - 2*M)); tl = wrap(tr(v), `${tz}px ${fTr}`, W - 2*M);
-    bh = sa.length*sz*1.62 + 54 + tl.length*tz*1.56; if(bh <= H - 2*M - 250 || sz <= 30) break; sz -= 3; tz -= 2; }
-  x.fillStyle = "#faf8f4"; x.fillRect(0, 0, W, H); x.textBaseline = "top";
-  x.fillStyle = "#c2570c"; x.font = `600 30px ${fUi}`; x.fillText(`${book} ${v.ref}`, M, M);
-  let y = M + 110 + Math.max(0, (H - 2*M - 250 - bh)/2);
-  x.fillStyle = "#1b1838"; x.font = `${sz}px ${fSa}`; for(const l of sa){ x.fillText(l, M, y); y += sz*1.62; }
-  y += 54; x.fillStyle = "#4a4960"; x.font = `${tz}px ${fTr}`; for(const l of tl){ x.fillText(l, M, y); y += tz*1.56; }
-  x.fillStyle = "#e2e0d6"; x.fillRect(M, H - M - 74, W - 2*M, 2);
-  x.fillStyle = "#1b1838"; x.font = isHi() ? `34px ${fTr}` : `600 34px ${F("--f-read")}`; x.fillText(isHi() ? "गीताग्राफ़" : "Gitagraph", M, H - M - 40);
-  x.fillStyle = "#5a596b"; x.font = `30px ${fUi}`; const site = "gitagraph.com"; x.fillText(site, W - M - x.measureText(site).width, H - M - 36);
+  // the verse and its translation shrink together until they fit the page
+  const top = PY + 66, EM = 200, bodyTop = top + EM + 150, bodyH = PY + PH - 120 - bodyTop;
+  let sz = 42, tz = 40, sa, tl, bh; const lh = isHi() ? 1.66 : 1.5;
+  for(;;){ sa = saLines(v).body.flatMap(l => wrap(l, `${sz}px ${fSa}`, MAXW)); tl = wrap(tr(v), `${tz}px ${fTr}`, MAXW);
+    bh = sa.length*sz*1.7 + 40 + tl.length*tz*lh; if(bh <= bodyH || sz <= 24) break; sz -= 2; tz -= 2; }
+  x.textBaseline = "top"; x.textAlign = "center";
+  if(em) x.drawImage(em, CX - EM/2, top, EM, EM);
+  x.fillStyle = "#2a2018"; x.font = isHi() ? `46px ${fTr}` : `600 44px ${F("--f-read")}`; x.fillText(`${book} ${v.ref}`, CX, top + EM + 22);
+  // a small ornament: a line, a diamond, a line
+  { const oy = top + EM + 108; x.strokeStyle = "#b0722a"; x.fillStyle = "#b0722a"; x.lineWidth = 2;
+    x.beginPath(); x.moveTo(CX - 76, oy); x.lineTo(CX - 18, oy); x.moveTo(CX + 18, oy); x.lineTo(CX + 76, oy); x.stroke();
+    x.beginPath(); x.moveTo(CX, oy - 8); x.lineTo(CX + 8, oy); x.lineTo(CX, oy + 8); x.lineTo(CX - 8, oy); x.closePath(); x.fill(); }
+  let y = bodyTop + Math.max(0, (bodyH - bh) * .35);
+  x.fillStyle = "#3a2a18"; x.font = `${sz}px ${fSa}`; for(const l of sa){ x.fillText(l, CX, y); y += sz*1.7; }
+  y += 40; x.fillStyle = "#2a2018"; x.font = `${tz}px ${fTr}`; for(const l of tl){ x.fillText(l, CX, y); y += tz*lh; }
+  x.fillStyle = "#2a2018"; x.font = `600 28px ${fUi}`; x.fillText("gitagraph.com", CX, PY + PH - 84);
   return new Promise(res => c.toBlob(res, "image/png"));
 }
 // The picture is started the moment the button is touched, so it is ready (and the browser still treats the tap as the
@@ -684,28 +708,19 @@ async function shareVerseImage(v){
   imageSheet(blob, name);
 }
 // Where the browser cannot share a picture itself (Firefox, most desktop browsers), show it instead of silently saving a
-// file: the reader can press and hold it to share, copy it, or save it.
+// file: the reader can press and hold it to share, or save it.
 function imageSheet(blob, name){
   const url = URL.createObjectURL(blob), hi = isHi(), d = document.createElement("div");
   d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true"); d.setAttribute("aria-label", hi ? "श्लोक का चित्र" : "Verse image");
   d.style.cssText = "position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:16px;background:rgba(17,16,32,.72);overflow:auto";
-  // offered only where the browser says it can put a picture on the clipboard (some, like Firefox on phones, cannot)
-  const canCopy = !!(navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) && (!ClipboardItem.supports || ClipboardItem.supports("image/png"));
   const btn = "min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 15px var(--f-ui);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center";
   d.innerHTML = `<div style="width:min(420px,100%);background:var(--bg);border-radius:20px;padding:16px;box-shadow:0 20px 60px #0006">
     <img src="${url}" alt="" style="display:block;width:100%;border-radius:12px;border:1px solid var(--line)">
-    <p data-note style="margin:12px 2px 12px;font:14.5px/1.5 var(--f-ui);color:var(--muted)">${esc(hi ? "यह ब्राउज़र चित्र सीधे साझा नहीं कर सकता। चित्र को दबाकर रखें और साझा करें, या नीचे से सहेजें।" : "This browser cannot share a picture directly. Press and hold the picture to share it, or save it below.")}</p>
-    <div style="display:flex;flex-wrap:wrap;gap:8px"><a download="${esc(name)}" href="${url}" style="${btn};background:var(--ink);color:var(--bg);border-color:var(--ink)">${esc(hi ? "चित्र सहेजें" : "Save image")}</a>${canCopy ? `<button type="button" data-copy style="${btn}">${esc(hi ? "चित्र कॉपी करें" : "Copy image")}</button>` : ""}<button type="button" data-close style="${btn}">${esc(hi ? "बंद करें" : "Close")}</button></div></div>`;
+    <p style="margin:12px 2px 12px;font:14.5px/1.5 var(--f-ui);color:var(--muted)">${esc(hi ? "यह ब्राउज़र चित्र सीधे साझा नहीं कर सकता। चित्र को दबाकर रखें और साझा करें, या नीचे से सहेजें।" : "This browser cannot share a picture directly. Press and hold the picture to share it, or save it below.")}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px"><a download="${esc(name)}" href="${url}" style="${btn};background:var(--ink);color:var(--bg);border-color:var(--ink)">${esc(hi ? "चित्र सहेजें" : "Save image")}</a><button type="button" data-close style="${btn}">${esc(hi ? "बंद करें" : "Close")}</button></div></div>`;
   const close = () => { d.remove(); URL.revokeObjectURL(url); document.removeEventListener("keydown", onKey); };
   const onKey = e => { if(e.key === "Escape") close(); };
-  d.addEventListener("click", e => { if(e.target === d || e.target.closest("[data-close]")) close();
-    else if(e.target.closest("[data-copy]")){
-      // the result is shown on the button itself: a toast would sit underneath this sheet and never be seen
-      const b = e.target.closest("[data-copy]"), label = b.textContent; b.disabled = true;
-      let job; try{ job = navigator.clipboard.write([new ClipboardItem({"image/png": blob})]); }catch(err){ job = Promise.reject(err); }
-      job.then(() => { b.textContent = hi ? "कॉपी हो गया ✓" : "Copied ✓"; setTimeout(() => { b.textContent = label; b.disabled = false; }, 2200); },
-        () => { b.remove(); d.querySelector("[data-note]").textContent = hi ? "यह ब्राउज़र चित्र कॉपी नहीं कर सकता। चित्र को दबाकर रखें और साझा करें, या नीचे से सहेजें।" : "This browser cannot copy a picture. Press and hold the picture to share it, or save it below."; });
-    } });
+  d.addEventListener("click", e => { if(e.target === d || e.target.closest("[data-close]")) close(); });
   document.addEventListener("keydown", onKey); document.body.appendChild(d); (d.querySelector("[data-close]") || d).focus();
 }
 const verseUrl = v => BASE ? location.origin + pathOf(v.id) : `${SITE}chapter/${v.c}/verse/${v.v}/`;
