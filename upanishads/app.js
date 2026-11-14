@@ -324,10 +324,19 @@ const curToken = () => BASE ? tokenOf(location.pathname) : (location.hash.slice(
 let current = null;
 function go(t){
   if(curToken()===t){ render(); return; }
-  if(BASE){ history.pushState(null, "", pathOf(t)); render(); } else location.hash = t;
+  if(BASE){ saveScroll(); history.pushState(null, "", pathOf(t)); render(); } else location.hash = t;
 }
+// Back and Forward return to where the reader was on that page, not to its top. The position of each page is kept for
+// this tab (sessionStorage), saved on leaving it, and put back after the page is drawn again.
+let restoreY = null;
+function scrollMap(){ try{ return JSON.parse(sessionStorage.getItem("gg-scroll") || "{}"); }catch(e){ return {}; } }
+function saveScroll(){ try{ const m = scrollMap(); delete m[location.pathname]; m[location.pathname] = Math.round(window.scrollY);
+  const ks = Object.keys(m); if(ks.length > 80) delete m[ks[0]]; sessionStorage.setItem("gg-scroll", JSON.stringify(m)); }catch(e){} }
+try{ history.scrollRestoration = "manual"; }catch(e){}
+addEventListener("pagehide", saveScroll);
+try{ const nv = performance.getEntriesByType("navigation")[0]; if(nv && nv.type === "back_forward"){ const y = scrollMap()[location.pathname]; if(y) restoreY = y; } }catch(e){}
 if(BASE){
-  window.addEventListener("popstate", () => render());
+  window.addEventListener("popstate", () => { restoreY = scrollMap()[location.pathname] || 0; render(); });
   const fix = n => { const f = a => { const h = a.getAttribute("href").slice(1); if(!h.startsWith("v-")) a.setAttribute("href", pathOf(h)); };
     if(n.matches && n.matches('a[href^="#"]')) f(n); if(n.querySelectorAll) n.querySelectorAll('a[href^="#"]').forEach(f); };
   new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => { if(n.nodeType===1) fix(n); }))).observe(document.body, {childList:true, subtree:true});
@@ -370,7 +379,8 @@ function render(keepScroll){
     ttl.textContent = t;
     wireCommon();
     if(!(BASE && firstRender)) document.title = route.name==="home" ? (isHi() ? "उपनिषद् की कथाएँ · गीताग्राफ़" : "Upanishad stories · Gitagraph") : `${t} · ${isHi() ? "उपनिषद्" : "Upanishads"}`;
-    if(!(keepScroll || same)) window.scrollTo(0,0);
+    if(restoreY != null){ const y = restoreY; restoreY = null; window.scrollTo(0, y); requestAnimationFrame(() => window.scrollTo(0, y)); setTimeout(() => { if(Math.abs(window.scrollY - y) > 4) window.scrollTo(0, y); }, 250); }
+    else if(!(keepScroll || same)) window.scrollTo(0,0);
   };
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if(document.startViewTransition && !reduce && !same && current) document.startViewTransition(run); else run();
