@@ -493,12 +493,29 @@ function questionsView(){
   ${BASE ? `<form class="askq" id="askq" role="search"><input type="search" name="q" autocomplete="off" enterkeyhint="search" maxlength="200" placeholder="${esc(isHi() ? "या अपने शब्दों में लिखें" : "Or describe it in your own words")}" aria-label="${esc(isHi() ? "अपने शब्दों में लिखें" : "Describe what is on your mind")}"><button type="submit" aria-label="${esc(isHi() ? "खोजें" : "Find")}">→</button></form>` : ""}
   <ul class="qlist">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}">${q.sil || ""}<span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(qIntro(q))}</span><span class="qc">${esc(qTexts(q))}</span></a></li>`).join("")}</ul>`;
 }
+// The editorial summary of a question: one sentence to a line, each followed by the passages it rests on, as links.
+// "(Gita 2.62; Ashtavakra 8.1; Upanishads nachiketa)" in the text becomes those links; anything else in brackets is left as written.
+function citeHtml(text, q){
+  return esc(text).replace(/\(([^()]*)\)/g, (m, inner) => {
+    const out = inner.split(";").map(p => { p = p.trim(); let k;
+      if((k = /^Gita (\d+\.\d+)$/.exec(p))){ const v = VB.get(k[1]); return v ? `<a href="#${v.id}">${isHi() ? "गीता" : "Gita"} ${k[1]}</a>` : null; }
+      if((k = /^Ashtavakra (\d+)\.(\d+)$/.exec(p))) return `<a href="${ROOTPATH}ashtavakra/chapter/${k[1]}/verse/${k[2]}/">${isHi() ? "अष्टावक्र" : "Ashtavakra"} ${k[1]}.${k[2]}</a>`;
+      if((k = /^Upanishads ([a-z0-9-]+)$/.exec(p))){ const s = (q.up || []).find(x => x.id === k[1]); return s ? `<a href="${ROOTPATH}upanishads/story/${s.id}/">${esc(isHi() ? s.title_hi : s.title_en)}</a>` : null; }
+      return null; });
+    return out.every(Boolean) ? `<span class="cite">${out.join(" · ")}</span>` : m; });
+}
+function qSummary(q){
+  const t = isHi() ? q.summary_hi : q.summary_en; if(!t) return "";
+  const lines = t.split(/(?<=\)[.।])\s+/).filter(Boolean);
+  return `<section class="qsum"><h2 class="sec">${isHi() ? "ग्रंथ क्या कहते हैं" : "What the texts say"}</h2><p class="qsum-n">${isHi() ? "संपादकीय सार: हर वाक्य के साथ उसका आधार दिया गया है।" : "An editorial summary. Each sentence shows the passages it rests on."}</p>${lines.map(l => `<p lang="${lang}">${citeHtml(l.replace(/\s*\(([^()]*)\)\s*[.।]?$/, (m, i) => (isHi() ? "।" : ".") + " (" + i + ")"), q)}</p>`).join("")}</section>`;
+}
+const qWhy = (q, key) => { const w = q.why && q.why[key]; const t = w && (isHi() ? w.hi : w.en); return t ? `<p class="why" lang="${lang}">${esc(t)}</p>` : ""; };
 function questionView(q){
   return `<header class="thead"><p class="eyebrow"><a href="#questions">${esc(u().lifeqT)}</a></p><h1>${esc(qName(q))}${shareBtn()}</h1>
-    <p class="desc" lang="${lang}">${esc(qIntro(q))}</p>${q.care ? `<p class="care" lang="${lang}">${esc((isHi() ? q.care_hi : q.care_en) || u().careNote)}</p>` : ""}</header>${crossGroups(q)}
+    <p class="desc" lang="${lang}">${esc(qIntro(q))}</p>${q.care ? `<p class="care" lang="${lang}">${esc((isHi() ? q.care_hi : q.care_en) || u().careNote)}</p>` : ""}</header>${qSummary(q)}${crossGroups(q)}
   ${q.av || q.up ? `<h2 class="sec">${isHi() ? "भगवद्गीता" : "Bhagavad Gita"}</h2>` : ""}
   <ol class="qverses">${qVerses(q).map(v => { const s = saLines(v); return `<li class="qv"><p class="ref">${v.ref} <span class="muted">· ${esc(name(HB.get(voice(v))))}</span></p>
-    ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(saH).join("<br>")}</p>` : ""}<p class="tx" lang="${lang}">${esc(tr(v))}</p>
+    ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(saH).join("<br>")}</p>` : ""}<p class="tx" lang="${lang}">${esc(tr(v))}</p>${qWhy(q, "G " + v.ref)}
     <a class="ctx" href="#${v.id}">${esc(u().readCtx)}</a></li>`; }).join("")}</ol>`;
 }
 // The same question in the other texts: Ashtavakra verses and Upanishad stories (present when the
@@ -509,11 +526,11 @@ function crossGroups(q){
   if(q.av && q.av.items.length){
     out += `<h2 class="sec">${isHi() ? "अष्टावक्र गीता" : "Ashtavakra Gita"}</h2><p class="desc" lang="${lang}">${esc(isHi() ? q.av.intro_hi : q.av.intro_en)}</p>
     <ol class="qverses">${q.av.items.map(a => { const [c, n] = a.ref.split("."); return `<li class="qv"><p class="ref">${a.ref}</p>
-      <p class="tx" lang="${lang}">${esc(isHi() ? a.hi : a.en)}</p><a class="ctx" href="${ROOTPATH}ashtavakra/chapter/${c}/verse/${n}/">${esc(u().readCtx)}</a></li>`; }).join("")}</ol>`;
+      <p class="tx" lang="${lang}">${esc(isHi() ? a.hi : a.en)}</p>${qWhy(q, "A " + a.ref)}<a class="ctx" href="${ROOTPATH}ashtavakra/chapter/${c}/verse/${n}/">${esc(u().readCtx)}</a></li>`; }).join("")}</ol>`;
   }
   if(q.up && q.up.length){
     out += `<h2 class="sec">${isHi() ? "उपनिषद्" : "Upanishads"}</h2><ul class="qlist">${q.up.map(x => `<li><a class="qcard" href="${ROOTPATH}upanishads/story/${x.id}/">
-      <span class="qn">${esc(isHi() ? x.title_hi : x.title_en)}</span><span class="qi" lang="${lang}">${esc(isHi() ? x.hook_hi : x.hook_en)}</span></a></li>`).join("")}</ul>`;
+      <span class="qn">${esc(isHi() ? x.title_hi : x.title_en)}</span><span class="qi" lang="${lang}">${esc(isHi() ? x.hook_hi : x.hook_en)}</span>${(w => w ? `<span class="qc" lang="${lang}">${esc(isHi() ? w.hi : w.en)}</span>` : "")(q.why && q.why["U " + x.id])}</a></li>`).join("")}</ul>`;
   }
   return out;
 }

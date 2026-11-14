@@ -207,6 +207,13 @@ details.how .howbody{padding-bottom:16px}
 :root[lang=hi] .qcard .qn{font-family:var(--f-hi);font-weight:400;font-size:19px}
 .qcard .qi{color:var(--muted);line-height:1.55;font-size:15px}
 .qcard .qc{margin-top:auto;font-size:13px;color:var(--accent);font-weight:600}
+.qsum{margin:26px 0 0;max-width:66ch}
+.qsum-n{margin:6px 0 14px;font-size:14px;color:var(--muted)}
+.qsum p[lang]{margin:0 0 14px;font-family:var(--f-read);font-size:calc(17px * var(--scale));line-height:1.7}
+:root[lang=hi] .qsum p[lang]{font-family:var(--f-hi);line-height:1.9}
+.qsum .cite{display:block;margin-top:3px;font-family:var(--f-ui);font-size:13.5px;line-height:1.5;color:var(--muted)}
+.qsum .cite a{color:var(--accent);font-weight:600;white-space:nowrap}
+.qv .why{margin:10px 0 0;padding-left:12px;border-left:2px solid var(--line);font-size:14.5px;line-height:1.55;color:var(--muted)}
 .care{margin:14px 0 0;padding:12px 14px;border-radius:12px;background:var(--sunk);font-size:15px;line-height:1.6;max-width:62ch}
 .qverses{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
 .qv{padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
