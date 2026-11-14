@@ -97,6 +97,30 @@
       }
     };
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount); else mount();
+    // On the home page the Library link does not leave the page: it scrolls down to the list of texts. So the mark follows
+    // the reader: Library while that list (and what follows it) is in view, Home above it. Tapping Home goes back to the top.
+    if (active === "home") {
+      const sync = () => {
+        const sec = document.getElementById("scriptures"); if (!sec) return;
+        const on = sec.getBoundingClientRect().top < window.innerHeight * 0.6 ? "library" : "home";
+        document.querySelectorAll(".gnav a[data-g], .gtabs a[data-g]").forEach(a => {
+          if (a.dataset.g !== "home" && a.dataset.g !== "library") return;
+          if (a.dataset.g === on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+        });
+      };
+      const start = () => { mount(); sync(); };
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
+      window.addEventListener("scroll", sync, { passive: true });
+      window.addEventListener("hashchange", sync);
+      window.addEventListener("load", sync);
+      document.addEventListener("click", e => {
+        const a = e.target.closest && e.target.closest('.gtabs a[data-g="home"]');
+        if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
+        e.preventDefault();
+        try { history.replaceState(null, "", location.pathname + location.search); } catch (x) {}
+        window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      });
+    }
   }
   // Cmd/Ctrl+K opens the site-wide search from any page
   if (!window.__ggK) { window.__ggK = 1; document.addEventListener("keydown", e => {
