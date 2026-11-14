@@ -1,7 +1,5 @@
-// Site shell: the one navigation every page shares. Four places, the same everywhere:
-//   Home · Questions · Library · Saved
-// The Graph is not a place in the menu: it is opened from the pages where it answers something
-// (a verse's or story's "See connections", an idea page, a question page, and the home page).
+// Site shell: the one navigation every page shares. Five places, the same everywhere:
+//   Home · Questions · Library · Graph · Saved
 // Static pages (home, the map, the documents) include this file and it mounts itself:
 //   <script src="<root>shared/shell.js" data-active="home" defer></script>
 // The readers inline it into app.js at build time (so it works offline) and call GGShell.nav()/tabs() themselves.
@@ -32,7 +30,7 @@
   const GGShell = {
     // links for the desktop header, then the site-wide search
     nav(o) {
-      return ITEMS.filter(it => it[0] !== "home" && it[0] !== "map").map(it =>
+      return ITEMS.filter(it => it[0] !== "home").map(it =>
         `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}>${label(it, o.lang)}</a>`).join("") + GGShell.search(o);
     },
     // the link to /search/: a pill with a hint on wide screens, an icon elsewhere (o.icon: icon only, for phone bars)
@@ -41,9 +39,9 @@
       const sr = ["search", "search/", "Search verses, ideas, people", "श्लोक, विचार, पात्र खोजें"], lb = o.lang ? (o.lang === "hi" ? "खोजें" : "Search") : "Search";
       return `<a class="gsearch${o.icon ? " gs-m" : ""}" href="${o.root}search/" data-g="search" aria-label="${lb}"${cur(sr, o.active)}>${IC.search}<span>${label(sr, o.lang)}</span></a>`;
     },
-    // the four phone tabs
+    // the five phone tabs
     tabs(o) {
-      return ITEMS.filter(it => it[0] !== "map").map(it =>
+      return ITEMS.map(it =>
         `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}><span class="gi">${IC[it[0]]}</span>${label(it, o.lang)}</a>`).join("");
     },
     // the brand lockup for the readers' desktop bar

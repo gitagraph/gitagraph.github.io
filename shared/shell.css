@@ -1,5 +1,5 @@
 /* Site shell: the one navigation every page shares (home, the map, the documents and all three readers).
-   Desktop: links in the header. Phone: a four-tab bar. The markup comes from shell.js.
+   Desktop: links in the header. Phone: a five-tab bar. The markup comes from shell.js.
    The readers inline this file into app.css at build time, so it also works offline. */
 .gnav{display:none}
 .gnav a{display:inline-flex;align-items:center;height:44px;padding:0 13px;border-radius:12px;color:var(--ink);text-decoration:none;
@@ -10,7 +10,7 @@
 .gnav .gsp{flex:1}
 .gnav svg{display:none}
 
-.gtabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+.gtabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
   background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);
   padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
@@ -53,8 +53,8 @@
 @media (min-width:700px){ .gs-m{display:none} }
 @media (max-width:1099px){ .gnav .gsearch{width:44px;padding:0;justify-content:center} .gnav .gsearch span{display:none} }
 
-/* the readers' own tab bar holds the same four places */
-.tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
+/* the readers' own tab bar holds the same five places */
+.tabs{grid-template-columns:repeat(5,minmax(0,1fr))}
 
 /* reading trail: on a passage opened from a question page, the next passage of that question and the way back */
 .gtrail{display:grid;gap:10px;margin-top:30px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--sunk);font-family:var(--f-ui)}
