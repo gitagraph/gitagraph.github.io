@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Search · Gitagraph</title><meta name="robots" content="noindex"><link rel="canonical" href="https://gitagraph.com/search/">
-<link rel="icon" href="../shared/mark.svg?v=20261114152058" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114152058" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114152058">
+<link rel="icon" href="../shared/mark.svg?v=20261114153022" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114153022" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114153022">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -217,6 +217,7 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .sbox input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;font-size:19px;-webkit-appearance:none;appearance:none}
 .sbox input::-webkit-search-cancel-button{-webkit-appearance:none}
 .shint{margin:18px 4px 0;color:var(--muted);max-width:58ch;line-height:1.6}
+.shint.care{color:var(--ink);padding:14px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
 .sg{margin:34px 0 0}
 .sg h2{margin:0 0 6px;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 :root[lang=hi] .sg h2{letter-spacing:0;text-transform:none;font-size:15px}
@@ -261,6 +262,11 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .home .sec h2::before{display:none}
 .home .sh{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 24px;margin:0 0 24px}
 .home .sh .more{margin:0}
+.home .ask{display:flex;align-items:center;gap:8px;max-width:620px;height:56px;margin:0 0 28px;padding:0 8px 0 20px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
+.home .ask:focus-within{border-color:var(--ink)}
+.home .ask input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;font-size:17px;-webkit-appearance:none;appearance:none}
+.home .ask input::-webkit-search-cancel-button{-webkit-appearance:none}
+.home .ask button{flex:none;width:42px;height:42px;border:0;border-radius:50%;background:var(--ink);color:var(--bg);font-size:18px;line-height:1;cursor:pointer}
 .home .qcards{gap:24px}
 .home .qcard{display:flex;flex-direction:column;gap:6px;height:100%;text-decoration:none;color:inherit}
 .home .qp{position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:150px;
@@ -337,22 +343,29 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 <main class="wrap">
 <label class="sbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/></svg>
 <input id="q" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" aria-label="Search all texts"></label>
-<p class="shint" id="hint"><span class="l-en">Search the Bhagavad Gita, the Ashtavakra Gita and the Upanishad stories together. Try a word, a name, or a verse number like 2.47.</span><span class="l-hi">भगवद्गीता, अष्टावक्र गीता और उपनिषद् की कथाओं में एक साथ खोजें। कोई शब्द, नाम, या 2.47 जैसा श्लोक क्रमांक लिखें।</span></p>
+<p class="shint" id="hint"><span class="l-en">Search the Bhagavad Gita, the Ashtavakra Gita and the Upanishad stories together. Try a word, a name, a verse number like 2.47, or describe what is on your mind.</span><span class="l-hi">भगवद्गीता, अष्टावक्र गीता और उपनिषद् की कथाओं में एक साथ खोजें। कोई शब्द, नाम, या 2.47 जैसा श्लोक क्रमांक लिखें।</span></p>
 <div id="out" aria-live="polite"></div>
 </main>
 <script>
 const $ = id => document.getElementById(id), esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const L = () => document.documentElement.lang === "hi" ? "hi" : "en";
-const T = { en: { ph: "Search verses, ideas, people", none: "Nothing found for", q: "Questions", h: "People and ideas", ch: "Chapters", st: "Stories", more: n => `Show all ${n}`, fail: "Search did not load. Check your connection and try again.", ch1: "Chapter" },
-            hi: { ph: "श्लोक, विचार, पात्र खोजें", none: "कुछ नहीं मिला:", q: "प्रश्न", h: "पात्र और विचार", ch: "अध्याय", st: "कथाएँ", more: n => `सभी ${n} देखें`, fail: "खोज लोड नहीं हुई। कनेक्शन जाँचकर दोबारा कोशिश करें।", ch1: "अध्याय" } };
+const T = { en: { ph: "Search verses, ideas, people", none: "Nothing found for", q: "Questions", h: "People and ideas", ch: "Chapters", st: "Stories", more: n => `Show all ${n}`, fail: "Search did not load. Check your connection and try again.", ch1: "Chapter",
+                    ask: "These are the closest matches for your words. This is a search of the texts, not an answer written for you.", care: "The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor." },
+            hi: { ph: "श्लोक, विचार, पात्र खोजें", none: "कुछ नहीं मिला:", q: "प्रश्न", h: "पात्र और विचार", ch: "अध्याय", st: "कथाएँ", more: n => `सभी ${n} देखें`, fail: "खोज लोड नहीं हुई। कनेक्शन जाँचकर दोबारा कोशिश करें।", ch1: "अध्याय",
+                    ask: "आपके शब्दों से सबसे मिलते-जुलते अंश। यह ग्रंथों में खोज है, आपके लिए लिखा गया उत्तर नहीं।", care: "गीता देखने का एक नज़रिया देती है, सहारे का विकल्प नहीं। अगर यह मन पर भारी है, तो किसी भरोसेमंद व्यक्ति या डॉक्टर से बात करें।" } };
 // the same tolerant matching as the readers: krishna, kṛṣṇa and krsna all meet at "krsna"
 const norm = s => String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
   .replace(/sh/g, "s").replace(/ri/g, "r").replace(/aa/g, "a").replace(/ee/g, "i").replace(/oo/g, "u").replace(/w/g, "v").replace(/[^a-z0-9\u0900-\u097f]+/g, " ");
 const IDX = {}, WANT = {};
+// "ask" mode: small words are ignored when a whole sentence is typed
+const STOP = { en: new Set(norm("i im ive me my mine am is are was were the a an and or but of to in on at for with about from how what why when where do does did can cant cannot not no so very too have has had be been being feel feeling feels keep get got just that this these those it its as by if then than there their they them you your we our us will would should could want need really much many more some any all out up into over after before again always never still even also because while").split(" ")),
+               hi: new Set("मैं मुझे मुझको मेरा मेरी मेरे हम हमें हूँ है हैं था थी थे और या का की के को से में पर यह ये वह वो क्या क्यों कैसे कब कहाँ नहीं ही भी तो कि जो हो होता होती रहा रही रहे कर करना करता करती बहुत अपने अपना अपनी एक कुछ सब इस उस जब तब लिए साथ बाद".split(" ")) };
+// words that mean someone may need a person, not a page: the same care note the question pages carry is shown first
+const CARE = /suicid|kill myself|end my life|self.?harm|want to die|hurt myself|आत्महत्या|जान दे|मरना चाह|खुद को नुकसान/i;
 function load(lang){
-  return WANT[lang] || (WANT[lang] = fetch(`index-${lang}.json?v=20261114152058`).then(r => { if(!r.ok) throw 0; return r.json(); }).then(d => {
+  return WANT[lang] || (WANT[lang] = fetch(`index-${lang}.json?v=20261114153022`).then(r => { if(!r.ok) throw 0; return r.json(); }).then(d => {
     d.vs.forEach(v => { v.t = " " + norm(v[3]) + " "; v.n = v.t + norm(v[4]); }); d.h.forEach(h => { h.t = " " + norm(h[2]) + " "; h.n = h.t + norm(h[3]); });
-    d.ch.forEach(c => c.n = norm(c[2])); d.st.forEach(x => x.n = norm(x[2] + " " + x[3] + " " + (x[4] || ""))); d.q.forEach(x => x.n = norm(x[1])); return IDX[lang] = d; }).catch(err => { delete WANT[lang]; throw err; }));
+    d.ch.forEach(c => c.n = norm(c[2])); d.st.forEach(x => x.n = norm(x[2] + " " + x[3] + " " + (x[4] || ""))); d.ch.forEach(c => c.n = " " + c.n); d.st.forEach(x => x.n = " " + x.n); d.q.forEach(x => { x.t = " " + norm(x[1]); x.n = x.t + " " + norm(x[2] || ""); }); return IDX[lang] = d; }).catch(err => { delete WANT[lang]; throw err; }));
 }
 const dark = () => { const t = document.documentElement.dataset.theme; return t === "dark" || (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches); };
 let shown = {};
@@ -394,6 +407,22 @@ function run(){
       const vs = find("vs", v => v[0] === i && (ref ? (v[1] === +ref[1] && v[2] === +ref[2]) : hit(v.n)), !ref);
       group("v" + i, tx[1], vs, v => `<li><a href="../${tx[0]}chapter/${v[1]}/verse/${v[2]}/"><span class="rf" style="color:${col(i)}">${v[1]}.${v[2]}</span><span class="sn">${esc(v[3])}</span></a></li>`, 12);
     });
+    // nothing word-for-word: treat it as a sentence and show what comes closest, saying plainly that this is a search (a word in a question's own name counts twice)
+    if(!total && !ref){
+      const key = [...new Set(words.filter(w => w.length > 2 && !STOP[from].has(w)))].map(w => /[ऀ-ॿ]/.test(w) ? w : w.slice(0, Math.max(4, w.length - 3)));
+      if(key.length){
+        const sc = n => key.reduce((k, w) => k + (n.includes(" " + w) ? 1 : 0), 0), need = Math.min(2, key.length);
+        const loose = (kind, field, min, cap) => { const a = []; M[kind].forEach((x, i) => { const k = sc(x[field]) + (kind === "q" ? sc(x.t) : 0); if(k >= min) a.push([k, i]); }); a.sort((p, q) => q[0] - p[0] || p[1] - q[1]); return a.slice(0, cap).map(p => D[kind][p[1]]); };
+        group("q", t.q, loose("q", "n", 1, 3), x => `<li><a href="../gita/questions/${x[0]}/"><span class="tt">${esc(x[1])}</span></a></li>`, 3);
+        group("st", t.st, loose("st", "n", need, 4), x => `<li><a href="../${D.texts[x[0]][0]}story/${encodeURIComponent(x[1])}/"><span class="tt">${esc(x[2])}</span><span class="tx" style="color:${col(x[0])}">${esc(D.texts[x[0]][1])}</span><span class="sn">${esc(x[3])}</span></a></li>`, 4);
+        D.texts.forEach((tx, i) => { const vs = loose("vs", "t", need, 400).filter(v => v[0] === i).slice(0, 6);
+          group("v" + i, tx[1], vs, v => `<li><a href="../${tx[0]}chapter/${v[1]}/verse/${v[2]}/"><span class="rf" style="color:${col(i)}">${v[1]}.${v[2]}</span><span class="sn">${esc(v[3])}</span></a></li>`, 6); });
+        if(total) html = `<p class="shint">${esc(t.ask)}</p>` + html;
+      }
+    }
+    // someone who may need a person sees the care note and one gentle way in, not a list of verses about death
+    if(CARE.test(raw)){ const low = D.q.find(x => x[0] === "feeling-low");
+      $("out").innerHTML = `<p class="shint care">${esc(t.care)}</p>` + (low ? `<section class="sg"><ul class="sl"><li><a href="../gita/questions/${low[0]}/"><span class="tt">${esc(low[1])}</span></a></li></ul></section>` : ""); return; }
     $("out").innerHTML = total ? html : `<p class="shint">${esc(t.none)} “${esc(raw)}”</p>`;
   }).catch(() => { $("out").innerHTML = `<p class="shint">${esc(T[lang].fail)}</p>`; });
 }
@@ -406,4 +435,4 @@ b.onclick = () => setLang(L()==="hi" ? "en" : "hi");
 try{ const h = decodeURIComponent(location.hash.slice(1)); if(h){ $("q").value = h; history.replaceState(null, "", location.pathname); } else $("q").value = sessionStorage.getItem("gg-search-q") || ""; }catch(e){}
 let l0 = "en"; try{ l0 = localStorage.getItem("gg-lang") || localStorage.getItem("library-lang") || "en"; }catch(e){}
 setLang(l0 === "hi" ? "hi" : "en"); $("q").focus();
-</script><script src="../shared/shell.js?v=20261114152058" data-active="search" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../shared/shell.js?v=20261114153022" data-active="search" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>

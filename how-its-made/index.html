@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>How this site is made · Gitagraph</title><meta name="description" content="What is ancient text, what is ours, and what is AI-assisted, so you can judge for yourself what you are reading.">
-<link rel="canonical" href="https://gitagraph.com/how-its-made/"><link rel="icon" href="../shared/mark.svg?v=20261114152058" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114152058" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114152058">
+<link rel="canonical" href="https://gitagraph.com/how-its-made/"><link rel="icon" href="../shared/mark.svg?v=20261114153022" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114153022" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114153022">
 <meta property="og:type" content="article"><meta property="og:title" content="How this site is made · Gitagraph">
 <meta property="og:description" content="What is ancient text, what is ours, and what is AI-assisted, so you can judge for yourself what you are reading."><meta property="og:url" content="https://gitagraph.com/how-its-made/">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261114152058"><meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261114153022"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -220,6 +220,7 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .sbox input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;font-size:19px;-webkit-appearance:none;appearance:none}
 .sbox input::-webkit-search-cancel-button{-webkit-appearance:none}
 .shint{margin:18px 4px 0;color:var(--muted);max-width:58ch;line-height:1.6}
+.shint.care{color:var(--ink);padding:14px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
 .sg{margin:34px 0 0}
 .sg h2{margin:0 0 6px;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 :root[lang=hi] .sg h2{letter-spacing:0;text-transform:none;font-size:15px}
@@ -264,6 +265,11 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .home .sec h2::before{display:none}
 .home .sh{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 24px;margin:0 0 24px}
 .home .sh .more{margin:0}
+.home .ask{display:flex;align-items:center;gap:8px;max-width:620px;height:56px;margin:0 0 28px;padding:0 8px 0 20px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
+.home .ask:focus-within{border-color:var(--ink)}
+.home .ask input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;font-size:17px;-webkit-appearance:none;appearance:none}
+.home .ask input::-webkit-search-cancel-button{-webkit-appearance:none}
+.home .ask button{flex:none;width:42px;height:42px;border:0;border-radius:50%;background:var(--ink);color:var(--bg);font-size:18px;line-height:1;cursor:pointer}
 .home .qcards{gap:24px}
 .home .qcard{display:flex;flex-direction:column;gap:6px;height:100%;text-decoration:none;color:inherit}
 .home .qp{position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:150px;
@@ -383,4 +389,4 @@ const b = document.getElementById("lang");
 function setLang(l){ document.documentElement.lang = l; b.textContent = l==="hi" ? "EN" : "हि"; try{ localStorage.setItem("library-lang", l); localStorage.setItem("gg-lang", l); }catch(e){} }
 b.onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
 try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))==="hi") setLang("hi"); }catch(e){}
-</script><script src="../shared/shell.js?v=20261114152058" data-active="" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../shared/shell.js?v=20261114153022" data-active="" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
