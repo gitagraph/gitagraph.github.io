@@ -573,7 +573,7 @@ async function verseImage(v){
   const W = 1080, H = 1350, M = 96, c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
   const cs = getComputedStyle(document.documentElement), F = k => cs.getPropertyValue(k).trim() || "serif";
   const fSa = F("--f-skt"), fTr = isHi() ? F("--f-hi") : F("--f-read"), fUi = F("--f-ui"), book = isHi() ? "भगवद्गीता" : "Bhagavad Gita";
-  try{ await Promise.all([document.fonts.load(`48px ${fSa}`, "कृ"), document.fonts.load(`36px ${fTr}`, isHi() ? "कृ" : "a"), document.fonts.load(`600 30px ${fUi}`, "a")]); }catch(e){}
+  try{ await Promise.race([Promise.all([document.fonts.load(`48px ${fSa}`, "कृ"), document.fonts.load(`36px ${fTr}`, isHi() ? "कृ" : "a"), document.fonts.load(`600 30px ${fUi}`, "a")]), new Promise(r => setTimeout(r, 1200))]); }catch(e){}   // never wait long for a font
   const wrap = (text, font, maxW) => { x.font = font; const out = [];
     for(const para of String(text).split("\n")){ let line = ""; for(const w of para.split(/ +/)){ const t = line ? line + " " + w : w; if(x.measureText(t).width > maxW && line){ out.push(line); line = w; } else line = t; } if(line) out.push(line); }
     return out; };
@@ -590,11 +590,36 @@ async function verseImage(v){
   x.fillStyle = "#5a596b"; x.font = `30px ${fUi}`; const site = "gitagraph.com"; x.fillText(site, W - M - x.measureText(site).width, H - M - 36);
   return new Promise(res => c.toBlob(res, "image/png"));
 }
+// The picture is started the moment the button is touched, so it is ready (and the browser still treats the tap as the
+// reader's own action) by the time the share sheet is asked for.
+let imgJob = null;
+const imageOf = v => { const k = v.ref + "|" + lang; if(!imgJob || imgJob.k !== k) imgJob = {k, p: verseImage(v)}; return imgJob.p; };
 async function shareVerseImage(v){
-  const blob = await verseImage(v); if(!blob){ toast(u().copyFail); return; }
+  const blob = await imageOf(v); if(!blob){ toast(u().copyFail); return; }
   const name = `gita-${v.ref.replace(".", "-")}.png`, file = new File([blob], name, {type:"image/png"});
-  if(navigator.canShare && navigator.canShare({files:[file]})){ try{ await navigator.share({files:[file], title:`${isHi() ? "भगवद्गीता" : "Bhagavad Gita"} ${v.ref}`}); }catch(e){} return; }
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  // browsers that can hand a picture to the share sheet (Chrome and Safari on phones) open it directly
+  if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file]}); return; }catch(e){ if(e && e.name === "AbortError") return; }
+  }
+  imageSheet(blob, name);
+}
+// Where the browser cannot share a picture itself (Firefox, most desktop browsers), show it instead of silently saving a
+// file: the reader can press and hold it to share, copy it, or save it.
+function imageSheet(blob, name){
+  const url = URL.createObjectURL(blob), hi = isHi(), d = document.createElement("div");
+  d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true"); d.setAttribute("aria-label", hi ? "श्लोक का चित्र" : "Verse image");
+  d.style.cssText = "position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:16px;background:rgba(17,16,32,.72);overflow:auto";
+  const canCopy = !!(navigator.clipboard && window.ClipboardItem);
+  const btn = "min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 15px var(--f-ui);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center";
+  d.innerHTML = `<div style="width:min(420px,100%);background:var(--bg);border-radius:20px;padding:16px;box-shadow:0 20px 60px #0006">
+    <img src="${url}" alt="" style="display:block;width:100%;border-radius:12px;border:1px solid var(--line)">
+    <p style="margin:12px 2px 12px;font:14.5px/1.5 var(--f-ui);color:var(--muted)">${esc(hi ? "यह ब्राउज़र चित्र सीधे साझा नहीं कर सकता। चित्र को दबाकर रखें और साझा करें, या नीचे से सहेजें।" : "This browser cannot share a picture directly. Press and hold the picture to share it, or save it below.")}</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px"><a download="${esc(name)}" href="${url}" style="${btn};background:var(--ink);color:var(--bg);border-color:var(--ink)">${esc(hi ? "चित्र सहेजें" : "Save image")}</a>${canCopy ? `<button type="button" data-copy style="${btn}">${esc(hi ? "चित्र कॉपी करें" : "Copy image")}</button>` : ""}<button type="button" data-close style="${btn}">${esc(hi ? "बंद करें" : "Close")}</button></div></div>`;
+  const close = () => { d.remove(); URL.revokeObjectURL(url); document.removeEventListener("keydown", onKey); };
+  const onKey = e => { if(e.key === "Escape") close(); };
+  d.addEventListener("click", e => { if(e.target === d || e.target.closest("[data-close]")) close();
+    else if(e.target.closest("[data-copy]")) navigator.clipboard.write([new ClipboardItem({"image/png": blob})]).then(() => toast(u().copied), () => toast(u().copyFail)); });
+  document.addEventListener("keydown", onKey); document.body.appendChild(d); (d.querySelector("[data-close]") || d).focus();
 }
 const verseUrl = v => BASE ? location.origin + pathOf(v.id) : `${SITE}chapter/${v.c}/verse/${v.v}/`;
 function homeView(){
@@ -758,7 +783,7 @@ function markRead(v){
   recent = [v.ref, ...recent.filter(r=>r!==v.ref)].slice(0,30); store.set("recent",recent);
 }
 function wireVerse(v){
-  const ib = document.getElementById("imgbtn"); if(ib) ib.onclick = () => shareVerseImage(v);
+  const ib = document.getElementById("imgbtn"); if(ib){ ib.onclick = () => shareVerseImage(v); ib.addEventListener("pointerdown", () => imageOf(v), {once:true}); }
   const sb = document.getElementById("savebtn");
   sb.onclick = () => {
     if(savedSet.has(v.ref)) savedSet.delete(v.ref); else savedSet.add(v.ref);
