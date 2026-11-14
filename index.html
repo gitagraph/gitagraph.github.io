@@ -5,21 +5,21 @@
 <script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);
 var g=localStorage.getItem("gg-lang"),l=g||localStorage.getItem("library-lang");if(!g&&(l==="en"||l==="hi"))localStorage.setItem("gg-lang",l);if(l==="hi")document.documentElement.lang="hi"}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Gitagraph · A living library of wisdom</title>
-<meta name="description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi.">
+<title>Gitagraph · Sanskrit with English and Hindi</title>
+<meta name="description" content="The original Sanskrit with English and Hindi translations. The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi.">
 <link rel="canonical" href="https://gitagraph.com/">
 <meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#111020" media="(prefers-color-scheme: dark)">
-<meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · A living library of wisdom">
-<meta property="og:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta property="og:url" content="https://gitagraph.com/">
+<meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Sanskrit with English and Hindi">
+<meta property="og:description" content="The original Sanskrit with English and Hindi translations. The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta property="og:url" content="https://gitagraph.com/">
 <meta property="og:site_name" content="Gitagraph · A living library of wisdom">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261114103008">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261114150853">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Gitagraph · A living library of wisdom: the Bhagavad Gita, the Ashtavakra Gita and the Upanishads, in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Gitagraph · A living library of wisdom">
-<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261114103008">
-<link rel="icon" href="shared/mark.svg?v=20261114103008" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261114103008" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261114103008">
+<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261114150853">
+<link rel="icon" href="shared/mark.svg?v=20261114150853" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261114150853" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261114150853">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap">
 <style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
@@ -293,6 +293,24 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .home .qcard .qi{color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 :root[lang=hi] .home .qcard .qi{color:var(--muted-hi);line-height:1.75}
 .home .qcard .qm{margin:0;padding:2px 0 0;font-size:13px}
+/* phones: the first screen is the headline, (for a returning reader) a Continue card, three questions, then today's verse */
+.home .hq,.home .hcont{display:none}
+@media (max-width:899px){
+  .home .eb,.home .ctas,.home .hero p.resume{display:none}
+  .home .hero h1{margin-bottom:0}
+  .home .hcont:not([hidden]){display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 0;padding:13px 18px;min-height:64px;border:1px solid var(--line);border-radius:16px;background:var(--surface);text-decoration:none;color:var(--ink);font-family:var(--f-ui)}
+  .home .hcont small{display:block;margin-bottom:2px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .home .hcont b{font-size:17px;font-weight:600}
+  .home .hcont i{font-style:normal;font-size:20px;color:var(--accent)}
+  :root[lang=hi] .home .hcont small{letter-spacing:0;text-transform:none;font-size:14px}
+  .home .hq{display:block;margin:24px 0 0}
+  .home .hero .hq p{margin:0 0 12px;max-width:none;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.5}
+  :root[lang=hi] .home .hero .hq p{letter-spacing:0;text-transform:none;font-size:15px}
+  .home .hq div{display:flex;flex-wrap:wrap;gap:8px}
+  .home .hq a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);text-decoration:none;font:500 15px var(--f-ui)}
+  :root[lang=hi] .home .hq a{font-family:var(--f-hi);font-size:16px}
+  .home .hq a.all{border-color:transparent;background:transparent;color:var(--muted);text-decoration:underline;text-underline-offset:4px;padding:0 8px}
+}
 .home .qpills{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 .home .qpill{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--surface);text-decoration:none;color:inherit}
 .home .qpill:hover{border-color:var(--ink)}
@@ -346,7 +364,9 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
   <button class="langpill themebtn" id="themebtn" type="button"></button>
   <button class="langpill" id="lang" type="button" aria-label="हिन्दी में देखें">हि</button></header>
 <main class="wrap">
-  <section class="hero"><div class="hx"><p class="eb"><span class="l-en">Bhagavad Gita · Ashtavakra Gita · Upanishads</span><span class="l-hi">भगवद्गीता · अष्टावक्र गीता · उपनिषद्</span></p><h1><span class="l-en">Everyday questions, centuries of insight.</span><span class="l-hi">रोज़ के प्रश्न, सदियों की समझ।</span></h1><p><span class="l-en">Read the original Sanskrit with English and Hindi translations. Discover how verses, ideas and teachings connect.</span><span class="l-hi">मूल संस्कृत श्लोक हिंदी और अंग्रेज़ी अनुवाद के साथ पढ़ें। जानें कि अलग-अलग ग्रंथों के विचार और शिक्षाएँ एक-दूसरे से कैसे जुड़ते हैं।</span></p>
+  <section class="hero"><div class="hx"><p class="eb"><span class="l-en">Bhagavad Gita · Ashtavakra Gita · Upanishads</span><span class="l-hi">भगवद्गीता · अष्टावक्र गीता · उपनिषद्</span></p><h1><span class="l-en">Everyday questions, centuries of insight.</span><span class="l-hi">रोज़ के प्रश्न, सदियों की समझ।</span></h1>
+    <a class="hcont" id="hcont" href="gita/" hidden><span><small><span class="l-en">Continue reading</span><span class="l-hi">पढ़ना जारी रखें</span></small><b><span class="l-en">Bhagavad Gita</span><span class="l-hi">भगवद्गीता</span> <span id="hcont-ref"></span></b></span><i aria-hidden="true">→</i></a>
+    <div class="hq"><p><span class="l-en">What&#x27;s on your mind?</span><span class="l-hi">आज मन में क्या है?</span></p><div><a href="gita/questions/who-am-i/"><span class="l-en">Who am I?</span><span class="l-hi">मैं कौन हूँ?</span></a><a href="gita/questions/restless-mind/"><span class="l-en">Restless mind, can&#x27;t focus</span><span class="l-hi">चंचल मन, ध्यान न लगना</span></a><a href="gita/questions/results/"><span class="l-en">Afraid of failure, attached to results</span><span class="l-hi">असफलता का डर, फल की चिंता</span></a><a class="all" href="gita/questions/"><span class="l-en">All 10 →</span><span class="l-hi">सभी 10 →</span></a></div></div>
     <div class="ctas"><a class="btn primary" href="gita/questions/"><span class="l-en">Start with a question</span><span class="l-hi">किसी प्रश्न से शुरू करें</span></a><a class="btn secondary" href="#scriptures"><span class="l-en">Browse the library</span><span class="l-hi">ग्रंथ देखें</span></a></div>
     <p class="resume" id="resume" hidden><a id="resume-a" href="gita/"><span class="l-en">Continue reading · Bhagavad Gita</span><span class="l-hi">पढ़ना जारी रखें · भगवद्गीता</span>&nbsp;<span id="resume-ref"></span>&nbsp;→</a></p>
     <script>
@@ -354,7 +374,8 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
     try{ const last = JSON.parse(localStorage.getItem("gita-recent") || "[]")[0];
       if(/^\d+\.\d+$/.test(last || "")){ const [c,v] = last.split(".");
         document.getElementById("resume-a").href = `gita/chapter/${c}/verse/${v}/`;
-        document.getElementById("resume-ref").textContent = last; document.getElementById("resume").hidden = false; } }catch(e){}
+        document.getElementById("resume-ref").textContent = last; document.getElementById("resume").hidden = false;
+        const hc = document.getElementById("hcont"); hc.href = `gita/chapter/${c}/verse/${v}/`; document.getElementById("hcont-ref").textContent = last; hc.hidden = false; } }catch(e){}
     </script></div>
     <div class="card votd" id="votd"></div></section>
   <script>
@@ -380,10 +401,10 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
     const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5), i = day - VW.d0;
     if(i >= 0 && i < VW.v.length) return drawVotd(VW.v[i]);
     const box = document.getElementById("votd"); box.style.setProperty("--vh", "clamp(270px, 440px - 15vw, 400px)");
-    fetch("home-verses/pool.json?v=20261114103008").then(r => r.json()).then(pool => {
+    fetch("home-verses/pool.json?v=20261114150853").then(r => r.json()).then(pool => {
       const gcd = (a,b) => b ? gcd(b, a % b) : a, step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
       const [c, v] = pool[(day * step) % pool.length].split(".");
-      return fetch(`home-verses/${c}.json?v=20261114103008`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
+      return fetch(`home-verses/${c}.json?v=20261114150853`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
     }).catch(() => { box.hidden = true; });
   })();
   </script>
@@ -401,7 +422,7 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
   </footer>
 </main>
 <script>
-const TITLE = {"en": "Gitagraph · A living library of wisdom", "hi": "गीताग्राफ़ · प्राचीन ज्ञान, एक सूत्र में"};
+const TITLE = {"en": "Gitagraph · Sanskrit with English and Hindi", "hi": "गीताग्राफ़ · संस्कृत, हिंदी और अंग्रेज़ी में"};
 function setLang(l){
   document.documentElement.lang = l;
   try{ localStorage.setItem("library-lang", l); localStorage.setItem("gg-lang", l); }catch(e){}
@@ -431,8 +452,8 @@ document.getElementById("lang").onclick = () => setLang(document.documentElement
 // the language was chosen in <head> (the saved choice, else English) so the page paints in it; sync the controls
 setLang(document.documentElement.lang === "hi" ? "hi" : "en");
 </script>
-<script src="shared/shell.js?v=20261114103008" data-active="home" defer></script>
-<script src="shared/coach.js?v=20261114103008" defer></script>
+<script src="shared/shell.js?v=20261114150853" data-active="home" defer></script>
+<script src="shared/coach.js?v=20261114150853" defer></script>
 <script>
 try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
 if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {

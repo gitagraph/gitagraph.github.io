@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Search · Gitagraph</title><meta name="robots" content="noindex"><link rel="canonical" href="https://gitagraph.com/search/">
-<link rel="icon" href="../shared/mark.svg?v=20261114103008" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114103008" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114103008">
+<link rel="icon" href="../shared/mark.svg?v=20261114150853" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114150853" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114150853">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -274,6 +274,24 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .home .qcard .qi{color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 :root[lang=hi] .home .qcard .qi{color:var(--muted-hi);line-height:1.75}
 .home .qcard .qm{margin:0;padding:2px 0 0;font-size:13px}
+/* phones: the first screen is the headline, (for a returning reader) a Continue card, three questions, then today's verse */
+.home .hq,.home .hcont{display:none}
+@media (max-width:899px){
+  .home .eb,.home .ctas,.home .hero p.resume{display:none}
+  .home .hero h1{margin-bottom:0}
+  .home .hcont:not([hidden]){display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 0;padding:13px 18px;min-height:64px;border:1px solid var(--line);border-radius:16px;background:var(--surface);text-decoration:none;color:var(--ink);font-family:var(--f-ui)}
+  .home .hcont small{display:block;margin-bottom:2px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .home .hcont b{font-size:17px;font-weight:600}
+  .home .hcont i{font-style:normal;font-size:20px;color:var(--accent)}
+  :root[lang=hi] .home .hcont small{letter-spacing:0;text-transform:none;font-size:14px}
+  .home .hq{display:block;margin:24px 0 0}
+  .home .hero .hq p{margin:0 0 12px;max-width:none;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.5}
+  :root[lang=hi] .home .hero .hq p{letter-spacing:0;text-transform:none;font-size:15px}
+  .home .hq div{display:flex;flex-wrap:wrap;gap:8px}
+  .home .hq a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);text-decoration:none;font:500 15px var(--f-ui)}
+  :root[lang=hi] .home .hq a{font-family:var(--f-hi);font-size:16px}
+  .home .hq a.all{border-color:transparent;background:transparent;color:var(--muted);text-decoration:underline;text-underline-offset:4px;padding:0 8px}
+}
 .home .qpills{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 .home .qpill{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--surface);text-decoration:none;color:inherit}
 .home .qpill:hover{border-color:var(--ink)}
@@ -339,7 +357,7 @@ const norm = s => String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toL
   .replace(/sh/g, "s").replace(/ri/g, "r").replace(/aa/g, "a").replace(/ee/g, "i").replace(/oo/g, "u").replace(/w/g, "v").replace(/[^a-z0-9\u0900-\u097f]+/g, " ");
 const IDX = {}, WANT = {};
 function load(lang){
-  return WANT[lang] || (WANT[lang] = fetch(`index-${lang}.json?v=20261114103008`).then(r => { if(!r.ok) throw 0; return r.json(); }).then(d => {
+  return WANT[lang] || (WANT[lang] = fetch(`index-${lang}.json?v=20261114150853`).then(r => { if(!r.ok) throw 0; return r.json(); }).then(d => {
     d.vs.forEach(v => { v.t = " " + norm(v[3]) + " "; v.n = v.t + norm(v[4]); }); d.h.forEach(h => { h.t = " " + norm(h[2]) + " "; h.n = h.t + norm(h[3]); });
     d.ch.forEach(c => c.n = norm(c[2])); d.st.forEach(x => x.n = norm(x[2] + " " + x[3] + " " + (x[4] || ""))); d.q.forEach(x => x.n = norm(x[1])); return IDX[lang] = d; }).catch(err => { delete WANT[lang]; throw err; }));
 }
@@ -395,4 +413,4 @@ b.onclick = () => setLang(L()==="hi" ? "en" : "hi");
 try{ const h = decodeURIComponent(location.hash.slice(1)); if(h){ $("q").value = h; history.replaceState(null, "", location.pathname); } else $("q").value = sessionStorage.getItem("gg-search-q") || ""; }catch(e){}
 let l0 = "en"; try{ l0 = localStorage.getItem("gg-lang") || localStorage.getItem("library-lang") || "en"; }catch(e){}
 setLang(l0 === "hi" ? "hi" : "en"); $("q").focus();
-</script><script src="../shared/shell.js?v=20261114103008" data-active="search" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../shared/shell.js?v=20261114150853" data-active="search" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
