@@ -179,6 +179,21 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .prow .pd{grid-column:1/-1;color:var(--muted);line-height:1.6;max-width:68ch}
 .prow .pk,.peb .pk{font-size:13px;color:var(--muted);white-space:nowrap}
 .pathp .wrap{max-width:760px}
+/* the Hindi pages under /hi/ (one per verse, chapter, story and question) */
+a.langpill{display:inline-grid;place-items:center;text-decoration:none}
+.hip h2{font-family:var(--f-hi);font-weight:400;font-size:25px;line-height:1.4;margin:38px 0 10px}
+.hip .pv{margin-top:24px}
+.hip .hx p{margin:0 0 16px;font-family:var(--f-hi);font-size:18.5px;line-height:1.9;max-width:64ch}
+.hip .hlist{list-style:none;margin:16px 0 0;padding:0}
+.hip .hlist a{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:baseline;padding:15px 4px;border-top:1px solid var(--line);text-decoration:none;color:inherit}
+.hip .hlist li:last-child a{border-bottom:1px solid var(--line)}
+.hip .hlist a:hover{background:var(--sunk)}
+.hip .hlist b{font-family:var(--f-read);font-weight:600;font-variant-numeric:tabular-nums;color:var(--accent)}
+.hip .hlist span{font-family:var(--f-hi);font-size:17.5px;line-height:1.75;color:var(--muted-hi,var(--muted))}
+.hip .hlist strong{font-weight:600;color:var(--ink)}
+.hip .hnav{display:flex;justify-content:space-between;gap:12px;margin:26px 0 6px}
+.hip .hnav a{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);text-decoration:none;font-weight:600;font-variant-numeric:tabular-nums}
+.hip .pgo{display:inline-flex;align-items:center;min-height:44px;color:var(--accent);font-weight:600;text-decoration:none}
 .peb{margin:28px 0 0;font-size:14px;color:var(--muted)} .peb a{color:var(--accent);font-weight:600;text-decoration:none}
 .ph{font-family:var(--f-read);font-weight:500;font-size:clamp(30px,5vw,44px);line-height:1.15;letter-spacing:-.01em;margin:10px 0 0}
 :root[lang=hi] .ph{font-family:var(--f-hi);font-weight:400;line-height:1.35;letter-spacing:0}
