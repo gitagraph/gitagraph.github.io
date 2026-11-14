@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Saved · Gitagraph</title><meta name="robots" content="noindex"><link rel="canonical" href="https://gitagraph.com/saved/">
-<link rel="icon" href="../shared/mark.svg?v=20261114184902" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114184902" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114184902">
+<link rel="icon" href="../shared/mark.svg?v=20261114212020" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114212020" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114212020">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -112,7 +112,7 @@ a.text:hover{border-color:var(--c)}
 html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 
 /* Site shell: the one navigation every page shares (home, the map, the documents and all three readers).
-   Desktop: links in the header. Phone: a five-tab bar. The markup comes from shell.js.
+   Desktop: links in the header. Phone: a four-tab bar. The markup comes from shell.js.
    The readers inline this file into app.css at build time, so it also works offline. */
 .gnav{display:none}
 .gnav a{display:inline-flex;align-items:center;height:44px;padding:0 13px;border-radius:12px;color:var(--ink);text-decoration:none;
@@ -123,7 +123,7 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .gnav .gsp{flex:1}
 .gnav svg{display:none}
 
-.gtabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+.gtabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
   background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);
   padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
@@ -165,6 +165,21 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .gs-m span{display:none}
 @media (min-width:700px){ .gs-m{display:none} }
 @media (max-width:1099px){ .gnav .gsearch{width:44px;padding:0;justify-content:center} .gnav .gsearch span{display:none} }
+
+/* the readers' own tab bar holds the same four places */
+.tabs{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+/* reading trail: on a passage opened from a question page, the next passage of that question and the way back */
+.gtrail{display:grid;gap:10px;margin-top:30px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--sunk);font-family:var(--f-ui)}
+.gtrail .gt-k{margin:0;font-size:14px;line-height:1.4;color:var(--muted)}
+.gtrail .gt-k b{font-weight:600;color:var(--ink)}
+.gtrail .gt-nx{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border-radius:12px;background:var(--ink);color:var(--bg);text-decoration:none}
+.gtrail .gt-nx small{font-size:13px;opacity:.8}
+.gtrail .gt-nx b{font-size:17px;font-weight:600;line-height:1.35}
+.gtrail .gt-nx:hover{opacity:.92}
+.gtrail .gt-bk{justify-self:start;display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none}
+.gtrail .gt-bk:hover{text-decoration:underline;text-underline-offset:3px}
+.gtrail[lang=hi] .gt-k{font-size:15px} .gtrail[lang=hi] .gt-nx small{font-size:14px} .gtrail[lang=hi] .gt-bk{font-size:16px}
 
 .saved-list{list-style:none;margin:0 0 28px;padding:0}
 .saved-list a{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-top:1px solid var(--line);text-decoration:none}
@@ -393,4 +408,4 @@ const b = document.getElementById("lang");
 function setLang(l){ document.documentElement.lang = l; b.textContent = l==="hi" ? "EN" : "हि"; try{ localStorage.setItem("library-lang", l); localStorage.setItem("gg-lang", l); }catch(e){} }
 b.onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
 try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))==="hi") setLang("hi"); }catch(e){}
-</script><script src="../shared/shell.js?v=20261114184902" data-active="saved" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../shared/shell.js?v=20261114212020" data-active="saved" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>

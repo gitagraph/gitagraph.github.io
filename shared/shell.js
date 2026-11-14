@@ -1,5 +1,7 @@
-// Site shell: the one navigation every page shares. Five places, the same everywhere:
-//   Home · Questions · Library · Map · Saved
+// Site shell: the one navigation every page shares. Four places, the same everywhere:
+//   Home · Questions · Library · Saved
+// The Graph is not a place in the menu: it is opened from the pages where it answers something
+// (a verse's or story's "See connections", an idea page, a question page, and the home page).
 // Static pages (home, the map, the documents) include this file and it mounts itself:
 //   <script src="<root>shared/shell.js" data-active="home" defer></script>
 // The readers inline it into app.js at build time (so it works offline) and call GGShell.nav()/tabs() themselves.
@@ -30,7 +32,7 @@
   const GGShell = {
     // links for the desktop header, then the site-wide search
     nav(o) {
-      return ITEMS.filter(it => it[0] !== "home").map(it =>
+      return ITEMS.filter(it => it[0] !== "home" && it[0] !== "map").map(it =>
         `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}>${label(it, o.lang)}</a>`).join("") + GGShell.search(o);
     },
     // the link to /search/: a pill with a hint on wide screens, an icon elsewhere (o.icon: icon only, for phone bars)
@@ -39,9 +41,9 @@
       const sr = ["search", "search/", "Search verses, ideas, people", "श्लोक, विचार, पात्र खोजें"], lb = o.lang ? (o.lang === "hi" ? "खोजें" : "Search") : "Search";
       return `<a class="gsearch${o.icon ? " gs-m" : ""}" href="${o.root}search/" data-g="search" aria-label="${lb}"${cur(sr, o.active)}>${IC.search}<span>${label(sr, o.lang)}</span></a>`;
     },
-    // the five phone tabs
+    // the four phone tabs
     tabs(o) {
-      return ITEMS.map(it =>
+      return ITEMS.filter(it => it[0] !== "map").map(it =>
         `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}><span class="gi">${IC[it[0]]}</span>${label(it, o.lang)}</a>`).join("");
     },
     // the brand lockup for the readers' desktop bar
@@ -50,6 +52,29 @@
     }
   };
   window.GGShell = GGShell;
+
+  // Reading trail. A question page lists its passages in order. Opening one from that page starts a trail, and each
+  // passage page then offers the next passage and the way back to the question. A reader who reaches the same verse
+  // by ordinary reading sees none of this: only pages opened along the trail are marked. Kept for this tab only.
+  //   trail = {slug, en, hi, next: {slug, en, hi} | null, items: [{k: "gita/chapter/2/verse/14/", en, hi}], seen: [k]}
+  const TK = "gg-trail";
+  const tget = () => { try { return JSON.parse(sessionStorage.getItem(TK) || "null"); } catch (e) { return null; } };
+  const tput = t => { try { sessionStorage.setItem(TK, JSON.stringify(t)); } catch (e) {} };
+  const tesc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  GGShell.trailSet = function (t) { const old = tget(); t.seen = old && old.slug === t.slug && Array.isArray(old.seen) ? old.seen : []; tput(t); };
+  GGShell.trailSeen = function (k) { const t = tget(); if (t && t.items.some(i => i.k === k) && !t.seen.includes(k)) { t.seen.push(k); tput(t); } };
+  // the bar for the page with this key ("" when the page was not opened along a trail)
+  GGShell.trailBar = function (key, lang, root) {
+    const t = tget(); if (!t || !Array.isArray(t.items)) return "";
+    const i = t.items.findIndex(x => x.k === key); if (i < 0 || !(t.seen || []).includes(key)) return "";
+    const hi = lang === "hi", L = x => tesc(hi ? x.hi : x.en), n = t.items.length, nx = t.items[i + 1], q = root + "gita/questions/";
+    const pos = hi ? `${n} में से ${i + 1}` : `${i + 1} of ${n}`;
+    const next = nx ? `<a class="gt-nx" href="${root + nx.k}" data-trail="${tesc(nx.k)}"><small>${hi ? "इस प्रश्न में आगे" : "Next in this question"} →</small><b>${L(nx)}</b></a>`
+      : t.next ? `<a class="gt-nx" href="${q + t.next.slug}/"><small>${hi ? "अगला प्रश्न" : "Next question"} →</small><b>${L(t.next)}</b></a>` : "";
+    return `<nav class="gtrail" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><p class="gt-k"><b>${L(t)}</b> · ${pos}</p>${next}<a class="gt-bk" href="${q + t.slug}/">← ${hi ? "प्रश्न पर वापस" : "Back to the question"}</a></nav>`;
+  };
+  if (!window.__ggT) { window.__ggT = 1; document.addEventListener("click", e => {
+    const a = e.target.closest && e.target.closest("a[data-trail]"); if (a) GGShell.trailSeen(a.dataset.trail); }, true); }
 
   // static pages: mount into the page's own header and add the tab bar
   if (script && script.dataset.active !== undefined) {
