@@ -244,6 +244,87 @@ function computeLit(){
   }
 }
 
+// ---------- Sutra view (Connections): one thing in the centre, what it sits in on the left, what it leads to on the right ----------
+// It shows only links the site already holds, each under its relation, and draws the line by what supports it:
+// solid = from the text, dashed = editorial, dotted = computed. Nothing here claims that one thing causes or cures another.
+let sutraOn = /[?&]v=sutra\b/.test(location.search);
+const SU = {
+  en:{name:"Connections", graph:"Graph", key:"Read each heading from the centre card.", isIn:"Is in", stepIn:"Is a step in", draws:"Draws on", speaks:"Speaks of", echoes:"Echoes in", exploredIn:"Is explored in", spokenIn:"Is spoken of in", co:"Co-occurs with", explores:"Explores", none:"No links are recorded for this yet."},
+  hi:{name:"सूत्र", graph:"ग्राफ़", key:"हर शीर्षक को बीच के कार्ड से जोड़कर पढ़ें।", isIn:"इसमें है", stepIn:"इस पठन-पथ का चरण", draws:"मूल पाठ के अंश", speaks:"इसके विचार", echoes:"समान विचार", exploredIn:"जीवन के प्रश्न", spokenIn:"इन श्लोकों में", co:"साथ मिलने वाले विचार", explores:"इस प्रश्न के लिए", none:"इसके लिए अभी कोई संबंध दर्ज नहीं है।"}
+};
+const sutraOk = () => S.kind === "verse" || S.kind === "story" || S.kind === "idea" || S.kind === "q";
+const sutraShown = () => sutraOn && sutraOk();
+const suCard = (href, rf, title, sub, c, skt) => `<a class="su-c" href="${href}" style="--c:${c}">${rf ? `<b>${esc(rf)}</b>` : ""}${title ? `<span${skt ? ` lang="sa"` : ""}>${esc(title)}</span>` : ""}${sub ? `<small>${esc(sub)}</small>` : ""}</a>`;
+const suNode = n => n.kind === "story" ? suCard(hashOf(n), "", nm(n), lgrp(n.s.hook_en, n.s.hook_hi), col(n))
+  : n.kind === "chap" ? suCard(hashOf(n), "", (n.t !== "u" && n.num != null ? `${t("chapter")} ${n.num} · ` : "") + nm(n), n.t !== "u" ? t("n")(n.kids.length) : t("ns")(n.kids.length), col(n))
+  : suCard(hashOf(n), (n.t === "a" ? lgrp("Ashtavakra ", "अष्टावक्र ") : n.t === "g" ? lgrp("Gita ", "गीता ") : "") + n.ref, (sa(n.d).split(/\n|।|\|/).map(x => x.trim()).find(x => x && !/उवाच/.test(x)) || ""), tr(n.d), col(n), true);
+function sutraGroups(){
+  const L = [], R = [], s = SU[lang], gold = "var(--universe-gold)";
+  const g = (side, rel, h, items, cap) => { items = items.filter(Boolean); cap = cap || 5; if(items.length) side.push({rel, h, items:items.slice(0, cap), more:Math.max(0, items.length - cap)}); };
+  const pathsOf = f => PATHS.filter(P => P.steps.some(f)).map(P => suCard(`#/p/${P.slug}`, "", lang === "hi" ? P.title_hi : P.title_en, lang === "hi" ? P.kind_hi : P.kind_en, gold));
+  const ideaCard = (k, id) => { const m = ideaMeta(k, id); return m ? suCard(`#/i/${k}/${id}`, "", lgrp(m.en, m.hi), lgrp(m.de, m.dh), COL[k]) : ""; };
+  const qCard = q => suCard(`#/q/${q.slug}`, "", qn(q), "", gold);
+  let c = {};
+  if(S.kind === "verse"){
+    const n = S.n, ref = `${n.d.c}.${n.d.v}`, map = n.t === "a" ? AH : GH;
+    c = {eye:`${t("names")[n.t]} · ${t("chapter")} ${n.ch.num}`, title:`${t("verse")} ${n.ref}`, sa:sa(n.d), tx:tr(n.d), c:col(n), read:readerHref(n), readL:t("readV")};
+    g(L, "contains", s.isIn, [suNode(n.ch)]);
+    g(L, "then", s.stepIn, pathsOf(st => st.t === n.t && st.ref === ref));
+    g(R, "speaks", s.speaks, [...new Set([...(n.d.k || []), ...(n.d.p || [])])].filter(id => map.has(id)).map(id => ideaCard(n.t, id)));
+    g(R, "echoes", s.echoes, (n.cites || []).map(suNode), 4);
+    g(R, "explores", s.exploredIn, QS.filter(q => n.t === "g" ? (q.verses || []).includes(ref) : (q.av?.items || []).some(v => v.ref === ref)).map(qCard), 4);
+  } else if(S.kind === "story"){
+    const n = S.n, s0 = n.s;
+    c = {eye:t("story") + (n.ch ? " · " + nm(n.ch) : ""), title:nm(n), tx:lgrp(s0.hook_en, s0.hook_hi), c:COL.u, read:readerHref(n), readL:t("readS")};
+    if(n.ch) g(L, "contains", s.isIn, [suNode(n.ch)]);
+    g(L, "draws", s.draws, (n.passages || []).map(suNode), 3);
+    g(L, "then", s.stepIn, pathsOf(st => st.story === s0.id));
+    g(R, "speaks", s.speaks, (s0.ideas || []).map(id => ideaCard("u", id)), 4);
+    g(R, "echoes", `${s.echoes} · ${t("gitaV")}`, (n.xg || []).map(suNode), 3);
+    g(R, "echoes", `${s.echoes} · ${t("ashV")}`, (n.xa || []).map(suNode), 3);
+    g(R, "explores", s.exploredIn, QS.filter(q => (q.up || []).some(x => x.id === s0.id) || (s0.life_questions || []).includes(q.slug)).map(qCard), 3);
+  } else if(S.kind === "idea"){
+    const m = S.m, me = iBy.get(`${S.t}:${S.id}`), own = (S.sets && S.sets[S.t]) || [];
+    c = {eye:`${t("idea")} · ${t("names")[S.t]}`, title:lgrp(m.en, m.hi), tx:lgrp(m.de, m.dh) || "", c:COL[S.t]};
+    g(L, "speaks", s.spokenIn, own.map(suNode), 6);
+    if(me) g(R, "cooccurs", s.co, iedges.filter(e => e.a === me || e.b === me).map(e => e.a === me ? e.b : e.a).map(i => ideaCard(i.t, i.hid)), 6);
+  } else if(S.kind === "q"){
+    c = {eye:t("question"), title:qn(S.q), tx:qi(S.q), c:gold, read:`../gita/questions/${S.q.slug}/`, readL:t("intro")};
+    g(L, "explores", `${s.explores} · ${t("gitaV")}`, S.vs.filter(v => v.t === "g").map(suNode), 6);
+    g(R, "explores", `${s.explores} · ${t("ashV")}`, S.vs.filter(v => v.t === "a").map(suNode), 3);
+    g(R, "explores", `${s.explores} · ${t("stories")}`, S.ss.map(suNode), 3);
+  }
+  return {c, L, R};
+}
+function renderSutra(){
+  const el = $("sutra"); if(!el) return; const on = sutraShown();
+  el.hidden = !on; $("app").classList.toggle("sutra-on", on); if(!on){ el.innerHTML = ""; return; }
+  const {c, L, R} = sutraGroups(), s = SU[lang], evn = k => lang === "hi" ? EV[k].hi : EV[k].en;
+  const grp = G => G.map(x => `<section class="su-g" data-ev="${REL[x.rel].ev}"><h4>${esc(x.h)}<small title="${esc(lang === "hi" ? EV[REL[x.rel].ev].n_hi : EV[REL[x.rel].ev].n_en)}">${esc(evn(REL[x.rel].ev))}</small></h4>${x.items.join("")}${x.more ? `<p class="su-more">${esc(t("more")(x.more))}</p>` : ""}</section>`).join("");
+  el.innerHTML = `<div class="su-in"><svg class="su-w" aria-hidden="true"></svg><div class="su-col su-l">${grp(L)}</div>` +
+    `<div class="su-mid"><article class="su-me" style="--c:${c.c}"><div class="eyebrow"><i></i>${esc(c.eye)}</div><h3 lang="${lang}">${esc(c.title)}</h3>` +
+    (c.sa ? `<p class="sk" lang="sa">${esc(c.sa)}</p>` : "") + (c.tx ? `<p class="tx" lang="${lang}">${esc(c.tx)}</p>` : "") +
+    (c.read ? `<a class="btn" data-reader href="${c.read}">${esc(c.readL)}</a>` : "") + `</article>${!L.length && !R.length ? `<p class="su-more">${esc(s.none)}</p>` : ""}</div>` +
+    `<div class="su-col su-r">${grp(R)}</div></div>` +
+    `<p class="su-key"><span>${esc(s.key)}</span>${["text","editorial","derived"].map(k => `<span class="k"><svg width="34" height="8" aria-hidden="true"><path class="ev-${k}" d="M1 4H33"/></svg>${esc(evn(k))}</span>`).join("")}</p>`;
+  el.scrollTop = 0; sutraWires();
+}
+// the lines from the centre card to every other card (wide screens only; stacked on narrow ones)
+function sutraWires(){
+  const el = $("sutra"); if(!el || el.hidden) return; const inn = el.querySelector(".su-in"), svg = el.querySelector(".su-w"), me = el.querySelector(".su-me"); if(!inn || !me) return;
+  const stack = el.clientWidth < 800; el.classList.toggle("stack", stack); if(stack){ svg.innerHTML = ""; return; }
+  // the centre card stays in the middle of the screen while tall columns scroll past it
+  const cs = getComputedStyle(el), padT = parseFloat(cs.paddingTop), room = el.clientHeight - padT - parseFloat(cs.paddingBottom);
+  el.style.setProperty("--su-top", Math.max(0, (el.clientHeight - me.offsetHeight)/2 - padT) + "px");
+  el.querySelectorAll(".su-col").forEach(c => { c.style.marginTop = Math.max(0, (room - c.offsetHeight)/2) + "px"; });   // a short column sits level with the centre card; a tall one starts at the top
+  const o = inn.getBoundingClientRect(), m = me.getBoundingClientRect(), y1 = m.top - o.top + m.height/2; let d = "";
+  el.querySelectorAll(".su-col .su-c").forEach(card => { const r = card.getBoundingClientRect(), left = !!card.closest(".su-l"), ev = card.closest(".su-g").dataset.ev;
+    const x1 = (left ? m.left : m.right) - o.left, x2 = (left ? r.right : r.left) - o.left, y2 = r.top - o.top + r.height/2, mx = (x1 + x2)/2;
+    d += `<path class="ev-${ev}" d="M${x1.toFixed(1)} ${y1.toFixed(1)}C${mx.toFixed(1)} ${y1.toFixed(1)} ${mx.toFixed(1)} ${y2.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}"/>`; });
+  svg.innerHTML = d;
+}
+addEventListener("resize", sutraWires); $("sutra").addEventListener("scroll", sutraWires, {passive:true}); if(document.fonts && document.fonts.ready) document.fonts.ready.then(sutraWires);
+
 // ---------- panel ----------
 function qRow(q){ return `<a class="item" href="#/q/${q.slug}"><span class="tt">${esc(qn(q))}<small>${esc(t("n")(q.verses.length+(q.av?.items?.length||0)))}</small></span></a>`; }
 function vRow(n, extra){
@@ -312,7 +393,7 @@ function renderPanel(focus=true){
       if(k !== S.t) h += `<p class="xnote">${esc(t("crossNote"))}</p>`; });
   }
   p.innerHTML = h + "</div>"; setMin(p, r0, was); p.scrollTop = 0;
-  renderChrome();
+  renderSutra(); renderChrome();
   const hd = $("ptitle"); if(hd && started && focus) hd.focus({preventScroll:true});
 }
 // The furniture around the graph: a legend that is also the filter (bottom left), and a pill saying what is selected (top centre).
@@ -326,24 +407,26 @@ function renderChrome(){
       `<ul>${["g","a","u"].map(k => `<li><button type="button" data-hide="${k}" aria-pressed="${!hid.has(k)}" aria-label="${esc((hid.has(k) ? t("showT") : t("hideT")) + " · " + t("names")[k])}" class="${hid.has(k) ? "off" : ""}"><i class="dot" style="background:${COL[k]}"></i><span>${esc(t("names")[k])}</span><em>${chapOf[k].length}</em><b class="eye" aria-hidden="true"></b></button></li>`).join("")}</ul><p>${esc(t("legendKey"))}</p><p>${esc(t("legendEv"))}</p>` : "");
   }
   if(cx){
-    const on = S.kind !== "home" && S.kind !== "chapters" && !(phone.matches && !collapsed);
+    const on = S.kind !== "home" && S.kind !== "chapters" && (sutraShown() || !(phone.matches && !collapsed));
     cx.hidden = !on;
     if(on){
       const name = S.kind === "path" ? (lang === "hi" ? S.p.title_hi : S.p.title_en) : S.kind === "q" ? qn(S.q) : S.kind === "idea" ? (lang === "hi" ? S.m.hi || S.m.en : S.m.en) : S.n ? (S.n.kind === "verse" || S.n.kind === "passage" ? (lang === "hi" ? S.n.ch.name.hi || S.n.ch.name.en : S.n.ch.name.en) + " " + nm(S.n) : nm(S.n)) : "";
       const k = S.kind === "chap" || S.kind === "root" ? (S.n.kids || chapOf[S.n.t] || []).length : lit ? Math.max(0, lit.size - (S.n && lit.has(S.n) ? 1 : 0)) : 0;
       const col = S.n ? COL[S.n.t] : S.kind === "idea" ? COL[S.t] : palette.gold, canFocus = S.kind !== "root";
-      cx.innerHTML = `<i class="dot" style="background:${col}"></i><span class="nm">${esc(name)}</span>${k ? `<span class="ct">${esc(t("conn")(k))}</span>` : ""}` +
-        (canFocus ? `<span class="seg" role="group"><button type="button" data-focus="1" aria-pressed="${focusMode}">${esc(t("focus"))}</button><button type="button" data-focus="0" aria-pressed="${!focusMode}">${esc(t("whole"))}</button></span>` : "") +
+      cx.innerHTML = `<i class="dot" style="background:${col}"></i><span class="nm">${esc(name)}</span>${k && !sutraShown() ? `<span class="ct">${esc(t("conn")(k))}</span>` : ""}` +
+        (sutraOk() ? `<span class="seg" role="group"><button type="button" data-sutra="0" aria-pressed="${!sutraOn}">${esc(SU[lang].graph)}</button><button type="button" data-sutra="1" aria-pressed="${sutraOn}">${esc(SU[lang].name)}</button></span>` : "") +
+        (canFocus && !sutraShown() ? `<span class="seg" role="group"><button type="button" data-focus="1" aria-pressed="${focusMode}">${esc(t("focus"))}</button><button type="button" data-focus="0" aria-pressed="${!focusMode}">${esc(t("whole"))}</button></span>` : "") +
         `<button type="button" class="x" data-clear aria-label="${esc(t("clearSel"))}">×</button>`;
     }
   }
   const zf = $("zfit"); if(zf) zf.setAttribute("aria-label", t("fit"));
 }
 document.addEventListener("click", e => {
-  const lgb = e.target.closest("#legend [data-lg]"), hb = e.target.closest("#legend [data-hide]"), fb = e.target.closest("#ctx [data-focus]"), cb = e.target.closest("#ctx [data-clear]");
+  const lgb = e.target.closest("#legend [data-lg]"), hb = e.target.closest("#legend [data-hide]"), fb = e.target.closest("#ctx [data-focus]"), cb = e.target.closest("#ctx [data-clear]"), sb = e.target.closest("#ctx [data-sutra]");
   if(lgb){ legendOpen = !legendOpen; try{ localStorage.setItem("gg-graph-legend", legendOpen ? "1" : "0"); }catch(err){} renderChrome(); }
   else if(hb){ const k = hb.dataset.hide; if(hid.has(k)) hid.delete(k); else if(hid.size < 2) hid.add(k); renderChrome(); kick(); }   // never hide all three
   else if(fb){ focusMode = fb.dataset.focus === "1"; renderChrome(); kick(); }
+  else if(sb){ sutraOn = sb.dataset.sutra === "1"; renderSutra(); renderChrome(); if(!sutraOn){ dirty = true; fly(); } kick(); }
   else if(cb){ nav("#/"); }
 });
 $("panel").addEventListener("click", e => {
