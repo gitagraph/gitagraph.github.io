@@ -166,3 +166,20 @@ button{font-family:var(--f-ui)}
   .ctx{flex-wrap:wrap;border-radius:22px;row-gap:4px}
   .ctx .nm{flex:1}
 }
+
+/* phones: the small card can be put away (its own ×); the pill's name then becomes the way back. With a two-row pill, the legend and zoom buttons sit below it. */
+.ctx button.nm{border:0;background:transparent;color:inherit;font:inherit;font-weight:600;text-align:left;padding:0;min-height:36px;cursor:pointer}
+.ctx button.nm b{color:var(--muted);font-weight:400;margin-left:4px}
+@media(max-width:900px){
+  .panel.min .phead{align-items:flex-start}
+  .panel.min .phead .x{flex:none}
+  body:has(.ctx:not([hidden]) .seg + .seg) .glegend{top:176px}
+  body:has(.ctx:not([hidden]) .seg + .seg) .zoom{top:176px}
+}
+@media(max-width:900px){
+  .ctx .nm{order:0;flex:1 1 calc(100% - 90px)}
+  .ctx .x{order:1}
+  .ctx .seg{order:2}
+  .ctx .seg button{padding:0 9px;font-size:13px}
+  .panel.min .phead [data-hidecard]{margin-left:auto}
+}

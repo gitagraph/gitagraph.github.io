@@ -144,6 +144,9 @@ let S = {kind:"home"}, readOpen = false, collapsed = false, lit = null, edges = 
 // Links followed inside the full screen (and the Chapters list) stay full screen. Back returns to where the reader was.
 const phone = matchMedia("(max-width:900px)");
 let fullNext = false, peekOpen = false;
+// phones: the small card can be put away to free the map; the selection stays, and tapping its bubble (or its name in the pill) brings the card back
+let cardHidden = false;
+function showCard(){ cardHidden = false; renderPanel(false); }
 function parse(h){
   const p = h.replace(/^#\/?/, "").split("/").filter(Boolean);
   let read = false; if(p[0] === "read"){ read = true; p.shift(); }
@@ -170,7 +173,7 @@ const hashOf = n => n.kind === "idea" ? `#/i/${n.t}/${n.hid}` : n.kind === "root
 const hashFor = st => st.kind === "path" ? `#/p/${st.p.slug}` : st.kind === "q" ? `#/q/${st.q.slug}` : st.kind === "chapters" ? "#/chapters" : st.kind === "idea" ? `#/i/${st.t}/${st.id}` : st.n ? hashOf(st.n) : "#/";
 function apply(){
   const r = parse(location.hash); S = r.st;
-  readOpen = false;
+  readOpen = false; cardHidden = false;
   if(r.read){history.replaceState({...history.state,universe:true},"",hashFor(S));rememberView();location.assign(readerHref(S.n));return;}
   const view = history.state?.view, restoring = view && view.hash === (location.hash || "#/");
   if(restoring){ collapsed = !!view.collapsed; peekOpen = !!view.peek; }
@@ -334,7 +337,7 @@ const sRow = n => `<a class="item" style="--c:${col(n)}" href="${hashOf(n)}"><sp
 const cRow = n => `<a class="item" style="--c:${col(n)}" href="${hashOf(n)}"><span class="rf">${n.num != null ? n.num : "✦"}</span><span class="tt">${esc(nm(n))}<small>${esc(n.kind === "chap" && n.t !== "u" ? t("n")(n.kids.length) : t("ns")(n.kids.length))}</small></span></a>`;
 function head(eye, title, c){
   return `<div class="phead"><div><div class="eyebrow" style="--c:${c || "var(--gold)"}"><i></i>${esc(eye)}</div><h2 id="ptitle" tabindex="-1">${esc(title)}</h2></div>
-  ${phone.matches && !collapsed ? `<button class="x mapbtn" data-pback>${esc(t("back"))}</button>` : `<button class="x" data-min aria-label="${esc(collapsed ? t("show") : t("min"))}" aria-expanded="${!collapsed}">${collapsed ? "⌃" : "⌄"}</button>`}</div><div class="pbody">`;
+  ${phone.matches && !collapsed ? `<button class="x mapbtn" data-pback>${esc(t("back"))}</button>` : `${phone.matches && collapsed ? `<button class="x" data-hidecard aria-label="${esc(t("min"))}">×</button>` : ""}<button class="x" data-min aria-label="${esc(collapsed ? t("show") : t("min"))}" aria-expanded="${!collapsed}">${collapsed ? "⌃" : "⌄"}</button>`}</div><div class="pbody">`;
 }
 function ideaChips(v){
   const map=v.t==="a"?AH:GH;const ids=[...new Set([...(v.d.k||[]),...(v.d.p||[])])].filter(id=>map.has(id)&&ideaMeta(v.t,id));
@@ -413,7 +416,7 @@ function renderChrome(){
       const name = S.kind === "path" ? (lang === "hi" ? S.p.title_hi : S.p.title_en) : S.kind === "q" ? qn(S.q) : S.kind === "idea" ? (lang === "hi" ? S.m.hi || S.m.en : S.m.en) : S.n ? (S.n.kind === "verse" || S.n.kind === "passage" ? (lang === "hi" ? S.n.ch.name.hi || S.n.ch.name.en : S.n.ch.name.en) + " " + nm(S.n) : nm(S.n)) : "";
       const k = S.kind === "chap" || S.kind === "root" ? (S.n.kids || chapOf[S.n.t] || []).length : lit ? Math.max(0, lit.size - (S.n && lit.has(S.n) ? 1 : 0)) : 0;
       const col = S.n ? COL[S.n.t] : S.kind === "idea" ? COL[S.t] : palette.gold, canFocus = S.kind !== "root";
-      cx.innerHTML = `<i class="dot" style="background:${col}"></i><span class="nm">${esc(name)}</span>${k && !sutraShown() ? `<span class="ct">${esc(t("conn")(k))}</span>` : ""}` +
+      cx.innerHTML = `<i class="dot" style="background:${col}"></i>${cardHidden && phone.matches ? `<button type="button" class="nm" data-showcard aria-label="${esc(t("show"))}">${esc(name)} <b aria-hidden="true">⌃</b></button>` : `<span class="nm">${esc(name)}</span>`}${k && !sutraShown() ? `<span class="ct">${esc(t("conn")(k))}</span>` : ""}` +
         (sutraOk() ? `<span class="seg" role="group"><button type="button" data-sutra="0" aria-pressed="${!sutraOn}">${esc(SU[lang].graph)}</button><button type="button" data-sutra="1" aria-pressed="${sutraOn}">${esc(SU[lang].name)}</button></span>` : "") +
         (canFocus && !sutraShown() ? `<span class="seg" role="group"><button type="button" data-focus="1" aria-pressed="${focusMode}">${esc(t("focus"))}</button><button type="button" data-focus="0" aria-pressed="${!focusMode}">${esc(t("whole"))}</button></span>` : "") +
         `<button type="button" class="x" data-clear aria-label="${esc(t("clearSel"))}">×</button>`;
@@ -427,9 +430,11 @@ document.addEventListener("click", e => {
   else if(hb){ const k = hb.dataset.hide; if(hid.has(k)) hid.delete(k); else if(hid.size < 2) hid.add(k); renderChrome(); kick(); }   // never hide all three
   else if(fb){ focusMode = fb.dataset.focus === "1"; renderChrome(); kick(); }
   else if(sb){ sutraOn = sb.dataset.sutra === "1"; renderSutra(); renderChrome(); if(!sutraOn){ dirty = true; fly(); } kick(); }
+  else if(e.target.closest("#ctx [data-showcard]")){ showCard(); }
   else if(cb){ nav("#/"); }
 });
 $("panel").addEventListener("click", e => {
+  if(e.target.closest("[data-hidecard]")){ e.stopPropagation(); cardHidden = true; $("panel").classList.add("gone"); renderChrome(); return; }
   // phone full screen: Back returns to where the reader was (previous view, its camera and scroll); with nowhere to go back to, fold down to the map
   if(e.target.closest("[data-pback]")){ if(history.state?.nav) history.back(); else { collapsed = true; peekOpen = false; renderPanel(); fly(); } return; }
   if(phone.matches && !collapsed && e.target.closest('a[href^="#"]')) fullNext = true;
@@ -438,7 +443,7 @@ $("panel").addEventListener("click", e => {
 function riseTray(){ rememberView(); history.pushState({universe:true, nav:(history.state?.nav || 0) + 1}, "", location.href);
   collapsed = false; peekOpen = true; renderPanel(); $("qs").setAttribute("aria-current", S.kind === "home" ? "true" : "false"); }
 // phones: the tray slides between card and full page (transform only, run by the compositor); on the overview the card is hidden
-function setMin(p, r0, was){ const gone = phone.matches && collapsed && S.kind === "home";
+function setMin(p, r0, was){ const gone = phone.matches && collapsed && (S.kind === "home" || cardHidden);
   p.classList.toggle("min", collapsed); p.classList.toggle("gone", gone);
   if(was === collapsed || !phone.matches || reduce.matches || gone || !r0.height || !p.animate) return;
   const by = r0.top - p.getBoundingClientRect().top; if(Math.abs(by) < 2) return;
@@ -614,7 +619,7 @@ function cancelTap(){if(tapTimer!==null)clearTimeout(tapTimer);tapTimer=null;las
 function doubleZoom(sx,sy){const from={...cam};zoomAt(1.8,sx,sy);const next={...cam};if(!reduce.matches){Object.assign(cam,from);tgt={...next,t0:performance.now(),from};cv.setAttribute("data-camera-state","moving");}dirty=true;kick();}
 // phones: tapping the bubble that is already selected, or double-tapping a bubble, opens its tray full screen
 const isSel = n => !!n && (S.n === n || n.kind === "idea" && S.kind === "idea" && n.t === S.t && n.hid === S.id);
-function openTray(n){ if(!isSel(n)) mapNav(n); riseTray(); }
+function openTray(n){ if(cardHidden && isSel(n)){ showCard(); return; } if(!isSel(n)) mapNav(n); riseTray(); }
 function tap(n,event,touch){if(!touch){if(n){if(phone.matches&&collapsed&&isSel(n))openTray(n);else mapNav(n);}return;}const now=performance.now(),prior=lastTap;if(prior&&now-prior.time<=320&&Math.hypot(prior.x-event.clientX,prior.y-event.clientY)<28){cancelTap();if(phone.matches&&n&&prior.node===n){openTray(n);return;}doubleZoom(event.clientX,event.clientY);return;}
 if(tapTimer!==null){clearTimeout(tapTimer);if(prior?.node)mapNav(prior.node);}lastTap={time:now,x:event.clientX,y:event.clientY,node:n};tapTimer=setTimeout(()=>{const selected=lastTap?.node;tapTimer=null;lastTap=null;if(selected){if(phone.matches&&collapsed&&isSel(selected))openTray(selected);else mapNav(selected);}},320);}
 
