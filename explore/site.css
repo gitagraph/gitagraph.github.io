@@ -270,8 +270,8 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .home .qcard .qi{color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 :root[lang=hi] .home .qcard .qi{color:var(--muted-hi);line-height:1.75}
 .home .qcard .qm{margin:0;padding:2px 0 0;font-size:13px}
-/* phones: the first screen is the headline, (for a returning reader) a Continue card, three questions, then today's verse */
-.home .hq,.home .hcont{display:none}
+/* phones: the first screen is the headline, (for a returning reader) a Continue card, then today's verse; the question cards follow */
+.home .hcont{display:none}
 @media (max-width:899px){
   .home .eb,.home .ctas,.home .hero p.resume{display:none}
   .home .hero h1{margin-bottom:0}
@@ -280,13 +280,6 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
   .home .hcont b{font-size:17px;font-weight:600}
   .home .hcont i{font-style:normal;font-size:20px;color:var(--accent)}
   :root[lang=hi] .home .hcont small{letter-spacing:0;text-transform:none;font-size:14px}
-  .home .hq{display:block;margin:24px 0 0}
-  .home .hero .hq p{margin:0 0 12px;max-width:none;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.5}
-  :root[lang=hi] .home .hero .hq p{letter-spacing:0;text-transform:none;font-size:15px}
-  .home .hq div{display:flex;flex-wrap:wrap;gap:8px}
-  .home .hq a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);text-decoration:none;font:500 15px var(--f-ui)}
-  :root[lang=hi] .home .hq a{font-family:var(--f-hi);font-size:16px}
-  .home .hq a.all{border-color:transparent;background:transparent;color:var(--muted);text-decoration:underline;text-underline-offset:4px;padding:0 8px}
 }
 .home .qpills{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 .home .qpill{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--surface);text-decoration:none;color:inherit}
