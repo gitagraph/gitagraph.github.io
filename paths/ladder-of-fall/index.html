@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The ladder of fall, and another way · Gitagraph</title><meta name="description" content="Krishna traces how dwelling on sense objects leads to the collapse of understanding. He then describes another possibility: moving through the same world without being ruled by attraction and aversion."><link rel="canonical" href="https://gitagraph.com/paths/ladder-of-fall/">
+<link rel="icon" href="../../shared/mark.svg?v=20261114095509" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261114095509" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261114095509">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
+:root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
+  --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111020;--surface:#1a1930;--sunk:#22213a;--ink:#efede6;--muted:#a9a7ba;--line:#2f2d48;--accent:#f0a552;--brand:#d6d0f2;--on-brand:#16112e;--gold:#d9a441;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111020;--surface:#1a1930;--sunk:#22213a;--ink:#efede6;--muted:#a9a7ba;--line:#2f2d48;--accent:#f0a552;--brand:#d6d0f2;--on-brand:#16112e;--gold:#d9a441;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--muted-hi:color-mix(in srgb,var(--muted) 60%,var(--ink))}}
+:root[data-theme="dark"]{--muted-hi:color-mix(in srgb,var(--muted) 60%,var(--ink))}
+:root{--mp:#9a5a14}
+.map-prev .mp{fill:var(--mp)} .map-prev .mc{fill:var(--accent)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--mp:#e6a35a}}
+:root[data-theme="dark"]{--mp:#e6a35a}
+.map-prev{display:block;width:100%;height:auto;max-height:150px;color:inherit}
+.map-prev .ml{fill:none;stroke:var(--muted);stroke-opacity:.32;stroke-width:1.4}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.5}
+a{color:inherit} :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px} [hidden]{display:none!important}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:8px;padding-block:8px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.top .brand{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:inherit}
+.top .brand .mark{width:32px;height:32px;flex:none}
+.brand .wm{display:flex;flex-direction:column;min-width:0;line-height:1.45;overflow-x:clip}
+:root[lang=hi] .brand .wm{line-height:1.7}
+.brand .nm{font-family:var(--f-read);font-weight:600;font-size:21px;white-space:nowrap}
+:root[lang=hi] .brand .nm{font-family:var(--f-hi);font-weight:400;font-size:22px}
+.brand .tg{font-family:var(--f-read);font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.45;padding-bottom:1px}
+:root[lang=hi] .brand .tg{font-family:var(--f-hi);font-size:13.5px}
+.mark .bk{fill:var(--ink)} .mark .ct{fill:var(--bg)} .mark .nd{fill:#c2570c}
+.langpill.themebtn{width:44px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+.themebtn svg{width:18px;height:18px}
+.langpill{font:inherit;font-size:14px;font-weight:600;height:44px;min-width:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 48px}
+.hero{padding:24px 0 8px}
+.hero h1{font-family:var(--f-read);font-weight:600;font-size:clamp(28px,5vw,42px);line-height:1.18;margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance;max-width:24ch}
+:root[lang=hi] .hero h1{font-family:var(--f-hi);font-weight:400;line-height:1.35}
+.hero p{font-family:var(--f-read);color:var(--muted);font-size:17px;line-height:1.65;margin:0;max-width:60ch}
+:root[lang=hi] .hero p{font-family:var(--f-hi);line-height:1.85}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+.btn{flex:0 1 auto;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:12px;border:1.5px solid transparent;font-weight:600;font-size:16px;text-align:center;text-decoration:none}
+.btn.primary{background:var(--brand);color:var(--on-brand)}
+.btn.primary:hover{background:color-mix(in srgb,var(--brand) 86%,var(--bg))}
+.btn.secondary{border-color:var(--muted);color:var(--ink)}
+.btn.secondary:hover{border-color:var(--ink)}
+@media (max-width:460px){ .btn{flex:1 1 100%} }
+.hero p.resume{margin:12px 0 0;font-family:var(--f-ui);font-size:16px}
+.nw{white-space:nowrap}
+.resume a{display:inline-flex;align-items:center;min-height:44px;color:var(--accent);font-weight:600;text-decoration:none}
+.sec{margin:40px 0 0}
+.sec h2{font-family:var(--f-read);font-weight:600;font-size:clamp(21px,2.6vw,24px);line-height:1.3;margin:0 0 14px}
+.sec h2::before{content:"";display:block;width:28px;height:2px;background:var(--gold);margin:0 0 10px}
+:root[lang=hi] .sec h2{font-family:var(--f-hi);font-weight:400}
+.qcards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+@media (min-width:700px){ .qcards{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.card{display:flex;flex-direction:column;gap:6px;height:100%;padding:18px 20px;border-radius:16px;background:var(--surface);border:1px solid var(--line);text-decoration:none;color:inherit}
+a.card:hover{border-color:var(--accent)}
+.qcard .qt{font-family:var(--f-read);font-weight:600;font-size:19px;line-height:1.35}
+:root[lang=hi] .qcard .qt{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.qcard .qm{margin-top:auto;padding-top:4px;color:var(--muted);font-size:14px;line-height:1.5}
+.more{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;color:var(--accent);font-weight:600;text-decoration:none}
+.go{color:var(--accent);font-weight:600}
+.votd{min-height:var(--vh,0px)}
+.votd .ey{margin:0;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+:root[lang=hi] .votd .ey{letter-spacing:0;text-transform:none;font-size:14px}
+.votd .sa{font-family:var(--f-skt);font-size:21px;line-height:1.75;margin:10px 0 0}
+.votd .tx{font-family:var(--f-read);font-size:17.5px;line-height:1.65;margin:10px 0 0;max-width:62ch}
+:root[lang=hi] .votd .tx{font-family:var(--f-hi);line-height:1.85}
+.votd .more{margin-top:4px}
+.cx{display:grid;grid-template-columns:minmax(0,1fr);gap:10px 28px;align-items:center}
+@media (min-width:700px){ .cx{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)} }
+.cx .ds{display:block;margin:0;color:var(--muted);line-height:1.6}
+.cx .go{display:inline-flex;align-items:center;min-height:44px;margin-top:2px;font-size:16px;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px;text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:12px}
+.text{--c:var(--lc);display:flex;flex-direction:column;gap:4px;height:100%;padding:18px 20px;border-radius:16px;background:var(--surface);
+  border:1px solid var(--line);border-top:3px solid var(--c);text-decoration:none;color:inherit}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .text{--c:var(--ld)}}
+:root[data-theme="dark"] .text{--c:var(--ld)}
+a.text:hover{border-color:var(--c)}
+.text .nat{font-family:var(--f-skt);font-size:26px;line-height:1.35;color:var(--c)}
+.text .nm{font-family:var(--f-read);font-weight:600;font-size:19px}
+:root[lang=hi] .text .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.text .ds{color:var(--muted);line-height:1.55;margin:2px 0 0}
+.text .ft{margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.text .go{color:var(--c)}
+.text.soon{opacity:.62}
+.text .pill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.note{margin:36px 0 0;color:var(--muted);font-size:14px;line-height:1.6;max-width:70ch}
+/* Hindi secondary text: Devanagari needs more size and line height than Latin to read at the same weight */
+:root[lang=hi] .qcard .qm,:root[lang=hi] .text .ft{font-size:15px;line-height:1.7}
+:root[lang=hi] .cx .ds,:root[lang=hi] .text .ds{font-size:16.5px;line-height:1.75}
+:root[lang=hi] .note{font-size:15px;line-height:1.8}
+:root[lang=hi] :is(.qcard .qm,.cx .ds,.text .ds,.text .ft,.note,.votd .ey){color:var(--muted-hi)}
+/* phones: tighter section rhythm and card padding; touch targets stay 44px+ */
+@media (max-width:480px){ .hero{padding-top:14px} .ctas{margin-top:18px} .sec{margin-top:30px} .sec h2{margin-bottom:10px} .sec h2::before{margin-bottom:8px}
+  .card,.text{padding:15px 16px} .qcards,.grid{gap:10px} .text .ft{padding-top:8px} .note{margin-top:26px} .wrap{padding-bottom:28px} }
+.l-hi{display:none} :root[lang=hi] .l-hi{display:revert} :root[lang=hi] .l-en{display:none}
+.foot{margin:12px 0 0;font-size:14px;color:var(--muted)}
+.foot a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;color:var(--accent);font-weight:600}
+.doc h2{font-family:var(--f-read);font-size:22px;margin:30px 0 8px}
+:root[lang=hi] .doc h2{font-family:var(--f-hi);font-weight:400}
+.doc p,.doc li{line-height:1.7;max-width:68ch}
+.doc table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px}
+.doc th,.doc td{border-top:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+.doc th{font-size:13px;color:var(--muted);font-weight:600}
+.tw{overflow-x:auto}
+.proto{display:inline-block;font-family:var(--f-ui);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:0 7px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px;vertical-align:3px;line-height:1.6}
+:root[lang=hi] .proto{letter-spacing:0;text-transform:none;font-size:11.5px}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important;scroll-behavior:auto!important} }
+html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
+
+/* Site shell: the one navigation every page shares (home, the map, the documents and all three readers).
+   Desktop: links in the header. Phone: a five-tab bar. The markup comes from shell.js.
+   The readers inline this file into app.css at build time, so it also works offline. */
+.gnav{display:none}
+.gnav a{display:inline-flex;align-items:center;height:44px;padding:0 13px;border-radius:12px;color:var(--ink);text-decoration:none;
+  font-family:var(--f-ui);font-size:16px;font-weight:500;line-height:1;white-space:nowrap;position:relative}
+.gnav a:hover{background:var(--sunk)}
+.gnav a[aria-current=page]{font-weight:600}
+.gnav a[aria-current=page]::after{content:"";position:absolute;left:13px;right:13px;bottom:7px;height:2px;border-radius:2px;background:currentColor}
+.gnav .gsp{flex:1}
+.gnav svg{display:none}
+
+.gtabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+  background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);
+  padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.gtabs a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:64px;min-width:0;
+  font-family:var(--f-ui);font-size:12px;font-weight:600;line-height:1.2;color:var(--muted);text-decoration:none}
+.gtabs a svg{width:23px;height:23px}
+.gtabs .gi{display:grid;place-items:center;width:56px;height:30px;border-radius:999px}
+.gtabs a[aria-current=page]{color:var(--ink)}
+.gtabs a[aria-current=page] .gi{background:color-mix(in srgb,var(--ink) 10%,transparent)}
+:root[lang=hi] .gtabs a{font-size:13px}
+
+/* pages with the tab bar keep their last lines clear of it; the map lifts its own floating controls the same way */
+@media (max-width:699px){
+  body.gg-tabs{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px));--safe-b:calc(64px + env(safe-area-inset-bottom,0px))}
+}
+@media (min-width:700px){
+  .gtabs{display:none}
+  .gnav{display:flex;align-items:center;gap:2px;flex:1;min-width:0;margin-left:16px}
+  .top .brand,.gbar .brand{flex:none}
+}
+
+/* the reader's desktop bar: brand + the same links */
+.gbar .brand{display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:inherit}
+.gbar .brand .mark{width:30px;height:30px;flex:none}
+.gbar .brand .nm{font-family:var(--f-read);font-weight:600;font-size:19px;white-space:nowrap}
+:root[lang=hi] .gbar .brand .nm{font-family:var(--f-hi);font-weight:400;font-size:20px}
+.gbar .mark .bk{fill:var(--ink)} .gbar .mark .ct{fill:var(--bg)} .gbar .mark .nd{fill:#c2570c}
+
+/* site-wide search: a hint pill in the desktop header, an icon on phones */
+.gsearch,.gnav .gsearch{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:var(--surface);
+  color:var(--muted);text-decoration:none;font-family:var(--f-ui);font-size:15px;font-weight:400;line-height:1;white-space:nowrap;min-width:0}
+.gsearch svg,.gnav .gsearch svg{display:block;width:18px;height:18px;flex:none}
+.gsearch span{overflow:hidden;text-overflow:ellipsis}
+.gsearch:hover,.gnav .gsearch:hover{border-color:var(--ink);color:var(--ink);background:var(--surface)}
+.gsearch[aria-current=page],.gnav .gsearch[aria-current=page]{border-color:var(--ink);color:var(--ink)}
+.gnav .gsearch[aria-current=page]::after{display:none}
+.gnav .gsearch{margin-left:auto;margin-right:8px}
+.gs-m{width:44px;padding:0;justify-content:center;flex:none;background:transparent;color:var(--ink)}
+.gs-m span{display:none}
+@media (min-width:700px){ .gs-m{display:none} }
+@media (max-width:1099px){ .gnav .gsearch{width:44px;padding:0;justify-content:center} .gnav .gsearch span{display:none} }
+
+.saved-list{list-style:none;margin:0 0 28px;padding:0}
+.saved-list a{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-top:1px solid var(--line);text-decoration:none}
+.saved-list li:last-child a{border-bottom:1px solid var(--line)}
+.saved-list .rf{font-family:var(--f-read);font-weight:600;font-size:18px;min-width:58px;color:var(--c,var(--ink))}
+.saved-list .ch{flex:1;min-width:0;color:var(--muted)}
+.saved-list .go{color:var(--muted)}
+.saved-empty{color:var(--muted);max-width:52ch}
+/* reading paths: the passage is the main thing; the line between passages is secondary */
+.plist{list-style:none;margin:20px 0 0;padding:0}
+.prow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:18px 4px;border-top:1px solid var(--line);text-decoration:none;color:inherit}
+.plist li:last-child .prow{border-bottom:1px solid var(--line)}
+.prow:hover .pt{text-decoration:underline;text-underline-offset:4px}
+.prow .pt{font-family:var(--f-read);font-weight:600;font-size:20px;line-height:1.35}
+:root[lang=hi] .prow .pt{font-family:var(--f-hi);font-weight:400;font-size:21px;line-height:1.5}
+.prow .pd{grid-column:1/-1;color:var(--muted);line-height:1.6;max-width:68ch}
+.prow .pk,.peb .pk{font-size:13px;color:var(--muted);white-space:nowrap}
+.pathp .wrap{max-width:760px}
+.peb{margin:28px 0 0;font-size:14px;color:var(--muted)} .peb a{color:var(--accent);font-weight:600;text-decoration:none}
+.ph{font-family:var(--f-read);font-weight:500;font-size:clamp(30px,5vw,44px);line-height:1.15;letter-spacing:-.01em;margin:10px 0 0}
+:root[lang=hi] .ph{font-family:var(--f-hi);font-weight:400;line-height:1.35;letter-spacing:0}
+.pframe{margin:16px 0 0;font-size:18px;line-height:1.65;color:var(--muted);max-width:60ch}
+.pstep{margin:36px 0 0}
+.pwhy{margin:0 0 12px;padding-left:14px;border-left:2px solid var(--line);color:var(--muted);font-size:15.5px;line-height:1.6;max-width:60ch}
+.pv{margin:0 0 14px;padding:22px 24px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+.pv .pr{display:flex;align-items:center;gap:10px;margin:0;font-size:13.5px;font-weight:600;color:var(--muted)}
+.pv .pn{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);font-size:13px;font-variant-numeric:tabular-nums}
+.pv .psa{margin:14px 0 0;font-family:var(--f-skt);font-size:clamp(21px,3.2vw,25px);line-height:1.7}
+.pv .psa mark.sh{background:color-mix(in srgb,var(--accent) 16%,transparent);color:inherit;border-radius:4px;padding:0 2px}
+.pv .ptr{margin:14px 0 0;font-family:var(--f-read);font-size:18px;line-height:1.65}
+:root[lang=hi] .pv .ptr{font-family:var(--f-hi);font-size:19px;line-height:1.8}
+.pv .pnote{margin:12px 0 0;font-size:14px;color:var(--muted)}
+.pv .pgo{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;color:var(--accent);font-weight:600;font-size:15px;text-decoration:none}
+.rungs{list-style:none;counter-reset:r;margin:18px 0 0;padding:0 0 0 14px;border-left:2px solid var(--accent)}
+.rungs li{counter-increment:r;display:flex;gap:12px;align-items:baseline;padding:9px 0;font-family:var(--f-read);font-size:18px}
+:root[lang=hi] .rungs li{font-family:var(--f-hi);font-size:19px}
+.rungs li::before{content:counter(r);flex:none;width:22px;color:var(--muted);font:600 13px var(--f-ui);font-variant-numeric:tabular-nums}
+.rungs li:nth-child(n+2){margin-left:calc((var(--i,0)) * 0px)}
+.pprov{margin:32px 0 0;padding:14px 16px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:14.5px;line-height:1.6}
+.pmore{margin:40px 0 0} .pmore h2{font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+:root[lang=hi] .pmore h2{letter-spacing:0;text-transform:none;font-size:15px}
+.pmore ul{list-style:none;margin:0;padding:0} .pmore a{display:flex;align-items:center;min-height:48px;border-top:1px solid var(--line);text-decoration:none;color:inherit;font-family:var(--f-read);font-size:18px}
+:root[lang=hi] .pmore a{font-family:var(--f-hi);font-size:19px}
+/* the site-wide search page (its own box is the search, so the header link is not repeated) */
+.srch .wrap{max-width:820px}
+.srch .gsearch{display:none}
+.sbox{display:flex;align-items:center;gap:12px;height:60px;margin:28px 0 0;padding:0 20px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface);cursor:text}
+.sbox:focus-within{border-color:var(--ink)}
+.sbox svg{width:22px;height:22px;flex:none;color:var(--muted)}
+.sbox input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;font-size:19px;-webkit-appearance:none;appearance:none}
+.sbox input::-webkit-search-cancel-button{-webkit-appearance:none}
+.shint{margin:18px 4px 0;color:var(--muted);max-width:58ch;line-height:1.6}
+.sg{margin:34px 0 0}
+.sg h2{margin:0 0 6px;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+:root[lang=hi] .sg h2{letter-spacing:0;text-transform:none;font-size:15px}
+.sg h2 span{font-weight:400;margin-left:4px}
+.sl{list-style:none;margin:0;padding:0}
+.sl a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 16px;align-items:baseline;padding:14px 4px;border-top:1px solid var(--line);text-decoration:none;color:inherit}
+.sl li:last-child a{border-bottom:1px solid var(--line)}
+.sl a:hover{background:var(--sunk)}
+.sl .tt{font-family:var(--f-read);font-weight:600;font-size:18px;line-height:1.35}
+:root[lang=hi] .sl .tt{font-family:var(--f-hi);font-weight:400;font-size:19px;line-height:1.5}
+.sl .rf{font-family:var(--f-read);font-weight:600;font-size:17px;font-variant-numeric:tabular-nums}
+.sl .sn{grid-column:1/-1;color:var(--muted);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sl .tx{font-size:14px;font-weight:600;white-space:nowrap}
+.smore{margin:12px 0 0;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:inherit;font-weight:600;cursor:pointer}
+.smore:hover{border-color:var(--ink)}
+
+.home{overflow-x:clip}
+.home .wrap{max-width:1120px;padding-bottom:0}
+.home .eb{margin:0 0 14px;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);line-height:1.5}
+:root[lang=hi] .home .eb{letter-spacing:0;text-transform:none;font-size:15px}
+.home .hero{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;padding:28px 0 8px;align-items:center}
+.home .hero h1{font-weight:500;font-size:clamp(34px,6.4vw,60px);line-height:1.06;letter-spacing:-.02em;margin:0 0 16px;max-width:15ch}
+:root[lang=hi] .home .hero h1{line-height:1.3;letter-spacing:0;font-size:clamp(32px,5.6vw,54px)}
+.home .hx > p{font-size:clamp(17px,1.5vw,19px);max-width:46ch}
+.home .btn{border-radius:999px;min-height:52px;padding:0 26px;font-size:17px}
+.home .votd{padding:26px 28px;border-radius:20px;height:auto;gap:0}
+.home .votd .ey{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 12px;font-family:var(--f-ui);letter-spacing:.06em;max-width:none}
+.home .votd .sa,.home .votd .tx{color:var(--ink);max-width:none}
+.home .votd .sa{font-size:clamp(20px,1.75vw,24px);margin-top:14px}
+:root[lang=hi] .home .votd .sa{font-family:var(--f-skt);line-height:1.75}
+:root[lang=hi] .home .votd .ey{font-family:var(--f-ui);line-height:1.4}
+.home .votd .tx{font-size:clamp(17px,1.5vw,19px);margin-top:12px}
+@media (min-width:900px){ .home .hero{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:64px;padding:64px 0 40px}
+  /* two lines beside the verse card, not four */
+  .home .hero h1{max-width:none;font-size:clamp(34px,3.5vw,50px);line-height:1.1} :root[lang=hi] .home .hero h1{font-size:clamp(34px,3.5vw,50px);line-height:1.3} }
+/* phones: the headline sets in two lines ("Everyday questions, / centuries of insight."), not four */
+@media (max-width:899px){ .home .hero h1{max-width:none;font-size:clamp(26px,8.2vw,52px);line-height:1.12} :root[lang=hi] .home .hero h1{font-size:clamp(28px,8.6vw,52px);line-height:1.3}
+  .home .eb{font-size:12px;letter-spacing:.04em} .home .hero{gap:22px;padding-top:20px} }
+.home .sec{margin:56px 0 0;padding-top:48px;border-top:1px solid var(--line)}
+.home .sec h2,.home .band h2{font-family:var(--f-read);font-weight:500;font-size:clamp(26px,3.4vw,38px);line-height:1.15;letter-spacing:-.01em;margin:0}
+:root[lang=hi] .home .sec h2,:root[lang=hi] .home .band h2{font-family:var(--f-hi);font-weight:400;line-height:1.35;letter-spacing:0}
+.home .sec h2::before{display:none}
+.home .sh{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 24px;margin:0 0 24px}
+.home .sh .more{margin:0}
+.home .qcards{gap:24px}
+.home .qcard{display:flex;flex-direction:column;gap:6px;height:100%;text-decoration:none;color:inherit}
+.home .qp{position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;gap:14px;min-height:150px;
+  margin-bottom:10px;padding:22px 24px;border-radius:16px;background:color-mix(in srgb,var(--accent) 13%,var(--bg))}
+.home .qp .sa{font-family:var(--f-skt);font-size:clamp(22px,2.2vw,28px);line-height:1.45}
+.home .qp .rf{font-size:14px;color:var(--muted)}
+.home .qp .sil{position:absolute;z-index:-1;right:8px;bottom:0;height:92%;aspect-ratio:1;color:var(--accent);opacity:.2}
+.home .qcard .qt{font-size:22px;line-height:1.3}
+:root[lang=hi] .home .qcard .qt{font-size:22px;line-height:1.45}
+.home .qcard:hover .qt{text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px}
+.home .qcard .qi{color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+:root[lang=hi] .home .qcard .qi{color:var(--muted-hi);line-height:1.75}
+.home .qcard .qm{margin:0;padding:2px 0 0;font-size:13px}
+.home .qpills{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.home .qpill{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--surface);text-decoration:none;color:inherit}
+.home .qpill:hover{border-color:var(--ink)}
+:root[lang=hi] .home .qpill{font-size:17px}
+.home .lrows{list-style:none;margin:24px 0 0;padding:0}
+.home .lrow{--c:var(--lc);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 24px;align-items:center;padding:24px 0;border-top:1px solid var(--line);text-decoration:none;color:inherit}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .home .lrow{--c:var(--ld)}}
+:root[data-theme="dark"] .home .lrow{--c:var(--ld)}
+.home .lrows li:last-child .lrow{border-bottom:1px solid var(--line)}
+.home .lrow .nat{grid-column:1/-1;font-family:var(--f-skt);font-size:clamp(28px,3vw,36px);line-height:1.4;color:var(--c)}
+.home .lrow .tx{grid-column:1/-1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.home .lrow .nm{font-family:var(--f-read);font-weight:600;font-size:22px}
+:root[lang=hi] .home .lrow .nm{font-family:var(--f-hi);font-weight:400}
+.home .lrow .ds{color:var(--muted);line-height:1.55}
+.home .lrow .ct{font-size:15px;color:var(--muted);font-variant-numeric:tabular-nums}
+.home .lrow .go{color:var(--c)}
+.home .lrow:hover .nm{text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px}
+.home .lrow.soon{opacity:.62}
+@media (min-width:900px){
+  .home .lrow{grid-template-columns:300px minmax(0,1fr) 170px auto;gap:0 40px;padding:28px 0}
+  .home .lrow .nat,.home .lrow .tx{grid-column:auto}
+}
+.home .band{--ink:#f3f1ea;--muted:#b9b7c9;--line:#3a375c;--mp:#e6a35a;--accent:#f0a552;margin:64px calc(50% - 50vw) 0;padding:64px max(16px,calc(50vw - 544px));
+  background:#1b1838;color:var(--ink);display:grid;grid-template-columns:minmax(0,1fr);gap:28px 64px;align-items:center}
+:root[data-theme="dark"] .home .band{background:#1f1e3a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .home .band{background:#1f1e3a}}
+.home .band .ds{margin:16px 0 24px;color:var(--muted);font-size:clamp(17px,1.5vw,19px);line-height:1.6;max-width:46ch}
+:root[lang=hi] .home .band .ds{line-height:1.8}
+.home .band .btn{background:var(--ink);color:#1b1838}
+.home .band .map-prev{max-height:220px;overflow:visible}
+/* the graph preview on the dark band: brighter threads and a soft glow on the two central nodes (no motion) */
+.home .band .map-prev .ml{stroke-opacity:.5}
+.home .band .map-prev .mc{filter:drop-shadow(0 0 9px color-mix(in srgb,var(--accent) 75%,transparent))}
+@media (min-width:900px){ .home .band{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding-block:88px} }
+.home .ft{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 24px;padding:56px 0 40px}
+.home .ft .fc{grid-column:1/-1}
+.home .ft .fb{font-family:var(--f-read);font-weight:600;font-size:22px;margin-bottom:8px}
+:root[lang=hi] .home .ft .fb{font-family:var(--f-hi);font-weight:400}
+.home .ft .note{margin:0;max-width:56ch}
+.home .ft nav{display:flex;flex-direction:column}
+.home .ft h3{margin:0 0 6px;font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+:root[lang=hi] .home .ft h3{letter-spacing:0;text-transform:none;font-size:15px}
+.home .ft nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
+.home .ft nav a:hover{text-decoration:underline}
+@media (min-width:900px){ .home .ft{grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr));gap:40px 56px} .home .ft .fc{grid-column:auto} }
+@media (max-width:480px){ .home .sec{margin-top:40px;padding-top:36px} .home .qp{min-height:132px;padding:18px 20px} .home .band{margin-top:48px;padding-block:48px} }
+</style></head>
+<body class="pathp"><header class="top"><a class="brand" href="../../" title="Gitagraph · A living library of wisdom"><svg class="mark" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><rect class="bk" x="6" y="6" width="108" height="108" rx="26"/><path class="ct" d="M87.49 38.1H74.86L75.07 98H73.99L65.47 92.5L65.9 38.1H45.82L46.04 75.87Q46.04 78.57 43.56 78.57Q41.83 78.57 39.08 76.84Q36.32 75.12 33.63 72.47Q30.93 69.83 29.09 66.97Q27.26 64.11 27.26 61.95Q27.26 60.98 27.9 60.22Q28.55 59.47 29.96 59.47H36.86L36.97 38.1H22.18L18.51 31.08V30H83.82L87.49 37.02Z"/><circle class="nd" cx="88.5" cy="33.6" r="11.5"/></svg><span class="wm"><span class="nm"><span class="l-en">Gitagraph</span><span class="l-hi">गीताग्राफ़</span></span></span></a>
+<button class="langpill" id="lang" type="button">हि</button></header>
+<main class="wrap">
+<p class="peb"><a href="../"><span class="l-en">Reading paths</span><span class="l-hi">पठन-पथ</span></a> · <span class="pk"><span class="l-en">Text-based sequence</span><span class="l-hi">पाठ पर आधारित क्रम</span></span></p>
+<h1 class="ph"><span class="l-en">The ladder of fall, and another way</span><span class="l-hi">पतन की सीढ़ी, और एक दूसरा रास्ता</span></h1>
+<p class="pframe"><span class="l-en">Krishna traces how dwelling on sense objects leads to the collapse of understanding. He then describes another possibility: moving through the same world without being ruled by attraction and aversion.</span><span class="l-hi">कृष्ण बताते हैं कि विषयों का चिंतन किस तरह बुद्धि के नाश तक ले जाता है। फिर वे एक दूसरी संभावना दिखाते हैं: उसी संसार में रहते हुए राग और द्वेष के वश में न होना।</span></p>
+<section class="pstep"><article class="pv" id="s1"><p class="pr"><span class="pn">1</span><span class="l-en">Bhagavad Gita</span><span class="l-hi">भगवद्गीता</span> 2.62</p><p class="psa" lang="sa">ध्यायतो विषयान्पुंसः सङ्गस्तेषूपजायते |<br>सङ्गात्संजायते कामः कामात्क्रोधोऽभिजायते ||२-६२||</p><p class="ptr"><span class="l-en">When a person dwells on sense objects, attachment to them arises; from attachment comes desire, and from desire comes anger.</span><span class="l-hi">विषयों का चिंतन करने वाले मनुष्य की उनमें आसक्ति पैदा होती है; आसक्ति से कामना जन्म लेती है और कामना से क्रोध पैदा होता है।</span></p><a class="pgo" href="../../gita/chapter/2/verse/62/"><span class="l-en">Read in context →</span><span class="l-hi">संदर्भ में पढ़ें →</span></a></article><article class="pv" id="s2"><p class="pr"><span class="pn">2</span><span class="l-en">Bhagavad Gita</span><span class="l-hi">भगवद्गीता</span> 2.63</p><p class="psa" lang="sa">क्रोधाद्भवति संमोहः संमोहात्स्मृतिविभ्रमः |<br>स्मृतिभ्रंशाद्बुद्धिनाशो बुद्धिनाशात्प्रणश्यति ||२-६३||</p><p class="ptr"><span class="l-en">Anger breeds delusion, and delusion confuses memory; when memory fails, understanding is ruined, and when understanding is ruined, a person is lost.</span><span class="l-hi">क्रोध से मोह पैदा होता है, मोह से स्मृति भ्रमित होती है, स्मृति के नष्ट होने से बुद्धि का नाश होता है, और बुद्धि के नाश से मनुष्य का पतन हो जाता है।</span></p><a class="pgo" href="../../gita/chapter/2/verse/63/"><span class="l-en">Read in context →</span><span class="l-hi">संदर्भ में पढ़ें →</span></a></article><ol class="rungs"><li><span class="l-en">Dwelling on sense objects</span><span class="l-hi">विषयों का चिंतन</span></li><li><span class="l-en">Attachment</span><span class="l-hi">आसक्ति</span></li><li><span class="l-en">Desire</span><span class="l-hi">कामना</span></li><li><span class="l-en">Anger</span><span class="l-hi">क्रोध</span></li><li><span class="l-en">Delusion</span><span class="l-hi">मोह</span></li><li><span class="l-en">Confused memory</span><span class="l-hi">स्मृति का भ्रम</span></li><li><span class="l-en">Ruined understanding</span><span class="l-hi">बुद्धि का नाश</span></li><li><span class="l-en">The person is lost</span><span class="l-hi">मनुष्य का पतन</span></li></ol></section><section class="pstep"><p class="pwhy"><span class="l-en">Krishna turns to a different way of meeting the same sense objects.</span><span class="l-hi">अब कृष्ण उन्हीं विषयों के बीच रहने का एक दूसरा ढंग बताते हैं।</span></p><article class="pv" id="s3"><p class="pr"><span class="pn">3</span><span class="l-en">Bhagavad Gita</span><span class="l-hi">भगवद्गीता</span> 2.64</p><p class="psa" lang="sa">रागद्वेषवियुक्तैस्तु विषयानिन्द्रियैश्चरन् |<br>आत्मवश्यैर्विधेयात्मा प्रसादमधिगच्छति ||२-६४||</p><p class="ptr"><span class="l-en">But the self-controlled person, moving among sense objects with senses free from attraction and aversion and under the control of the self, attains inner calm.</span><span class="l-hi">पर जिसने अपने मन को वश में कर लिया है, वह राग और द्वेष से मुक्त और अपने वश में रहने वाली इंद्रियों से विषयों के बीच विचरता हुआ मन की प्रसन्नता पाता है।</span></p><a class="pgo" href="../../gita/chapter/2/verse/64/"><span class="l-en">Read in context →</span><span class="l-hi">संदर्भ में पढ़ें →</span></a></article></section><section class="pstep"><p class="pwhy"><span class="l-en">And he says what that calm brings.</span><span class="l-hi">और बताते हैं कि उस प्रसन्नता से क्या मिलता है।</span></p><article class="pv" id="s4"><p class="pr"><span class="pn">4</span><span class="l-en">Bhagavad Gita</span><span class="l-hi">भगवद्गीता</span> 2.65</p><p class="psa" lang="sa">प्रसादे सर्वदुःखानां हानिरस्योपजायते |<br>प्रसन्नचेतसो ह्याशु बुद्धिः पर्यवतिष्ठते ||२-६५||</p><p class="ptr"><span class="l-en">In that calm all his sorrows come to an end, for the understanding of one whose mind is serene soon becomes firmly settled.</span><span class="l-hi">उस प्रसन्नता में उसके सारे दुख मिट जाते हैं, क्योंकि प्रसन्न चित्त वाले की बुद्धि जल्दी ही स्थिर हो जाती है।</span></p><a class="pgo" href="../../gita/chapter/2/verse/65/"><span class="l-en">Read in context →</span><span class="l-hi">संदर्भ में पढ़ें →</span></a></article></section>
+<p class="pprov"><span class="l-en">The eight steps are stated in Gita 2.62–63. Showing them as a ladder, the title and the reading of what follows are our presentation.</span><span class="l-hi">ये आठ चरण गीता 2.62–63 में कहे गए हैं। इन्हें सीढ़ी की तरह दिखाना, शीर्षक और आगे की व्याख्या हमारी प्रस्तुति है।</span></p>
+<p><a class="pgo" href="../../explore/#/p/ladder-of-fall"><span class="l-en">See this path on the Graph →</span><span class="l-hi">यह पथ ग्राफ़ पर देखें →</span></a></p>
+<nav class="pmore" aria-label="More paths"><h2><span class="l-en">More paths</span><span class="l-hi">और पथ</span></h2><ul><li><a href="../work-without-clinging/"><span class="l-en">Work without clinging to the result</span><span class="l-hi">फल की आसक्ति के बिना कर्म</span></a></li><li><a href="../self-not-born/"><span class="l-en">The self that is not born</span><span class="l-hi">वह आत्मा जो जन्म नहीं लेती</span></a></li></ul></nav>
+</main>
+<script>
+const b = document.getElementById("lang");
+function setLang(l){ document.documentElement.lang = l; b.textContent = l==="hi" ? "EN" : "हि"; try{ localStorage.setItem("library-lang", l); localStorage.setItem("gg-lang", l); }catch(e){} }
+b.onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
+try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))==="hi") setLang("hi"); }catch(e){}
+</script><script src="../../shared/shell.js?v=20261114095509" data-active="" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>

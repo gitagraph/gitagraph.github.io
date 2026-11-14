@@ -16,6 +16,7 @@ const T = {
   notedIn:"Suggested alongside these Upanishad stories", noted:"Suggested alongside", gitaV:"Bhagavad Gita", ashV:"Ashtavakra Gita", qStories:"Stories on this question", versesQ:"Verses for this question",
   readIn:"Reading", pass:"Passages from the text", more:n => `…and ${n} more`, intro:"About this", hint:"Drag to move · pinch / double-tap to zoom",
   scripture:"Scripture", names:{g:"Bhagavad Gita", a:"Ashtavakra Gita", u:"Upanishads"}, loadErr:"The graph did not load. Reload the page to try again.",
+  pathSteps:"Steps of this path", pathOpen:"Read the path", pathsH:"Reading paths",
   legend:"Legend", legendKey:"Each text has its own colour. Bigger points are chapters and stories; the smallest are shlokas.", legendEv:"Labels on the lines say how two things relate. A dashed label is an editorial link: our reading, not the text's own statement.", hideT:"Hide", showT:"Show",
   focus:"Focus", whole:"Whole graph", conn:k => k === 1 ? "1 connection" : `${k} connections`, clearSel:"Clear selection", fit:"Fit to screen",
   moved:"Selected", care:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.", up:"Upanishad"},
@@ -27,6 +28,7 @@ const T = {
   notedIn:"इन उपनिषद कथाओं के साथ सुझाया गया", noted:"साथ में पढ़ने का सुझाव", gitaV:"भगवद्गीता", ashV:"अष्टावक्र गीता", qStories:"इस प्रश्न की कथाएँ", versesQ:"इस प्रश्न के श्लोक",
   readIn:"पढ़ रहे हैं", pass:"मूल पाठ के अंश", more:n => `…और ${n}`, intro:"परिचय", hint:"खींचकर घुमाएँ · पिंच / दो बार टैप से ज़ूम करें",
   scripture:"ग्रंथ", names:{g:"भगवद्गीता", a:"अष्टावक्र गीता", u:"उपनिषद्"}, loadErr:"ग्राफ़ लोड नहीं हुआ। दोबारा कोशिश करें।",
+  pathSteps:"इस पथ के चरण", pathOpen:"पथ पढ़ें", pathsH:"पठन-पथ",
   legend:"संकेत", legendKey:"हर ग्रंथ का अपना रंग है। बड़े बिंदु अध्याय और कथाएँ हैं; सबसे छोटे श्लोक।", legendEv:"रेखाओं पर लिखा शब्द बताता है कि दो चीज़ें कैसे जुड़ी हैं। बिंदीदार घेरे वाला शब्द संपादकीय संबंध है: यह हमारी समझ है, पाठ का अपना कथन नहीं।", hideT:"छिपाएँ", showT:"दिखाएँ",
   focus:"केवल यह", whole:"पूरा ग्राफ़", conn:k => `${k} संबंध`, clearSel:"चयन हटाएँ", fit:"पूरा दिखाएँ",
   moved:"चुना गया", care:"गीता देखने का एक नज़रिया देती है, सहारे का विकल्प नहीं। अगर यह मन पर भारी है, तो किसी भरोसेमंद व्यक्ति या डॉक्टर से बात करें।", up:"उपनिषद्"}
@@ -47,6 +49,7 @@ systemTheme.addEventListener('change',()=>{if(theme==='system'){drawTheme();if(s
 let paused = reduce.matches;
 
 // ---------- data ----------
+let PATHS = [];   // reading paths (paths/paths.json): each can be lit on the graph in order
 let GV = [], GH = new Map(), QS = [], AV = [], AH = new Map(), UP = [], ST = [], UD = {};
 const nodes = [], byId = new Map(), roots = {};
 const overviewEdges=[],overviewStars=new Set();
@@ -147,6 +150,7 @@ function parse(h){
   let st = {kind:"home"};
   if(p[0] === "q" && QS.find(q => q.slug === p[1])) st = {kind:"q", q:QS.find(q => q.slug === p[1])};
   else if(p[0] === "chapters") st = {kind:"chapters"};
+  else if(p[0] === "p" && PATHS.find(x => x.slug === p[1])) st = {kind:"path", p:PATHS.find(x => x.slug === p[1])};
   else if(p[0] === "i" && ideaMeta(p[1], p[2])) st = {kind:"idea", t:p[1], id:p[2], m:ideaMeta(p[1], p[2])};
   else if((p[0] === "g" || p[0] === "a") && !p[1]) st = {kind:"root", n:roots[p[0]]};
   else if(p[0] === "g" || p[0] === "a"){
@@ -163,7 +167,7 @@ function parse(h){
   return {st, read};
 }
 const hashOf = n => n.kind === "idea" ? `#/i/${n.t}/${n.hid}` : n.kind === "root" ? `#/${n.t}` : n.kind === "verse" ? `#/${n.t}/${n.d.c}/${n.d.v}` : n.t === "u" ? (n.kind==="chap"?`#/u/text/${n.up.id}`:n.kind==="passage"?`#/u/passage/${n.story.s.id}/${n.index}`:`#/u/story/${n.s.id}`) : `#/${n.t}/${n.num}`;
-const hashFor = st => st.kind === "q" ? `#/q/${st.q.slug}` : st.kind === "chapters" ? "#/chapters" : st.kind === "idea" ? `#/i/${st.t}/${st.id}` : st.n ? hashOf(st.n) : "#/";
+const hashFor = st => st.kind === "path" ? `#/p/${st.p.slug}` : st.kind === "q" ? `#/q/${st.q.slug}` : st.kind === "chapters" ? "#/chapters" : st.kind === "idea" ? `#/i/${st.t}/${st.id}` : st.n ? hashOf(st.n) : "#/";
 function apply(){
   const r = parse(location.hash); S = r.st;
   readOpen = false;
@@ -222,6 +226,11 @@ function computeLit(){
     const vs = [...S.q.verses.map(r => gRef.get(r)), ...(S.q.av?.items||[]).map(v=>aRef.get(v.ref))].filter(Boolean);
     const storyIds=new Set([...(S.q.up||[]).map(s=>s.id),...ST.filter(s=>(s.life_questions||[]).includes(S.q.slug)).map(s=>s.id)]);const ss=[...storyIds].map(id=>byId.get("u:"+id)).filter(Boolean);
     lit = new Set([...vs, ...ss]); S.vs = vs; S.ss = ss; chain(vs.filter(v => v.t === "g")); chain(vs.filter(v => v.t === "a"));
+  } else if(S.kind === "path"){
+    // each step's passage as a node: a Gita or Ashtavakra shloka, or the Upanishad story the passage belongs to
+    const ns = S.p.steps.map(st => st.t === "g" ? gRef.get(st.ref) : st.t === "a" ? aRef.get(st.ref) : byId.get("u:" + st.story)).filter(Boolean);
+    S.vs = ns; lit = new Set(ns);
+    for(let i = 0; i < ns.length - 1; i++) if(ns[i] !== ns[i+1]) edges.push([ns[i], ns[i+1], "then"]);
   } else if(S.kind === "idea"){
     const own = ideaNodes(S.t, S.id); S.sets = {}; S.sets[S.t] = own; const all = [...own];
     lit = new Set(own); S.vs=own;
@@ -254,6 +263,7 @@ function renderPanel(focus=true){
   const p = $("panel"); let h = ""; const r0 = p.getBoundingClientRect(), was = p.classList.contains("min");
   if(S.kind === "home"){
     h = head(t("scripture"), t("start")) + `<p class="desc">${esc(t("startD"))}</p>` + QS.map(qRow).join("") +
+      (PATHS.length ? `<h3>${esc(t("pathsH"))}</h3>` + PATHS.map(P => `<a class="item" href="#/p/${P.slug}"><span class="tt">${esc(lang === "hi" ? P.title_hi : P.title_en)}<small>${esc(lang === "hi" ? P.kind_hi : P.kind_en)}</small></span></a>`).join("") : "") +
       `<a class="item" href="#/chapters"><span class="tt">${esc(t("chapters2"))}<small>${esc(t("chapD"))}</small></span></a>` +
       `<h3>${esc(t("texts"))}</h3>` + ["g","a","u"].map(k => `<a class="item" style="--c:${COL[k]}" href="#/${k}"><span class="tt">${esc(lgrp(T.en.names[k], T.hi.names[k]))}<small>${esc(k === "u" ? t("ns")(ST.length) : t("n")((k === "g" ? GV : AV).length))}</small></span></a>`).join("");
   } else if(S.kind === "chapters"){
@@ -284,6 +294,11 @@ function renderPanel(focus=true){
     if(n.passages?.length)h+=`<h3>${evc("draws")}${esc(t('pass'))}</h3><div class="orbit-index">${n.passages.map(v=>`<a href="${hashOf(v)}" aria-label="${esc(v.ref)}">${esc(v.ref)}</a>`).join('')}</div>`;
   } else if(S.kind === 'passage'){
     const n=S.n;h=head(t('pass'),n.ref,COL.u)+`<p class="sk" lang="sa">${esc(sa(n.d))}</p><p class="tx" lang="${lang}">${esc(tr(n.d))}</p><a class="btn fill" data-reader href="${readerHref(n)}">${esc(t('readS'))}</a>${sRow(n.story)}`;
+  } else if(S.kind === "path"){
+    const P = S.p, L = k => lang === "hi" ? P[k + "_hi"] : P[k + "_en"];
+    h = head(L("kind"), L("title")) + `<p class="desc">${esc(L("frame"))}</p>` +
+      `<h3>${evc("then")}${esc(t("pathSteps"))}</h3>` + S.vs.map((n, i) => n.kind === "story" ? sRow(n) : vRow(n)).join("") +
+      `<p class="xnote">${esc(L("note"))}</p><a class="btn" href="../paths/${P.slug}/">${esc(t("pathOpen"))} →</a>`;
   } else if(S.kind === "q"){
     h = head(t("question"), qn(S.q)) + `<p class="desc">${esc(qi(S.q))}</p>` + (S.q.care ? `<p class="xnote">${esc(t("care"))}</p>` : "") +
       [["g","gitaV"],["a","ashV"]].map(([k,nm]) => { const l = S.vs.filter(v => v.t === k); return l.length ? `<h3>${evc("explores")}${esc(t("versesQ"))} · ${esc(t(nm))}</h3>` + l.map(v => vRow(v)).join("") : ""; }).join("") + (S.ss.length ? `<h3>${evc("explores")}${esc(t("qStories"))}</h3>` + S.ss.map(sRow).join("") : "") +
@@ -314,7 +329,7 @@ function renderChrome(){
     const on = S.kind !== "home" && S.kind !== "chapters" && !(phone.matches && !collapsed);
     cx.hidden = !on;
     if(on){
-      const name = S.kind === "q" ? qn(S.q) : S.kind === "idea" ? (lang === "hi" ? S.m.hi || S.m.en : S.m.en) : S.n ? (S.n.kind === "verse" || S.n.kind === "passage" ? (lang === "hi" ? S.n.ch.name.hi || S.n.ch.name.en : S.n.ch.name.en) + " " + nm(S.n) : nm(S.n)) : "";
+      const name = S.kind === "path" ? (lang === "hi" ? S.p.title_hi : S.p.title_en) : S.kind === "q" ? qn(S.q) : S.kind === "idea" ? (lang === "hi" ? S.m.hi || S.m.en : S.m.en) : S.n ? (S.n.kind === "verse" || S.n.kind === "passage" ? (lang === "hi" ? S.n.ch.name.hi || S.n.ch.name.en : S.n.ch.name.en) + " " + nm(S.n) : nm(S.n)) : "";
       const k = S.kind === "chap" || S.kind === "root" ? (S.n.kids || chapOf[S.n.t] || []).length : lit ? Math.max(0, lit.size - (S.n && lit.has(S.n) ? 1 : 0)) : 0;
       const col = S.n ? COL[S.n.t] : S.kind === "idea" ? COL[S.t] : palette.gold, canFocus = S.kind !== "root";
       cx.innerHTML = `<i class="dot" style="background:${col}"></i><span class="nm">${esc(name)}</span>${k ? `<span class="ct">${esc(t("conn")(k))}</span>` : ""}` +
@@ -417,7 +432,7 @@ function draw(){
   ctx.fillStyle = palette.muted;
   for(const s of stars){ ctx.globalAlpha = Math.abs(s.a); ctx.beginPath(); ctx.arc(Math.abs((s.x*W - cam.x*.03 + W*3) % W), Math.abs((s.y*H - cam.y*.03 + H*3) % H), s.r, 0, 7); ctx.fill(); }
   ctx.globalAlpha = 1;
-  const ideaPeek = isIdeaPeek(), web = webMode(), z = cam.z, deep = deepOf(z), home = S.kind === "home", filtering = !!lit && (S.kind === "q" || S.kind === "idea" && !ideaPeek), selId = ideaPeek ? `i:${S.t}:${S.id}` : S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
+  const ideaPeek = isIdeaPeek(), web = webMode(), z = cam.z, deep = deepOf(z), home = S.kind === "home", filtering = !!lit && (S.kind === "q" || S.kind === "path" || S.kind === "idea" && !ideaPeek), selId = ideaPeek ? `i:${S.t}:${S.id}` : S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
   const focusing = isFocus(), relT = focusing ? relTexts() : null;
   for(const k of ['g','a','u']){if(hid.has(k))continue;const p=toS(roots[k]);glow(p.x,p.y,Math.min(520,(k==='g'?760:560)*z),COL[k],palette.dark?.12:.055);glow(p.x-80*z,p.y+65*z,Math.min(330,470*z),COL[k==='g'?'u':'g'],palette.dark?.055:.025);}
   // constellation threads: text -> each chapter
@@ -536,6 +551,7 @@ const REL = {
   echoes:   {en:"echoes",         hi:"समान विचार",    ev:"editorial"},
   explores: {en:"explores",       hi:"विचार",         ev:"editorial"},
   cooccurs: {en:"co-occurs with", hi:"साथ मिलता है",  ev:"derived"},
+  then:     {en:"then",           hi:"फिर",           ev:"editorial"},   // the next step of a reading path
 };
 const EV = {
   text:      {en:"From the text", hi:"पाठ से",    n_en:"Stated by the text itself.",                              n_hi:"स्वयं पाठ में कहा गया है।"},
@@ -547,7 +563,7 @@ const relName = id => REL[id][lang === "hi" ? "hi" : "en"];
 const evc = id => { const e = EV[REL[id].ev]; return `<span class="evc ev-${REL[id].ev}" title="${esc(lang === "hi" ? e.n_hi : e.n_en)}">${esc(relName(id))} · ${esc(lang === "hi" ? e.hi : e.en)}</span>`; };
 // Legend filter: texts the reader has switched off. Focus: with something selected, draw only it and what it connects to.
 const hid = new Set(); let focusMode = true;
-const isFocus = () => focusMode && !!S.n && (S.kind === "chap" || S.kind === "verse" || S.kind === "story" || S.kind === "passage") || focusMode && (S.kind === "q" || S.kind === "idea" && !isIdeaPeek());
+const isFocus = () => focusMode && !!S.n && (S.kind === "chap" || S.kind === "verse" || S.kind === "story" || S.kind === "passage") || focusMode && (S.kind === "q" || S.kind === "path" || S.kind === "idea" && !isIdeaPeek());
 const rel = n => n === S.n || !!lit && lit.has(n) || litCh.has(n) || !!S.n && (n.ch === S.n || n === S.n.ch || n.story === S.n || n === S.n.story || !!S.n.ch && n.ch === S.n.ch || !!S.n.story && n.story === S.n.story);
 const relTexts = () => new Set([S.n && S.n.t, S.kind === "idea" ? S.t : null, ...(lit ? [...lit].map(n => n.t) : [])].filter(Boolean));
 const isIdeaPeek = () => S.kind === "idea" && phone.matches && collapsed;
@@ -623,9 +639,9 @@ $('guide').onclick=()=>{helpFocus=document.activeElement;helpWords();rememberVie
 addEventListener('storage',e=>{if(e.key==='gg-theme'){theme=['system','dark','light'].includes(e.newValue)?e.newValue:'system';drawTheme();if(started)refreshWords();kick();}if(e.key==='gg-lang'&&['en','hi'].includes(e.newValue)){lang=e.newValue;if(started)refreshWords();kick();}});
 // ---------- boot ----------
 const J = u => fetch(u).then(r => { if(!r.ok) throw 0; return r.json(); });
-Promise.all([J("../gita/verses.json"), J("../gita/hubs.json"), J("../gita/questions.json"), J("../ashtavakra/verses.json"), J("../ashtavakra/hubs.json"), J("../upanishads/data.json")])
-  .then(([gv, gh, qs, av, ah, ud]) => {
-    GV = gv; QS = qs; AV = av; UD = ud; UP = ud.upanishads; ST = ud.stories;
+Promise.all([J("../gita/verses.json"), J("../gita/hubs.json"), J("../gita/questions.json"), J("../ashtavakra/verses.json"), J("../ashtavakra/hubs.json"), J("../upanishads/data.json"), fetch("../paths/paths.json").then(r => r.ok ? r.json() : []).catch(() => [])])
+  .then(([gv, gh, qs, av, ah, ud, pp]) => {
+    GV = gv; QS = qs; AV = av; UD = ud; UP = ud.upanishads; ST = ud.stories; PATHS = Array.isArray(pp) ? pp : [];
     gh.forEach(h => { h.vs = []; GH.set(h.id, h); });
     GV.forEach(v => [...(v.k || []), ...(v.p || [])].forEach(id => { const h = GH.get(id); if(h && !h.vs.includes(v)) h.vs.push(v); }));
     ah.forEach(h => AH.set(h.id, h));
