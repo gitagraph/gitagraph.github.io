@@ -595,7 +595,7 @@ function verseView(v){
       ${expFull(v)}
       <p class="viast" lang="sa-Latn">${trLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>
       <p class="vtr2 ${isHi()?"":"hi"}" lang="${isHi()?"en":"hi"}"><b>${isHi()?"EN":"हिन्दी"}</b>${esc(tr2(v))}</p>
-      <p><button class="btn" id="copybtn">${IC.copy}<span>${esc(u().copy)}</span></button></p>
+      <p><button class="btn" id="copybtn">${IC.copy}<span>${esc(u().copy)}</span></button>${EXPLORE ? ` <a class="btn" href="${EXPLORE}?v=sutra#/a/${v.c}/${v.v}">${esc(isHi() ? "सूत्र देखें" : "See connections")}</a>` : ""}</p>
     </details>
     <nav class="vnav">
       ${prev ? `<a href="#${prev.id}"><small>← ${esc(u().prev)}</small><b>${prev.ref}</b><span class="t">${esc(tr(prev))}</span></a>` : "<span></span>"}

@@ -490,6 +490,7 @@ function qTexts(q){
 }
 function questionsView(){
   return `<header class="thead"><h1>${esc(u().lifeqT)}${shareBtn()}</h1><p class="desc" lang="${lang}">${esc(u().lifeqLede)}</p></header>
+  ${BASE ? `<form class="askq" id="askq" role="search"><input type="search" name="q" autocomplete="off" enterkeyhint="search" maxlength="200" placeholder="${esc(isHi() ? "या अपने शब्दों में लिखें" : "Or describe it in your own words")}" aria-label="${esc(isHi() ? "अपने शब्दों में लिखें" : "Describe what is on your mind")}"><button type="submit" aria-label="${esc(isHi() ? "खोजें" : "Find")}">→</button></form>` : ""}
   <ul class="qlist">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}">${q.sil || ""}<span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(qIntro(q))}</span><span class="qc">${esc(qTexts(q))}</span></a></li>`).join("")}</ul>`;
 }
 function questionView(q){
@@ -675,7 +676,7 @@ function verseView(v){
       <div id="exp2"></div>
       <p class="viast" lang="sa-Latn">${trLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>
       <p class="vtr2 ${isHi()?"":"hi"}" lang="${isHi()?"en":"hi"}"><b>${isHi()?"EN":"हिन्दी"}</b>${esc(tr2(v))}</p>
-      <p><button class="btn" id="copybtn">${IC.copy}<span>${esc(u().copy)}</span></button></p>
+      <p><button class="btn" id="copybtn">${IC.copy}<span>${esc(u().copy)}</span></button>${EXPLORE ? ` <a class="btn" href="${EXPLORE}?v=sutra#/g/${v.c}/${v.v}">${esc(isHi() ? "सूत्र देखें" : "See connections")}</a>` : ""}</p>
     </details>
     <nav class="vnav">
       ${prev ? `<a href="#${prev.id}"><small>← ${esc(u().prev)}</small><b>${prev.ref}</b><span class="t">${esc(tr(prev))}</span></a>` : "<span></span>"}
@@ -852,6 +853,8 @@ function savedView(){
 function wireCommon(){
   document.querySelectorAll("[data-tag]").forEach(b => b.onclick = () => tagSheet(HB.get(b.dataset.tag)));
   document.querySelectorAll("[data-share]").forEach(b => b.onclick = sharePage);
+  // what is typed stays in this tab and is handed to the site-wide search; it is never put in the address
+  const aq = document.getElementById("askq"); if(aq) aq.onsubmit = ev => { ev.preventDefault(); const t = aq.q.value.trim(); if(!t) return; try{ sessionStorage.setItem("gg-search-q", t); }catch(e){} location.href = ROOTPATH + "search/"; };
 }
 // Share this page: the app's native sheet (Capacitor), else the browser's Web Share, else copy the link.
 // The link is this page's own address, so it opens the same verse / chapter / question / person.

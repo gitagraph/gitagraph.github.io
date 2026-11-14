@@ -308,6 +308,11 @@ details.how .howbody{padding-bottom:16px}
 .pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 :root[lang=hi] .pill{letter-spacing:0;text-transform:none;font-size:13.5px}
 .thead{padding:16px 0 4px}
+.askq{display:flex;align-items:center;gap:8px;max-width:620px;height:54px;margin:18px 0 6px;padding:0 7px 0 18px;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
+.askq:focus-within{border-color:var(--ink)}
+.askq input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;font-size:16.5px;-webkit-appearance:none;appearance:none}
+.askq input::-webkit-search-cancel-button{-webkit-appearance:none}
+.askq button{flex:none;width:40px;height:40px;border:0;border-radius:50%;background:var(--ink);color:var(--bg);font-size:17px;line-height:1;cursor:pointer}
 .thead h1{font-family:var(--f-read);font-weight:600;font-size:clamp(28px,5vw,38px);line-height:1.15;margin:8px 0 2px}
 :root[lang=hi] .thead h1{font-family:var(--f-hi);font-weight:400}
 .thead .sk{font-family:var(--f-skt);font-size:20px;color:var(--muted);margin:0}

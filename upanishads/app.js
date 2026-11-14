@@ -484,7 +484,7 @@ function storyView(s){
     <dt>${esc(u().edition)}</dt><dd><a href="${esc(s.source_url)}" target="_blank" rel="noopener">${isHi()?"संस्कृत विकिस्रोत":"Sanskrit Wikisource"}: ${esc(s.source_title)}</a> (CC BY-SA 4.0)</dd>
   </dl>
   ${s.readings && s.readings.length ? `<h2 class="sec">${esc(u().readings)}</h2><div class="readings" lang="${lang}">${s.readings.map(r=>`<p>${esc(isHi()?r.hi:r.en)}</p>`).join("")}</div>` : ""}
-  ${xr ? `<h2 class="sec">${esc(u().sameIdea)}</h2><p class="srcnote" lang="${lang}">${esc(u().sameNote)}</p><div class="xref">${xr}</div>` : ""}
+  ${xr ? `<h2 class="sec">${esc(u().sameIdea)}</h2><p class="srcnote" lang="${lang}">${esc(u().sameNote)}</p><div class="xref">${xr}</div>${BASE ? `<p><a class="tosrc" href="${BASE.replace(/[^/]+\/$/, "")}explore/?v=sutra#/u/story/${encodeURIComponent(s.id)}">${isHi() ? "सूत्र देखें" : "See connections"} →</a></p>` : ""}` : ""}
   <p class="credits">${u().suggest}</p>
   </details>
   ${next ? `<nav class="snav one"><a class="nx" href="#s-${next.id}"><small>${esc(u().next)} →</small><b>${esc(L(next,"title"))}</b></a></nav>` : ""}
