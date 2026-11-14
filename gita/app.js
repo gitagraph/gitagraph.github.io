@@ -481,9 +481,11 @@ function lifeqRow(){
 }
 // the texts a question draws on, named on its card (the verse counts are on the question's own page)
 function qTexts(q){
-  const hi = lang === "hi", t = [hi ? "भगवद्गीता" : "Bhagavad Gita"];
+  // the order a question is answered in: Ashtavakra Gita, then the Upanishads, then the Bhagavad Gita
+  const hi = lang === "hi", t = [];
   if(q.av && q.av.items && q.av.items.length) t.push(hi ? "अष्टावक्र गीता" : "Ashtavakra Gita");
   if(q.up && q.up.length) t.push(hi ? "उपनिषद्" : "Upanishads");
+  t.push(hi ? "भगवद्गीता" : "Bhagavad Gita");
   return t.join(" · ");
 }
 function questionsView(){
@@ -492,11 +494,11 @@ function questionsView(){
 }
 function questionView(q){
   return `<header class="thead"><p class="eyebrow"><a href="#questions">${esc(u().lifeqT)}</a></p><h1>${esc(qName(q))}${shareBtn()}</h1>
-    <p class="desc" lang="${lang}">${esc(qIntro(q))}</p>${q.care ? `<p class="care" lang="${lang}">${esc(u().careNote)}</p>` : ""}</header>
+    <p class="desc" lang="${lang}">${esc(qIntro(q))}</p>${q.care ? `<p class="care" lang="${lang}">${esc(u().careNote)}</p>` : ""}</header>${crossGroups(q)}
   ${q.av || q.up ? `<h2 class="sec">${isHi() ? "भगवद्गीता" : "Bhagavad Gita"}</h2>` : ""}
   <ol class="qverses">${qVerses(q).map(v => { const s = saLines(v); return `<li class="qv"><p class="ref">${v.ref} <span class="muted">· ${esc(name(HB.get(voice(v))))}</span></p>
     ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(saH).join("<br>")}</p>` : ""}<p class="tx" lang="${lang}">${esc(tr(v))}</p>
-    <a class="ctx" href="#${v.id}">${esc(u().readCtx)}</a></li>`; }).join("")}</ol>${crossGroups(q)}`;
+    <a class="ctx" href="#${v.id}">${esc(u().readCtx)}</a></li>`; }).join("")}</ol>`;
 }
 // The same question in the other texts: Ashtavakra verses and Upanishad stories (present when the
 // build had them). They link out to those sites, so they are plain links, not app routes.

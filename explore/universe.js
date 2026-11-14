@@ -293,9 +293,9 @@ function sutraGroups(){
     if(me) g(R, "cooccurs", s.co, iedges.filter(e => e.a === me || e.b === me).map(e => e.a === me ? e.b : e.a).map(i => ideaCard(i.t, i.hid)), 6);
   } else if(S.kind === "q"){
     c = {eye:t("question"), title:qn(S.q), tx:qi(S.q), c:gold, read:`../gita/questions/${S.q.slug}/`, readL:t("intro")};
-    g(L, "explores", `${s.explores} · ${t("gitaV")}`, S.vs.filter(v => v.t === "g").map(suNode), 6);
-    g(R, "explores", `${s.explores} · ${t("ashV")}`, S.vs.filter(v => v.t === "a").map(suNode), 3);
-    g(R, "explores", `${s.explores} · ${t("stories")}`, S.ss.map(suNode), 3);
+    g(L, "explores", `${s.explores} · ${t("ashV")}`, S.vs.filter(v => v.t === "a").map(suNode), 4);
+    g(L, "explores", `${s.explores} · ${t("stories")}`, S.ss.map(suNode), 3);
+    g(R, "explores", `${s.explores} · ${t("gitaV")}`, S.vs.filter(v => v.t === "g").map(suNode), 6);
   }
   return {c, L, R};
 }
@@ -385,7 +385,8 @@ function renderPanel(focus=true){
       `<p class="xnote">${esc(L("note"))}</p><a class="btn" href="../paths/${P.slug}/">${esc(t("pathOpen"))} →</a>`;
   } else if(S.kind === "q"){
     h = head(t("question"), qn(S.q)) + `<p class="desc">${esc(qi(S.q))}</p>` + (S.q.care ? `<p class="xnote">${esc(t("care"))}</p>` : "") +
-      [["g","gitaV"],["a","ashV"]].map(([k,nm]) => { const l = S.vs.filter(v => v.t === k); return l.length ? `<h3>${evc("explores")}${esc(t("versesQ"))} · ${esc(t(nm))}</h3>` + l.map(v => vRow(v)).join("") : ""; }).join("") + (S.ss.length ? `<h3>${evc("explores")}${esc(t("qStories"))}</h3>` + S.ss.map(sRow).join("") : "") +
+      (() => { const sec = ([k,nm]) => { const l = S.vs.filter(v => v.t === k); return l.length ? `<h3>${evc("explores")}${esc(t("versesQ"))} · ${esc(t(nm))}</h3>` + l.map(v => vRow(v)).join("") : ""; };   // Ashtavakra, then the Upanishads, then the Gita
+        return sec(["a","ashV"]) + (S.ss.length ? `<h3>${evc("explores")}${esc(t("qStories"))}</h3>` + S.ss.map(sRow).join("") : "") + sec(["g","gitaV"]); })() +
       (new Set([...S.vs, ...S.ss].map(n => n.t)).size > 1 ? `<p class="xnote">${esc(t("crossNote"))}</p>` : "") +
       `<a class="btn" href="../gita/questions/${S.q.slug}/">${esc(t("intro"))} →</a>`;
   } else if(S.kind === "idea"){
