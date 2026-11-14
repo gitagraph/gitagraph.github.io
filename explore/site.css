@@ -274,6 +274,7 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .home .qcard .qt{font-size:22px;line-height:1.3}
 :root[lang=hi] .home .qcard .qt{font-size:22px;line-height:1.45}
 .home .qcard:hover .qt{text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px}
+.home .qcard .qi:not(.on){display:none}
 .home .qcard .qi{color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 :root[lang=hi] .home .qcard .qi{color:var(--muted-hi);line-height:1.75}
 .home .qcard .qm{margin:0;padding:2px 0 0;font-size:13px}

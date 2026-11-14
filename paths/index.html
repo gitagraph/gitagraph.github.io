@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reading paths · Gitagraph</title><meta name="description" content="Short guided sequences of passages from the Bhagavad Gita, the Ashtavakra Gita and the Upanishads."><link rel="canonical" href="https://gitagraph.com/paths/">
-<link rel="icon" href="../shared/mark.svg?v=20261114154627" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114154627" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114154627">
+<link rel="icon" href="../shared/mark.svg?v=20261114160134" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114160134" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114160134">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -278,6 +278,7 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .home .qcard .qt{font-size:22px;line-height:1.3}
 :root[lang=hi] .home .qcard .qt{font-size:22px;line-height:1.45}
 .home .qcard:hover .qt{text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px}
+.home .qcard .qi:not(.on){display:none}
 .home .qcard .qi{color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 :root[lang=hi] .home .qcard .qi{color:var(--muted-hi);line-height:1.75}
 .home .qcard .qm{margin:0;padding:2px 0 0;font-size:13px}
@@ -351,4 +352,4 @@ const b = document.getElementById("lang");
 function setLang(l){ document.documentElement.lang = l; b.textContent = l==="hi" ? "EN" : "हि"; try{ localStorage.setItem("library-lang", l); localStorage.setItem("gg-lang", l); }catch(e){} }
 b.onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
 try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))==="hi") setLang("hi"); }catch(e){}
-</script><script src="../shared/shell.js?v=20261114154627" data-active="" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../shared/shell.js?v=20261114160134" data-active="" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
