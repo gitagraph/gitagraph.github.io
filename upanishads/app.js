@@ -417,8 +417,11 @@ function homeCtx(){
   return `<h3>${esc(u().themes)}</h3><div class="box">${TH.slice(0,8).map(t => `<a class="crow" href="#th-${t.id}"><i class="dot d-theme"></i><span class="nm">${esc(L(t,"label"))}</span><span class="ct">${t.ss.length}</span></a>`).join("")}</div>
     <h3>${esc(u().people)}</h3><div class="box">${ppl.map(h => `<a class="crow" href="#t-${h.id}"><i class="dot d-person"></i><span class="nm">${esc(hname(h))}</span><span class="ct">${h.ss.length}</span></a>`).join("")}</div>${aboutCtx()}`;
 }
+// Shared from Hindi, a link goes through its /hi/ page, whose preview card (WhatsApp and the like) is in Hindi; that page
+// then opens the same address here in Hindi. Only addresses that have such a page are changed.
+const hiShare = u => isHi() && /\/(?:(?:gita|ashtavakra)\/(?:chapter\/\d+\/verse\/\d+\/)?|upanishads\/(?:story\/[^\/]+\/)?)$/.test(u) ? u.replace(/^(https?:\/\/[^\/]+)\//, "$1/hi/") : u;
 function share(s){
-  const url = storyUrl(s), title = `${L(s,"title")} · ${isHi() ? "उपनिषद्" : "Upanishads"}`, text = `${L(s,"title")}: ${L(s,"hook")}`;
+  const url = hiShare(storyUrl(s)), title = `${L(s,"title")} · ${isHi() ? "उपनिषद्" : "Upanishads"}`, text = `${L(s,"title")}: ${L(s,"hook")}`;
   const copy = () => { try{ navigator.clipboard.writeText(`${text}\n${url}`).then(()=>toast(u().linkCopied), ()=>toast(u().copyFail)); }catch(e){ toast(u().copyFail); } };
   if(navigator.share) navigator.share({title, text, url}).catch(err => { if(err && err.name !== "AbortError") copy(); }); else copy();
 }
@@ -426,7 +429,7 @@ function share(s){
 function sharePage(){
   const h1 = document.querySelector("#view h1"), d = document.querySelector("#view .thead .desc");
   const name = h1 ? h1.textContent.trim() : document.title;
-  const url = BASE ? location.origin + location.pathname : SITE, title = `${name} · ${isHi() ? "उपनिषद्" : "Upanishads"}`;
+  const url = hiShare(BASE ? location.origin + location.pathname : SITE), title = `${name} · ${isHi() ? "उपनिषद्" : "Upanishads"}`;
   const text = d ? `${name}: ${d.textContent.trim()}` : title;
   const copy = () => { try{ navigator.clipboard.writeText(`${text}\n${url}`).then(()=>toast(u().linkCopied), ()=>toast(u().copyFail)); }catch(e){ toast(u().copyFail); } };
   if(navigator.share) navigator.share({title, text, url}).catch(err => { if(err && err.name !== "AbortError") copy(); }); else copy();

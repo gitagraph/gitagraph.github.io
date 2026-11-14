@@ -466,6 +466,9 @@ function votd(){
   return VPOOL[(day * VSTEP) % VPOOL.length];
 }
 const howBody = () => `<div class="howbody">${u().how.map(([h,items]) => `<h3>${esc(h)}</h3><ul>${items.map(i=>`<li>${i}</li>`).join("")}</ul>`).join("")}</div>`;
+// Shared from Hindi, a link goes through its /hi/ page, whose preview card (WhatsApp and the like) is in Hindi; that page
+// then opens the same address here in Hindi. Only addresses that have such a page are changed.
+const hiShare = u => isHi() && /\/(?:(?:gita|ashtavakra)\/(?:chapter\/\d+\/verse\/\d+\/)?|upanishads\/(?:story\/[^\/]+\/)?)$/.test(u) ? u.replace(/^(https?:\/\/[^\/]+)\//, "$1/hi/") : u;
 const verseUrl = v => BASE ? location.origin + pathOf(v.id) : `${SITE}chapter/${v.c}/verse/${v.v}/`;
 function homeView(){
   const last = recent.length ? VB.get(recent[0]) : null;
@@ -496,7 +499,7 @@ function wireHome(){
   if(d) d.querySelector("summary").addEventListener("click", () => store.set("how", d.open ? "closed" : "open"));
   const sb = document.getElementById("sharebtn");
   if(sb) sb.onclick = () => {
-    const v = VB.get(sb.dataset.ref), url = verseUrl(v);
+    const v = VB.get(sb.dataset.ref), url = hiShare(verseUrl(v));
     const text = `${tr(v)} — ${isHi() ? "अष्टावक्र गीता" : "Ashtavakra Gita"} ${v.ref}`;
     const copy = () => { try{ navigator.clipboard.writeText(`${text}\n${url}`).then(()=>toast(u().linkCopied), ()=>toast(u().copyFail)); }catch(e){ toast(u().copyFail); } };
     if(navigator.share) navigator.share({title:`${isHi() ? "अष्टावक्र गीता" : "Ashtavakra Gita"} ${v.ref}`, text, url}).catch(err => { if(err && err.name !== "AbortError") copy(); });
@@ -711,7 +714,7 @@ function wireCommon(){
 }
 const shareBtn = () => `<button class="pshare" type="button" data-share aria-label="${esc(u().share)}" title="${esc(u().share)}">${IC.share}</button>`;
 function sharePage(){
-  const r = current || {}, url = BASE ? location.origin + location.pathname : SITE + pathOf(r.key || "home").slice(BASE.length);
+  const r = current || {}, url = hiShare(BASE ? location.origin + location.pathname : SITE + pathOf(r.key || "home").slice(BASE.length));
   const title = document.getElementById("ttl").textContent + " · " + (isHi() ? "अष्टावक्र गीता" : "Ashtavakra Gita");
   const text = r.name === "verse" ? `${tr(r.v)} — ${r.v.ref}` : title;
   const copy = () => { try{ navigator.clipboard.writeText(url).then(() => toast(u().linkCopiedOnly), () => toast(u().copyFail)); }catch(e){ toast(u().copyFail); } };
