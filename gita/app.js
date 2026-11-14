@@ -534,7 +534,7 @@ function qCards(q){
 const qWhy = (q, key) => { const w = q.why && q.why[key]; const t = w && (isHi() ? w.hi : w.en); return t ? `<p class="why" lang="${lang}">${esc(t)}</p>` : ""; };
 function questionView(q){
   return `<header class="thead"><p class="eyebrow"><a href="#questions">${esc(u().lifeqT)}</a></p><h1>${esc(qName(q))}${shareBtn()}</h1>
-    <p class="desc" lang="${lang}">${esc(qIntro(q))}</p>${q.care ? `<p class="care" lang="${lang}">${esc((isHi() ? q.care_hi : q.care_en) || u().careNote)}</p>` : ""}</header>${qCards(q)}${qSummary(q)}${crossGroups(q)}
+    ${(isHi() ? q.brief_hi : q.brief_en) ? "" : `<p class="desc" lang="${lang}">${esc(qIntro(q))}</p>`}${q.care ? `<p class="care" lang="${lang}">${esc((isHi() ? q.care_hi : q.care_en) || u().careNote)}</p>` : ""}</header>${qCards(q)}${qSummary(q)}${crossGroups(q)}
   ${q.av || q.up ? `<h2 class="sec">${isHi() ? "भगवद्गीता" : "Bhagavad Gita"}</h2>` : ""}
   <ol class="qverses">${qVerses(q).map(v => { const s = saLines(v); return `<li class="qv"><p class="ref">${v.ref} <span class="muted">· ${esc(name(HB.get(voice(v))))}</span></p>
     ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(saH).join("<br>")}</p>` : ""}<p class="tx" lang="${lang}">${esc(tr(v))}</p>${qWhy(q, "G " + v.ref)}
