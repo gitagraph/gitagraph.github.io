@@ -9,25 +9,25 @@ let lang = "en";
 try{ const g = localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"); if(g === "hi" || g === "en") lang = g; }catch(e){}
 const T = {
  en:{sub:"A living library of wisdom", back:"← Back", home:"✧ Overview", pause:"Pause motion", play:"Play motion", lang:"हिन्दी",
-  chapters2:"Chapters", qs:"Questions", chapD:"Every chapter is a constellation. Tap one to see its shlokas.", eb:"Bhagavad Gita · Ashtavakra Gita · Upanishads", h1:"One idea,<br><em>many texts.</em>", hp:"See how chapters, verses and stories connect, then follow those links from one verse to the next.", ideasTitle:"Ideas across the texts", sameIdea:"The same idea in other texts", inText:"In this text", tales:"Stories", crossNote:"Suggested by Gitagraph for reading alongside. The themes are related; the teachings are not the same, and traditions read them differently.", start:"Start with a question", startD:"Choose a life question and the verses that speak to it light up. Or tap any chapter to explore it.",
+  chapters2:"Chapters", qs:"Questions", chapD:"Every chapter is a constellation. Tap one to see its shlokas.", eb:"Bhagavad Gita · Ashtavakra Gita · Upanishads", h1:"One idea,<br><em>many texts.</em>", hp:"See how chapters, verses and stories connect, then follow those links from one verse to the next.", ideasTitle:"Ideas across the texts", sameIdea:"The same idea in other texts", inText:"In this text", tales:"Stories", crossNote:"An editorial link: our editors read these passages as expressing related ideas. Their philosophical contexts may differ, and traditions read them differently.", start:"Start with a question", startD:"Choose a life question and the verses that speak to it light up. Or tap any chapter to explore it.",
   texts:"The three scriptures", chapters:"Chapters", verses:"Shlokas", stories:"Stories", read:"Read the whole chapter", readS:"Read the story",readV:"Read in the original reader",
   open:"Open", close:"Close", min:"Hide", show:"Show", prev:"← Previous", next:"Next →", ideas:"Ideas in this verse", people:"People",
   all:"All verses on this idea", chapter:"Chapter", verse:"Shloka", story:"Story", question:"Question", idea:"Idea", n:k => `${k} shlokas`, ns:k => `${k} stories`,
   notedIn:"Suggested alongside these Upanishad stories", noted:"Suggested alongside", gitaV:"Bhagavad Gita", ashV:"Ashtavakra Gita", qStories:"Stories on this question", versesQ:"Verses for this question",
   readIn:"Reading", pass:"Passages from the text", more:n => `…and ${n} more`, intro:"About this", hint:"Drag to move · pinch / double-tap to zoom",
   scripture:"Scripture", names:{g:"Bhagavad Gita", a:"Ashtavakra Gita", u:"Upanishads"}, loadErr:"The graph did not load. Reload the page to try again.",
-  legend:"Legend", legendKey:"Each text has its own colour. Bigger points are chapters and stories; the smallest are shlokas.", hideT:"Hide", showT:"Show",
+  legend:"Legend", legendKey:"Each text has its own colour. Bigger points are chapters and stories; the smallest are shlokas.", legendEv:"Labels on the lines say how two things relate. A dashed label is an editorial link: our reading, not the text's own statement.", hideT:"Hide", showT:"Show",
   focus:"Focus", whole:"Whole graph", conn:k => k === 1 ? "1 connection" : `${k} connections`, clearSel:"Clear selection", fit:"Fit to screen",
   moved:"Selected", care:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.", up:"Upanishad"},
  hi:{sub:"ज्ञान का जीवंत ग्रंथालय", back:"← वापस", home:"✧ पूरा ग्राफ़", pause:"गति रोकें", play:"गति चलाएँ", lang:"English",
-  chapters2:"अध्याय", qs:"प्रश्न", chapD:"हर अध्याय एक तारामंडल है। किसी अध्याय को छूकर उसके श्लोक देखें।", eb:"भगवद्गीता · अष्टावक्र गीता · उपनिषद्", h1:"एक विचार,<br><em>कई ग्रंथों में।</em>", hp:"देखें कि अध्याय, श्लोक और कथाएँ कैसे जुड़ते हैं। फिर इन संबंधों के सहारे एक श्लोक से दूसरे तक पहुँचें।", ideasTitle:"ग्रंथों के विचार", sameIdea:"दूसरे ग्रंथों में यही विचार", inText:"इस ग्रंथ में", tales:"कथाएँ", crossNote:"गीताग्राफ़ का सुझाव, साथ में पढ़ने के लिए। विषय जुड़े हैं, पर शिक्षाएँ एक जैसी नहीं हैं, और परंपराएँ इन्हें अलग-अलग ढंग से पढ़ती हैं।", start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
+  chapters2:"अध्याय", qs:"प्रश्न", chapD:"हर अध्याय एक तारामंडल है। किसी अध्याय को छूकर उसके श्लोक देखें।", eb:"भगवद्गीता · अष्टावक्र गीता · उपनिषद्", h1:"एक विचार,<br><em>कई ग्रंथों में।</em>", hp:"देखें कि अध्याय, श्लोक और कथाएँ कैसे जुड़ते हैं। फिर इन संबंधों के सहारे एक श्लोक से दूसरे तक पहुँचें।", ideasTitle:"ग्रंथों के विचार", sameIdea:"दूसरे ग्रंथों में यही विचार", inText:"इस ग्रंथ में", tales:"कथाएँ", crossNote:"यह संपादकीय संबंध है: हमारे संपादकों की समझ में इन अंशों के विचार मिलते-जुलते हैं। इनके दार्शनिक संदर्भ अलग हो सकते हैं, और परंपराएँ इन्हें अलग-अलग ढंग से पढ़ती हैं।", start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
   texts:"तीन ग्रंथ", chapters:"अध्याय", verses:"श्लोक", stories:"कथाएँ", read:"पूरा अध्याय पढ़ें", readS:"कथा पढ़ें",readV:"मूल पाठक में पढ़ें",
   open:"खोलें", close:"बंद करें", min:"छिपाएँ", show:"दिखाएँ", prev:"← पिछला", next:"अगला →", ideas:"इस श्लोक के विचार", people:"पात्र",
   all:"इस विचार के सभी श्लोक", chapter:"अध्याय", verse:"श्लोक", story:"कथा", question:"प्रश्न", idea:"विचार", n:k => `${k} श्लोक`, ns:k => `${k} कथाएँ`,
   notedIn:"इन उपनिषद कथाओं के साथ सुझाया गया", noted:"साथ में पढ़ने का सुझाव", gitaV:"भगवद्गीता", ashV:"अष्टावक्र गीता", qStories:"इस प्रश्न की कथाएँ", versesQ:"इस प्रश्न के श्लोक",
   readIn:"पढ़ रहे हैं", pass:"मूल पाठ के अंश", more:n => `…और ${n}`, intro:"परिचय", hint:"खींचकर घुमाएँ · पिंच / दो बार टैप से ज़ूम करें",
   scripture:"ग्रंथ", names:{g:"भगवद्गीता", a:"अष्टावक्र गीता", u:"उपनिषद्"}, loadErr:"ग्राफ़ लोड नहीं हुआ। दोबारा कोशिश करें।",
-  legend:"संकेत", legendKey:"हर ग्रंथ का अपना रंग है। बड़े बिंदु अध्याय और कथाएँ हैं; सबसे छोटे श्लोक।", hideT:"छिपाएँ", showT:"दिखाएँ",
+  legend:"संकेत", legendKey:"हर ग्रंथ का अपना रंग है। बड़े बिंदु अध्याय और कथाएँ हैं; सबसे छोटे श्लोक।", legendEv:"रेखाओं पर लिखा शब्द बताता है कि दो चीज़ें कैसे जुड़ी हैं। बिंदीदार घेरे वाला शब्द संपादकीय संबंध है: यह हमारी समझ है, पाठ का अपना कथन नहीं।", hideT:"छिपाएँ", showT:"दिखाएँ",
   focus:"केवल यह", whole:"पूरा ग्राफ़", conn:k => `${k} संबंध`, clearSel:"चयन हटाएँ", fit:"पूरा दिखाएँ",
   moved:"चुना गया", care:"गीता देखने का एक नज़रिया देती है, सहारे का विकल्प नहीं। अगर यह मन पर भारी है, तो किसी भरोसेमंद व्यक्ति या डॉक्टर से बात करें।", up:"उपनिषद्"}
 };
@@ -217,7 +217,7 @@ function orderLit(){ if(!lit) return; for(const n of lit) if(n.ch) litCh.add(n.c
   drawOrder = nodes.filter(n => lit.has(n) && !v(n)).concat(nodes.filter(n => litCh.has(n)), nodes.filter(n => lit.has(n) && v(n)), nodes.filter(n => !lit.has(n) && !litCh.has(n))); }
 function computeLit(){
   lit = null; edges = []; hub = null; litCh = new Set(); drawOrder = null;
-  const chain = list => { for(let i = 0; i < list.length - 1 && i < 60; i++) edges.push([list[i], list[i+1]]); };
+  const chain = list => { for(let i = 0; i < list.length - 1 && i < 60; i++) edges.push([list[i], list[i+1], "explores"]); };
   if(S.kind === "q"){
     const vs = [...S.q.verses.map(r => gRef.get(r)), ...(S.q.av?.items||[]).map(v=>aRef.get(v.ref))].filter(Boolean);
     const storyIds=new Set([...(S.q.up||[]).map(s=>s.id),...ST.filter(s=>(s.life_questions||[]).includes(S.q.slug)).map(s=>s.id)]);const ss=[...storyIds].map(id=>byId.get("u:"+id)).filter(Boolean);
@@ -227,11 +227,11 @@ function computeLit(){
     lit = new Set(own); S.vs=own;
     if(own.length){ hub = iBy.get(`${S.t}:${S.id}`) || {id:`i:${S.t}:${S.id}`, kind:"idea", t:S.t, depth:0, name:{en:S.m.en, hi:S.m.hi},
       x:own.reduce((a, n) => a + n.x, 0)/own.length, y:own.reduce((a, n) => a + n.y, 0)/own.length};
-      own.slice(0, 80).forEach(v => edges.push([hub, v])); }
+      own.slice(0, 80).forEach(v => edges.push([hub, v, "speaks"])); }
   } else if(S.kind === "verse"){
-    lit = new Set([S.n, ...(S.n.cites || [])]); (S.n.cites || []).forEach(c => edges.push([S.n, c]));
+    lit = new Set([S.n, ...(S.n.cites || [])]); (S.n.cites || []).forEach(c => edges.push([S.n, c, "echoes"]));
   } else if(S.kind === "story"){
-    lit = new Set([S.n, ...S.n.xg, ...S.n.xa]); [...S.n.xg, ...S.n.xa].forEach(v => edges.push([S.n, v]));
+    lit = new Set([S.n, ...S.n.xg, ...S.n.xa]); [...S.n.xg, ...S.n.xa].forEach(v => edges.push([S.n, v, "echoes"]));
   }
 }
 
@@ -248,7 +248,7 @@ function head(eye, title, c){
 }
 function ideaChips(v){
   const map=v.t==="a"?AH:GH;const ids=[...new Set([...(v.d.k||[]),...(v.d.p||[])])].filter(id=>map.has(id)&&ideaMeta(v.t,id));
-  return ids.length ? `<h3>${esc(t("ideas"))}</h3><div class="chips">${ids.map(id => `<a class="chip" href="#/i/${v.t}/${id}">${esc(idn(map.get(id)))}</a>`).join("")}</div>` : "";
+  return ids.length ? `<h3>${evc("speaks")}${esc(t("ideas"))}</h3><div class="chips">${ids.map(id => `<a class="chip" href="#/i/${v.t}/${id}">${esc(idn(map.get(id)))}</a>`).join("")}</div>` : "";
 }
 function renderPanel(focus=true){
   const p = $("panel"); let h = ""; const r0 = p.getBoundingClientRect(), was = p.classList.contains("min");
@@ -267,32 +267,32 @@ function renderPanel(focus=true){
     h = head(k === "u" ? t("up") : `${t("chapter")} ${n.num}`, nm(n), COL[k]);
     if(k === "u") h += `<p class="desc">${esc(lgrp(n.up.desc_en, n.up.desc_hi))}</p>` + n.kids.map(sRow).join("");
     else{ const hb = n.h; h += `<p class="xnote" lang="sa">${esc(n.sk || "")}</p><p class="desc">${esc(lang === "hi" ? (hb.hd || hb.desc) : hb.desc)}</p><a class="btn fill" data-reader href="${readerHref(n)}">${esc(t("read"))}</a>` +
-      `<h3>${esc(t("verses"))}</h3>` + `<div class="orbit-index">${n.kids.map(v=>`<a href="${hashOf(v)}" aria-label="${esc(t("verse"))} ${v.ref}">${v.ref}</a>`).join('')}</div>`; }
+      `<h3>${evc("contains")}${esc(t("verses"))}</h3>` + `<div class="orbit-index">${n.kids.map(v=>`<a href="${hashOf(v)}" aria-label="${esc(t("verse"))} ${v.ref}">${v.ref}</a>`).join('')}</div>`; }
   } else if(S.kind === "verse"){
     const n = S.n, d = n.d, ch = n.ch, i = ch.kids.indexOf(n), pv = ch.kids[i-1], nx = ch.kids[i+1], k = n.t;
     h = head(`${t("chapter")} ${ch.num} · ${t("verse")}`, `${k === "a" ? lgrp("Ashtavakra", "अष्टावक्र") + " " : ""}${n.ref}`, COL[k]) +
       `<p class="sk" lang="sa">${esc(sa(d))}</p><p class="tx" lang="${lang}">${esc(tr(d))}</p>` +
       `<div class="nav2">${pv ? `<a class="chip" href="${hashOf(pv)}">${esc(t("prev"))}</a>` : "<span></span>"}${nx ? `<a class="chip" href="${hashOf(nx)}">${esc(t("next"))}</a>` : "<span></span>"}</div>` +
       `<a class="btn" data-reader href="${readerHref(n)}">${esc(t("readV"))}</a><a class="btn" href="${hashOf(ch)}">${esc(nm(ch))}</a>` + ideaChips(n) +
-      (n.cites ? `<h3>${esc(t("notedIn"))}</h3>` + n.cites.map(sRow).join("") + `<p class="xnote">${esc(t("crossNote"))}</p>` : "");
+      (n.cites ? `<h3>${evc("echoes")}${esc(t("notedIn"))}</h3>` + n.cites.map(sRow).join("") + `<p class="xnote">${esc(t("crossNote"))}</p>` : "");
   } else if(S.kind === "story"){
     const n = S.n, s = n.s;
     h = head(t("story"), nm(n), COL.u) + `<p class="desc">${esc(lgrp(s.hook_en, s.hook_hi))}</p><a class="btn fill" data-reader href="${readerHref(n)}">${esc(t("readS"))}</a>` +
-      (n.xg.length ? `<h3>${esc(t("noted"))} · ${esc(t("gitaV"))}</h3>` + n.xg.map(v => vRow(v)).join("") : "") +
-      (n.xa.length ? `<h3>${esc(t("noted"))} · ${esc(t("ashV"))}</h3>` + n.xa.map(v => vRow(v)).join("") : "") +
+      (n.xg.length ? `<h3>${evc("echoes")}${esc(t("noted"))} · ${esc(t("gitaV"))}</h3>` + n.xg.map(v => vRow(v)).join("") : "") +
+      (n.xa.length ? `<h3>${evc("echoes")}${esc(t("noted"))} · ${esc(t("ashV"))}</h3>` + n.xa.map(v => vRow(v)).join("") : "") +
       (n.xg.length || n.xa.length ? `<p class="xnote">${esc(t("crossNote"))}</p>` : "");
-    if(n.passages?.length)h+=`<h3>${esc(t('pass'))}</h3><div class="orbit-index">${n.passages.map(v=>`<a href="${hashOf(v)}" aria-label="${esc(v.ref)}">${esc(v.ref)}</a>`).join('')}</div>`;
+    if(n.passages?.length)h+=`<h3>${evc("draws")}${esc(t('pass'))}</h3><div class="orbit-index">${n.passages.map(v=>`<a href="${hashOf(v)}" aria-label="${esc(v.ref)}">${esc(v.ref)}</a>`).join('')}</div>`;
   } else if(S.kind === 'passage'){
     const n=S.n;h=head(t('pass'),n.ref,COL.u)+`<p class="sk" lang="sa">${esc(sa(n.d))}</p><p class="tx" lang="${lang}">${esc(tr(n.d))}</p><a class="btn fill" data-reader href="${readerHref(n)}">${esc(t('readS'))}</a>${sRow(n.story)}`;
   } else if(S.kind === "q"){
     h = head(t("question"), qn(S.q)) + `<p class="desc">${esc(qi(S.q))}</p>` + (S.q.care ? `<p class="xnote">${esc(t("care"))}</p>` : "") +
-      [["g","gitaV"],["a","ashV"]].map(([k,nm]) => { const l = S.vs.filter(v => v.t === k); return l.length ? `<h3>${esc(t("versesQ"))} · ${esc(t(nm))}</h3>` + l.map(v => vRow(v)).join("") : ""; }).join("") + (S.ss.length ? `<h3>${esc(t("qStories"))}</h3>` + S.ss.map(sRow).join("") : "") +
+      [["g","gitaV"],["a","ashV"]].map(([k,nm]) => { const l = S.vs.filter(v => v.t === k); return l.length ? `<h3>${evc("explores")}${esc(t("versesQ"))} · ${esc(t(nm))}</h3>` + l.map(v => vRow(v)).join("") : ""; }).join("") + (S.ss.length ? `<h3>${evc("explores")}${esc(t("qStories"))}</h3>` + S.ss.map(sRow).join("") : "") +
       (new Set([...S.vs, ...S.ss].map(n => n.t)).size > 1 ? `<p class="xnote">${esc(t("crossNote"))}</p>` : "") +
       `<a class="btn" href="../gita/questions/${S.q.slug}/">${esc(t("intro"))} →</a>`;
   } else if(S.kind === "idea"){
     const m = S.m; h = head(t("idea"), lgrp(m.en, m.hi), COL[S.t]) + `<p class="desc">${esc(lgrp(m.de, m.dh) || "")}</p>`;
     ["g","a","u"].filter(k => S.sets[k] && S.sets[k].length).sort((x, y) => (y === S.t) - (x === S.t)).forEach(k => {
-      const list = S.sets[k]; h += `<h3>${esc(lgrp(T.en.names[k], T.hi.names[k]))} · ${list.length}</h3>` + (k === "u" ? list.map(sRow).join("") : list.slice(0, k === S.t ? 12 : 6).map(v => vRow(v)).join("")) +
+      const list = S.sets[k]; h += `<h3>${evc("speaks")}${esc(lgrp(T.en.names[k], T.hi.names[k]))} · ${list.length}</h3>` + (k === "u" ? list.map(sRow).join("") : list.slice(0, k === S.t ? 12 : 6).map(v => vRow(v)).join("")) +
         (k !== "u" && list.length > (k === S.t ? 12 : 6) ? `<p class="xnote">${esc(t("more")(list.length - (k === S.t ? 12 : 6)))}</p>` : "");
       if(k !== S.t) h += `<p class="xnote">${esc(t("crossNote"))}</p>`; });
   }
@@ -308,7 +308,7 @@ function renderChrome(){
   if(lg){
     lg.classList.toggle("open", legendOpen);
     lg.innerHTML = `<button class="lg-h" type="button" data-lg aria-expanded="${legendOpen}">${esc(t("legend"))}<i aria-hidden="true"></i></button>` + (legendOpen ?
-      `<ul>${["g","a","u"].map(k => `<li><button type="button" data-hide="${k}" aria-pressed="${!hid.has(k)}" aria-label="${esc((hid.has(k) ? t("showT") : t("hideT")) + " · " + t("names")[k])}" class="${hid.has(k) ? "off" : ""}"><i class="dot" style="background:${COL[k]}"></i><span>${esc(t("names")[k])}</span><em>${chapOf[k].length}</em><b class="eye" aria-hidden="true"></b></button></li>`).join("")}</ul><p>${esc(t("legendKey"))}</p>` : "");
+      `<ul>${["g","a","u"].map(k => `<li><button type="button" data-hide="${k}" aria-pressed="${!hid.has(k)}" aria-label="${esc((hid.has(k) ? t("showT") : t("hideT")) + " · " + t("names")[k])}" class="${hid.has(k) ? "off" : ""}"><i class="dot" style="background:${COL[k]}"></i><span>${esc(t("names")[k])}</span><em>${chapOf[k].length}</em><b class="eye" aria-hidden="true"></b></button></li>`).join("")}</ul><p>${esc(t("legendKey"))}</p><p>${esc(t("legendEv"))}</p>` : "");
   }
   if(cx){
     const on = S.kind !== "home" && S.kind !== "chapters" && !(phone.matches && !collapsed);
@@ -449,6 +449,15 @@ function draw(){
     if(live && i < 30){ const u = (clock*.00009 + i*.173) % 1, v = 1 - u, x = v*v*a.x + 2*v*u*cx + u*u*b.x, y = v*v*a.y + 2*v*u*cy + u*u*b.y; glow(x, y, 9, palette.gold, .5); ctx.globalAlpha = 1; ctx.fillStyle = palette.gold; ctx.beginPath(); ctx.arc(x, y, 1.6, 0, 7); ctx.fill(); }
   });
   ctx.globalAlpha = 1;
+  // what the lines mean: one label per relationship in view (focus only, so it never crowds the whole graph)
+  const relTags = [];
+  if(focusing && !ideaPeek){
+    const groups = new Map();
+    edges.forEach(e => { if(!e[2] || hid.has(e[0].t) || hid.has(e[1].t)) return; const g = groups.get(e[2]) || {n:0, e}; g.n++; groups.set(e[2], g); });
+    groups.forEach((g, id) => { const a = toS(g.e[0]), b = toS(g.e[1]); relTags.push({id, n:g.n, x:(a.x + b.x)/2, y:(a.y + b.y)/2}); });
+    const c = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
+    if(c && c.kids && c.kids.length && z > .35){ const a = toS(c), b = toS(c.kids[Math.floor(c.kids.length/3)]); relTags.push({id:"contains", n:c.kids.length, x:a.x + (b.x - a.x)*.55, y:a.y + (b.y - a.y)*.55}); }
+  }
   // points
   const vr = z < .5 ? 1.2 : z < 1.2 ? 1.8 : z < 3 ? 2.6 : 3.6;
   for(const n of (filtering && drawOrder) || nodes){
@@ -478,6 +487,10 @@ function draw(){
   if(hub && !web){ const p = toS(hub), c = COL[hub.t]; glow(p.x, p.y, 40, c, .45); ctx.fillStyle = c; ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, 7); ctx.fill(); sphere(p.x, p.y, 9, c);
     ctx.strokeStyle = c; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(p.x, p.y, 14, 0, 7); ctx.stroke();
     ctx.font = "600 15px "+fontRead; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.shadowColor = palette.bg; ctx.shadowBlur = 8; ctx.fillStyle = palette.ink; ctx.fillText(nm(hub), p.x + 20, p.y); ctx.shadowBlur = 0; }
+  for(const tg of relTags){ const txt = `${relName(tg.id)} · ${tg.n}`; ctx.font = "500 11.5px system-ui,sans-serif"; const w = ctx.measureText(txt).width + 16, x = Math.max(8, Math.min(W - w - (phone.matches ? 8 : 430), tg.x - w/2)), y = Math.max(70, Math.min(H - 30, tg.y - 11));
+    ctx.globalAlpha = .96; ctx.fillStyle = palette.bg; ctx.strokeStyle = REL[tg.id].ev === "text" ? palette.muted : palette.gold; ctx.lineWidth = 1; if(REL[tg.id].ev !== "text") ctx.setLineDash([3, 3]);
+    ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(x, y, w, 22, 6); else ctx.rect(x, y, w, 22); ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
+    ctx.globalAlpha = 1; ctx.fillStyle = palette.ink; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.fillText(txt, x + 8, y + 11.5); }
   for(const k of ["g","a","u"]){ if(hid.has(k) || focusing && !relT.has(k)) continue; const r = roots[k], p = toS(r); glow(p.x, p.y, 34, COL[k], .35); ctx.fillStyle = COL[k]; ctx.beginPath(); ctx.arc(p.x,p.y,6,0,7);ctx.fill();sphere(p.x,p.y,7,COL[k]);
     ctx.font = (W < 600 ? "15px" : "20px") + " "+fontRead; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.shadowColor = palette.bg; ctx.shadowBlur = 8; ctx.fillStyle = COL[k]; ctx.globalAlpha = filtering ? .55 : 1; ctx.fillText(nm(r), p.x, p.y + 16); ctx.shadowBlur = 0; ctx.globalAlpha = 1; }
 }
@@ -510,6 +523,28 @@ if(tapTimer!==null){clearTimeout(tapTimer);if(prior?.node)mapNav(prior.node);}la
 const toW = (sx, sy) => ({x:(sx - W/2)/cam.z + cam.x, y:(sy - H/2)/cam.z + cam.y});
 function zoomAt(f, sx, sy){ const w = toW(sx, sy-60), z = Math.max(.12, Math.min(9, cam.z*f)); cam.z = z; cam.x = w.x - (sx - W/2)/z; cam.y = w.y - (sy - 60 - H/2)/z; tgt=null;cv.setAttribute("data-camera-state","settled");dirty=true;kick();}
 // phone small card on an idea: stay in the idea web, zoomed in on it, with the idea marked; its bubbles stay tappable
+// Relationships. `ev` is the evidence for a link, kept apart from what the link means, so more precise relations can be
+// added later without changing how provenance is shown. A link never borrows authority from what it joins: two verses of
+// scripture joined by an editor are still an editorial link.
+//   text      stated by the text itself (chapter structure, what a story quotes)
+//   editorial identified by our editors (idea tags, cross-text echoes, verses chosen for a question)
+//   derived   computed from editorial tags (two ideas occurring in the same verses)
+const REL = {
+  contains: {en:"contains",       hi:"में है",        ev:"text"},
+  draws:    {en:"draws on",       hi:"आधार",         ev:"text"},
+  speaks:   {en:"speaks of",      hi:"विषय",         ev:"editorial"},
+  echoes:   {en:"echoes",         hi:"समान विचार",    ev:"editorial"},
+  explores: {en:"explores",       hi:"विचार",         ev:"editorial"},
+  cooccurs: {en:"co-occurs with", hi:"साथ मिलता है",  ev:"derived"},
+};
+const EV = {
+  text:      {en:"From the text", hi:"पाठ से",    n_en:"Stated by the text itself.",                              n_hi:"स्वयं पाठ में कहा गया है।"},
+  editorial: {en:"Editorial",     hi:"संपादकीय", n_en:"A connection identified by our editors.",                  n_hi:"यह संबंध हमारे संपादकों ने पहचाना है।"},
+  derived:   {en:"Computed",      hi:"गणना से",  n_en:"Worked out from our editors' idea tags, not stated in the text.", n_hi:"हमारे संपादकों के विषय-टैग से निकाला गया, पाठ में कहा नहीं गया।"},
+};
+const relName = id => REL[id][lang === "hi" ? "hi" : "en"];
+// a small provenance tag for a panel heading: what kind of link the list below is, and what supports it
+const evc = id => { const e = EV[REL[id].ev]; return `<span class="evc ev-${REL[id].ev}" title="${esc(lang === "hi" ? e.n_hi : e.n_en)}">${esc(relName(id))} · ${esc(lang === "hi" ? e.hi : e.en)}</span>`; };
 // Legend filter: texts the reader has switched off. Focus: with something selected, draw only it and what it connects to.
 const hid = new Set(); let focusMode = true;
 const isFocus = () => focusMode && !!S.n && (S.kind === "chap" || S.kind === "verse" || S.kind === "story" || S.kind === "passage") || focusMode && (S.kind === "q" || S.kind === "idea" && !isIdeaPeek());

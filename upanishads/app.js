@@ -106,7 +106,7 @@ const UI = {
     sources:"The source verses", sourcesT:"The Sanskrit this story rests on, with fresh English and Hindi translations.",
     learning:"The learning", moreT:"More: where this comes from, other readings", toSrc:"Read the Sanskrit verses", carry:"Carry this with you", readings:"Readings differ",
     whereFrom:"Where this comes from", upanishad:"Upanishad", veda:"Veda", section:"Section", period:"Period", people:"People", ideas:"Ideas",
-    edition:"Sanskrit text", checked:"Checked against", themesH:"Themes", related:"Related stories", sameIdea:"The same idea elsewhere",
+    edition:"Sanskrit text", checked:"Checked against", themesH:"Themes", related:"Related stories", sameIdea:"Echoes in other texts", sameNote:"Editorial links: our editors read these verses as expressing related ideas. Their philosophical contexts may differ.",
     gita:"Bhagavad Gita", ashtavakra:"Ashtavakra Gita", prev:"Previous story", next:"Next story", save:"Save", savedL:"Saved",
     searchPh:"Search Nachiketa, truth, salt, Om…", none:"No matches. Try a name, an idea, an image from a story, or a Sanskrit word.",
     savedEmpty:"Stories you save appear here. Tap Save on any story to keep it.", recent:"Recently read", noRecent:"Stories you open will be listed here.",
@@ -139,7 +139,7 @@ const UI = {
     sources:"मूल मंत्र", sourcesT:"वह संस्कृत जिस पर यह कथा टिकी है, नए हिंदी और अंग्रेज़ी अनुवाद के साथ।",
     learning:"सीख", moreT:"और: यह कहाँ से है, अन्य व्याख्याएँ", toSrc:"संस्कृत मंत्र पढ़ें", carry:"इसे साथ रखें", readings:"अलग-अलग व्याख्याएँ",
     whereFrom:"यह कहाँ से है", upanishad:"उपनिषद्", veda:"वेद", section:"खंड", period:"समय", people:"पात्र", ideas:"विचार",
-    edition:"संस्कृत पाठ", checked:"मिलान", themesH:"विषय", related:"संबंधित कथाएँ", sameIdea:"यही विचार अन्यत्र",
+    edition:"संस्कृत पाठ", checked:"मिलान", themesH:"विषय", related:"संबंधित कथाएँ", sameIdea:"अन्य ग्रंथों में समान विचार", sameNote:"संपादकीय संबंध: हमारे संपादकों की समझ में इन श्लोकों के विचार मिलते-जुलते हैं। इनके दार्शनिक संदर्भ अलग हो सकते हैं।",
     gita:"भगवद्गीता", ashtavakra:"अष्टावक्र गीता", prev:"पिछली कथा", next:"अगली कथा", save:"सहेजें", savedL:"सहेजा गया",
     searchPh:"खोजें: नचिकेता, सत्य, नमक, ॐ…", none:"कुछ नहीं मिला। कोई नाम, विचार, कथा का कोई दृश्य या संस्कृत शब्द आज़माएँ।",
     savedEmpty:"आप जो कथाएँ सहेजेंगे, वे यहाँ दिखेंगी। किसी भी कथा पर 'सहेजें' दबाएँ।", recent:"हाल में पढ़ी", noRecent:"आप जो कथाएँ खोलेंगे, वे यहाँ दिखेंगी।",
@@ -481,7 +481,7 @@ function storyView(s){
     <dt>${esc(u().edition)}</dt><dd><a href="${esc(s.source_url)}" target="_blank" rel="noopener">${isHi()?"संस्कृत विकिस्रोत":"Sanskrit Wikisource"}: ${esc(s.source_title)}</a> (CC BY-SA 4.0)</dd>
   </dl>
   ${s.readings && s.readings.length ? `<h2 class="sec">${esc(u().readings)}</h2><div class="readings" lang="${lang}">${s.readings.map(r=>`<p>${esc(isHi()?r.hi:r.en)}</p>`).join("")}</div>` : ""}
-  ${xr ? `<h2 class="sec">${esc(u().sameIdea)}</h2><div class="xref">${xr}</div>` : ""}
+  ${xr ? `<h2 class="sec">${esc(u().sameIdea)}</h2><p class="srcnote" lang="${lang}">${esc(u().sameNote)}</p><div class="xref">${xr}</div>` : ""}
   <p class="credits">${u().suggest}</p>
   </details>
   ${next ? `<nav class="snav one"><a class="nx" href="#s-${next.id}"><small>${esc(u().next)} →</small><b>${esc(L(next,"title"))}</b></a></nav>` : ""}
