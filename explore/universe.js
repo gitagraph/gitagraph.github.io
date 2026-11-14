@@ -384,7 +384,7 @@ function renderPanel(focus=true){
       `<h3>${evc("then")}${esc(t("pathSteps"))}</h3>` + S.vs.map((n, i) => n.kind === "story" ? sRow(n) : vRow(n)).join("") +
       `<p class="xnote">${esc(L("note"))}</p><a class="btn" href="../paths/${P.slug}/">${esc(t("pathOpen"))} →</a>`;
   } else if(S.kind === "q"){
-    h = head(t("question"), qn(S.q)) + `<p class="desc">${esc(qi(S.q))}</p>` + (S.q.care ? `<p class="xnote">${esc(t("care"))}</p>` : "") +
+    h = head(t("question"), qn(S.q)) + `<p class="desc">${esc(qi(S.q))}</p>` + (S.q.care ? `<p class="xnote">${esc((lang === "hi" ? S.q.care_hi : S.q.care_en) || t("care"))}</p>` : "") +
       (() => { const sec = ([k,nm]) => { const l = S.vs.filter(v => v.t === k); return l.length ? `<h3>${evc("explores")}${esc(t("versesQ"))} · ${esc(t(nm))}</h3>` + l.map(v => vRow(v)).join("") : ""; };   // Ashtavakra, then the Upanishads, then the Gita
         return sec(["a","ashV"]) + (S.ss.length ? `<h3>${evc("explores")}${esc(t("qStories"))}</h3>` + S.ss.map(sRow).join("") : "") + sec(["g","gitaV"]); })() +
       (new Set([...S.vs, ...S.ss].map(n => n.t)).size > 1 ? `<p class="xnote">${esc(t("crossNote"))}</p>` : "") +
