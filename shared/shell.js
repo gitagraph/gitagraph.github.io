@@ -35,6 +35,7 @@
     },
     // the link to /search/: a pill with a hint on wide screens, an icon elsewhere (o.icon: icon only, for phone bars)
     search(o) {
+      GGShell.root = o.root;
       const sr = ["search", "search/", "Search verses, ideas, people", "श्लोक, विचार, पात्र खोजें"], lb = o.lang ? (o.lang === "hi" ? "खोजें" : "Search") : "Search";
       return `<a class="gsearch${o.icon ? " gs-m" : ""}" href="${o.root}search/" data-g="search" aria-label="${lb}"${cur(sr, o.active)}>${IC.search}<span>${label(sr, o.lang)}</span></a>`;
     },
@@ -74,4 +75,8 @@
     };
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount); else mount();
   }
+  // Cmd/Ctrl+K opens the site-wide search from any page
+  if (!window.__ggK) { window.__ggK = 1; document.addEventListener("keydown", e => {
+    if ((e.metaKey || e.ctrlKey) && !e.altKey && !e.shiftKey && (e.key === "k" || e.key === "K") && GGShell.root != null) { e.preventDefault(); location.href = GGShell.root + "search/"; }
+  }); }
 })();

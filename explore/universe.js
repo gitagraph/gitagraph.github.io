@@ -16,6 +16,8 @@ const T = {
   notedIn:"Suggested alongside these Upanishad stories", noted:"Suggested alongside", gitaV:"Bhagavad Gita", ashV:"Ashtavakra Gita", qStories:"Stories on this question", versesQ:"Verses for this question",
   readIn:"Reading", pass:"Passages from the text", more:n => `…and ${n} more`, intro:"About this", hint:"Drag to move · pinch / double-tap to zoom",
   scripture:"Scripture", names:{g:"Bhagavad Gita", a:"Ashtavakra Gita", u:"Upanishads"}, loadErr:"The graph did not load. Reload the page to try again.",
+  legend:"Legend", legendKey:"Each text has its own colour. Bigger points are chapters and stories; the smallest are shlokas.", hideT:"Hide", showT:"Show",
+  focus:"Focus", whole:"Whole graph", conn:k => k === 1 ? "1 connection" : `${k} connections`, clearSel:"Clear selection", fit:"Fit to screen",
   moved:"Selected", care:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.", up:"Upanishad"},
  hi:{sub:"ज्ञान का जीवंत ग्रंथालय", back:"← वापस", home:"✧ पूरा ग्राफ़", pause:"गति रोकें", play:"गति चलाएँ", lang:"English",
   chapters2:"अध्याय", qs:"प्रश्न", chapD:"हर अध्याय एक तारामंडल है। किसी अध्याय को छूकर उसके श्लोक देखें।", eb:"भगवद्गीता · अष्टावक्र गीता · उपनिषद्", h1:"एक विचार,<br><em>कई ग्रंथों में।</em>", hp:"देखें कि अध्याय, श्लोक और कथाएँ कैसे जुड़ते हैं। फिर इन संबंधों के सहारे एक श्लोक से दूसरे तक पहुँचें।", ideasTitle:"ग्रंथों के विचार", sameIdea:"दूसरे ग्रंथों में यही विचार", inText:"इस ग्रंथ में", tales:"कथाएँ", crossNote:"गीताग्राफ़ का सुझाव, साथ में पढ़ने के लिए। विषय जुड़े हैं, पर शिक्षाएँ एक जैसी नहीं हैं, और परंपराएँ इन्हें अलग-अलग ढंग से पढ़ती हैं।", start:"किसी प्रश्न से शुरू करें", startD:"जीवन का कोई प्रश्न चुनें, उससे जुड़े श्लोक जगमगा उठेंगे। या किसी अध्याय को छूकर देखें।",
@@ -25,6 +27,8 @@ const T = {
   notedIn:"इन उपनिषद कथाओं के साथ सुझाया गया", noted:"साथ में पढ़ने का सुझाव", gitaV:"भगवद्गीता", ashV:"अष्टावक्र गीता", qStories:"इस प्रश्न की कथाएँ", versesQ:"इस प्रश्न के श्लोक",
   readIn:"पढ़ रहे हैं", pass:"मूल पाठ के अंश", more:n => `…और ${n}`, intro:"परिचय", hint:"खींचकर घुमाएँ · पिंच / दो बार टैप से ज़ूम करें",
   scripture:"ग्रंथ", names:{g:"भगवद्गीता", a:"अष्टावक्र गीता", u:"उपनिषद्"}, loadErr:"ग्राफ़ लोड नहीं हुआ। दोबारा कोशिश करें।",
+  legend:"संकेत", legendKey:"हर ग्रंथ का अपना रंग है। बड़े बिंदु अध्याय और कथाएँ हैं; सबसे छोटे श्लोक।", hideT:"छिपाएँ", showT:"दिखाएँ",
+  focus:"केवल यह", whole:"पूरा ग्राफ़", conn:k => `${k} संबंध`, clearSel:"चयन हटाएँ", fit:"पूरा दिखाएँ",
   moved:"चुना गया", care:"गीता देखने का एक नज़रिया देती है, सहारे का विकल्प नहीं। अगर यह मन पर भारी है, तो किसी भरोसेमंद व्यक्ति या डॉक्टर से बात करें।", up:"उपनिषद्"}
 };
 const t = k => T[lang][k];
@@ -293,8 +297,40 @@ function renderPanel(focus=true){
       if(k !== S.t) h += `<p class="xnote">${esc(t("crossNote"))}</p>`; });
   }
   p.innerHTML = h + "</div>"; setMin(p, r0, was); p.scrollTop = 0;
+  renderChrome();
   const hd = $("ptitle"); if(hd && started && focus) hd.focus({preventScroll:true});
 }
+// The furniture around the graph: a legend that is also the filter (bottom left), and a pill saying what is selected (top centre).
+let legendOpen = !phone.matches;
+try{ const v = localStorage.getItem("gg-graph-legend"); if(v) legendOpen = v === "1"; }catch(e){}
+function renderChrome(){
+  const lg = $("legend"), cx = $("ctx");
+  if(lg){
+    lg.classList.toggle("open", legendOpen);
+    lg.innerHTML = `<button class="lg-h" type="button" data-lg aria-expanded="${legendOpen}">${esc(t("legend"))}<i aria-hidden="true"></i></button>` + (legendOpen ?
+      `<ul>${["g","a","u"].map(k => `<li><button type="button" data-hide="${k}" aria-pressed="${!hid.has(k)}" aria-label="${esc((hid.has(k) ? t("showT") : t("hideT")) + " · " + t("names")[k])}" class="${hid.has(k) ? "off" : ""}"><i class="dot" style="background:${COL[k]}"></i><span>${esc(t("names")[k])}</span><em>${chapOf[k].length}</em><b class="eye" aria-hidden="true"></b></button></li>`).join("")}</ul><p>${esc(t("legendKey"))}</p>` : "");
+  }
+  if(cx){
+    const on = S.kind !== "home" && S.kind !== "chapters" && !(phone.matches && !collapsed);
+    cx.hidden = !on;
+    if(on){
+      const name = S.kind === "q" ? qn(S.q) : S.kind === "idea" ? (lang === "hi" ? S.m.hi || S.m.en : S.m.en) : S.n ? (S.n.kind === "verse" || S.n.kind === "passage" ? (lang === "hi" ? S.n.ch.name.hi || S.n.ch.name.en : S.n.ch.name.en) + " " + nm(S.n) : nm(S.n)) : "";
+      const k = S.kind === "chap" || S.kind === "root" ? (S.n.kids || chapOf[S.n.t] || []).length : lit ? Math.max(0, lit.size - (S.n && lit.has(S.n) ? 1 : 0)) : 0;
+      const col = S.n ? COL[S.n.t] : S.kind === "idea" ? COL[S.t] : palette.gold, canFocus = S.kind !== "root";
+      cx.innerHTML = `<i class="dot" style="background:${col}"></i><span class="nm">${esc(name)}</span>${k ? `<span class="ct">${esc(t("conn")(k))}</span>` : ""}` +
+        (canFocus ? `<span class="seg" role="group"><button type="button" data-focus="1" aria-pressed="${focusMode}">${esc(t("focus"))}</button><button type="button" data-focus="0" aria-pressed="${!focusMode}">${esc(t("whole"))}</button></span>` : "") +
+        `<button type="button" class="x" data-clear aria-label="${esc(t("clearSel"))}">×</button>`;
+    }
+  }
+  const zf = $("zfit"); if(zf) zf.setAttribute("aria-label", t("fit"));
+}
+document.addEventListener("click", e => {
+  const lgb = e.target.closest("#legend [data-lg]"), hb = e.target.closest("#legend [data-hide]"), fb = e.target.closest("#ctx [data-focus]"), cb = e.target.closest("#ctx [data-clear]");
+  if(lgb){ legendOpen = !legendOpen; try{ localStorage.setItem("gg-graph-legend", legendOpen ? "1" : "0"); }catch(err){} renderChrome(); }
+  else if(hb){ const k = hb.dataset.hide; if(hid.has(k)) hid.delete(k); else if(hid.size < 2) hid.add(k); renderChrome(); kick(); }   // never hide all three
+  else if(fb){ focusMode = fb.dataset.focus === "1"; renderChrome(); kick(); }
+  else if(cb){ nav("#/"); }
+});
 $("panel").addEventListener("click", e => {
   // phone full screen: Back returns to where the reader was (previous view, its camera and scroll); with nowhere to go back to, fold down to the map
   if(e.target.closest("[data-pback]")){ if(history.state?.nav) history.back(); else { collapsed = true; peekOpen = false; renderPanel(); fly(); } return; }
@@ -382,30 +418,32 @@ function draw(){
   for(const s of stars){ ctx.globalAlpha = Math.abs(s.a); ctx.beginPath(); ctx.arc(Math.abs((s.x*W - cam.x*.03 + W*3) % W), Math.abs((s.y*H - cam.y*.03 + H*3) % H), s.r, 0, 7); ctx.fill(); }
   ctx.globalAlpha = 1;
   const ideaPeek = isIdeaPeek(), web = webMode(), z = cam.z, deep = deepOf(z), home = S.kind === "home", filtering = !!lit && (S.kind === "q" || S.kind === "idea" && !ideaPeek), selId = ideaPeek ? `i:${S.t}:${S.id}` : S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
-  for(const k of ['g','a','u']){const p=toS(roots[k]);glow(p.x,p.y,Math.min(520,(k==='g'?760:560)*z),COL[k],palette.dark?.12:.055);glow(p.x-80*z,p.y+65*z,Math.min(330,470*z),COL[k==='g'?'u':'g'],palette.dark?.055:.025);}
+  const focusing = isFocus(), relT = focusing ? relTexts() : null;
+  for(const k of ['g','a','u']){if(hid.has(k))continue;const p=toS(roots[k]);glow(p.x,p.y,Math.min(520,(k==='g'?760:560)*z),COL[k],palette.dark?.12:.055);glow(p.x-80*z,p.y+65*z,Math.min(330,470*z),COL[k==='g'?'u':'g'],palette.dark?.055:.025);}
   // constellation threads: text -> each chapter
   ctx.lineWidth = .7;
   const wa = 1 - .75*deep;   // the idea web's strength as the overview is zoomed in
   if(home){ const o = String(Math.max(0, 1 - deep*1.6).toFixed(2)), hero = $("hero"); if(hero.style.opacity !== o){ hero.style.opacity = o; hero.style.pointerEvents = o === "0.00" ? "none" : ""; } }
   if(web){
     const live0 = !paused && !reduce.matches;
-    for(const n of ideas){ const rp = toS(roots[n.t]), p = toS(n); ctx.strokeStyle = COL[n.t]; ctx.globalAlpha = .12*wa; ctx.beginPath(); ctx.moveTo(rp.x, rp.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
-    iedges.forEach((e, i) => { const a = toS(e.a), b = toS(e.b), cx = (a.x + b.x)/2 + (b.y - a.y)*.13, cy = (a.y + b.y)/2 - (b.x - a.x)*.13;
+    for(const n of ideas){ if(hid.has(n.t)) continue; const rp = toS(roots[n.t]), p = toS(n); ctx.strokeStyle = COL[n.t]; ctx.globalAlpha = .12*wa; ctx.beginPath(); ctx.moveTo(rp.x, rp.y); ctx.lineTo(p.x, p.y); ctx.stroke(); }
+    iedges.forEach((e, i) => { if(hid.has(e.a.t) || hid.has(e.b.t)) return; const a = toS(e.a), b = toS(e.b), cx = (a.x + b.x)/2 + (b.y - a.y)*.13, cy = (a.y + b.y)/2 - (b.x - a.x)*.13;
       ctx.strokeStyle = e.cross ? palette.gold : COL[e.a.t]; ctx.globalAlpha = (e.cross ? .5 : .3)*wa; ctx.lineWidth = e.cross ? 1 : .7; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(cx, cy, b.x, b.y); ctx.stroke();
       if(live0 && wa > .5 && (e.cross || i % 3 === 0)){ const u = (clock*.00006 + i*.211) % 1, v = 1 - u, x = v*v*a.x + 2*v*u*cx + u*u*b.x, y = v*v*a.y + 2*v*u*cy + u*u*b.y; glow(x, y, 8, palette.gold, .4); ctx.globalAlpha = 1; ctx.fillStyle = palette.gold; ctx.beginPath(); ctx.arc(x, y, 1.3, 0, 7); ctx.fill(); } });
     ctx.globalAlpha = 1;
   }
-  if(!web || home && deep > 0) for(const k of ['g','a','u']){const rp=toS(roots[k]);ctx.strokeStyle=COL[k];ctx.lineWidth=.65;
+  if(!web || home && deep > 0) for(const k of ['g','a','u']){if(hid.has(k)||focusing)continue;const rp=toS(roots[k]);ctx.strokeStyle=COL[k];ctx.lineWidth=.65;
     chapOf[k].forEach((c,i)=>{const p=toS(c),bend=(i%2?1:-1)*.15;ctx.globalAlpha=(filtering?.035:.11)*(home?deep:1);ctx.beginPath();ctx.moveTo(rp.x,rp.y);ctx.quadraticCurveTo((rp.x+p.x)/2+(p.y-rp.y)*bend,(rp.y+p.y)/2-(p.x-rp.x)*bend,p.x,p.y);ctx.stroke();
     if(i>0){const q=toS(chapOf[k][i-1]);ctx.globalAlpha=(filtering?.025:.16)*(home?deep:1);ctx.beginPath();ctx.moveTo(q.x,q.y);ctx.quadraticCurveTo((q.x+p.x)/2+(p.y-q.y)*.08,(q.y+p.y)/2-(p.x-q.x)*.08,p.x,p.y);ctx.stroke();}
     });ctx.globalAlpha=1;}
   // These bridge threads are the existing story-to-verse citations, not tag-name equivalences.
-  if(web){overviewEdges.forEach(([a,b],i)=>{const p=toS(a),q=toS(b),cx=(p.x+q.x)/2+(q.y-p.y)*.2,cy=(p.y+q.y)/2-(q.x-p.x)*.2;ctx.strokeStyle=COL[a.t];ctx.globalAlpha=(palette.dark?.18:.13)*wa;ctx.lineWidth=.75;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.quadraticCurveTo(cx,cy,q.x,q.y);ctx.stroke();if(!paused&&!reduce.matches){const t=(clock*.000045+i*.171)%1,u=1-t,x=u*u*p.x+2*u*t*cx+t*t*q.x,y=u*u*p.y+2*u*t*cy+t*t*q.y;glow(x,y,10,palette.gold,.35);ctx.globalAlpha=.9;ctx.fillStyle=palette.gold;ctx.beginPath();ctx.arc(x,y,1.2,0,7);ctx.fill();}});ctx.globalAlpha=1;}
+  if(web){overviewEdges.forEach(([a,b],i)=>{if(hid.has(a.t)||hid.has(b.t))return;const p=toS(a),q=toS(b),cx=(p.x+q.x)/2+(q.y-p.y)*.2,cy=(p.y+q.y)/2-(q.x-p.x)*.2;ctx.strokeStyle=COL[a.t];ctx.globalAlpha=(palette.dark?.18:.13)*wa;ctx.lineWidth=.75;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.quadraticCurveTo(cx,cy,q.x,q.y);ctx.stroke();if(!paused&&!reduce.matches){const t=(clock*.000045+i*.171)%1,u=1-t,x=u*u*p.x+2*u*t*cx+t*t*q.x,y=u*u*p.y+2*u*t*cy+t*t*q.y;glow(x,y,10,palette.gold,.35);ctx.globalAlpha=.9;ctx.fillStyle=palette.gold;ctx.beginPath();ctx.arc(x,y,1.2,0,7);ctx.fill();}});ctx.globalAlpha=1;}
 
   if(!web&&z>.35){for(const c of chapOf.g.concat(chapOf.a)){if(S.n!==c&&S.n?.ch!==c)continue;const p=toS(c);if(p.x<-180||p.x>W+180||p.y<-180||p.y>H+180)continue;ctx.strokeStyle=COL[c.t];ctx.globalAlpha=.1;ctx.lineWidth=.6;ctx.beginPath();ctx.ellipse(p.x,p.y,Math.max(30,...c.kids.map(n=>n.orr))*z,Math.max(30,...c.kids.map(n=>n.orr))*.65*z,-.12,0,Math.PI*2);ctx.stroke();if(S.n===c||S.n?.ch===c){for(const n of c.kids){const q=toS(n);ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}}ctx.globalAlpha=1;}
   // glowing connections (question path, idea thread, story references)
   const live = !paused && !reduce.matches;
   if(!ideaPeek) edges.forEach((e, i) => {
+    if(hid.has(e[0].t) || hid.has(e[1].t)) return;
     const a = toS(e[0]), b = toS(e[1]), cx = (a.x + b.x)/2 + (b.y - a.y)*.12, cy = (a.y + b.y)/2 - (b.x - a.x)*.12;
     ctx.strokeStyle = palette.gold; ctx.globalAlpha = .55; ctx.lineWidth = 1.1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.quadraticCurveTo(cx, cy, b.x, b.y); ctx.stroke();
     if(live && i < 30){ const u = (clock*.00009 + i*.173) % 1, v = 1 - u, x = v*v*a.x + 2*v*u*cx + u*u*b.x, y = v*v*a.y + 2*v*u*cy + u*u*b.y; glow(x, y, 9, palette.gold, .5); ctx.globalAlpha = 1; ctx.fillStyle = palette.gold; ctx.beginPath(); ctx.arc(x, y, 1.6, 0, 7); ctx.fill(); }
@@ -414,7 +452,7 @@ function draw(){
   // points
   const vr = z < .5 ? 1.2 : z < 1.2 ? 1.8 : z < 3 ? 2.6 : 3.6;
   for(const n of (filtering && drawOrder) || nodes){
-    if(n.kind === "root") continue;
+    if(n.kind === "root" || hid.has(n.t) || focusing && !rel(n)) continue;
     const f = fadeOf(n, deep);
     if(f < .03 && small(n)) continue;
     if(home ? f < .03 : web ? n.kind !== "idea"&&!overviewStars.has(n) : n.kind === "idea") continue;
@@ -440,7 +478,7 @@ function draw(){
   if(hub && !web){ const p = toS(hub), c = COL[hub.t]; glow(p.x, p.y, 40, c, .45); ctx.fillStyle = c; ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, 7); ctx.fill(); sphere(p.x, p.y, 9, c);
     ctx.strokeStyle = c; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(p.x, p.y, 14, 0, 7); ctx.stroke();
     ctx.font = "600 15px "+fontRead; ctx.textAlign = "left"; ctx.textBaseline = "middle"; ctx.shadowColor = palette.bg; ctx.shadowBlur = 8; ctx.fillStyle = palette.ink; ctx.fillText(nm(hub), p.x + 20, p.y); ctx.shadowBlur = 0; }
-  for(const k of ["g","a","u"]){ const r = roots[k], p = toS(r); glow(p.x, p.y, 34, COL[k], .35); ctx.fillStyle = COL[k]; ctx.beginPath(); ctx.arc(p.x,p.y,6,0,7);ctx.fill();sphere(p.x,p.y,7,COL[k]);
+  for(const k of ["g","a","u"]){ if(hid.has(k) || focusing && !relT.has(k)) continue; const r = roots[k], p = toS(r); glow(p.x, p.y, 34, COL[k], .35); ctx.fillStyle = COL[k]; ctx.beginPath(); ctx.arc(p.x,p.y,6,0,7);ctx.fill();sphere(p.x,p.y,7,COL[k]);
     ctx.font = (W < 600 ? "15px" : "20px") + " "+fontRead; ctx.textAlign = "center"; ctx.textBaseline = "top"; ctx.shadowColor = palette.bg; ctx.shadowBlur = 8; ctx.fillStyle = COL[k]; ctx.globalAlpha = filtering ? .55 : 1; ctx.fillText(nm(r), p.x, p.y + 16); ctx.shadowBlur = 0; ctx.globalAlpha = 1; }
 }
 let last = 0, lastDraw = 0;
@@ -472,6 +510,11 @@ if(tapTimer!==null){clearTimeout(tapTimer);if(prior?.node)mapNav(prior.node);}la
 const toW = (sx, sy) => ({x:(sx - W/2)/cam.z + cam.x, y:(sy - H/2)/cam.z + cam.y});
 function zoomAt(f, sx, sy){ const w = toW(sx, sy-60), z = Math.max(.12, Math.min(9, cam.z*f)); cam.z = z; cam.x = w.x - (sx - W/2)/z; cam.y = w.y - (sy - 60 - H/2)/z; tgt=null;cv.setAttribute("data-camera-state","settled");dirty=true;kick();}
 // phone small card on an idea: stay in the idea web, zoomed in on it, with the idea marked; its bubbles stay tappable
+// Legend filter: texts the reader has switched off. Focus: with something selected, draw only it and what it connects to.
+const hid = new Set(); let focusMode = true;
+const isFocus = () => focusMode && !!S.n && (S.kind === "chap" || S.kind === "verse" || S.kind === "story" || S.kind === "passage") || focusMode && (S.kind === "q" || S.kind === "idea" && !isIdeaPeek());
+const rel = n => n === S.n || !!lit && lit.has(n) || litCh.has(n) || !!S.n && (n.ch === S.n || n === S.n.ch || n.story === S.n || n === S.n.story || !!S.n.ch && n.ch === S.n.ch || !!S.n.story && n.story === S.n.story);
+const relTexts = () => new Set([S.n && S.n.t, S.kind === "idea" ? S.t : null, ...(lit ? [...lit].map(n => n.t) : [])].filter(Boolean));
 const isIdeaPeek = () => S.kind === "idea" && phone.matches && collapsed;
 const webMode = () => S.kind === "home" || isIdeaPeek();
 // overview zoom works like a map: zooming in fades the idea web into the chapter constellations and their shlokas (0 = web, 1 = constellations)
@@ -485,7 +528,9 @@ const fadeOf = (n, deep) => S.kind === "chapters" || S.kind === "root" ? (small(
 function hit(sx, sy, touch){
   const R = touch ? 22 : 14; let best = null, bd = 1e9;
   const openCh = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
+  const fc = isFocus();
   for(const n of nodes){
+    if(hid.has(n.t) || fc && n.kind !== "root" && !rel(n)) continue;
     if(S.kind === "home" ? fadeOf(n, deepOf(cam.z)) < .4 : webMode() ? n.kind !== "idea" && n.kind !== "root" && !overviewStars.has(n) : n.kind === "idea") continue;
     if((n.kind === "verse"||n.kind==="passage") && cam.z < 1.1 && !(lit && lit.has(n))) continue;
     if(openCh && n.kind === "verse" && n.ch !== openCh && !(lit && lit.has(n))) continue;   // not drawn, so not tappable
@@ -520,6 +565,7 @@ cv.addEventListener("keydown", e => {
   else if(e.key === "Escape"){ if(history.state?.nav)history.back();else nav("#/"); } else d = false;
   if(d){ e.preventDefault(); tgt = null; dirty = true; kick(); }
 });
+if($("zfit")) $("zfit").onclick = () => { fly(); kick(); };
 $("zin").onclick = () => zoomAt(1.4, W/2, H/2+60); $("zout").onclick = () => zoomAt(1/1.4, W/2, H/2+60);
 $("home").onclick = () => nav("#/"); $("chaps").onclick = () => nav("#/chapters");   // phones: stay on the graph (every chapter as a constellation); the list opens only when asked for
 $("qs").onclick = () => { if(S.kind !== "home"){ fullNext = true; nav("#/"); } else if(phone.matches){ if(collapsed) riseTray(); } else if(collapsed){ collapsed = false; renderPanel(); fly(); } };

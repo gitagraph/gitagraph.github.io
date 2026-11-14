@@ -2,10 +2,10 @@
 // The Gita reader lives at the root of the same origin, so this touches only its own
 // pages, files and caches.
 const PREFIX = "ashtavakra-";
-const CACHE = PREFIX + "20261114012053";
+const CACHE = PREFIX + "20261114094236";
 const BASE = new URL(self.registration.scope).pathname;
 // versioned with the same stamp the pages use (app.js?v=…), so the precache holds exactly what new pages ask for
-const V = "?v=20261114012053";
+const V = "?v=20261114094236";
 const CORE = ["", "app.css" + V, "app.js" + V, "verses.json" + V, "hubs.json" + V, "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon.svg"].map(p => BASE + p);
 const MINE = new Set(["", "app.css", "app.js", "verses.json", "hubs.json", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon.svg"].map(p => BASE + p));
 const ROUTES = ["chapter/", "topic/", "explore/", "people-and-ideas/", "search/", "saved/", "about/"].map(p => BASE + p);
