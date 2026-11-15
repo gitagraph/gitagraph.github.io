@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Library · Gitagraph</title><meta name="description" content="The Bhagavad Gita, the Ashtavakra Gita and stories from the Upanishads, with what you saved and read last."><link rel="canonical" href="https://gitagraph.com/library/">
-<link rel="icon" href="../shared/mark.svg?v=20261115221716" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261115221716" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261115221716">
+<link rel="icon" href="../shared/mark.svg?v=20261115222610" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261115222610" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261115222610">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -434,6 +434,7 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 /* Start card: until a first reading path is opened, phones get one clear place to begin, between today's verse and the questions */
 .hstart{display:none}
 @media (max-width:699px){
+  .phome{display:none}
   .hstart:not([hidden]){display:flex;flex-direction:column;align-items:flex-start;position:relative;overflow:hidden;margin:18px 0 0;padding:20px 138px 20px 22px;min-height:168px;border-radius:26px;background:#f3e3c2;color:#2a2118;text-decoration:none}
   .hstart small{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#b04e08}
   .hstart b{margin:5px 0 4px;font-family:var(--f-read);font-size:22px;font-weight:600;line-height:1.25}
@@ -628,4 +629,4 @@ try{ const L = JSON.parse(localStorage.getItem("gg-last") || "null");
     document.getElementById("rr-t").innerHTML = two(L.en, L.hi); r.hidden = false; } }catch(e){}
 // "Text size and theme" opens the same Display sheet as the button in the header (shared/shell.js adds that button)
 document.getElementById("ls-display").onclick = () => { const t = document.getElementById("themebtn"); if(t) t.click(); };
-</script><script src="../shared/shell.js?v=20261115221716" data-active="library" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../shared/shell.js?v=20261115222610" data-active="library" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
