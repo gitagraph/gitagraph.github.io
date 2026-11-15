@@ -156,10 +156,16 @@
     let p = location.pathname; try { p = decodeURIComponent(p); } catch (e) {}
     if (!p.replace(/index\.html$/, "").endsWith("/" + t.items[0].k)) return;
     let seen = false; try { seen = !!localStorage.getItem("gg-intro-seen"); localStorage.setItem("gg-intro-seen", "1"); } catch (e) {}
-    const hi = document.documentElement.lang === "hi", n = t.items.length, st = /story\//.test(t.items[0].k), m = t.min || 5;
-    const meta = hi ? `${n} ${st ? "कथाएँ" : "श्लोक"} · लगभग ${m} मिनट` : `${n} ${st ? "stories" : "verses"} · about ${m} minutes`;
-    const steps = hi ? (st ? ["एक बार में एक कथा पढ़ें", "रोज़ के जीवन के लिए उसकी सीख देखें", "आगे के लिए <b>अगली कथा</b> दबाएँ"] : ["एक बार में एक श्लोक पढ़ें", "रोज़ के जीवन में उसका अर्थ देखें", "आगे के लिए <b>अगला श्लोक</b> दबाएँ"])
-                     : (st ? ["Read one story at a time", "See what it teaches for daily life", "Tap <b>Next story</b> to go on"] : ["Read one verse at a time", "See what it means in daily life", "Tap <b>Next verse</b> to go on"]);
+    const hi = document.documentElement.lang === "hi", n = t.items.length, m = t.min || 5;
+    // what the path is made of: 0 verses, 1 stories, 2 both (its stops are then called passages)
+    const ns = t.items.filter(x => /story\//.test(x.k)).length, kd = ns === n ? 1 : ns ? 2 : 0;
+    const meta = hi ? `${n} ${["श्लोक", "कथाएँ", "अंश"][kd]} · लगभग ${m} मिनट` : `${n} ${["verses", "stories", "passages"][kd]} · about ${m} minutes`;
+    const steps = hi ? [["एक बार में एक श्लोक पढ़ें", "रोज़ के जीवन में उसका अर्थ देखें", "आगे के लिए <b>अगला श्लोक</b> दबाएँ"],
+                        ["एक बार में एक कथा पढ़ें", "रोज़ के जीवन के लिए उसकी सीख देखें", "आगे के लिए <b>अगली कथा</b> दबाएँ"],
+                        ["एक बार में एक अंश पढ़ें", "रोज़ के जीवन में उसका अर्थ देखें", "आगे के लिए <b>अगला</b> वाला बटन दबाएँ"]][kd]
+                     : [["Read one verse at a time", "See what it means in daily life", "Tap <b>Next verse</b> to go on"],
+                        ["Read one story at a time", "See what it teaches for daily life", "Tap <b>Next story</b> to go on"],
+                        ["Read one passage at a time", "See what it means in daily life", "Tap the <b>Next</b> button to go on"]][kd];
     const frame = hi ? t.fhi : t.fen;
     const d = document.createElement("div"); d.id = "gintro"; d.className = "gi-scrim"; d.lang = hi ? "hi" : "en";
     d.innerHTML = `<div class="gi-sheet" role="dialog" aria-modal="true" aria-label="${tesc(hi ? t.hi : t.en)}"><span class="gi-grab" aria-hidden="true"></span>
@@ -198,6 +204,10 @@
         setTimeout(() => { el.style.transition = ""; }, 320);
       } } catch (e) {}
     el.style.touchAction = "pan-y";
+    // The page slides sideways as it leaves and arrives. Without this the part that sticks out makes the whole
+    // document wider for a moment, a phone zooms out a little to fit it, and everything pinned to the screen (the
+    // tab bar above all) bobs down and back. Clipping at the parent keeps the slide inside the page's own width.
+    if (el.parentElement) el.parentElement.style.overflowX = "clip";
     let sx = 0, sy = 0, st = 0, lock = 0, dx = 0, w = 320, moves = {};
     const move = dir => (dir in moves ? moves[dir] : (moves[dir] = step(dir) || null));
     const settle = () => { el.style.transition = `transform .2s ${EASE}, opacity .2s ease`; el.style.transform = ""; el.style.opacity = ""; setTimeout(() => { el.style.transition = ""; }, 220); };
@@ -206,21 +216,26 @@
     el.addEventListener("touchstart", e => { lock = e.touches.length === 1 && !own(e.target) ? 0 : -1; const t = e.touches[0]; sx = t.clientX; sy = t.clientY; st = Date.now(); dx = 0; moves = {}; w = el.offsetWidth || 320; }, { passive: true });
     el.addEventListener("touchmove", e => {
       if (lock < 0) return; const t = e.touches[0]; dx = t.clientX - sx; const dy = t.clientY - sy;
-      if (!lock) { if (Math.abs(dx) > 10 && Math.abs(dx) > 1.4 * Math.abs(dy)) lock = 1; else if (Math.abs(dy) > 10) lock = -1; }
+      if (!lock) { if (Math.abs(dx) > 10 && Math.abs(dx) > 1.4 * Math.abs(dy)) { lock = 1; document.documentElement.classList.add("gg-swiping"); } else if (Math.abs(dy) > 10) lock = -1; }
       if (lock !== 1 || still) return;
       const x = move(dx < 0 ? 1 : -1) ? dx : dx * .25;
       el.style.transition = "none"; el.style.transform = `translateX(${x}px)`; el.style.opacity = String(1 - Math.min(.5, Math.abs(x) / w * .9));
     }, { passive: true });
+    // While a sideways swipe is on, the little the page drifts up or down must not hide or show the bars (gg-swiping,
+    // read by the reading mode below). When the swipe turns the page, the bars are simply there on the new page: they
+    // are put back without their slide (gg-snap), so the tab bar does not bob as the verse changes.
+    const root = document.documentElement, calm = ms => setTimeout(() => root.classList.remove("gg-swiping", "gg-snap"), ms);
     el.addEventListener("touchend", () => {
       if (lock !== 1) return; lock = 0;
       const dir = dx < 0 ? 1 : -1, fn = move(dir), dt = Date.now() - st;
-      if (!(fn && (Math.abs(dx) > 70 || (Math.abs(dx) > 35 && dt < 250)))) { if (!still) settle(); return; }
-      if (still) { fn(); return; }
+      if (!(fn && (Math.abs(dx) > 70 || (Math.abs(dx) > 35 && dt < 250)))) { if (!still) settle(); calm(250); return; }
+      if (still) { fn(); calm(250); return; }
       el.style.transition = "transform .14s ease-in, opacity .14s ease-in"; el.style.transform = `translateX(${-dir * w * .35}px)`; el.style.opacity = "0";
       setTimeout(() => { try { sessionStorage.setItem("gg-enter", dir + "|" + Date.now()); } catch (e) {}
-        window.__ggSwipe = Date.now(); fn(); setTimeout(() => { if (el.isConnected) settle(); }, 60); }, 140);      // if the move turned out to go nowhere, the page comes back
+        window.__ggSwipe = Date.now(); root.classList.add("gg-snap"); root.classList.remove("gg-imm"); fn(); calm(450);
+        setTimeout(() => { if (el.isConnected) settle(); }, 60); }, 140);      // if the move turned out to go nowhere, the page comes back
     }, { passive: true });
-    el.addEventListener("touchcancel", () => { if (lock === 1 && !still) settle(); lock = 0; }, { passive: true });
+    el.addEventListener("touchcancel", () => { if (lock === 1 && !still) settle(); lock = 0; calm(250); }, { passive: true });
   };
 
   // Reading mode, on phones, on a verse or a story only: the bars step aside while the reader scrolls down and come
@@ -239,6 +254,7 @@
     const sync = () => keep(reading() && !document.hidden && Date.now() - touched < 6e5);
     window.addEventListener("scroll", () => {
       const y = window.scrollY, d = y - y0; touched = Date.now();
+      if (root.classList.contains("gg-swiping")) { y0 = y; return; }      // a sideways swipe is in progress: leave the bars alone
       if (!reading() || y < 120 || y + innerHeight > document.documentElement.scrollHeight - 96) root.classList.remove("gg-imm");
       else if (d > 8) root.classList.add("gg-imm"); else if (d < -8) root.classList.remove("gg-imm");
       if (Math.abs(d) > 8) y0 = y; sync();

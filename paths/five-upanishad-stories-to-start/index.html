@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Five Upanishad stories to start with · Gitagraph</title><meta name="description" content="Start with a student&#x27;s honest answer, then follow questions about choosing well, wealth, and what cannot be seen. End with what these stories ask of everyday conduct."><link rel="canonical" href="https://gitagraph.com/paths/five-upanishad-stories-to-start/">
-<link rel="icon" href="../../shared/mark.svg?v=20261115215655" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261115215655" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261115215655">
+<link rel="icon" href="../../shared/mark.svg?v=20261115221716" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261115221716" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261115221716">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -252,10 +252,10 @@ body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
 @media (prefers-reduced-motion:reduce){ .top,.tabs,.gtabs{transition:none} }
 /* the phone tab bar floats: a rounded bar clear of the edges, the same on every page and in all three readers */
 @media (max-width:699px){
-  body .gtabs,body .tabs{left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:5px;border:1px solid var(--line);border-radius:999px;
-    background:color-mix(in srgb,var(--surface) 93%,transparent);box-shadow:0 6px 20px rgb(0 0 0 / .10)}
+  body .gtabs,body .tabs{left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:5px;border:1px solid color-mix(in srgb,var(--ink) 24%,var(--line));border-radius:999px;
+    background:var(--surface);box-shadow:0 10px 28px rgb(0 0 0 / .18),0 2px 6px rgb(0 0 0 / .10)}
   body .gtabs a,body .tabs a{height:52px;border-radius:999px;color:var(--muted)}
-  body .gtabs a[aria-current=page],body .tabs a[aria-current=page]{color:var(--ink);background:var(--sunk)}
+  body .gtabs a[aria-current=page],body .tabs a[aria-current=page]{color:var(--ink);font-weight:700;background:color-mix(in srgb,var(--ink) 10%,var(--sunk))}
   body .gtabs a[aria-current=page] .gi,body .tabs a[aria-current=page] .gi,body .tabs a[aria-current=page] .ico{background:transparent}
   body .gtabs .gi,body .tabs .gi{height:26px}
   body.gg-tabs{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px));--safe-b:calc(86px + env(safe-area-inset-bottom,0px))}
@@ -310,6 +310,9 @@ body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
 .gi-go{display:block;width:100%;min-height:56px;margin-top:8px;border:0;border-radius:999px;background:var(--ink);color:var(--bg);font:600 18px var(--f-ui);cursor:pointer}
 .gi-scrim[lang=hi] .gi-k{letter-spacing:0;text-transform:none;font-size:15px}
 .gi-scrim[lang=hi] :is(h2,.gi-f,.gi-st){font-family:var(--f-hi)} .gi-scrim[lang=hi] h2{font-size:27px;line-height:1.4} .gi-scrim[lang=hi] :is(.gi-f,.gi-st){font-size:19px;line-height:1.5}
+
+/* a swipe that turns the page puts the bars back without their slide */
+html.gg-snap .top,html.gg-snap .tabs,html.gg-snap .gtabs{transition:none !important}
 
 .saved-list{list-style:none;margin:0 0 28px;padding:0}
 .saved-list a{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-top:1px solid var(--line);text-decoration:none}
@@ -622,9 +625,9 @@ const START = /[?&]start=1(&|$)/.test(location.search);
 if(START) document.documentElement.style.visibility = "hidden";
 addEventListener("DOMContentLoaded", () => { if(window.GGShell && GGShell.trailSet){ const T = {"slug": "path:five-upanishad-stories-to-start", "home": "paths/five-upanishad-stories-to-start/", "en": "Five Upanishad stories to start with", "hi": "उपनिषदों की पाँच कहानियों से शुरुआत", "min": 5, "fen": "Start with a student's honest answer, then follow questions about choosing well, wealth, and what cannot be seen. End with what these stories ask of everyday conduct.", "fhi": "एक विद्यार्थी के सच बोलने से शुरू करें। फिर सही चुनाव, धन की सीमा और दिखाई न देने वाली सच्चाई पर प्रश्न आते हैं। अंत में व्यवहार की बात लौटती है।", "next": {"home": "paths/gita-from-self-control-to-kindness/", "en": "The Gita on living with others", "hi": "गीता में दूसरों के साथ कैसे रहें", "kind": "path", "n": 8, "min": 5}, "items": [{"k": "upanishads/story/satyakama/", "en": "Satyakama tells the truth", "hi": "सत्यकाम का सच", "wen": "A student begins by telling his prospective teacher what he honestly does not know.", "whi": "एक विद्यार्थी अपने भावी गुरु से साफ कहता है कि उसे अपने परिवार के बारे में क्या नहीं मालूम।"}, {"k": "upanishads/story/nachiketa/", "en": "Nachiketa and Death", "hi": "नचिकेता और यम", "wen": "Another young student hears that the good and the merely pleasant are not always the same.", "whi": "दूसरी कथा में एक बालक को बताया जाता है कि अच्छा लगना और सचमुच अच्छा होना अलग बातें हैं।"}, {"k": "upanishads/story/maitreyi/", "en": "Maitreyi asks for what does not die", "hi": "मैत्रेयी ने वह माँगा जो मरता नहीं", "wen": "Maitreyi tests that distinction by asking whether even immense wealth can give immortality.", "whi": "मैत्रेयी पूछती हैं कि बहुत सारा धन भी क्या मृत्यु से परे ले जा सकता है।"}, {"k": "upanishads/story/shvetaketu/", "en": "Shvetaketu: 'You are that'", "hi": "श्वेतकेतु: 'तुम वही हो'", "wen": "Dissolved salt offers a new puzzle: something unseen can still be present.", "whi": "पानी में घुला नमक एक नया सवाल उठाता है: जो दिखता नहीं, क्या वह फिर भी मौजूद हो सकता है?"}, {"k": "upanishads/story/da-da-da/", "en": "What the thunder says: Da, Da, Da", "hi": "बादल क्या कहता है: द, द, द", "wen": "The final story turns outward, naming restraint, generosity, and compassion as three lessons.", "whi": "अंतिम कथा फिर व्यवहार पर लौटती है और संयम, दान तथा दया की तीन सीख बताती है।"}]}; GGShell.trailSet(T);
   if(GGShell.lastSet) GGShell.lastSet({"k": "paths/five-upanishad-stories-to-start/", "en": "Five Upanishad stories to start with", "hi": "उपनिषदों की पाँच कहानियों से शुरुआत"});               // and the home page continues from this path
-  try{ localStorage.setItem("gg-path-seen", "1"); }catch(e){}   // the home page's Start card has done its job
+  try{ localStorage.setItem("gg-path-seen", "five-upanishad-stories-to-start"); }catch(e){}   // the home page's paths card: a path has been opened, and which one last
   if(START && T.items.length){ GGShell.trailSeen(T.items[0].k);
     try{ if(!sessionStorage.getItem("gg-intro")) sessionStorage.setItem("gg-intro", "1"); }catch(e){}   // the passage opens with the "before you begin" panel
     location.replace("../../" + T.items[0].k); return; } }
   document.documentElement.style.visibility = ""; });
-</script><script src="../../shared/shell.js?v=20261115215655" data-active="paths" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../../shared/shell.js?v=20261115221716" data-active="paths" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>

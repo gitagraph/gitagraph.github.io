@@ -13,13 +13,13 @@ var g=localStorage.getItem("gg-lang"),l=g||localStorage.getItem("library-lang");
 <meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Sanskrit with English and Hindi">
 <meta property="og:description" content="The original Sanskrit with English and Hindi translations. The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta property="og:url" content="https://gitagraph.com/">
 <meta property="og:site_name" content="Gitagraph · A living library of wisdom">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261115215655">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261115221716">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Gitagraph · A living library of wisdom: the Bhagavad Gita, the Ashtavakra Gita and the Upanishads, in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Gitagraph · A living library of wisdom">
-<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261115215655">
-<link rel="icon" href="shared/mark.svg?v=20261115215655" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261115215655" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261115215655">
+<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261115221716">
+<link rel="icon" href="shared/mark.svg?v=20261115221716" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261115221716" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261115221716">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap">
 <style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
@@ -271,10 +271,10 @@ body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
 @media (prefers-reduced-motion:reduce){ .top,.tabs,.gtabs{transition:none} }
 /* the phone tab bar floats: a rounded bar clear of the edges, the same on every page and in all three readers */
 @media (max-width:699px){
-  body .gtabs,body .tabs{left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:5px;border:1px solid var(--line);border-radius:999px;
-    background:color-mix(in srgb,var(--surface) 93%,transparent);box-shadow:0 6px 20px rgb(0 0 0 / .10)}
+  body .gtabs,body .tabs{left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:5px;border:1px solid color-mix(in srgb,var(--ink) 24%,var(--line));border-radius:999px;
+    background:var(--surface);box-shadow:0 10px 28px rgb(0 0 0 / .18),0 2px 6px rgb(0 0 0 / .10)}
   body .gtabs a,body .tabs a{height:52px;border-radius:999px;color:var(--muted)}
-  body .gtabs a[aria-current=page],body .tabs a[aria-current=page]{color:var(--ink);background:var(--sunk)}
+  body .gtabs a[aria-current=page],body .tabs a[aria-current=page]{color:var(--ink);font-weight:700;background:color-mix(in srgb,var(--ink) 10%,var(--sunk))}
   body .gtabs a[aria-current=page] .gi,body .tabs a[aria-current=page] .gi,body .tabs a[aria-current=page] .ico{background:transparent}
   body .gtabs .gi,body .tabs .gi{height:26px}
   body.gg-tabs{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px));--safe-b:calc(86px + env(safe-area-inset-bottom,0px))}
@@ -329,6 +329,9 @@ body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
 .gi-go{display:block;width:100%;min-height:56px;margin-top:8px;border:0;border-radius:999px;background:var(--ink);color:var(--bg);font:600 18px var(--f-ui);cursor:pointer}
 .gi-scrim[lang=hi] .gi-k{letter-spacing:0;text-transform:none;font-size:15px}
 .gi-scrim[lang=hi] :is(h2,.gi-f,.gi-st){font-family:var(--f-hi)} .gi-scrim[lang=hi] h2{font-size:27px;line-height:1.4} .gi-scrim[lang=hi] :is(.gi-f,.gi-st){font-size:19px;line-height:1.5}
+
+/* a swipe that turns the page puts the bars back without their slide */
+html.gg-snap .top,html.gg-snap .tabs,html.gg-snap .gtabs{transition:none !important}
 
 .saved-list{list-style:none;margin:0 0 28px;padding:0}
 .saved-list a{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-top:1px solid var(--line);text-decoration:none}
@@ -642,10 +645,27 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
         hc.hidden = false; document.getElementById("resume").hidden = false; } }catch(e){}
     </script></div>
     <div class="card votd" id="votd"></div></section>
-  <a class="hstart" id="hstart" href="paths/" hidden><small><span class="l-en">Start here</span><span class="l-hi">यहाँ से शुरू करें</span></small><b><span class="l-en">Begin with a short path</span><span class="l-hi">एक छोटे पथ से शुरुआत</span></b>
-    <span class="hs-p"><span class="l-en">A few verses, one idea at a time.</span><span class="l-hi">कुछ श्लोक, एक बार में एक विचार।</span></span><span class="hs-b"><span class="l-en">Choose a path</span><span class="l-hi">पथ चुनें</span></span><svg aria-hidden="true" viewBox="0 0 200 160" fill="currentColor"><path d="M8 150H192" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".4" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="84" cy="124" r="23" stroke-width="6"/><path d="M84 101V147M61 124H107M67.700 107.700L100.300 140.300M100.300 107.700L67.700 140.300" stroke-width="3"/><path d="M160 82C172 80 184 82 196 88" stroke-width="2.2" opacity=".55"/><path d="M160 86C172 86 184 90 196 96" stroke-width="2.2" opacity=".55"/><path d="M158 102H196" stroke-width="4" opacity=".55"/><path d="M30 34Q4 66 30 98" stroke-width="5"/><path d="M30 34V98" stroke-width="1.800"/></g><circle cx="84" cy="124" r="6"/><path d="M20 98H146C156 98 160 90 160 72L168 72C168 98 160 108 144 108H20Z"/><circle cx="52" cy="30" r="9.500"/><path d="M43 24L45 12L50 18L52 8L54 18L59 12L61 24Z"/><path d="M52 42C39 42 35 52 35 62L33 98H71L69 62C69 52 65 42 52 42Z"/><path d="M40 56L30 66" stroke="currentColor" stroke-width="6.500" stroke-linecap="round"/><g transform="translate(73 24.4) scale(0.46 0.46)" opacity="1"><path d="M84 38C80 22 88 6 100 2C104 16 98 32 88 40Z"/><circle cx="95" cy="14" r="3.2" fill="var(--cover,#fff)"/><circle cx="80" cy="54" r="18"/><path d="M80 76C58 76 50 90 48 108L41 130C22 134 12 146 16 160H144C148 146 138 134 119 130L112 108C110 90 102 76 80 76Z"/></g><path d="M128 74L158 84" stroke="currentColor" stroke-width="5.500" stroke-linecap="round"/></svg></a>
-  <script>try{ var L = JSON.parse(localStorage.getItem("gg-last") || "null");
-    if(!localStorage.getItem("gg-path-seen") && !(L && L.trail && /^paths\//.test(L.trail.home || ""))) document.getElementById("hstart").hidden = false; }catch(e){}</script>
+  <a class="hstart" id="hstart" href="paths/" hidden><small id="hs-k"><span class="l-en">Start here</span><span class="l-hi">यहाँ से शुरू करें</span></small><b id="hs-t"><span class="l-en">Begin with a short path</span><span class="l-hi">एक छोटे पथ से शुरुआत</span></b>
+    <span class="hs-p" id="hs-p"><span class="l-en">A few verses, one idea at a time.</span><span class="l-hi">कुछ श्लोक, एक बार में एक विचार।</span></span><span class="hs-b" id="hs-b"><span class="l-en">Choose a path</span><span class="l-hi">पथ चुनें</span></span><span id="hs-a"><svg aria-hidden="true" viewBox="0 0 200 160" fill="currentColor"><path d="M8 150H192" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".4" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="84" cy="124" r="23" stroke-width="6"/><path d="M84 101V147M61 124H107M67.700 107.700L100.300 140.300M100.300 107.700L67.700 140.300" stroke-width="3"/><path d="M160 82C172 80 184 82 196 88" stroke-width="2.2" opacity=".55"/><path d="M160 86C172 86 184 90 196 96" stroke-width="2.2" opacity=".55"/><path d="M158 102H196" stroke-width="4" opacity=".55"/><path d="M30 34Q4 66 30 98" stroke-width="5"/><path d="M30 34V98" stroke-width="1.800"/></g><circle cx="84" cy="124" r="6"/><path d="M20 98H146C156 98 160 90 160 72L168 72C168 98 160 108 144 108H20Z"/><circle cx="52" cy="30" r="9.500"/><path d="M43 24L45 12L50 18L52 8L54 18L59 12L61 24Z"/><path d="M52 42C39 42 35 52 35 62L33 98H71L69 62C69 52 65 42 52 42Z"/><path d="M40 56L30 66" stroke="currentColor" stroke-width="6.500" stroke-linecap="round"/><g transform="translate(73 24.4) scale(0.46 0.46)" opacity="1"><path d="M84 38C80 22 88 6 100 2C104 16 98 32 88 40Z"/><circle cx="95" cy="14" r="3.2" fill="var(--cover,#fff)"/><circle cx="80" cy="54" r="18"/><path d="M80 76C58 76 50 90 48 108L41 130C22 134 12 146 16 160H144C148 146 138 134 119 130L112 108C110 90 102 76 80 76Z"/></g><path d="M128 74L158 84" stroke="currentColor" stroke-width="5.500" stroke-linecap="round"/></svg></span></a>
+  <script>
+  // The paths card. Until a first reading path has been opened it says "Start here" and leads to the list of paths.
+  // After that it stays as "Today's path": one path a day (IST), in turn, passing over the one read most recently
+  // (that one is already under "Continue reading"), opened at its first passage with the "before you begin" panel.
+  (function(){ var el = document.getElementById("hstart"); try{
+    var P = [["start-gita-with-arjuna","Start the Gita with Arjuna","अर्जुन के साथ गीता की शुरुआत",10,6,0,0],["start-ashtavakra-with-janaka","Begin Ashtavakra with a king's question","राजा जनक के प्रश्न से अष्टावक्र की शुरुआत",7,5,1,0],["five-upanishad-stories-to-start","Five Upanishad stories to start with","उपनिषदों की पाँच कहानियों से शुरुआत",5,5,2,1],["gita-from-self-control-to-kindness","The Gita on living with others","गीता में दूसरों के साथ कैसे रहें",8,5,0,0],["before-a-difficult-decision","Before a difficult decision","कठिन फैसला करने से पहले",5,4,0,0],["when-your-mind-wanders","When your mind keeps wandering","जब मन बार-बार भटकता है",6,4,0,0],["when-wanting-overrides-judgment","When wanting overrides better judgment","जब चाहत समझ पर भारी पड़ती है",8,5,0,0],["telling-the-truth-when-awkward","When telling the truth feels awkward","जब सच बोलना आसान न हो",2,5,2,1],["ladder-of-fall","The ladder of fall, and another way","पतन की सीढ़ी, और एक दूसरा रास्ता",4,3,0,0],["work-without-clinging","Work without clinging to the result","फल की आसक्ति के बिना कर्म",6,4,0,0],["who-is-the-one-watching","Who is the one watching?","सब कुछ देखने वाला कौन है?",5,5,2,2],["when-more-is-not-enough","When having more is not enough","जब और पाने से भी संतोष न हो",5,4,2,2],["self-not-born","The self that is not born","वह आत्मा जो जन्म नहीं लेती",4,4,2,2]], A = ["<svg aria-hidden=\"true\" viewBox=\"0 0 200 160\" fill=\"currentColor\"><path d=\"M8 150H192\" stroke=\"currentColor\" stroke-width=\"4\" stroke-linecap=\"round\" opacity=\".4\" fill=\"none\"/><g fill=\"none\" stroke=\"currentColor\" stroke-linecap=\"round\"><circle cx=\"84\" cy=\"124\" r=\"23\" stroke-width=\"6\"/><path d=\"M84 101V147M61 124H107M67.700 107.700L100.300 140.300M100.300 107.700L67.700 140.300\" stroke-width=\"3\"/><path d=\"M160 82C172 80 184 82 196 88\" stroke-width=\"2.2\" opacity=\".55\"/><path d=\"M160 86C172 86 184 90 196 96\" stroke-width=\"2.2\" opacity=\".55\"/><path d=\"M158 102H196\" stroke-width=\"4\" opacity=\".55\"/><path d=\"M30 34Q4 66 30 98\" stroke-width=\"5\"/><path d=\"M30 34V98\" stroke-width=\"1.800\"/><\/g><circle cx=\"84\" cy=\"124\" r=\"6\"/><path d=\"M20 98H146C156 98 160 90 160 72L168 72C168 98 160 108 144 108H20Z\"/><circle cx=\"52\" cy=\"30\" r=\"9.500\"/><path d=\"M43 24L45 12L50 18L52 8L54 18L59 12L61 24Z\"/><path d=\"M52 42C39 42 35 52 35 62L33 98H71L69 62C69 52 65 42 52 42Z\"/><path d=\"M40 56L30 66\" stroke=\"currentColor\" stroke-width=\"6.500\" stroke-linecap=\"round\"/><g transform=\"translate(73 24.4) scale(0.46 0.46)\" opacity=\"1\"><path d=\"M84 38C80 22 88 6 100 2C104 16 98 32 88 40Z\"/><circle cx=\"95\" cy=\"14\" r=\"3.2\" fill=\"var(--cover,#fff)\"/><circle cx=\"80\" cy=\"54\" r=\"18\"/><path d=\"M80 76C58 76 50 90 48 108L41 130C22 134 12 146 16 160H144C148 146 138 134 119 130L112 108C110 90 102 76 80 76Z\"/><\/g><path d=\"M128 74L158 84\" stroke=\"currentColor\" stroke-width=\"5.500\" stroke-linecap=\"round\"/><\/svg>", "<svg aria-hidden=\"true\" viewBox=\"0 0 200 160\" fill=\"currentColor\"><path d=\"M8 150H192\" stroke=\"currentColor\" stroke-width=\"4\" stroke-linecap=\"round\" opacity=\".4\" fill=\"none\"/><circle cx=\"66\" cy=\"62\" r=\"40\" opacity=\".28\"/><g transform=\"translate(2 22) scale(0.8 0.8)\" opacity=\"1\"><circle cx=\"80\" cy=\"31\" r=\"7\"/><circle cx=\"80\" cy=\"54\" r=\"18\"/><path d=\"M80 76C58 76 50 90 48 108L41 130C22 134 12 146 16 160H144C148 146 138 134 119 130L112 108C110 90 102 76 80 76Z\"/><\/g><g transform=\"translate(196 62) scale(-0.55 0.55)\" opacity=\"0.62\"><path d=\"M62 40L62 22L71 31L80 16L89 31L98 22L98 40Z\"/><circle cx=\"80\" cy=\"54\" r=\"18\"/><path d=\"M80 76C58 76 50 90 48 108L41 130C22 134 12 146 16 160H144C148 146 138 134 119 130L112 108C110 90 102 76 80 76Z\"/><\/g><path d=\"M122 150L122 36\" stroke=\"currentColor\" stroke-width=\"3.5\" stroke-linecap=\"round\" fill=\"none\"/><path d=\"M122 36C114 30 114 22 122 18C130 22 130 30 122 36Z\"/><\/svg>", "<svg aria-hidden=\"true\" viewBox=\"0 0 200 160\" fill=\"currentColor\"><path d=\"M8 150H192\" stroke=\"currentColor\" stroke-width=\"4\" stroke-linecap=\"round\" opacity=\".4\" fill=\"none\"/><path d=\"M78 150V52C78 26 100 10 126 10C152 10 174 26 174 52V150H162V54C162 36 146 22 126 22C106 22 90 36 90 54V150Z\" opacity=\".34\"/><g transform=\"translate(70 44) scale(0.7 0.7)\" opacity=\"1\"><path d=\"M62 40L62 22L71 31L80 16L89 31L98 22L98 40Z\"/><circle cx=\"80\" cy=\"54\" r=\"18\"/><path d=\"M80 76C58 76 50 90 48 108L41 130C22 134 12 146 16 160H144C148 146 138 134 119 130L112 108C110 90 102 76 80 76Z\"/><\/g><circle cx=\"40\" cy=\"92\" r=\"8.500\"/><circle cx=\"40\" cy=\"81\" r=\"3.400\"/><path d=\"M40 103C32 103 29 109 29 116L27 150H53L51 116C51 109 48 103 40 103Z\"/><path d=\"M47 112L60 104\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M62 150C55 143 57 133 64 127C64 133 69 134 68 140C72 137 73 131 71 126C78 132 79 144 72 150Z\" opacity=\".75\"/><\/svg>"], L = JSON.parse(localStorage.getItem("gg-last") || "null"), seen = localStorage.getItem("gg-path-seen");
+    var last = L && L.trail && /^paths\//.test(L.trail.home || "") ? L.trail.home.split("/")[1] : (seen && seen !== "1" ? seen : "");
+    if((seen || last) && P.length){
+      var i = Math.floor((Date.now() + 5.5 * 3600e3) / 864e5) % P.length; if(P[i][0] === last) i = (i + 1) % P.length;
+      var p = P[i], esc = function(x){ return String(x).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); };
+      var two = function(a, b){ return '<span class="l-en">' + a + '</span><span class="l-hi">' + b + '</span>'; };
+      el.href = "paths/" + p[0] + "/?start=1";
+      document.getElementById("hs-k").innerHTML = two("Today's path", "आज का पथ");
+      document.getElementById("hs-t").innerHTML = two(esc(p[1]), esc(p[2]));
+      document.getElementById("hs-p").innerHTML = two(p[3] + [" verses", " stories", " passages"][p[6]] + " · about " + p[4] + " min", p[3] + [" श्लोक", " कथाएँ", " अंश"][p[6]] + " · लगभग " + p[4] + " मिनट");
+      document.getElementById("hs-b").innerHTML = two("Start", "शुरू करें");
+      document.getElementById("hs-a").innerHTML = A[p[5]] || A[0]; }
+    }catch(e){} el.hidden = false; })();
+  </script>
   <script>
   // Today's verse: the same verse and the same rule as the Gita site's own (IST date; skips chapter 1, narration and
   // verses naming three or more people). The next 31 days are written into the page at build time and drawn
@@ -671,10 +691,10 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
     const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5), i = day - VW.d0;
     if(i >= 0 && i < VW.v.length) return drawVotd(VW.v[i]);
     const box = document.getElementById("votd"); box.style.setProperty("--vh", "clamp(270px, 440px - 15vw, 400px)");
-    fetch("home-verses/pool.json?v=20261115215655").then(r => r.json()).then(pool => {
+    fetch("home-verses/pool.json?v=20261115221716").then(r => r.json()).then(pool => {
       const gcd = (a,b) => b ? gcd(b, a % b) : a, step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
       const [c, v] = pool[(day * step) % pool.length].split(".");
-      return fetch(`home-verses/${c}.json?v=20261115215655`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
+      return fetch(`home-verses/${c}.json?v=20261115221716`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
     }).catch(() => { box.hidden = true; });
   })();
   </script>
@@ -723,8 +743,8 @@ document.getElementById("lang").onclick = () => setLang(document.documentElement
 // the language was chosen in <head> (the saved choice, else English) so the page paints in it; sync the controls
 setLang(document.documentElement.lang === "hi" ? "hi" : "en");
 </script>
-<script src="shared/shell.js?v=20261115215655" data-active="home" defer></script>
-<script src="shared/coach.js?v=20261115215655" defer></script>
+<script src="shared/shell.js?v=20261115221716" data-active="home" defer></script>
+<script src="shared/coach.js?v=20261115221716" defer></script>
 <script>
 try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
 if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>The Gita on living with others · Gitagraph</title><meta name="description" content="Arjuna asks what a steady person is like. Read how Krishna moves from managing one&#x27;s own responses to considering others in thought, speech, and giving."><link rel="canonical" href="https://gitagraph.com/paths/gita-from-self-control-to-kindness/">
-<link rel="icon" href="../../shared/mark.svg?v=20261115215655" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261115215655" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261115215655">
+<link rel="icon" href="../../shared/mark.svg?v=20261115221716" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261115221716" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261115221716">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -252,10 +252,10 @@ body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
 @media (prefers-reduced-motion:reduce){ .top,.tabs,.gtabs{transition:none} }
 /* the phone tab bar floats: a rounded bar clear of the edges, the same on every page and in all three readers */
 @media (max-width:699px){
-  body .gtabs,body .tabs{left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:5px;border:1px solid var(--line);border-radius:999px;
-    background:color-mix(in srgb,var(--surface) 93%,transparent);box-shadow:0 6px 20px rgb(0 0 0 / .10)}
+  body .gtabs,body .tabs{left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:5px;border:1px solid color-mix(in srgb,var(--ink) 24%,var(--line));border-radius:999px;
+    background:var(--surface);box-shadow:0 10px 28px rgb(0 0 0 / .18),0 2px 6px rgb(0 0 0 / .10)}
   body .gtabs a,body .tabs a{height:52px;border-radius:999px;color:var(--muted)}
-  body .gtabs a[aria-current=page],body .tabs a[aria-current=page]{color:var(--ink);background:var(--sunk)}
+  body .gtabs a[aria-current=page],body .tabs a[aria-current=page]{color:var(--ink);font-weight:700;background:color-mix(in srgb,var(--ink) 10%,var(--sunk))}
   body .gtabs a[aria-current=page] .gi,body .tabs a[aria-current=page] .gi,body .tabs a[aria-current=page] .ico{background:transparent}
   body .gtabs .gi,body .tabs .gi{height:26px}
   body.gg-tabs{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px));--safe-b:calc(86px + env(safe-area-inset-bottom,0px))}
@@ -310,6 +310,9 @@ body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
 .gi-go{display:block;width:100%;min-height:56px;margin-top:8px;border:0;border-radius:999px;background:var(--ink);color:var(--bg);font:600 18px var(--f-ui);cursor:pointer}
 .gi-scrim[lang=hi] .gi-k{letter-spacing:0;text-transform:none;font-size:15px}
 .gi-scrim[lang=hi] :is(h2,.gi-f,.gi-st){font-family:var(--f-hi)} .gi-scrim[lang=hi] h2{font-size:27px;line-height:1.4} .gi-scrim[lang=hi] :is(.gi-f,.gi-st){font-size:19px;line-height:1.5}
+
+/* a swipe that turns the page puts the bars back without their slide */
+html.gg-snap .top,html.gg-snap .tabs,html.gg-snap .gtabs{transition:none !important}
 
 .saved-list{list-style:none;margin:0 0 28px;padding:0}
 .saved-list a{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-top:1px solid var(--line);text-decoration:none}
@@ -622,9 +625,9 @@ const START = /[?&]start=1(&|$)/.test(location.search);
 if(START) document.documentElement.style.visibility = "hidden";
 addEventListener("DOMContentLoaded", () => { if(window.GGShell && GGShell.trailSet){ const T = {"slug": "path:gita-from-self-control-to-kindness", "home": "paths/gita-from-self-control-to-kindness/", "en": "The Gita on living with others", "hi": "गीता में दूसरों के साथ कैसे रहें", "min": 5, "fen": "Arjuna asks what a steady person is like. Read how Krishna moves from managing one's own responses to considering others in thought, speech, and giving.", "fhi": "अर्जुन पूछते हैं कि स्थिर बुद्धि वाले व्यक्ति की पहचान क्या है। इन श्लोकों में अपनी प्रतिक्रियाओं से शुरू होकर दूसरों से व्यवहार, बोलने और देने की बात आती है।", "next": {"home": "paths/before-a-difficult-decision/", "en": "Before a difficult decision", "hi": "कठिन फैसला करने से पहले", "kind": "path", "n": 5, "min": 4}, "items": [{"k": "gita/chapter/2/verse/54/", "en": "Bhagavad Gita 2.54", "hi": "भगवद्गीता 2.54", "wen": "Arjuna begins by asking how a person with steady understanding speaks and acts.", "whi": "अर्जुन पूछते हैं कि स्थिर बुद्धि वाला व्यक्ति बोलता और व्यवहार कैसे करता है।"}, {"k": "gita/chapter/2/verse/58/", "en": "Bhagavad Gita 2.58", "hi": "भगवद्गीता 2.58", "wen": "Krishna first uses a tortoise to describe withdrawing the senses from their objects.", "whi": "कृष्ण कछुए का उदाहरण देकर इंद्रियों को विषयों से समेटने की बात करते हैं।"}, {"k": "gita/chapter/3/verse/34/", "en": "Bhagavad Gita 3.34", "hi": "भगवद्गीता 3.34", "wen": "He then cautions against being led by likes and dislikes.", "whi": "फिर वे पसंद और नापसंद के वश में न आने को कहते हैं।"}, {"k": "gita/chapter/6/verse/32/", "en": "Bhagavad Gita 6.32", "hi": "भगवद्गीता 6.32", "wen": "The focus widens to recognizing others' pleasure and pain through one's own experience.", "whi": "बात आगे बढ़कर दूसरों के सुख-दुःख को अपने जैसा समझने तक पहुँचती है।"}, {"k": "gita/chapter/12/verse/13/", "en": "Bhagavad Gita 12.13", "hi": "भगवद्गीता 12.13", "wen": "Friendliness, compassion, and freedom from ill will become part of the portrait.", "whi": "अब मैत्री, दया और द्वेष न रखने के गुण सामने आते हैं।"}, {"k": "gita/chapter/12/verse/14/", "en": "Bhagavad Gita 12.14", "hi": "भगवद्गीता 12.14", "wen": "Friendliness, compassion, and freedom from ill will become part of the portrait.", "whi": "अब मैत्री, दया और द्वेष न रखने के गुण सामने आते हैं।"}, {"k": "gita/chapter/17/verse/15/", "en": "Bhagavad Gita 17.15", "hi": "भगवद्गीता 17.15", "wen": "Those qualities become concrete in Krishna's description of truthful and considerate speech.", "whi": "इन्हीं गुणों को बोलचाल में देखें तो सच्ची और हितकारी वाणी की बात आती है।"}, {"k": "gita/chapter/17/verse/20/", "en": "Bhagavad Gita 17.20", "hi": "भगवद्गीता 17.20", "wen": "The walk ends with giving at the right time without expecting repayment.", "whi": "अंत में उचित समय पर बिना बदले की आशा के दान करने का वर्णन है।"}]}; GGShell.trailSet(T);
   if(GGShell.lastSet) GGShell.lastSet({"k": "paths/gita-from-self-control-to-kindness/", "en": "The Gita on living with others", "hi": "गीता में दूसरों के साथ कैसे रहें"});               // and the home page continues from this path
-  try{ localStorage.setItem("gg-path-seen", "1"); }catch(e){}   // the home page's Start card has done its job
+  try{ localStorage.setItem("gg-path-seen", "gita-from-self-control-to-kindness"); }catch(e){}   // the home page's paths card: a path has been opened, and which one last
   if(START && T.items.length){ GGShell.trailSeen(T.items[0].k);
     try{ if(!sessionStorage.getItem("gg-intro")) sessionStorage.setItem("gg-intro", "1"); }catch(e){}   // the passage opens with the "before you begin" panel
     location.replace("../../" + T.items[0].k); return; } }
   document.documentElement.style.visibility = ""; });
-</script><script src="../../shared/shell.js?v=20261115215655" data-active="paths" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../../shared/shell.js?v=20261115221716" data-active="paths" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
