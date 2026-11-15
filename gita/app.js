@@ -37,8 +37,9 @@
   const GGShell = {
     // links for the desktop header, then the site-wide search
     nav(o) {
+      const tt = o.active === "library" && GGShell.trailTab ? GGShell.trailTab() : null, act = tt || o.active;
       return ITEMS.filter(it => it[0] !== "home").map(it =>
-        `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}>${label(it, o.lang)}</a>`).join("") + GGShell.search(o);
+        `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, act)}>${label(it, o.lang)}</a>`).join("") + GGShell.search(o);
     },
     // Search lives on Explore now, so the bars carry no search link. Cmd/Ctrl+K still opens /search/ from any page.
     search(o) {
@@ -48,7 +49,9 @@
     },
     // the four phone tabs (the Graph is reached from Explore, Saved from the Library)
     tabs(o) {
-      const act = o.active === "saved" ? "library" : o.active;
+      // a passage opened along a path or from a question keeps that tab lit, not the Library's
+      const tt = o.active === "library" && GGShell.trailTab ? GGShell.trailTab() : null;
+      const act = tt || (o.active === "saved" ? "library" : o.active);
       return ITEMS.filter(it => it[0] !== "map" && it[0] !== "saved").map(it =>
         `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, act)}><span class="gi">${IC[it[0] === "questions" ? "search" : it[0]]}</span>${label(it, o.lang)}</a>`).join("");
     },
@@ -93,7 +96,7 @@
     const a = GGShell.trailAt(key); if (!a) return "";
     const it = a.t.items[a.i], hi = lang === "hi", w = hi ? it.whi : it.wen; if (!w) return "";
     const pos = hi ? `${a.n} में से ${a.i + 1}` : `${a.i + 1} of ${a.n}`;
-    return `<aside class="gtnote" lang="${hi ? "hi" : "en"}"><small>${tesc(hi ? a.t.hi : a.t.en)} · ${pos}</small><p>${tesc(w)}</p></aside>`;
+    return `<aside class="gtnote" lang="${hi ? "hi" : "en"}"><small>${tesc(hi ? a.t.hi : a.t.en)} · ${pos}</small><span class="gt-pd" aria-hidden="true">${a.t.items.map((x, n) => `<i${n <= a.i ? ' class="on"' : ""}></i>`).join("")}</span><p>${tesc(w)}</p></aside>`;
   };
   // What a passage page shows when it was opened from a question: where the reader is in that question's list, the
   // passage before and the passage after in the same order as the list, and after the last one the next question.
@@ -107,7 +110,40 @@
     const prev = a.prev ? `<a class="gt-pv" href="${root + a.prev.k}" data-trail="${tesc(a.prev.k)}" data-replace><small>← ${hi ? "पिछला" : "Previous"}</small><b>${L(a.prev)}</b></a>` : "<span></span>";
     const next = a.next ? `<a class="gt-nx" href="${root + a.next.k}" data-trail="${tesc(a.next.k)}" data-replace><small>${hi ? "अगला" : "Next"} →</small><b>${L(a.next)}</b></a>`
       : t.next ? `<a class="gt-nx" href="${root + thome(t.next)}" data-replace><small>${nl} →</small><b>${L(t.next)}</b></a>` : "<span></span>";
-    return `<nav class="gtrail" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><p class="gt-k"><a href="${root + thome(t)}" data-back>← <b>${L(t)}</b></a> · ${pos}</p><div class="gt-row">${prev}${next}</div></nav>`;
+    // the way on sits right under the passage now (trailNext); the foot keeps the way back and the stop before
+    return `<nav class="gtrail" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><p class="gt-k"><a href="${root + thome(t)}" data-back>← <b>${L(t)}</b></a> · ${pos}</p>${a.prev ? `<div class="gt-row">${prev}</div>` : ""}</nav>`;
+  };
+  // Which tab a page belongs to when it was opened along a trail: "paths" for a reading path, "questions" (Explore)
+  // for a question's list, null when the page was reached by ordinary reading.
+  GGShell.trailTab = function () {
+    const t = tget(); if (!t || !Array.isArray(t.items)) return null;
+    let p = location.pathname; try { p = decodeURIComponent(p); } catch (e) {}
+    p = p.replace(/index\.html$/, "");
+    const it = t.items.find(x => p.endsWith("/" + x.k));
+    if (!it || !(t.seen || []).includes(it.k)) return null;
+    return /^paths\//.test(thome(t)) ? "paths" : "questions";
+  };
+  // The way on, right under the passage: one wide button to the next stop with a line of progress under it, and
+  // after the last stop a card that says the list is done and offers the next path (or question). A first-time
+  // reader is always handed the next thing and never has to find a tab to keep going. "" off a trail.
+  GGShell.trailNext = function (key, lang, root) {
+    const a = GGShell.trailAt(key); if (!a) return "";
+    const t = a.t, hi = lang === "hi", L = x => tesc(hi ? x.hi : x.en), path = /^paths\//.test(thome(t));
+    const pos = i => hi ? `${a.n} में से ${i}` : `${i} of ${a.n}`;
+    const pd = `<span class="gt-pd" aria-hidden="true">${t.items.map((x, n) => `<i${n <= a.i ? ' class="on"' : ""}></i>`).join("")}</span>`;
+    if (a.next) {
+      const story = /story\//.test(a.next.k), lab = story ? (hi ? "अगली कथा" : "Next story") : (hi ? "अगला श्लोक" : "Next verse");
+      return `<nav class="gtgo" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><a class="gt-big" href="${root + a.next.k}" data-trail="${tesc(a.next.k)}" data-replace><span><small>${pos(a.i + 2)} · ${L(a.next)}</small><b>${lab}</b></span><em aria-hidden="true">→</em></a>${pd}</nav>`;
+    }
+    const nx = t.next, meta = nx && nx.n ? (hi ? `${nx.n} अंश · लगभग ${nx.min || 5} मिनट` : `${nx.n} passages · about ${nx.min || 5} minutes`) : "";
+    const done = path ? (hi ? "यह पथ पूरा हुआ" : "You finished this path") : (hi ? "इस प्रश्न के सभी अंश पूरे हुए" : "You have read every passage here");
+    const nl = nx && nx.kind === "path" ? (hi ? "अगला पथ" : "Next path") : (hi ? "अगला प्रश्न" : "Next question");
+    const go = nx && nx.kind === "path" ? (hi ? "यह पथ शुरू करें" : "Start this path") : (hi ? "यह प्रश्न खोलें" : "Open this question");
+    const all = path ? `<a href="${root}paths/">${hi ? "सभी पथ" : "All paths"}</a>` : `<a href="${root}gita/questions/">${hi ? "एक्सप्लोर" : "Explore"}</a>`;
+    return `<section class="gtdone" lang="${hi ? "hi" : "en"}"><span class="gt-tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.500L19 7.500"/></svg></span>
+      <h3>${done}</h3><p class="gt-dk">${L(t)} · ${pos(a.n)}</p>
+      ${nx ? `<div class="gt-np"><small>${nl}</small><b>${L(nx)}</b>${meta ? `<i>${meta}</i>` : ""}<a class="gt-big" href="${root + thome(nx)}${nx.kind === "path" ? "?start=1" : ""}" data-replace><span><b>${go}</b></span><em aria-hidden="true">→</em></a></div>` : ""}
+      <p class="gt-links">${all}<a href="${root || "./"}">${hi ? "होम" : "Home"}</a></p></section>`;
   };
   // Last place. Every reading page (a verse, a story, a question, a path) records itself here, and the home page's
   // "Continue reading" returns to whichever was most recent. A passage opened along a trail keeps that trail with it,
@@ -1000,6 +1036,7 @@ function chapterCtx(c){
 const TROOT = BASE ? BASE.replace(/[^/]+\/$/, "") : "";
 const trailBar = path => window.GGShell && BASE ? GGShell.trailBar(path.slice(TROOT.length), lang, TROOT) : "";
 const trailNote = path => window.GGShell && BASE && GGShell.trailNote ? GGShell.trailNote(path.slice(TROOT.length), lang) : "";
+const trailNext = path => window.GGShell && BASE && GGShell.trailNext ? GGShell.trailNext(path.slice(TROOT.length), lang, TROOT) : "";
 // one step along the question's list from this verse (see shell.js): null when the verse was not opened from a question
 const trailStep = (v, dir) => window.GGShell && BASE ? GGShell.trailStep(pathOf(v.id).slice(TROOT.length), dir, TROOT) : null;
 // follow a step: inside this text it is a move within the app; into another text it is a page load that replaces this one
@@ -1016,6 +1053,7 @@ function verseView(v){
     ${prefs.sa ? `<p class="vsa" lang="sa">${s.body.map(l=>`<span class="ln">${saH(l)}</span>`).join("")}</p>` : ""}
     ${contFrom(v)}${u().trL ? `<p class="vtr-l">${esc(u().trL)}</p>` : ""}<p class="vtr ${isHi()?"hi":""}" lang="${lang}">${esc(tr(v))}</p>${contTo(v)}
     <div id="exp1" data-ref="${v.ref}"></div>
+    ${trailNext(pathOf(v.id))}
     <div class="vactions">
       <button class="btn ${saved?"on":""}" id="savebtn" aria-pressed="${saved}">${IC.saved}<span>${esc(saved?u().savedL:u().save)}</span></button>
       ${shareBtnEnd()}
