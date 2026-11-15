@@ -13,13 +13,13 @@ var g=localStorage.getItem("gg-lang"),l=g||localStorage.getItem("library-lang");
 <meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Sanskrit with English and Hindi">
 <meta property="og:description" content="The original Sanskrit with English and Hindi translations. The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta property="og:url" content="https://gitagraph.com/">
 <meta property="og:site_name" content="Gitagraph · A living library of wisdom">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261115182406">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261115190617">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Gitagraph · A living library of wisdom: the Bhagavad Gita, the Ashtavakra Gita and the Upanishads, in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Gitagraph · A living library of wisdom">
-<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261115182406">
-<link rel="icon" href="shared/mark.svg?v=20261115182406" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261115182406" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261115182406">
+<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261115190617">
+<link rel="icon" href="shared/mark.svg?v=20261115190617" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261115190617" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261115190617">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap">
 <style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
@@ -551,8 +551,8 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 </head>
 <body class="home">
 <header class="top"><a class="brand" href="./" title="Gitagraph · A living library of wisdom"><svg class="mark" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><rect class="bk" x="6" y="6" width="108" height="108" rx="26"/><path class="ct" d="M87.49 38.1H74.86L75.07 98H73.99L65.47 92.5L65.9 38.1H45.82L46.04 75.87Q46.04 78.57 43.56 78.57Q41.83 78.57 39.08 76.84Q36.32 75.12 33.63 72.47Q30.93 69.83 29.09 66.97Q27.26 64.11 27.26 61.95Q27.26 60.98 27.9 60.22Q28.55 59.47 29.96 59.47H36.86L36.97 38.1H22.18L18.51 31.08V30H83.82L87.49 37.02Z"/><circle class="nd" cx="88.5" cy="33.6" r="11.5"/></svg><span class="wm"><span class="nm"><span class="l-en">Gitagraph</span><span class="l-hi">गीताग्राफ़</span></span></span></a>
-  <button class="langpill themebtn" id="themebtn" type="button"></button>
-  <button class="langpill" id="lang" type="button" aria-label="हिन्दी में देखें">हि</button></header>
+  <button class="langpill" id="lang" type="button" aria-label="हिन्दी में देखें">हि</button>
+  <button class="langpill themebtn" id="themebtn" type="button"></button></header>
 <main class="wrap">
   <section class="hero"><div class="hx"><p class="eb"><span class="l-en">Bhagavad Gita · Ashtavakra Gita · Upanishads</span><span class="l-hi">भगवद्गीता · अष्टावक्र गीता · उपनिषद्</span></p><h1><span class="l-en">Everyday questions, centuries of insight.</span><span class="l-hi">रोज़ के प्रश्न, सदियों की समझ।</span></h1>
     <a class="hcont" id="hcont" href="gita/" hidden><span><small><span class="l-en">Continue reading</span><span class="l-hi">पढ़ना जारी रखें</span></small><b id="hcont-t"></b><em id="hcont-s" hidden></em><span class="hbar" id="hcont-b" hidden><i></i></span></span><i aria-hidden="true">→</i></a>
@@ -606,10 +606,10 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
     const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5), i = day - VW.d0;
     if(i >= 0 && i < VW.v.length) return drawVotd(VW.v[i]);
     const box = document.getElementById("votd"); box.style.setProperty("--vh", "clamp(270px, 440px - 15vw, 400px)");
-    fetch("home-verses/pool.json?v=20261115182406").then(r => r.json()).then(pool => {
+    fetch("home-verses/pool.json?v=20261115190617").then(r => r.json()).then(pool => {
       const gcd = (a,b) => b ? gcd(b, a % b) : a, step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
       const [c, v] = pool[(day * step) % pool.length].split(".");
-      return fetch(`home-verses/${c}.json?v=20261115182406`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
+      return fetch(`home-verses/${c}.json?v=20261115190617`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
     }).catch(() => { box.hidden = true; });
   })();
   </script>
@@ -658,8 +658,8 @@ document.getElementById("lang").onclick = () => setLang(document.documentElement
 // the language was chosen in <head> (the saved choice, else English) so the page paints in it; sync the controls
 setLang(document.documentElement.lang === "hi" ? "hi" : "en");
 </script>
-<script src="shared/shell.js?v=20261115182406" data-active="home" defer></script>
-<script src="shared/coach.js?v=20261115182406" defer></script>
+<script src="shared/shell.js?v=20261115190617" data-active="home" defer></script>
+<script src="shared/coach.js?v=20261115190617" defer></script>
 <script>
 try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
 if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {

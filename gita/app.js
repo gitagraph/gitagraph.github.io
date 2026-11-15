@@ -40,9 +40,9 @@
       return ITEMS.filter(it => it[0] !== "home").map(it =>
         `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}>${label(it, o.lang)}</a>`).join("") + GGShell.search(o);
     },
-    // the link to /search/: a pill with a hint on wide screens, an icon elsewhere (o.icon: icon only, for phone bars)
+    // Search lives on Explore now, so the bars carry no search link. Cmd/Ctrl+K still opens /search/ from any page.
     search(o) {
-      GGShell.root = o.root;
+      GGShell.root = o.root; return "";
       const sr = ["search", "search/", "Search verses, ideas, people", "श्लोक, विचार, पात्र खोजें"], lb = o.lang ? (o.lang === "hi" ? "खोजें" : "Search") : "Search";
       return `<a class="gsearch${o.icon ? " gs-m" : ""}" href="${o.root}search/" data-g="search" aria-label="${lb}"${cur(sr, o.active)}>${IC.search}<span>${label(sr, o.lang)}</span></a>`;
     },
@@ -259,7 +259,7 @@
           });
           document.addEventListener("keydown", onKey); document.body.appendChild(d); d.querySelector("[data-close]").focus();
         }
-        tb.onclick = open; lg.before(tb);
+        tb.onclick = open; lg.after(tb);   // always Language, then Display, at the right end
       }
       if (!document.querySelector(".gtabs")) {
         const t = document.createElement("nav");
@@ -876,6 +876,16 @@ const imageOf = v => { const k = v.ref + "|" + lang; if(!imgJob || imgJob.k !== 
 async function shareVerseImage(v){
   const blob = await imageOf(v); if(!blob){ toast(u().copyFail); return; }
   const name = `gita-${v.ref.replace(".", "-")}.png`, file = new File([blob], name, {type:"image/png"});
+  // In the app the picture is written to the app's cache and handed to Android's share sheet as a file (the web
+  // view cannot share a picture itself). Needs the Filesystem plugin; without it the button is not shown at all.
+  const CP = window.Capacitor && window.Capacitor.Plugins;
+  if(CP && CP.Filesystem && CP.Share){
+    try{ const b64 = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(",")[1]); r.onerror = rej; r.readAsDataURL(blob); });
+      const w = await CP.Filesystem.writeFile({path:name, data:b64, directory:"CACHE"});
+      await CP.Share.share({files:[w.uri]});
+    }catch(e){ if(!(e && /cancel/i.test(String(e.message || e)))) toast(u().copyFail); }
+    return;
+  }
   // browsers that can hand a picture to the share sheet (Chrome and Safari on phones) open it directly
   if(navigator.share && navigator.canShare && navigator.canShare({files:[file]})){
     try{ await navigator.share({files:[file]}); return; }catch(e){ if(e && e.name === "AbortError") return; }
@@ -1009,7 +1019,7 @@ function verseView(v){
     <div class="vactions">
       <button class="btn ${saved?"on":""}" id="savebtn" aria-pressed="${saved}">${IC.saved}<span>${esc(saved?u().savedL:u().save)}</span></button>
       ${shareBtnEnd()}
-      ${window.Capacitor ? "" : `<button class="btn" id="imgbtn"><span>${esc(isHi() ? "चित्र के रूप में साझा करें" : "Share as image")}</span></button>`}
+      ${window.Capacitor && !(window.Capacitor.Plugins && window.Capacitor.Plugins.Filesystem) ? "" : `<button class="btn" id="imgbtn"><span>${esc(isHi() ? "चित्र के रूप में साझा करें" : "Share as image")}</span></button>`}
     </div>
     <details class="vmore"><summary>${esc(u().more)}</summary>
       <div id="exp2"></div>

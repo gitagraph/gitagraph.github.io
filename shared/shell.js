@@ -40,9 +40,9 @@
       return ITEMS.filter(it => it[0] !== "home").map(it =>
         `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}>${label(it, o.lang)}</a>`).join("") + GGShell.search(o);
     },
-    // the link to /search/: a pill with a hint on wide screens, an icon elsewhere (o.icon: icon only, for phone bars)
+    // Search lives on Explore now, so the bars carry no search link. Cmd/Ctrl+K still opens /search/ from any page.
     search(o) {
-      GGShell.root = o.root;
+      GGShell.root = o.root; return "";
       const sr = ["search", "search/", "Search verses, ideas, people", "श्लोक, विचार, पात्र खोजें"], lb = o.lang ? (o.lang === "hi" ? "खोजें" : "Search") : "Search";
       return `<a class="gsearch${o.icon ? " gs-m" : ""}" href="${o.root}search/" data-g="search" aria-label="${lb}"${cur(sr, o.active)}>${IC.search}<span>${label(sr, o.lang)}</span></a>`;
     },
@@ -259,7 +259,7 @@
           });
           document.addEventListener("keydown", onKey); document.body.appendChild(d); d.querySelector("[data-close]").focus();
         }
-        tb.onclick = open; lg.before(tb);
+        tb.onclick = open; lg.after(tb);   // always Language, then Display, at the right end
       }
       if (!document.querySelector(".gtabs")) {
         const t = document.createElement("nav");
