@@ -209,6 +209,13 @@ details.how .howbody{padding-bottom:16px}
 .qcard .qi{color:var(--muted);line-height:1.55;font-size:15px}
 .qcard .qc{margin-top:auto;font-size:13px;color:var(--accent);font-weight:600}
 /* Explore: the questions as tiles. Phones: two columns, the title and its picture. Wide screens: one line under the title. */
+/* its heading is set like the other site pages' (Reading paths, Library), and on wide screens the reader's own bar
+   does not repeat the name or offer a way back: Explore is a place in the site menu, not a page inside the Gita */
+.thead.xhead h1{font-weight:500;font-size:clamp(30px,5vw,44px);letter-spacing:-.01em} :root[lang=hi] .thead.xhead h1{font-weight:400;letter-spacing:0;line-height:1.35}
+.r-explore #chbtn,.r-explore #helpbtn,.r-explore #back{display:none}   /* the Gita's chapter list, its help and its Back do not belong on Explore */
+.r-explore #ttl{padding-left:8px}
+@media (min-width:700px){ .r-explore #ttl{visibility:hidden} }
+@media (max-width:699px){ .thead.xhead{display:none} }   /* on phones the bar above already says Explore */
 .xh{margin:28px 0 0;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 :root[lang=hi] .xh{letter-spacing:0;text-transform:none;font-size:15.5px}
 .qtiles{margin-top:12px} .qtiles .qcard{min-height:112px;border-radius:18px} .qtiles .qcard .sil{height:min(92px,70%);opacity:.2}

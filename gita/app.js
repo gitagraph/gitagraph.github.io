@@ -615,6 +615,7 @@ if(BASE){
   });
 } else window.addEventListener("hashchange", () => render());
 function render(keepScroll){
+  document.documentElement.classList.remove("r-explore");   // set again below when the page is Explore
   if(!V.length) return;
   const route = parse(curToken());
   if(route.name==="explore" && EXPLORE){ location.replace(EXPLORE); return; }
@@ -634,7 +635,7 @@ function render(keepScroll){
     else if(route.name==="search"){ ttl.textContent = u().search; view.innerHTML = page(searchView(), aboutCtx()); wireSearch(); }
     else if(route.name==="saved"){ ttl.textContent = u().saved; view.innerHTML = page(savedView(), aboutCtx()); }
     else if(route.name==="about"){ ttl.textContent = u().aboutPage; view.innerHTML = page(aboutView(), homeCtx()); }
-    else if(route.name==="questions"){ ttl.textContent = isHi() ? "एक्सप्लोर" : "Explore"; view.innerHTML = page(questionsView(), homeCtx()); }
+    else if(route.name==="questions"){ document.documentElement.classList.add("r-explore"); ttl.textContent = isHi() ? "एक्सप्लोर" : "Explore"; view.innerHTML = page(questionsView(), homeCtx()); }
     else if(route.name==="question"){ ttl.textContent = qName(route.q); view.innerHTML = page(questionView(route.q), questionsCtx(route.q)); if(window.GGShell && BASE){ GGShell.trailSet(qTrail(route.q)); if(GGShell.lastSet) GGShell.lastSet({k:"gita/questions/" + route.q.slug + "/", en:route.q.q_en, hi:route.q.q_hi}); } }
     else if(route.name==="explore"){ ttl.textContent = u().explore; view.innerHTML = exploreView(); wireQbar(); startGraph(); }
     wireCommon();
@@ -717,7 +718,7 @@ function questionsView(){
   const one = q => (qIntro(q).split(/(?<=[.?!।])\s+/)[0] || "");
   const top = t => H.filter(h => h.type === t && h.vs).sort((x, y) => y.vs.length - x.vs.length).slice(0, t === "person" ? 5 : 7);
   const chips = [...top("concept"), ...top("person")];
-  return `<header class="thead"><h1>${esc(isHi() ? "एक्सप्लोर" : "Explore")}${shareBtn()}</h1></header>
+  return `<header class="thead xhead"><h1>${esc(isHi() ? "एक्सप्लोर" : "Explore")}</h1></header>
   ${BASE ? `<form class="askq" id="askq" role="search"><input type="search" name="q" autocomplete="off" enterkeyhint="search" maxlength="200" placeholder="${esc(isHi() ? "श्लोक, कथाएँ, विचार खोजें" : "Search verses, stories, ideas")}" aria-label="${esc(isHi() ? "अपने शब्दों में लिखें" : "Describe what is on your mind")}"><button type="submit" aria-label="${esc(isHi() ? "खोजें" : "Find")}">→</button></form>` : ""}
   <h2 class="xh">${esc(isHi() ? "आज मन में क्या है?" : "What's on your mind?")}</h2>
   <ul class="qlist qtiles">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}">${q.sil || ""}<span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(one(q))}</span></a></li>`).join("")}</ul>

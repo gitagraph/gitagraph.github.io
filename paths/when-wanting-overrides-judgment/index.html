@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>When wanting overrides better judgment · Gitagraph</title><meta name="description" content="Arjuna asks why people sometimes act against their own judgment. Krishna answers in a continuous stretch of eight verses, moving from desire&#x27;s pull to the understanding he asks Arjuna to use."><link rel="canonical" href="https://gitagraph.com/paths/when-wanting-overrides-judgment/">
-<link rel="icon" href="../../shared/mark.svg?v=20261115180439" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261115180439" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261115180439">
+<link rel="icon" href="../../shared/mark.svg?v=20261115182406" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261115182406" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261115182406">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -69,6 +69,25 @@ a.card:hover{border-color:var(--accent)}
 .votd .tx{font-family:var(--f-read);font-size:17.5px;line-height:1.65;margin:10px 0 0;max-width:62ch}
 :root[lang=hi] .votd .tx{font-family:var(--f-hi);line-height:1.85}
 .votd .more{margin-top:4px}
+/* Today's verse as a small page of its own: centred, the Sanskrit leading, a short rule, the meaning lighter below,
+   and a faint picture behind (the seated sage for the Ashtavakra Gita, the lotus otherwise) */
+.home .card.votd{overflow:hidden;isolation:isolate;text-align:center;padding:26px 22px 18px}
+.home .card.votd .ey{flex-direction:column;flex-wrap:nowrap;align-items:center;justify-content:flex-start;gap:4px}
+.home .card.votd .sa{font-size:clamp(21px,5.6vw,24px);line-height:1.8;margin:18px auto 0;max-width:22em;text-wrap:balance}
+.home .card.votd .sa::after{content:"";display:block;width:36px;height:2px;margin:18px auto 0;border-radius:2px;background:var(--accent);opacity:.7}
+.home .card.votd .tx{font-size:16.5px;line-height:1.65;color:var(--muted);margin:16px auto 0;max-width:34ch;text-wrap:balance}
+:root[lang=hi] .home .card.votd .tx{font-size:17.5px;line-height:1.8}
+.home .card.votd .more{display:flex;justify-content:center;margin-top:8px}
+.votd .vsil{position:absolute;z-index:-1;left:50%;top:50%;width:230px;height:230px;transform:translate(-50%,-56%);color:var(--accent);opacity:.07;pointer-events:none}
+.votd .vsil svg{display:block;width:100%;height:100%}
+:root[data-theme=dark] .votd .vsil{opacity:.12}
+@media (prefers-color-scheme:dark){ :root:not([data-theme=light]) .votd .vsil{opacity:.12} }
+/* phones: the home page opens on what to read, not on the tagline (kept for screen readers and search) */
+@media (max-width:699px){ .home .hero h1{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .home .hero{padding-top:12px} .home .hero:not(:has(.hcont:not([hidden]))){gap:0} .home .hcont:not([hidden]){margin-top:0} }
+/* the whole "Today's verse" card opens the verse: its "Open verse" link is stretched over the card */
+.votd{position:relative} .votd .more::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.votd:has(.more):hover{border-color:var(--muted)}
 .cx{display:grid;grid-template-columns:minmax(0,1fr);gap:10px 28px;align-items:center}
 @media (min-width:700px){ .cx{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)} }
 .cx .ds{display:block;margin:0;color:var(--muted);line-height:1.6}
@@ -327,14 +346,14 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 /* --- Library page: the three texts as covers, the reader's shelf, the settings --- */
 .libp h2.lh{margin:30px 0 12px;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 :root[lang=hi] .libp h2.lh{letter-spacing:0;text-transform:none;font-size:15.5px}
-.covers{display:grid;grid-template-columns:repeat(3,minmax(0,200px));gap:14px;list-style:none;margin:0;padding:0}
-.cover{position:relative;display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:3/4.3;overflow:hidden;padding:12px 9px 11px 16px;border-radius:6px 16px 16px 6px;
+.covers{display:grid;grid-template-columns:repeat(3,minmax(0,200px));gap:clamp(8px,3vw,14px);list-style:none;margin:0;padding:0}
+.cover{position:relative;display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:3/4.3;overflow:hidden;padding:12px 6px 11px 15px;border-radius:6px 16px 16px 6px;
   color:#fff;text-decoration:none;background:var(--cover);background-image:linear-gradient(160deg,rgb(255 255 255 / .10),rgb(0 0 0 / .28));box-shadow:0 6px 16px rgb(0 0 0 / .18)}
 .cover::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:rgb(0 0 0 / .22)}
-.cover b{font-family:var(--f-read);font-weight:600;font-size:clamp(13px,3.7vw,20px);line-height:1.2;overflow-wrap:anywhere} :root[lang=hi] .cover b{font-family:var(--f-hi);font-weight:400;line-height:1.35}
+.cover b{font-family:var(--f-read);font-weight:600;font-size:clamp(12px,3.45vw,20px);line-height:1.2} :root[lang=hi] .cover b{font-family:var(--f-hi);font-weight:400;line-height:1.35}
 .cover .art{display:block;opacity:.94} .cover .art svg{display:block;width:100%;height:auto}
 .cover small{font-family:var(--f-ui);font-size:12.5px;opacity:.88}
-.shelf{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:12px;max-width:640px}
+.shelf{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr));gap:12px;max-width:640px}
 .tile{display:flex;align-items:center;gap:12px;min-height:68px;padding:12px 14px;border:1px solid var(--line);border-radius:18px;background:var(--surface);color:inherit;text-decoration:none}
 .tile svg{flex:none;width:24px;height:24px;color:var(--accent)} .tile b{display:block;font-family:var(--f-ui);font-size:16px;font-weight:600} .tile span span{font-family:var(--f-ui);font-size:13.5px;color:var(--muted)}
 .lset{max-width:640px;border:1px solid var(--line);border-radius:18px;background:var(--surface);overflow:hidden}
@@ -538,4 +557,4 @@ try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))=
     if(navigator.share) navigator.share({title, text, url}).catch(err => { if(err && err.name !== "AbortError") copy(); }); else copy(); }; })();
 addEventListener("DOMContentLoaded", () => { if(window.GGShell && GGShell.trailSet){ GGShell.trailSet({"slug": "path:when-wanting-overrides-judgment", "home": "paths/when-wanting-overrides-judgment/", "en": "When wanting overrides better judgment", "hi": "जब चाहत समझ पर भारी पड़ती है", "next": {"home": "paths/telling-the-truth-when-awkward/", "en": "When telling the truth feels awkward", "hi": "जब सच बोलना आसान न हो", "kind": "path"}, "items": [{"k": "gita/chapter/3/verse/36/", "en": "Bhagavad Gita 3.36", "hi": "भगवद्गीता 3.36", "wen": "Arjuna asks what drives a person to act wrongly even against their wishes.", "whi": "अर्जुन पूछते हैं कि अपनी इच्छा के विरुद्ध भी गलत काम की ओर कौन धकेलता है।"}, {"k": "gita/chapter/3/verse/37/", "en": "Bhagavad Gita 3.37", "hi": "भगवद्गीता 3.37", "wen": "Krishna answers by naming desire and anger as powerful forces.", "whi": "कृष्ण कामना और क्रोध को उस खिंचाव का कारण बताते हैं।"}, {"k": "gita/chapter/3/verse/38/", "en": "Bhagavad Gita 3.38", "hi": "भगवद्गीता 3.38", "wen": "He compares obstructed knowledge to a covered fire, mirror, and unborn child.", "whi": "वे ज्ञान के ढक जाने को आग, दर्पण और गर्भ के उदाहरणों से समझाते हैं।"}, {"k": "gita/chapter/3/verse/39/", "en": "Bhagavad Gita 3.39", "hi": "भगवद्गीता 3.39", "wen": "Desire is then described as a fire that is never satisfied.", "whi": "अब कामना को ऐसी आग कहा गया है जिसकी तृप्ति नहीं होती।"}, {"k": "gita/chapter/3/verse/40/", "en": "Bhagavad Gita 3.40", "hi": "भगवद्गीता 3.40", "wen": "Krishna identifies the senses, mind, and understanding as places where desire operates.", "whi": "कृष्ण बताते हैं कि कामना इंद्रियों, मन और बुद्धि के जरिए असर डालती है।"}, {"k": "gita/chapter/3/verse/41/", "en": "Bhagavad Gita 3.41", "hi": "भगवद्गीता 3.41", "wen": "The explanation turns into a call to restrain the senses first.", "whi": "इसके बाद सबसे पहले इंद्रियों को संयम में रखने की बात आती है।"}, {"k": "gita/chapter/3/verse/42/", "en": "Bhagavad Gita 3.42", "hi": "भगवद्गीता 3.42", "wen": "He sets out a hierarchy from the senses and mind to something beyond understanding.", "whi": "फिर इंद्रियों, मन, बुद्धि और उनसे भी परे सत्ता का क्रम बताया जाता है।"}, {"k": "gita/chapter/3/verse/43/", "en": "Bhagavad Gita 3.43", "hi": "भगवद्गीता 3.43", "wen": "The passage ends by calling Arjuna to steady himself through what lies beyond the intellect.", "whi": "अंत में अर्जुन को बुद्धि से परे आत्मा को जानकर कामना का सामना करने को कहा जाता है।"}]});
   if(GGShell.lastSet) GGShell.lastSet({"k": "paths/when-wanting-overrides-judgment/", "en": "When wanting overrides better judgment", "hi": "जब चाहत समझ पर भारी पड़ती है"}); } });   // and the home page continues from this path
-</script><script src="../../shared/shell.js?v=20261115180439" data-active="paths" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../../shared/shell.js?v=20261115182406" data-active="paths" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
