@@ -17,6 +17,7 @@ const T = {
   readIn:"Reading", pass:"Passages from the text", more:n => `…and ${n} more`, intro:"About this", hint:"Drag to move · pinch / double-tap to zoom",
   scripture:"Scripture", names:{g:"Bhagavad Gita", a:"Ashtavakra Gita", u:"Upanishads"}, loadErr:"The graph did not load. Reload the page to try again.",
   pathSteps:"Steps of this path", pathOpen:"Read the path", pathsH:"Reading paths",
+  prevS:"Previous", nextS:"Next", allSteps:"All steps", startP:"Start",
   pathsBtn:"Paths", pathsStart:"Follow a path", pathsD:"A path is a short walk through a few passages, in order. Choose one and its stops light up on the graph.",
   gStart:"Start here", gEvery:"Everyday", gOne:"One idea, three texts", pm:(n,m)=>`${n} passages · ${m} min`, orQ:"Choose a life question instead", orP:"A few passages in order, about five minutes each",
   legend:"Legend", legendKey:"Each text has its own colour. Bigger points are chapters and stories; the smallest are shlokas.", legendEv:"Labels on the lines say how two things relate. A dashed label is an editorial link: our reading, not the text's own statement.", hideT:"Hide", showT:"Show",
@@ -31,6 +32,7 @@ const T = {
   readIn:"पढ़ रहे हैं", pass:"मूल पाठ के अंश", more:n => `…और ${n}`, intro:"परिचय", hint:"खींचकर घुमाएँ · पिंच / दो बार टैप से ज़ूम करें",
   scripture:"ग्रंथ", names:{g:"भगवद्गीता", a:"अष्टावक्र गीता", u:"उपनिषद्"}, loadErr:"ग्राफ़ लोड नहीं हुआ। दोबारा कोशिश करें।",
   pathSteps:"इस पथ के चरण", pathOpen:"पथ पढ़ें", pathsH:"पठन-पथ",
+  prevS:"पिछला", nextS:"अगला", allSteps:"सभी चरण", startP:"शुरू करें",
   pathsBtn:"पथ", pathsStart:"किसी पथ पर चलें", pathsD:"पथ कुछ अंशों की, क्रम से, एक छोटी सैर है। कोई पथ चुनें, उसके पड़ाव ग्राफ़ पर जगमगा उठेंगे।",
   gStart:"यहाँ से शुरू करें", gEvery:"रोज़ के जीवन में", gOne:"एक विचार, तीन ग्रंथ", pm:(n,m)=>`${n} अंश · ${m} मिनट`, orQ:"या जीवन का कोई प्रश्न चुनें", orP:"कुछ अंश, क्रम से, लगभग पाँच मिनट में",
   legend:"संकेत", legendKey:"हर ग्रंथ का अपना रंग है। बड़े बिंदु अध्याय और कथाएँ हैं; सबसे छोटे श्लोक।", legendEv:"रेखाओं पर लिखा शब्द बताता है कि दो चीज़ें कैसे जुड़ी हैं। बिंदीदार घेरे वाला शब्द संपादकीय संबंध है: यह हमारी समझ है, पाठ का अपना कथन नहीं।", hideT:"छिपाएँ", showT:"दिखाएँ",
@@ -157,7 +159,7 @@ function parse(h){
   let st = {kind:"home"};
   if(p[0] === "q" && QS.find(q => q.slug === p[1])) st = {kind:"q", q:QS.find(q => q.slug === p[1])};
   else if(p[0] === "paths" || p[0] === "chapters") st = {kind:"home", tab:"p"};   // the list of reading paths (the old chapter list's address leads here)
-  else if(p[0] === "p" && PATHS.find(x => x.slug === p[1])) st = {kind:"path", p:PATHS.find(x => x.slug === p[1])};
+  else if(p[0] === "p" && PATHS.find(x => x.slug === p[1])) st = {kind:"path", p:PATHS.find(x => x.slug === p[1]), i: /^\d+$/.test(p[2] || "") && +p[2] > 0 ? +p[2] - 1 : null};   // #/p/<slug>/<n>: at stop n
   else if(p[0] === "i" && ideaMeta(p[1], p[2])) st = {kind:"idea", t:p[1], id:p[2], m:ideaMeta(p[1], p[2])};
   else if((p[0] === "g" || p[0] === "a") && !p[1]) st = {kind:"root", n:roots[p[0]]};
   else if(p[0] === "g" || p[0] === "a"){
@@ -174,7 +176,7 @@ function parse(h){
   return {st, read};
 }
 const hashOf = n => n.kind === "idea" ? `#/i/${n.t}/${n.hid}` : n.kind === "root" ? `#/${n.t}` : n.kind === "verse" ? `#/${n.t}/${n.d.c}/${n.d.v}` : n.t === "u" ? (n.kind==="chap"?`#/u/text/${n.up.id}`:n.kind==="passage"?`#/u/passage/${n.story.s.id}/${n.index}`:`#/u/story/${n.s.id}`) : `#/${n.t}/${n.num}`;
-const hashFor = st => st.kind === "path" ? `#/p/${st.p.slug}` : st.kind === "q" ? `#/q/${st.q.slug}` : st.kind === "home" && st.tab === "p" ? "#/paths" : st.kind === "idea" ? `#/i/${st.t}/${st.id}` : st.n ? hashOf(st.n) : "#/";
+const hashFor = st => st.kind === "path" ? `#/p/${st.p.slug}${st.i != null ? "/" + (st.i + 1) : ""}` : st.kind === "q" ? `#/q/${st.q.slug}` : st.kind === "home" && st.tab === "p" ? "#/paths" : st.kind === "idea" ? `#/i/${st.t}/${st.id}` : st.n ? hashOf(st.n) : "#/";
 function apply(){
   const r = parse(location.hash); S = r.st;
   readOpen = false; cardHidden = false;
@@ -235,7 +237,10 @@ function computeLit(){
     lit = new Set([...vs, ...ss]); S.vs = vs; S.ss = ss; chain(vs.filter(v => v.t === "g")); chain(vs.filter(v => v.t === "a"));
   } else if(S.kind === "path"){
     // each step's passage as a node: a Gita or Ashtavakra shloka, or the Upanishad story the passage belongs to
-    const ns = S.p.steps.map(st => st.t === "g" ? gRef.get(st.ref) : st.t === "a" ? aRef.get(st.ref) : byId.get("u:" + st.story)).filter(Boolean);
+    S.stops = S.p.steps.map(st => ({st, n: st.t === "g" ? gRef.get(st.ref) : st.t === "a" ? aRef.get(st.ref) : byId.get("u:" + st.story)})).filter(x => x.n);
+    const ns = S.stops.map(x => x.n);
+    // stepping through the path: the stop the reader is on (the card shows it and the graph moves to it)
+    if(S.i != null && S.stops.length){ S.i = Math.min(S.i, S.stops.length - 1); S.cur = S.stops[S.i].n; } else { S.i = null; S.cur = null; }
     S.vs = ns; lit = new Set(ns);
     for(let i = 0; i < ns.length - 1; i++) if(ns[i] !== ns[i+1]) edges.push([ns[i], ns[i+1], "then"]);
   } else if(S.kind === "idea"){
@@ -339,9 +344,14 @@ function vRow(n, extra){
 }
 const sRow = n => `<a class="item" style="--c:${col(n)}" href="${hashOf(n)}"><span class="rf">✦</span><span class="tt">${esc(nm(n))}<small>${esc(lgrp(n.s.hook_en, n.s.hook_hi))}</small></span></a>`;
 const cRow = n => `<a class="item" style="--c:${col(n)}" href="${hashOf(n)}"><span class="rf">${n.num != null ? n.num : "✦"}</span><span class="tt">${esc(nm(n))}<small>${esc(n.kind === "chap" && n.t !== "u" ? t("n")(n.kids.length) : t("ns")(n.kids.length))}</small></span></a>`;
-function head(eye, title, c){
+// the small round buttons: close, open, fold (drawn, so they look the same on every phone)
+const IX = { x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6.500 6.500l11 11M17.500 6.500l-11 11"/></svg>',
+  up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 14.500l6-6 6 6"/></svg>',
+  down:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.500l6 6 6-6"/></svg>' };
+// nav: an optional row under the title that stays visible when the card is folded (a path's Previous / Next)
+function head(eye, title, c, nav){
   return `<div class="phead"><div><div class="eyebrow" style="--c:${c || "var(--gold)"}"><i></i>${esc(eye)}</div><h2 id="ptitle" tabindex="-1">${esc(title)}</h2></div>
-  ${phone.matches && !collapsed ? `<button class="x mapbtn" data-pback>${esc(t("back"))}</button>` : `${phone.matches && collapsed ? `<button class="x" data-hidecard aria-label="${esc(t("min"))}">×</button>` : ""}<button class="x" data-min aria-label="${esc(collapsed ? t("show") : t("min"))}" aria-expanded="${!collapsed}">${collapsed ? "⌃" : "⌄"}</button>`}</div><div class="pbody">`;
+  ${phone.matches && !collapsed ? `<button class="x mapbtn" data-pback>${esc(t("back"))}</button>` : `${phone.matches && collapsed ? `<button class="x" data-hidecard aria-label="${esc(t("min"))}">${IX.x}</button>` : ""}<button class="x" data-min aria-label="${esc(collapsed ? t("show") : t("min"))}" aria-expanded="${!collapsed}">${collapsed ? IX.up : IX.down}</button>`}</div>${nav || ""}<div class="pbody">`;
 }
 function ideaChips(v){
   const map=v.t==="a"?AH:GH;const ids=[...new Set([...(v.d.k||[]),...(v.d.p||[])])].filter(id=>map.has(id)&&ideaMeta(v.t,id));
@@ -386,11 +396,22 @@ function renderPanel(focus=true){
     const n=S.n;h=head(t('pass'),n.ref,COL.u)+`<p class="sk" lang="sa">${esc(sa(n.d))}</p><p class="tx" lang="${lang}">${esc(tr(n.d))}</p><a class="btn fill" data-reader href="${readerHref(n)}">${esc(t('readS'))}</a>${sRow(n.story)}`;
   } else if(S.kind === "path"){
     const P = S.p, L = k => lang === "hi" ? P[k + "_hi"] : P[k + "_en"];
-    const stops = P.steps.map(st => ({st, n: st.t === "g" ? gRef.get(st.ref) : st.t === "a" ? aRef.get(st.ref) : byId.get("u:" + st.story)})).filter(x => x.n);
-    h = head(L("kind"), L("title")) + `<p class="desc">${esc(L("frame"))}</p><p class="pmeta">${esc(t("pm")(P.n || P.steps.length, P.minutes || 5))}</p>` +
-      `<h3>${evc("then")}${esc(t("pathSteps"))}</h3>` + stops.map(({st, n}, i) => { const w = lang === "hi" ? st.whi : st.wen;
-        return `<p class="pwy"><b>${i + 1}</b>${w ? esc(w) : ""}</p>` + (n.kind === "story" ? sRow(n) : vRow(n)); }).join("") +
-      `<p class="xnote">${esc(L("note"))}</p><a class="btn" href="../paths/${P.slug}/">${esc(t("pathOpen"))} →</a>`;
+    const stops = S.stops || [], N = stops.length, base = `#/p/${P.slug}`;
+    if(S.cur){
+      // one stop: what it is, why it comes here, the passage itself, and the way on
+      const {st, n} = stops[S.i], w = lang === "hi" ? st.whi : st.wen;
+      const nav = `<div class="pnav">${S.i > 0 ? `<a class="pn-b" href="${base}/${S.i}">← ${esc(t("prevS"))}</a>` : `<a class="pn-b" href="${base}">${esc(t("allSteps"))}</a>`}<span class="pn-c">${S.i + 1} / ${N}</span>` +
+        (S.i < N - 1 ? `<a class="pn-b fill" href="${base}/${S.i + 2}">${esc(t("nextS"))} →</a>` : `<a class="pn-b fill" href="../paths/${P.slug}/">${esc(t("pathOpen"))} →</a>`) + `</div>`;
+      h = head(L("title"), n.kind === "story" ? nm(n) : `${t("names")[n.t]} ${n.ref}`, col(n), nav) + (w ? `<p class="pwy1">${esc(w)}</p>` : "") +
+        (n.kind === "story" ? `<p class="tx" lang="${lang}">${esc(lgrp(n.s.hook_en, n.s.hook_hi))}</p>` : `<p class="sk" lang="sa">${esc(sa(n.d))}</p><p class="tx" lang="${lang}">${esc(tr(n.d))}</p>`) +
+        `<a class="btn fill" data-reader href="${readerHref(n)}">${esc(t(n.kind === "story" ? "readS" : "readV"))}</a><a class="btn" href="${base}">${esc(t("allSteps"))}</a>`;
+    } else {
+      const nav = N ? `<div class="pnav"><a class="pn-b fill" href="${base}/1">${esc(t("startP"))} →</a><span class="pn-c">${esc(t("pm")(P.n || P.steps.length, P.minutes || 5))}</span></div>` : "";
+      h = head(L("kind"), L("title"), null, nav) + `<p class="desc">${esc(L("frame"))}</p>` +
+        `<h3>${evc("then")}${esc(t("pathSteps"))}</h3>` + stops.map(({st, n}, i) => { const w = lang === "hi" ? st.whi : st.wen;
+          return `<p class="pwy"><b>${i + 1}</b>${w ? esc(w) : ""}</p><a class="item" style="--c:${col(n)}" href="${base}/${i + 1}"><span class="rf">${n.kind === "story" ? "✦" : n.ref}</span><span class="tt">${esc(n.kind === "story" ? nm(n) : tr(n.d))}</span></a>`; }).join("") +
+        `<p class="xnote">${esc(L("note"))}</p><a class="btn" href="../paths/${P.slug}/">${esc(t("pathOpen"))} →</a>`;
+    }
   } else if(S.kind === "q"){
     h = head(t("question"), qn(S.q)) + `<p class="desc">${esc(qi(S.q))}</p>` + (S.q.care ? `<p class="xnote">${esc((lang === "hi" ? S.q.care_hi : S.q.care_en) || t("care"))}</p>` : "") +
       (() => { const sec = ([k,nm]) => { const l = S.vs.filter(v => v.t === k); return l.length ? `<h3>${evc("explores")}${esc(t("versesQ"))} · ${esc(t(nm))}</h3>` + l.map(v => vRow(v)).join("") : ""; };   // Ashtavakra, then the Upanishads, then the Gita
@@ -425,10 +446,10 @@ function renderChrome(){
       const name = S.kind === "path" ? (lang === "hi" ? S.p.title_hi : S.p.title_en) : S.kind === "q" ? qn(S.q) : S.kind === "idea" ? (lang === "hi" ? S.m.hi || S.m.en : S.m.en) : S.n ? (S.n.kind === "verse" || S.n.kind === "passage" ? (lang === "hi" ? S.n.ch.name.hi || S.n.ch.name.en : S.n.ch.name.en) + " " + nm(S.n) : nm(S.n)) : "";
       const k = S.kind === "chap" || S.kind === "root" ? (S.n.kids || chapOf[S.n.t] || []).length : lit ? Math.max(0, lit.size - (S.n && lit.has(S.n) ? 1 : 0)) : 0;
       const col = S.n ? COL[S.n.t] : S.kind === "idea" ? COL[S.t] : palette.gold, canFocus = S.kind !== "root";
-      cx.innerHTML = `<i class="dot" style="background:${col}"></i>${cardHidden && phone.matches ? `<button type="button" class="nm" data-showcard aria-label="${esc(t("show"))}">${esc(name)} <b aria-hidden="true">⌃</b></button>` : `<span class="nm">${esc(name)}</span>`}${k && !sutraShown() ? `<span class="ct">${esc(t("conn")(k))}</span>` : ""}` +
+      cx.innerHTML = `<i class="dot" style="background:${col}"></i>${cardHidden && phone.matches ? `<button type="button" class="nm" data-showcard aria-label="${esc(t("show"))}">${esc(name)} <b aria-hidden="true">${IX.up}</b></button>` : `<span class="nm">${esc(name)}</span>`}${k && !sutraShown() ? `<span class="ct">${esc(t("conn")(k))}</span>` : ""}` +
         (sutraOk() ? `<span class="seg" role="group"><button type="button" data-sutra="0" aria-pressed="${!sutraOn}">${esc(SU[lang].graph)}</button><button type="button" data-sutra="1" aria-pressed="${sutraOn}">${esc(SU[lang].name)}</button></span>` : "") +
         (canFocus && !sutraShown() ? `<span class="seg" role="group"><button type="button" data-focus="1" aria-pressed="${focusMode}">${esc(t("focus"))}</button><button type="button" data-focus="0" aria-pressed="${!focusMode}">${esc(t("whole"))}</button></span>` : "") +
-        `<button type="button" class="x" data-clear aria-label="${esc(t("clearSel"))}">×</button>`;
+        `<button type="button" class="x" data-clear aria-label="${esc(t("clearSel"))}">${IX.x}</button>`;
     }
   }
   const zf = $("zfit"); if(zf) zf.setAttribute("aria-label", t("fit"));
@@ -447,6 +468,7 @@ $("panel").addEventListener("click", e => {
   // phone full screen: Back returns to where the reader was (previous view, its camera and scroll); with nowhere to go back to, fold down to the map
   if(e.target.closest("[data-pback]")){ if(history.state?.nav) history.back(); else { collapsed = true; peekOpen = false; renderPanel(); fly(); } return; }
   if(phone.matches && !collapsed && e.target.closest('a[href^="#"]')) fullNext = true;
+  if(e.target.closest(".pnav a")) return;      // a path's Previous / Next works on the folded card too, without opening it
   if(e.target.closest("[data-min]") || (collapsed && phone.matches)){ if(phone.matches && collapsed){ riseTray(); return; } collapsed = !collapsed; renderPanel(); fly(); } });
 // phones: open the tray as its own history step, so the phone's Back closes it back to the bubble
 function riseTray(){ rememberView(); history.pushState({universe:true, nav:(history.state?.nav || 0) + 1}, "", location.href);
@@ -498,6 +520,7 @@ function fly(){
   else if(S.kind === "story") c = camFor([S.n, ...S.n.xg, ...S.n.xa, S.n.ch], 3);
   // a phone's small card: zoom in on the tapped idea itself, not out to every verse that carries it
   else if(S.kind === "idea" && phone.matches && collapsed && iBy.get(`${S.t}:${S.id}`)) c = camFor([iBy.get(`${S.t}:${S.id}`)], .8);
+  else if(S.kind === "path" && S.cur) c = camFor([S.cur], S.cur.kind === "story" ? 3 : 4);   // at a stop of a path: move to that stop
   else c = camFor([...(lit || [])].slice(0, 600).concat(hub ? [hub] : []), 3.2);
   if(readOpen){ dirty = true; }
   tgt = reduce.matches ? null : {...c, t0:performance.now(), from:{...cam}}; if(!tgt) Object.assign(cam, c);
@@ -528,7 +551,7 @@ function draw(){
   ctx.fillStyle = palette.muted;
   for(const s of stars){ ctx.globalAlpha = Math.abs(s.a); ctx.beginPath(); ctx.arc(Math.abs((s.x*W - cam.x*.03 + W*3) % W), Math.abs((s.y*H - cam.y*.03 + H*3) % H), s.r, 0, 7); ctx.fill(); }
   ctx.globalAlpha = 1;
-  const ideaPeek = isIdeaPeek(), web = webMode(), z = cam.z, deep = deepOf(z), home = S.kind === "home", filtering = !!lit && (S.kind === "q" || S.kind === "path" || S.kind === "idea" && !ideaPeek), selId = ideaPeek ? `i:${S.t}:${S.id}` : S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
+  const ideaPeek = isIdeaPeek(), web = webMode(), z = cam.z, deep = deepOf(z), home = S.kind === "home", filtering = !!lit && (S.kind === "q" || S.kind === "path" || S.kind === "idea" && !ideaPeek), selId = ideaPeek ? `i:${S.t}:${S.id}` : S.kind === "path" && S.cur ? S.cur.id : S.n ? S.n.id : null, chapSel = S.kind === "chap" ? S.n : S.kind === "verse" ? S.n.ch : null;
   const focusing = isFocus(), relT = focusing ? relTexts() : null;
   for(const k of ['g','a','u']){if(hid.has(k))continue;const p=toS(roots[k]);glow(p.x,p.y,Math.min(520,(k==='g'?760:560)*z),COL[k],palette.dark?.12:.055);glow(p.x-80*z,p.y+65*z,Math.min(330,470*z),COL[k==='g'?'u':'g'],palette.dark?.055:.025);}
   // constellation threads: text -> each chapter
