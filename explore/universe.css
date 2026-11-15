@@ -183,3 +183,9 @@ button{font-family:var(--f-ui)}
   .ctx .seg button{padding:0 9px;font-size:13px}
   .panel.min .phead [data-hidecard]{margin-left:auto}
 }
+
+/* a reading path in the panel: its length, and each stop numbered with the line that says why it comes there */
+.panel .pmeta{margin:-4px 0 0;font-size:13px;font-weight:600;color:var(--accent)}
+.panel .pwy{display:flex;gap:10px;align-items:baseline;margin:16px 0 2px;font-size:13.5px;line-height:1.45;color:var(--muted)}
+.panel .pwy b{flex:none;display:inline-grid;place-items:center;width:21px;height:21px;border-radius:50%;background:var(--ink);color:var(--bg);font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums}
+:root[lang=hi] .panel .pwy{font-size:14.5px;line-height:1.6}

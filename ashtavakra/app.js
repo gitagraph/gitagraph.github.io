@@ -1,5 +1,8 @@
-// Site shell: the one navigation every page shares. Five places, the same everywhere:
-//   Home · Questions · Library · Graph · Saved
+// Site shell: the one navigation every page shares.
+//   Phone tab bar (five places):  Home · Questions · Paths · Library · Saved
+//   Desktop header:               Questions · Paths · Library · Graph · Saved   (the brand is Home)
+// The Graph has no phone tab: on a small screen it is reached from the pages where it answers something (the home
+// page, "See connections" on a passage, the end of a question or a path). The desktop header has room for it.
 // Static pages (home, the map, the documents) include this file and it mounts itself:
 //   <script src="<root>shared/shell.js" data-active="home" defer></script>
 // The readers inline it into app.js at build time (so it works offline) and call GGShell.nav()/tabs() themselves.
@@ -7,6 +10,7 @@
   const script = document.currentScript;
   const IC = {
     home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>',
+    paths: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="2.2"/><circle cx="18" cy="5" r="2.2"/><path d="M8.200 19H15a3.500 3.500 0 000-7H9a3.500 3.500 0 010-7h6.800"/></svg>',
     questions: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.5-2.5 2-2.5 4"/><path d="M12 17v.5"/></svg>',
     library: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5c2.8-1 5.8-1 9 1v13c-3.2-2-6.2-2-9-1z"/><path d="M21 5.5c-2.8-1-5.8-1-9 1v13c3.2-2 6.2-2 9-1z"/></svg>',
     map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="2.6"/><circle cx="4.5" cy="6" r="1.8"/><circle cx="19.5" cy="6" r="1.8"/><circle cx="5" cy="18.5" r="1.8"/><circle cx="19" cy="18.5" r="1.8"/><path d="M6 7l4 3.500M18 7l-4 3.500M6.5 17.500l3.5-3.500M17.5 17.500L14 14"/></svg>',
@@ -16,6 +20,7 @@
   const ITEMS = [
     ["home", "", "Home", "होम"],
     ["questions", "gita/questions/", "Questions", "प्रश्न"],
+    ["paths", "paths/", "Paths", "पथ"],
     ["library", "#scriptures", "Library", "ग्रंथालय"],
     ["map", "explore/", "Graph", "ग्राफ़"],
     ["saved", "saved/", "Saved", "सहेजे"]
@@ -39,9 +44,9 @@
       const sr = ["search", "search/", "Search verses, ideas, people", "श्लोक, विचार, पात्र खोजें"], lb = o.lang ? (o.lang === "hi" ? "खोजें" : "Search") : "Search";
       return `<a class="gsearch${o.icon ? " gs-m" : ""}" href="${o.root}search/" data-g="search" aria-label="${lb}"${cur(sr, o.active)}>${IC.search}<span>${label(sr, o.lang)}</span></a>`;
     },
-    // the five phone tabs
+    // the five phone tabs (the Graph is not one of them)
     tabs(o) {
-      return ITEMS.map(it =>
+      return ITEMS.filter(it => it[0] !== "map").map(it =>
         `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}><span class="gi">${IC[it[0]]}</span>${label(it, o.lang)}</a>`).join("");
     },
     // the brand lockup for the readers' desktop bar
