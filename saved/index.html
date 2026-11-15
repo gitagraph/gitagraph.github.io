@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Saved · Gitagraph</title><meta name="robots" content="noindex"><link rel="canonical" href="https://gitagraph.com/saved/">
-<link rel="icon" href="../shared/mark.svg?v=20261115171508" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261115171508" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261115171508">
+<link rel="icon" href="../shared/mark.svg?v=20261115172421" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261115172421" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261115172421">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -297,6 +297,9 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 :root[lang=hi] .pstep .pwhy{font-family:var(--f-hi);font-weight:400;font-size:22px;line-height:1.6}
 .pwhy{margin:0 0 12px;padding-left:14px;border-left:2px solid var(--line);color:var(--muted);font-size:15.5px;line-height:1.6;max-width:60ch}
 .pv{margin:0 0 14px;padding:22px 24px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+/* the whole passage card opens the passage: its "Open verse" link is stretched over the card, so it stays one real link */
+.pv{position:relative} .pv .pgo::after{content:"";position:absolute;inset:0;border-radius:18px}
+.pv:has(.pgo):hover{border-color:var(--accent)} .pv:has(.pgo:active){background:var(--sunk,var(--surface))}
 .pv .pr{display:flex;align-items:center;gap:10px;margin:0;font-size:13.5px;font-weight:600;color:var(--muted)}
 .pv .pn{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);font-size:13px;font-variant-numeric:tabular-nums}
 .pv .psa{margin:14px 0 0;font-family:var(--f-skt);font-size:clamp(21px,3.2vw,25px);line-height:1.7}
@@ -310,6 +313,10 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 :root[lang=hi] .rungs li{font-family:var(--f-hi);font-size:19px}
 .rungs li::before{content:counter(r);flex:none;width:22px;color:var(--muted);font:600 13px var(--f-ui);font-variant-numeric:tabular-nums}
 .rungs li:nth-child(n+2){margin-left:calc((var(--i,0)) * 0px)}
+.pshare{margin:28px 0 0}
+.pshare button{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 20px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:600 16px var(--f-ui);cursor:pointer}
+.pshare button svg{width:20px;height:20px}
+:root[lang=hi] .pshare button{font-family:var(--f-hi);font-size:17px}
 .pprov{margin:32px 0 0;padding:14px 16px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:14.5px;line-height:1.6}
 .pmore{margin:40px 0 0} .pmore h2{font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
 :root[lang=hi] .pmore h2{letter-spacing:0;text-transform:none;font-size:15px}
@@ -482,4 +489,4 @@ const b = document.getElementById("lang");
 function setLang(l){ document.documentElement.lang = l; b.textContent = l==="hi" ? "EN" : "हि"; try{ localStorage.setItem("library-lang", l); localStorage.setItem("gg-lang", l); }catch(e){} }
 b.onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
 try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))==="hi") setLang("hi"); }catch(e){}
-</script><script src="../shared/shell.js?v=20261115171508" data-active="saved" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../shared/shell.js?v=20261115172421" data-active="saved" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>

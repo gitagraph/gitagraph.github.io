@@ -295,6 +295,9 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 :root[lang=hi] .pstep .pwhy{font-family:var(--f-hi);font-weight:400;font-size:22px;line-height:1.6}
 .pwhy{margin:0 0 12px;padding-left:14px;border-left:2px solid var(--line);color:var(--muted);font-size:15.5px;line-height:1.6;max-width:60ch}
 .pv{margin:0 0 14px;padding:22px 24px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+/* the whole passage card opens the passage: its "Open verse" link is stretched over the card, so it stays one real link */
+.pv{position:relative} .pv .pgo::after{content:"";position:absolute;inset:0;border-radius:18px}
+.pv:has(.pgo):hover{border-color:var(--accent)} .pv:has(.pgo:active){background:var(--sunk,var(--surface))}
 .pv .pr{display:flex;align-items:center;gap:10px;margin:0;font-size:13.5px;font-weight:600;color:var(--muted)}
 .pv .pn{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);font-size:13px;font-variant-numeric:tabular-nums}
 .pv .psa{margin:14px 0 0;font-family:var(--f-skt);font-size:clamp(21px,3.2vw,25px);line-height:1.7}
@@ -308,6 +311,10 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 :root[lang=hi] .rungs li{font-family:var(--f-hi);font-size:19px}
 .rungs li::before{content:counter(r);flex:none;width:22px;color:var(--muted);font:600 13px var(--f-ui);font-variant-numeric:tabular-nums}
 .rungs li:nth-child(n+2){margin-left:calc((var(--i,0)) * 0px)}
+.pshare{margin:28px 0 0}
+.pshare button{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 20px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font:600 16px var(--f-ui);cursor:pointer}
+.pshare button svg{width:20px;height:20px}
+:root[lang=hi] .pshare button{font-family:var(--f-hi);font-size:17px}
 .pprov{margin:32px 0 0;padding:14px 16px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);font-size:14.5px;line-height:1.6}
 .pmore{margin:40px 0 0} .pmore h2{font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
 :root[lang=hi] .pmore h2{letter-spacing:0;text-transform:none;font-size:15px}
