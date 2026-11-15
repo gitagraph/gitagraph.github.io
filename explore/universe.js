@@ -19,7 +19,7 @@ const T = {
   pathSteps:"Steps of this path", pathOpen:"Read the path", pathsH:"Reading paths",
   prevS:"Previous", nextS:"Next", allSteps:"All steps", startP:"Start",
   pathsBtn:"Paths", pathsStart:"Follow a path", pathsD:"A path is a short walk through a few passages, in order. Choose one and its stops light up on the graph.",
-  gStart:"Start here", gEvery:"Everyday", gOne:"One idea, three texts", pm:(n,m)=>`${n} passages · ${m} min`, orQ:"Choose a life question instead", orP:"A few passages in order, about five minutes each",
+  gStart:"Start here", gEvery:"Everyday", gOne:"One idea, three texts", gDeep:"Go deeper", pm:(n,m)=>`${n} passages · ${m} min`, orQ:"Choose a life question instead", orP:"A few passages in order, about five minutes each",
   legend:"Legend", legendKey:"Each text has its own colour. Bigger points are chapters and stories; the smallest are shlokas.", legendEv:"Labels on the lines say how two things relate. A dashed label is an editorial link: our reading, not the text's own statement.", hideT:"Hide", showT:"Show",
   focus:"Focus", whole:"Whole graph", conn:k => k === 1 ? "1 connection" : `${k} connections`, clearSel:"Clear selection", fit:"Fit to screen",
   moved:"Selected", care:"The Gita offers a way of seeing, not a substitute for support. If this is weighing on you, please talk to someone you trust or a doctor.", up:"Upanishad"},
@@ -34,7 +34,7 @@ const T = {
   pathSteps:"इस पथ के चरण", pathOpen:"पथ पढ़ें", pathsH:"पठन-पथ",
   prevS:"पिछला", nextS:"अगला", allSteps:"सभी चरण", startP:"शुरू करें",
   pathsBtn:"पथ", pathsStart:"किसी पथ पर चलें", pathsD:"पथ कुछ अंशों की, क्रम से, एक छोटी सैर है। कोई पथ चुनें, उसके पड़ाव ग्राफ़ पर जगमगा उठेंगे।",
-  gStart:"यहाँ से शुरू करें", gEvery:"रोज़ के जीवन में", gOne:"एक विचार, तीन ग्रंथ", pm:(n,m)=>`${n} अंश · ${m} मिनट`, orQ:"या जीवन का कोई प्रश्न चुनें", orP:"कुछ अंश, क्रम से, लगभग पाँच मिनट में",
+  gStart:"यहाँ से शुरू करें", gEvery:"रोज़ के जीवन में", gOne:"एक विचार, तीन ग्रंथ", gDeep:"थोड़ा और गहरे", pm:(n,m)=>`${n} अंश · ${m} मिनट`, orQ:"या जीवन का कोई प्रश्न चुनें", orP:"कुछ अंश, क्रम से, लगभग पाँच मिनट में",
   legend:"संकेत", legendKey:"हर ग्रंथ का अपना रंग है। बड़े बिंदु अध्याय और कथाएँ हैं; सबसे छोटे श्लोक।", legendEv:"रेखाओं पर लिखा शब्द बताता है कि दो चीज़ें कैसे जुड़ी हैं। बिंदीदार घेरे वाला शब्द संपादकीय संबंध है: यह हमारी समझ है, पाठ का अपना कथन नहीं।", hideT:"छिपाएँ", showT:"दिखाएँ",
   focus:"केवल यह", whole:"पूरा ग्राफ़", conn:k => `${k} संबंध`, clearSel:"चयन हटाएँ", fit:"पूरा दिखाएँ",
   moved:"चुना गया", care:"गीता देखने का एक नज़रिया देती है, सहारे का विकल्प नहीं। अगर यह मन पर भारी है, तो किसी भरोसेमंद व्यक्ति या डॉक्टर से बात करें।", up:"उपनिषद्"}
@@ -364,7 +364,7 @@ function renderPanel(focus=true){
     // the reading paths, grouped as on the Paths page; choosing one lights its stops in order
     const row = P => `<a class="item" href="#/p/${P.slug}"><span class="tt">${esc(lang === "hi" ? P.title_hi : P.title_en)}<small>${esc(t("pm")(P.n || P.steps.length, P.minutes || 5))}</small></span></a>`;
     h = head(t("scripture"), t("pathsStart")) + `<p class="desc">${esc(t("pathsD"))}</p>` +
-      [["start-here","gStart"],["everyday","gEvery"],["one-idea","gOne"]].map(([g,k]) => { const ps = PATHS.filter(P => (P.group || "everyday") === g); return ps.length ? `<h3>${esc(t(k))}</h3>` + ps.map(row).join("") : ""; }).join("") +
+      [["start-here","gStart"],["everyday","gEvery"],["deeper","gDeep"],["one-idea","gOne"]].map(([g,k]) => { const ps = PATHS.filter(P => (P.group || "everyday") === g); return ps.length ? `<h3>${esc(t(k))}</h3>` + ps.map(row).join("") : ""; }).join("") +
       `<a class="item" href="#/"><span class="tt">${esc(t("start"))}<small>${esc(t("orQ"))}</small></span></a>`;
   } else if(S.kind === "home"){
     h = head(t("scripture"), t("start")) + `<p class="desc">${esc(t("startD"))}</p>` + QS.map(qRow).join("") +
