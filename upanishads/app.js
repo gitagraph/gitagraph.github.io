@@ -54,7 +54,7 @@
   // Reading trail. A question page lists its passages in order. Opening one from that page starts a trail, and each
   // passage page then offers the next passage and the way back to the question. A reader who reaches the same verse
   // by ordinary reading sees none of this: only pages opened along the trail are marked. Kept for this tab only.
-  //   trail = {slug, en, hi, next: {slug, en, hi} | null, items: [{k: "gita/chapter/2/verse/14/", en, hi}], seen: [k]}
+  //   trail = {slug, en, hi, next: {slug, en, hi} | null, items: [{k: "gita/chapter/2/verse/14/", en, hi, wen?, whi?}], seen: [k]}
   // The list is a question page by default (gita/questions/<slug>/). A reading path gives its own address as `home`
   // (and `kind: "path"` on its `next`), so the same trail serves both.
   const TK = "gg-trail";
@@ -78,6 +78,14 @@
     if (it) return { href: root + it.k, k: it.k, en: it.en, hi: it.hi };
     if (dir > 0 && a.t.next) return { href: root + thome(a.t.next), en: a.t.next.en, hi: a.t.next.hi, question: true };
     return {};
+  };
+  // The line that says why this passage comes next on its path, for the top of the passage's own page. On the path
+  // page that line sits above the passage and is easy to pass over; without it the passage arrives with no context.
+  GGShell.trailNote = function (key, lang) {
+    const a = GGShell.trailAt(key); if (!a) return "";
+    const it = a.t.items[a.i], hi = lang === "hi", w = hi ? it.whi : it.wen; if (!w) return "";
+    const pos = hi ? `${a.n} में से ${a.i + 1}` : `${a.i + 1} of ${a.n}`;
+    return `<aside class="gtnote" lang="${hi ? "hi" : "en"}"><small>${tesc(hi ? a.t.hi : a.t.en)} · ${pos}</small><p>${tesc(w)}</p></aside>`;
   };
   // What a passage page shows when it was opened from a question: where the reader is in that question's list, the
   // passage before and the passage after in the same order as the list, and after the last one the next question.
@@ -117,6 +125,59 @@
         n.innerHTML = GGShell.nav({ root, active });
         brand.after(n);
         n.insertAdjacentHTML("afterend", GGShell.search({ root, active, icon: true }));
+      }
+      // Pages that carry only the language switch (reading paths, Saved, Search, the documents, the Hindi pages) get a
+      // Display button beside it, with the same choices as the readers: language, Sanskrit on or off, text size, theme.
+      // Theme is one preference for the whole site ("gg-theme"). Text size and Sanskrit are kept site-wide here
+      // ("gg-size", "gg-sa") and written into each reader's own settings too, so a choice made on a path page holds
+      // when a passage is opened; the readers write the same two keys when the choice is changed there.
+      const lg = top && top.querySelector("#lang");
+      if (lg && !document.getElementById("themebtn")) {
+        const html = document.documentElement, SIZES = [0.9, 1, 1.12, 1.25];
+        const get = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+        const put = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+        const obj = k => { try { return JSON.parse(localStorage.getItem(k) || "{}") || {}; } catch (e) { return {}; } };
+        const gp = obj("gita-prefs");
+        let size = +(get("gg-size") || gp.size || 1); if (!SIZES.includes(size)) size = 1;
+        let sa = get("gg-sa") != null ? get("gg-sa") === "1" : gp.sa !== false;
+        let theme = get("gg-theme") || "system"; if (!["system", "light", "dark"].includes(theme)) theme = "system";
+        const apply = () => { html.style.setProperty("--scale", size); if (sa) html.removeAttribute("data-sa"); else html.setAttribute("data-sa", "off");
+          if (theme === "system") html.removeAttribute("data-theme"); else html.setAttribute("data-theme", theme); };
+        const save = () => { put("gg-size", String(size)); put("gg-sa", sa ? "1" : "0"); put("gg-theme", theme);
+          ["gita-prefs", "avg-prefs", "upa-prefs2"].forEach(k => { const o = obj(k); o.size = size; o.sa = sa; o.theme = theme; put(k, JSON.stringify(o)); }); };
+        html.style.setProperty("--scale", size); if (!sa) html.setAttribute("data-sa", "off");
+        const T = { en: { t: "Display", lang: "Language", sa: "Sanskrit", size: "Text size", theme: "Theme", system: "System", light: "Light", dark: "Dark", done: "Done" },
+          hi: { t: "प्रदर्शन", lang: "भाषा", sa: "संस्कृत", size: "अक्षर का आकार", theme: "थीम", system: "सिस्टम", light: "हल्की", dark: "गहरी", done: "ठीक है" } };
+        const cur = () => (html.lang === "hi" ? "hi" : "en");
+        const tb = document.createElement("button"); tb.type = "button"; tb.id = "themebtn"; tb.className = "langpill themebtn";
+        tb.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg>';
+        const label = () => { tb.setAttribute("aria-label", T[cur()].t); tb.title = T[cur()].t; };
+        label(); new MutationObserver(label).observe(html, { attributes: true, attributeFilter: ["lang"] });
+        function open() {
+          const t = T[cur()], seg = (name, opts, val) => `<div class="gs-seg" role="group">${opts.map(([v, l]) => `<button type="button" data-${name}="${v}" aria-pressed="${String(v) === String(val)}">${l}</button>`).join("")}</div>`;
+          const d = document.createElement("div"); d.className = "gs-scrim"; d.lang = cur();
+          d.innerHTML = `<div class="gs-sheet" role="dialog" aria-modal="true" aria-label="${t.t}"><h2>${t.t}</h2>
+            <div class="gs-row"><span class="gs-lbl">${t.lang}</span><div class="gs-seg" role="group"><button type="button" data-lg="en" aria-pressed="${cur() === "en"}">English</button><button type="button" data-lg="hi" lang="hi" aria-pressed="${cur() === "hi"}">हिन्दी</button></div></div>
+            <div class="gs-row"><span class="gs-lbl">${t.sa}</span><button type="button" class="gs-switch" role="switch" aria-checked="${sa}" aria-label="${t.sa}"></button></div>
+            <div class="gs-row"><span class="gs-lbl">${t.size}</span>${seg("size", [[0.9, "A−"], [1, "A"], [1.12, "A+"], [1.25, "A++"]], size)}</div>
+            <div class="gs-row"><span class="gs-lbl">${t.theme}</span>${seg("theme", [["system", t.system], ["light", t.light], ["dark", t.dark]], theme)}</div>
+            <div class="gs-row"><span></span><button type="button" class="gs-done" data-close>${t.done}</button></div></div>`;
+          const close = () => { d.remove(); document.removeEventListener("keydown", onKey); tb.focus(); };
+          const onKey = e => { if (e.key === "Escape") close(); };
+          const press = (sel, b) => d.querySelectorAll(sel).forEach(x => x.setAttribute("aria-pressed", x === b));
+          d.addEventListener("click", e => {
+            const b = e.target.closest("button");
+            if (e.target === d || (b && b.dataset.close !== undefined)) { close(); return; }
+            if (!b) return;
+            if (b.dataset.size) { size = +b.dataset.size; press("[data-size]", b); }
+            else if (b.dataset.theme) { theme = b.dataset.theme; press("[data-theme]", b); }
+            else if (b.classList.contains("gs-switch")) { sa = !sa; b.setAttribute("aria-checked", sa); }
+            else if (b.dataset.lg) { if (b.dataset.lg !== cur()) { close(); const l = document.getElementById("lang"); if (l) l.click(); if (cur() === b.dataset.lg) open(); } return; }
+            apply(); save();
+          });
+          document.addEventListener("keydown", onKey); document.body.appendChild(d); d.querySelector("[data-close]").focus();
+        }
+        tb.onclick = open; lg.before(tb);
       }
       if (!document.querySelector(".gtabs")) {
         const t = document.createElement("nav");
@@ -360,6 +421,8 @@ function applyPrefs(boot){
   if(prefs.theme==="system"){ if(!boot) document.documentElement.removeAttribute("data-theme"); }
   else document.documentElement.setAttribute("data-theme", prefs.theme);
   try{ localStorage.setItem("gg-theme", prefs.theme); }catch(e){}
+  // a text size or Sanskrit choice made here is also kept site-wide, for the pages outside the readers (reading paths and the like)
+  if(!boot) try{ localStorage.setItem("gg-size", String(prefs.size)); localStorage.setItem("gg-sa", prefs.sa ? "1" : "0"); }catch(e){}
   store.set("prefs2", prefs);
 }
 
@@ -534,7 +597,13 @@ function wireShare(){ document.querySelectorAll("[data-share],#sharebtn").forEac
 // ===================== story =====================
 const vid = ref => "v-" + ref.replace(/[^0-9a-z]+/gi, "-");
 // On a page opened from a question, the next passage of that question and the way back (see shell.js).
-const trailBar = key => window.GGShell && BASE ? GGShell.trailBar(key, lang, BASE.replace(/[^/]+\/$/, "")) : "";
+const TROOT = BASE ? BASE.replace(/[^/]+\/$/, "") : "";
+const trailBar = key => window.GGShell && BASE ? GGShell.trailBar(key, lang, TROOT) : "";
+const trailNote = key => window.GGShell && BASE && GGShell.trailNote ? GGShell.trailNote(key, lang) : "";
+// one step along the list this story was opened from (see shell.js); null when it was not opened from a question or a path
+const trailStep = (st, dir) => window.GGShell && BASE ? GGShell.trailStep("upanishads/story/" + st.id + "/", dir, TROOT) : null;
+function trailGo(ts){ if(!ts.href) return; if(ts.k) GGShell.trailSeen(ts.k);
+  const path = new URL(ts.href, location.href).pathname; if(path.startsWith(BASE)) go(tokenOf(path), true); else location.replace(ts.href); }
 function storyView(s){
   const x = UPB.get(s.up), refs = new Set(s.verses.map(v=>v.ref));
   const paras = (isHi() ? s.story_hi : s.story_en).map(p => {
@@ -548,7 +617,7 @@ function storyView(s){
   const xref = (list, src, name, path) => list.filter(r => src[r]).map(r => { const [c,v] = r.split(".");
     return `<a href="${LIBROOT}${path}/chapter/${c}/verse/${v}/"><span class="w">${esc(name)} ${esc(r)}</span><span class="t" lang="${lang}">${esc(isHi() ? src[r].hi : src[r].en)}</span></a>`; }).join("");
   const xr = xref(s.gita||[], XG, u().gita, "gita") + xref(s.ashtavakra||[], XA, u().ashtavakra, "ashtavakra");
-  return `<article class="story">
+  return `<article class="story">${trailNote("upanishads/story/" + s.id + "/")}
   <h1>${esc(L(s,"title"))}</h1>
   <p class="forline" lang="${lang}">${esc(L(s,"for"))}</p>
   ${L(s,"insight") ? `<p class="insight1" lang="${lang}">${esc(L(s,"insight"))}</p>` : ""}
@@ -719,7 +788,8 @@ function openSettings(){
 document.addEventListener("keydown", e => {
   if(e.target.closest && e.target.closest("input,textarea") || e.metaKey || e.ctrlKey || e.altKey || document.querySelector(".scrim")) return;
   if(e.key==="/"){ e.preventDefault(); go("search"); }
-  else if(current && current.name==="story" && (e.key==="ArrowRight" || e.key==="ArrowLeft")){ const w = S[current.s.i + (e.key==="ArrowRight"?1:-1)]; if(w) go("s-"+w.id); }
+  else if(current && current.name==="story" && (e.key==="ArrowRight" || e.key==="ArrowLeft")){ const ts = trailStep(current.s, e.key==="ArrowRight" ? 1 : -1);
+    if(ts) trailGo(ts); else { const w = S[current.s.i + (e.key==="ArrowRight"?1:-1)]; if(w) go("s-"+w.id); } }
   else if(current && current.name==="story" && e.key==="s"){ const b = document.getElementById("savebtn"); if(b) b.click(); }
 });
 

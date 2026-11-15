@@ -54,7 +54,7 @@
   // Reading trail. A question page lists its passages in order. Opening one from that page starts a trail, and each
   // passage page then offers the next passage and the way back to the question. A reader who reaches the same verse
   // by ordinary reading sees none of this: only pages opened along the trail are marked. Kept for this tab only.
-  //   trail = {slug, en, hi, next: {slug, en, hi} | null, items: [{k: "gita/chapter/2/verse/14/", en, hi}], seen: [k]}
+  //   trail = {slug, en, hi, next: {slug, en, hi} | null, items: [{k: "gita/chapter/2/verse/14/", en, hi, wen?, whi?}], seen: [k]}
   // The list is a question page by default (gita/questions/<slug>/). A reading path gives its own address as `home`
   // (and `kind: "path"` on its `next`), so the same trail serves both.
   const TK = "gg-trail";
@@ -78,6 +78,14 @@
     if (it) return { href: root + it.k, k: it.k, en: it.en, hi: it.hi };
     if (dir > 0 && a.t.next) return { href: root + thome(a.t.next), en: a.t.next.en, hi: a.t.next.hi, question: true };
     return {};
+  };
+  // The line that says why this passage comes next on its path, for the top of the passage's own page. On the path
+  // page that line sits above the passage and is easy to pass over; without it the passage arrives with no context.
+  GGShell.trailNote = function (key, lang) {
+    const a = GGShell.trailAt(key); if (!a) return "";
+    const it = a.t.items[a.i], hi = lang === "hi", w = hi ? it.whi : it.wen; if (!w) return "";
+    const pos = hi ? `${a.n} में से ${a.i + 1}` : `${a.i + 1} of ${a.n}`;
+    return `<aside class="gtnote" lang="${hi ? "hi" : "en"}"><small>${tesc(hi ? a.t.hi : a.t.en)} · ${pos}</small><p>${tesc(w)}</p></aside>`;
   };
   // What a passage page shows when it was opened from a question: where the reader is in that question's list, the
   // passage before and the passage after in the same order as the list, and after the last one the next question.
@@ -117,6 +125,59 @@
         n.innerHTML = GGShell.nav({ root, active });
         brand.after(n);
         n.insertAdjacentHTML("afterend", GGShell.search({ root, active, icon: true }));
+      }
+      // Pages that carry only the language switch (reading paths, Saved, Search, the documents, the Hindi pages) get a
+      // Display button beside it, with the same choices as the readers: language, Sanskrit on or off, text size, theme.
+      // Theme is one preference for the whole site ("gg-theme"). Text size and Sanskrit are kept site-wide here
+      // ("gg-size", "gg-sa") and written into each reader's own settings too, so a choice made on a path page holds
+      // when a passage is opened; the readers write the same two keys when the choice is changed there.
+      const lg = top && top.querySelector("#lang");
+      if (lg && !document.getElementById("themebtn")) {
+        const html = document.documentElement, SIZES = [0.9, 1, 1.12, 1.25];
+        const get = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+        const put = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+        const obj = k => { try { return JSON.parse(localStorage.getItem(k) || "{}") || {}; } catch (e) { return {}; } };
+        const gp = obj("gita-prefs");
+        let size = +(get("gg-size") || gp.size || 1); if (!SIZES.includes(size)) size = 1;
+        let sa = get("gg-sa") != null ? get("gg-sa") === "1" : gp.sa !== false;
+        let theme = get("gg-theme") || "system"; if (!["system", "light", "dark"].includes(theme)) theme = "system";
+        const apply = () => { html.style.setProperty("--scale", size); if (sa) html.removeAttribute("data-sa"); else html.setAttribute("data-sa", "off");
+          if (theme === "system") html.removeAttribute("data-theme"); else html.setAttribute("data-theme", theme); };
+        const save = () => { put("gg-size", String(size)); put("gg-sa", sa ? "1" : "0"); put("gg-theme", theme);
+          ["gita-prefs", "avg-prefs", "upa-prefs2"].forEach(k => { const o = obj(k); o.size = size; o.sa = sa; o.theme = theme; put(k, JSON.stringify(o)); }); };
+        html.style.setProperty("--scale", size); if (!sa) html.setAttribute("data-sa", "off");
+        const T = { en: { t: "Display", lang: "Language", sa: "Sanskrit", size: "Text size", theme: "Theme", system: "System", light: "Light", dark: "Dark", done: "Done" },
+          hi: { t: "प्रदर्शन", lang: "भाषा", sa: "संस्कृत", size: "अक्षर का आकार", theme: "थीम", system: "सिस्टम", light: "हल्की", dark: "गहरी", done: "ठीक है" } };
+        const cur = () => (html.lang === "hi" ? "hi" : "en");
+        const tb = document.createElement("button"); tb.type = "button"; tb.id = "themebtn"; tb.className = "langpill themebtn";
+        tb.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></svg>';
+        const label = () => { tb.setAttribute("aria-label", T[cur()].t); tb.title = T[cur()].t; };
+        label(); new MutationObserver(label).observe(html, { attributes: true, attributeFilter: ["lang"] });
+        function open() {
+          const t = T[cur()], seg = (name, opts, val) => `<div class="gs-seg" role="group">${opts.map(([v, l]) => `<button type="button" data-${name}="${v}" aria-pressed="${String(v) === String(val)}">${l}</button>`).join("")}</div>`;
+          const d = document.createElement("div"); d.className = "gs-scrim"; d.lang = cur();
+          d.innerHTML = `<div class="gs-sheet" role="dialog" aria-modal="true" aria-label="${t.t}"><h2>${t.t}</h2>
+            <div class="gs-row"><span class="gs-lbl">${t.lang}</span><div class="gs-seg" role="group"><button type="button" data-lg="en" aria-pressed="${cur() === "en"}">English</button><button type="button" data-lg="hi" lang="hi" aria-pressed="${cur() === "hi"}">हिन्दी</button></div></div>
+            <div class="gs-row"><span class="gs-lbl">${t.sa}</span><button type="button" class="gs-switch" role="switch" aria-checked="${sa}" aria-label="${t.sa}"></button></div>
+            <div class="gs-row"><span class="gs-lbl">${t.size}</span>${seg("size", [[0.9, "A−"], [1, "A"], [1.12, "A+"], [1.25, "A++"]], size)}</div>
+            <div class="gs-row"><span class="gs-lbl">${t.theme}</span>${seg("theme", [["system", t.system], ["light", t.light], ["dark", t.dark]], theme)}</div>
+            <div class="gs-row"><span></span><button type="button" class="gs-done" data-close>${t.done}</button></div></div>`;
+          const close = () => { d.remove(); document.removeEventListener("keydown", onKey); tb.focus(); };
+          const onKey = e => { if (e.key === "Escape") close(); };
+          const press = (sel, b) => d.querySelectorAll(sel).forEach(x => x.setAttribute("aria-pressed", x === b));
+          d.addEventListener("click", e => {
+            const b = e.target.closest("button");
+            if (e.target === d || (b && b.dataset.close !== undefined)) { close(); return; }
+            if (!b) return;
+            if (b.dataset.size) { size = +b.dataset.size; press("[data-size]", b); }
+            else if (b.dataset.theme) { theme = b.dataset.theme; press("[data-theme]", b); }
+            else if (b.classList.contains("gs-switch")) { sa = !sa; b.setAttribute("aria-checked", sa); }
+            else if (b.dataset.lg) { if (b.dataset.lg !== cur()) { close(); const l = document.getElementById("lang"); if (l) l.click(); if (cur() === b.dataset.lg) open(); } return; }
+            apply(); save();
+          });
+          document.addEventListener("keydown", onKey); document.body.appendChild(d); d.querySelector("[data-close]").focus();
+        }
+        tb.onclick = open; lg.before(tb);
       }
       if (!document.querySelector(".gtabs")) {
         const t = document.createElement("nav");
@@ -412,6 +473,8 @@ function applyPrefs(boot){
   if(prefs.theme==="system"){ if(!boot) document.documentElement.removeAttribute("data-theme"); }
   else document.documentElement.setAttribute("data-theme", prefs.theme);
   try{ localStorage.setItem("gg-theme", prefs.theme); }catch(e){}
+  // a text size or Sanskrit choice made here is also kept site-wide, for the pages outside the readers (reading paths and the like)
+  if(!boot) try{ localStorage.setItem("gg-size", String(prefs.size)); localStorage.setItem("gg-sa", prefs.sa ? "1" : "0"); }catch(e){}
   store.set("prefs", prefs);
 }
 
@@ -858,6 +921,7 @@ function chapterCtx(c){
 // On a page opened from a question, the next passage of that question and the way back (see shell.js).
 const TROOT = BASE ? BASE.replace(/[^/]+\/$/, "") : "";
 const trailBar = path => window.GGShell && BASE ? GGShell.trailBar(path.slice(TROOT.length), lang, TROOT) : "";
+const trailNote = path => window.GGShell && BASE && GGShell.trailNote ? GGShell.trailNote(path.slice(TROOT.length), lang) : "";
 // one step along the question's list from this verse (see shell.js): null when the verse was not opened from a question
 const trailStep = (v, dir) => window.GGShell && BASE ? GGShell.trailStep(pathOf(v.id).slice(TROOT.length), dir, TROOT) : null;
 // follow a step: inside this text it is a move within the app; into another text it is a page load that replaces this one
@@ -867,7 +931,7 @@ function verseView(v){
   const c = CH[v.c-1], s = saLines(v), sp = HB.get(voice(v));
   const prev = V[v.i-1], next = V[v.i+1];
   const saved = savedSet.has(v.ref), tb = trailBar(pathOf(v.id));
-  return `<article class="verse" id="verse">
+  return `<article class="verse" id="verse">${trailNote(pathOf(v.id))}
     <div class="vtop"><a href="#c${c.num}">${esc(u().chapter)} ${c.num} · ${esc(name(c))}</a><span>${esc(u().vOf(v.v, c.vs.length))}</span></div>
     <h2 class="vref"><span class="vbook">${esc(u().book)}</span> ${v.ref}</h2>
     <p class="speaker"><i class="dot d-${voice(v)}"></i>${esc(name(sp))}${s.uvaca ? ` <span class="uvaca">· ${esc(s.uvaca)}</span>` : ""}</p>
@@ -1124,8 +1188,8 @@ document.addEventListener("keydown", e => {
   const r = current; if(!r) return;
   if(e.key==="/"){ e.preventDefault(); go("search"); }
   else if(e.key==="g"){ go("explore"); }
-  else if(r.name==="verse" && (e.key==="ArrowRight" || e.key==="j")){ const w = V[r.v.i+1]; if(w) go(w.id); }
-  else if(r.name==="verse" && (e.key==="ArrowLeft" || e.key==="k")){ const w = V[r.v.i-1]; if(w) go(w.id); }
+  else if(r.name==="verse" && (e.key==="ArrowRight" || e.key==="j")){ const ts = trailStep(r.v, 1); if(ts) trailGo(ts); else { const w = V[r.v.i+1]; if(w) go(w.id); } }
+  else if(r.name==="verse" && (e.key==="ArrowLeft" || e.key==="k")){ const ts = trailStep(r.v, -1); if(ts) trailGo(ts); else { const w = V[r.v.i-1]; if(w) go(w.id); } }
   else if(r.name==="verse" && e.key==="s"){ document.getElementById("savebtn")?.click(); }
 });
 

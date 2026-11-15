@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>The self that is not born · Gitagraph</title><meta name="description" content="Three texts, three settings: a boy questioning Death, a warrior facing battle, and a king receiving instruction. Each points toward a Self untouched by the body&#x27;s coming and going."><link rel="canonical" href="https://gitagraph.com/paths/self-not-born/">
-<link rel="icon" href="../../shared/mark.svg?v=20261115114245" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261115114245" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261115114245">
+<link rel="icon" href="../../shared/mark.svg?v=20261115120228" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261115120228" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261115120228">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -190,6 +190,40 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
 .gt-seq{margin:12px 0 0;font-family:var(--f-ui);font-size:14.5px;color:var(--muted)}
 .gt-seq a{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
 .gt-seq a:hover{color:var(--ink)}
+/* on a passage opened from a reading path: the line that says why it comes here, above the passage itself */
+.gtnote{margin:0 0 24px;padding:14px 18px;border-radius:14px;background:var(--sunk)}
+.gtnote small{display:block;font-family:var(--f-ui);font-size:13px;line-height:1.4;color:var(--muted)}
+.gtnote p{margin:4px 0 0;font-family:var(--f-read);font-size:18.5px;line-height:1.5;color:var(--ink)}
+.gtnote[lang=hi] small{font-size:14px} .gtnote[lang=hi] p{font-family:var(--f-hi);font-size:19.5px;line-height:1.7}
+/* Display settings on the simple pages (reading paths, Saved, Search, the documents, the Hindi pages) */
+.gs-scrim{position:fixed;inset:0;z-index:90;background:rgb(10 14 20 / .42);display:flex;align-items:flex-end;justify-content:center}
+.gs-sheet{width:100%;max-width:520px;max-height:86dvh;overflow-y:auto;background:var(--surface);color:var(--ink);border-radius:20px 20px 0 0;
+  padding:20px 20px calc(18px + env(safe-area-inset-bottom,0px));font-family:var(--f-ui);font-size:15.5px;box-shadow:0 -10px 40px rgb(0 0 0 / .2)}
+@media (min-width:700px){ .gs-scrim{align-items:center} .gs-sheet{border-radius:20px} }
+.gs-sheet h2{font-family:var(--f-read);font-weight:600;font-size:21px;line-height:1.3;margin:0 0 6px}
+.gs-scrim[lang=hi] .gs-sheet h2{font-family:var(--f-hi);font-weight:400}
+.gs-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);flex-wrap:wrap}
+.gs-row:first-of-type{border-top:0}
+.gs-lbl{font-weight:600}
+.gs-seg{display:inline-flex;padding:3px;border-radius:999px;background:var(--sunk);gap:2px;flex-wrap:wrap}
+.gs-seg button{border:0;background:transparent;padding:6px 14px;border-radius:999px;cursor:pointer;font:inherit;font-size:14px;color:var(--muted);min-height:36px}
+.gs-seg button[aria-pressed=true]{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgb(0 0 0 / .12)}
+.gs-switch{position:relative;width:52px;height:32px;border-radius:999px;border:0;background:var(--line);cursor:pointer;flex:none}
+.gs-switch::after{content:"";position:absolute;left:3px;top:3px;width:26px;height:26px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgb(0 0 0 / .25);transition:transform .18s}
+.gs-switch[aria-checked=true]{background:var(--ink)}
+.gs-switch[aria-checked=true]::after{transform:translateX(20px)}
+.gs-done{min-height:44px;padding:0 22px;border-radius:999px;border:0;background:var(--ink);color:var(--bg);font:inherit;font-weight:600;cursor:pointer}
+@media (prefers-reduced-motion:reduce){ .gs-switch::after{transition:none} }
+/* what those settings change on these pages: the reading text scales, and the Sanskrit can be hidden */
+:root[data-sa=off] .pv .psa{display:none}
+/* (written with body in front so they hold over the pages' own rules, which come later in the stylesheet) */
+body .pframe{font-size:calc(18px * var(--scale,1))}
+body .pstep .pwhy{font-size:calc(21px * var(--scale,1))} :root[lang=hi] body .pstep .pwhy{font-size:calc(22px * var(--scale,1))}
+body .pv .psa{font-size:calc(clamp(21px,3.2vw,25px) * var(--scale,1))}
+body .pv .ptr{font-size:calc(18px * var(--scale,1))} :root[lang=hi] body .pv .ptr{font-size:calc(19px * var(--scale,1))}
+body .rungs li{font-size:calc(18px * var(--scale,1))} :root[lang=hi] body .rungs li{font-size:calc(19px * var(--scale,1))}
+body.hip .hx p{font-size:calc(18.5px * var(--scale,1))}
+body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
 
 .saved-list{list-style:none;margin:0 0 28px;padding:0}
 .saved-list a{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-top:1px solid var(--line);text-decoration:none}
@@ -250,7 +284,10 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 .ph{font-family:var(--f-read);font-weight:500;font-size:clamp(30px,5vw,44px);line-height:1.15;letter-spacing:-.01em;margin:10px 0 0}
 :root[lang=hi] .ph{font-family:var(--f-hi);font-weight:400;line-height:1.35;letter-spacing:0}
 .pframe{margin:16px 0 0;font-size:18px;line-height:1.65;color:var(--muted);max-width:60ch}
-.pstep{margin:36px 0 0}
+.pstep{margin:40px 0 0}
+/* the line that says why this passage comes next: it leads the step, in the reading face, so it is read before the passage */
+.pstep .pwhy{margin:0 0 14px;padding:0;border:0;font-family:var(--f-read);font-weight:600;font-size:21px;line-height:1.4;color:var(--ink);max-width:56ch}
+:root[lang=hi] .pstep .pwhy{font-family:var(--f-hi);font-weight:400;font-size:22px;line-height:1.6}
 .pwhy{margin:0 0 12px;padding-left:14px;border-left:2px solid var(--line);color:var(--muted);font-size:15.5px;line-height:1.6;max-width:60ch}
 .pv{margin:0 0 14px;padding:22px 24px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
 .pv .pr{display:flex;align-items:center;gap:10px;margin:0;font-size:13.5px;font-weight:600;color:var(--muted)}
@@ -420,5 +457,5 @@ function setLang(l){ document.documentElement.lang = l; b.textContent = l==="hi"
 b.onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
 try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))==="hi") setLang("hi"); }catch(e){}
 // a passage opened from this page steps through this path's own list, and Back returns here (see shared/shell.js)
-addEventListener("DOMContentLoaded", () => { if(window.GGShell && GGShell.trailSet) GGShell.trailSet({"slug": "path:self-not-born", "home": "paths/self-not-born/", "en": "The self that is not born", "hi": "वह आत्मा जो जन्म नहीं लेती", "next": {"home": "paths/start-gita-with-arjuna/", "en": "Start the Gita with Arjuna", "hi": "अर्जुन के साथ गीता की शुरुआत", "kind": "path"}, "items": [{"k": "upanishads/story/nachiketa/", "en": "Nachiketa and Death", "hi": "नचिकेता और यम"}, {"k": "gita/chapter/2/verse/20/", "en": "Bhagavad Gita 2.20", "hi": "भगवद्गीता 2.20"}, {"k": "gita/chapter/2/verse/22/", "en": "Bhagavad Gita 2.22", "hi": "भगवद्गीता 2.22"}, {"k": "ashtavakra/chapter/15/verse/9/", "en": "Ashtavakra Gita 15.9", "hi": "अष्टावक्र गीता 15.9"}]}); });
-</script><script src="../../shared/shell.js?v=20261115114245" data-active="" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+addEventListener("DOMContentLoaded", () => { if(window.GGShell && GGShell.trailSet) GGShell.trailSet({"slug": "path:self-not-born", "home": "paths/self-not-born/", "en": "The self that is not born", "hi": "वह आत्मा जो जन्म नहीं लेती", "next": {"home": "paths/start-gita-with-arjuna/", "en": "Start the Gita with Arjuna", "hi": "अर्जुन के साथ गीता की शुरुआत", "kind": "path"}, "items": [{"k": "upanishads/story/nachiketa/", "en": "Nachiketa and Death", "hi": "नचिकेता और यम", "wen": "Nachiketa asks Death whether a person exists after dying.", "whi": "नचिकेता यम से पूछता है कि मरने के बाद मनुष्य रहता है या नहीं।"}, {"k": "gita/chapter/2/verse/20/", "en": "Bhagavad Gita 2.20", "hi": "भगवद्गीता 2.20", "wen": "Krishna speaks of the same unborn Self, using strikingly similar Sanskrit.", "whi": "कृष्ण उसी अजन्मा आत्मा की बात करते हैं, और संस्कृत के शब्द बहुत मिलते-जुलते हैं।"}, {"k": "gita/chapter/2/verse/22/", "en": "Bhagavad Gita 2.22", "hi": "भगवद्गीता 2.22", "wen": "The teaching becomes an image: the body is compared to clothing that is discarded.", "whi": "उपदेश अब एक चित्र बन जाता है: शरीर की तुलना उतारे जाने वाले वस्त्रों से की गई है।"}, {"k": "ashtavakra/chapter/15/verse/9/", "en": "Ashtavakra Gita 15.9", "hi": "अष्टावक्र गीता 15.9", "wen": "Ashtavakra shifts the emphasis: if the Self neither comes nor goes, what is there to grieve?", "whi": "अष्टावक्र ज़ोर बदल देते हैं: यदि आत्मा न आती है न जाती है, तो शोक किस बात का?"}]}); });
+</script><script src="../../shared/shell.js?v=20261115120228" data-active="" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
