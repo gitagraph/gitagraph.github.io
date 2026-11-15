@@ -106,6 +106,15 @@
       : t.next ? `<a class="gt-nx" href="${root + thome(t.next)}" data-replace><small>${nl} →</small><b>${L(t.next)}</b></a>` : "<span></span>";
     return `<nav class="gtrail" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><p class="gt-k"><a href="${root + thome(t)}" data-back>← <b>${L(t)}</b></a> · ${pos}</p><div class="gt-row">${prev}${next}</div></nav>`;
   };
+  // Last place. Every reading page (a verse, a story, a question, a path) records itself here, and the home page's
+  // "Continue reading" returns to whichever was most recent. A passage opened along a trail keeps that trail with it,
+  // so continuing lands back in the same question or path, in the same order. Kept on this device (localStorage).
+  //   last = {k: "gita/chapter/2/verse/47/", en, hi, sen?, shi?, trail?: <the trail above>, at}
+  GGShell.lastSet = function (o) {
+    try { const t = tget(), on = !!(t && Array.isArray(t.items) && t.items.some(i => i.k === o.k) && (t.seen || []).includes(o.k));
+      localStorage.setItem("gg-last", JSON.stringify({ k: o.k, en: o.en, hi: o.hi, sen: on ? t.en : "", shi: on ? t.hi : "",
+        i: on ? t.items.findIndex(i => i.k === o.k) + 1 : 0, n: on ? t.items.length : 0, trail: on ? t : null, at: Date.now() })); } catch (e) {}
+  };
   if (!window.__ggT) { window.__ggT = 1; document.addEventListener("click", e => {
     if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     const a = e.target.closest && e.target.closest("a[data-trail], a[data-replace], a[data-back]"); if (!a) return;
@@ -847,6 +856,7 @@ function verseCtx(v){
 function markRead(v){
   readSet.add(v.ref); store.set("read",[...readSet]);
   recent = [v.ref, ...recent.filter(r=>r!==v.ref)].slice(0,30); store.set("recent",recent);
+  if(window.GGShell && BASE && GGShell.lastSet) GGShell.lastSet({k:pathOf(v.id).slice(TROOT.length), en:"Ashtavakra Gita " + v.ref, hi:"अष्टावक्र गीता " + v.ref});   // the home page continues from here
 }
 function wireVerse(v){
   const ib = document.getElementById("imgbtn"); if(ib){ ib.onclick = () => shareVerseImage(v); ib.addEventListener("pointerdown", () => imageOf(v), {once:true}); }

@@ -386,6 +386,7 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
   .home .hcont:not([hidden]){display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 0;padding:13px 18px;min-height:64px;border:1px solid var(--line);border-radius:16px;background:var(--surface);text-decoration:none;color:var(--ink);font-family:var(--f-ui)}
   .home .hcont small{display:block;margin-bottom:2px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
   .home .hcont b{font-size:17px;font-weight:600}
+  .home .hcont em{display:block;margin-top:2px;font-style:normal;font-size:14px;color:var(--muted)}
   .home .hcont i{font-style:normal;font-size:20px;color:var(--accent)}
   :root[lang=hi] .home .hcont small{letter-spacing:0;text-transform:none;font-size:14px}
 }
