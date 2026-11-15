@@ -55,9 +55,12 @@
   // passage page then offers the next passage and the way back to the question. A reader who reaches the same verse
   // by ordinary reading sees none of this: only pages opened along the trail are marked. Kept for this tab only.
   //   trail = {slug, en, hi, next: {slug, en, hi} | null, items: [{k: "gita/chapter/2/verse/14/", en, hi}], seen: [k]}
+  // The list is a question page by default (gita/questions/<slug>/). A reading path gives its own address as `home`
+  // (and `kind: "path"` on its `next`), so the same trail serves both.
   const TK = "gg-trail";
   const tget = () => { try { return JSON.parse(sessionStorage.getItem(TK) || "null"); } catch (e) { return null; } };
   const tput = t => { try { sessionStorage.setItem(TK, JSON.stringify(t)); } catch (e) {} };
+  const thome = x => x.home || ("gita/questions/" + x.slug + "/");
   const tesc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   GGShell.trailSet = function (t) { const old = tget(); t.seen = old && old.slug === t.slug && Array.isArray(old.seen) ? old.seen : []; tput(t); };
   GGShell.trailSeen = function (k) { const t = tget(); if (t && t.items.some(i => i.k === k) && !t.seen.includes(k)) { t.seen.push(k); tput(t); } };
@@ -73,7 +76,7 @@
     const a = GGShell.trailAt(key); if (!a) return null;
     const it = dir > 0 ? a.next : a.prev;
     if (it) return { href: root + it.k, k: it.k, en: it.en, hi: it.hi };
-    if (dir > 0 && a.t.next) return { href: root + "gita/questions/" + a.t.next.slug + "/", en: a.t.next.en, hi: a.t.next.hi, question: true };
+    if (dir > 0 && a.t.next) return { href: root + thome(a.t.next), en: a.t.next.en, hi: a.t.next.hi, question: true };
     return {};
   };
   // What a passage page shows when it was opened from a question: where the reader is in that question's list, the
@@ -82,12 +85,13 @@
   // (data-replace), so one Back always returns to the question.
   GGShell.trailBar = function (key, lang, root) {
     const a = GGShell.trailAt(key); if (!a) return "";
-    const t = a.t, hi = lang === "hi", L = x => tesc(hi ? x.hi : x.en), q = root + "gita/questions/";
+    const t = a.t, hi = lang === "hi", L = x => tesc(hi ? x.hi : x.en);
+    const nl = t.next && t.next.kind === "path" ? (hi ? "अगला पथ" : "Next path") : (hi ? "अगला प्रश्न" : "Next question");
     const pos = hi ? `${a.n} में से ${a.i + 1}` : `${a.i + 1} of ${a.n}`;
     const prev = a.prev ? `<a class="gt-pv" href="${root + a.prev.k}" data-trail="${tesc(a.prev.k)}" data-replace><small>← ${hi ? "पिछला" : "Previous"}</small><b>${L(a.prev)}</b></a>` : "<span></span>";
     const next = a.next ? `<a class="gt-nx" href="${root + a.next.k}" data-trail="${tesc(a.next.k)}" data-replace><small>${hi ? "अगला" : "Next"} →</small><b>${L(a.next)}</b></a>`
-      : t.next ? `<a class="gt-nx" href="${q + t.next.slug}/" data-replace><small>${hi ? "अगला प्रश्न" : "Next question"} →</small><b>${L(t.next)}</b></a>` : "<span></span>";
-    return `<nav class="gtrail" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><p class="gt-k"><a href="${q + t.slug}/" data-back>← <b>${L(t)}</b></a> · ${pos}</p><div class="gt-row">${prev}${next}</div></nav>`;
+      : t.next ? `<a class="gt-nx" href="${root + thome(t.next)}" data-replace><small>${nl} →</small><b>${L(t.next)}</b></a>` : "<span></span>";
+    return `<nav class="gtrail" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><p class="gt-k"><a href="${root + thome(t)}" data-back>← <b>${L(t)}</b></a> · ${pos}</p><div class="gt-row">${prev}${next}</div></nav>`;
   };
   if (!window.__ggT) { window.__ggT = 1; document.addEventListener("click", e => {
     if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
