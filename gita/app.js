@@ -1,6 +1,8 @@
 // Site shell: the one navigation every page shares.
-//   Phone tab bar (five places):  Home · Questions · Paths · Library · Saved
-//   Desktop header:               Questions · Paths · Library · Graph · Saved   (the brand is Home)
+//   Phone tab bar (four places):  Home · Explore · Paths · Library
+//   Desktop header:               Explore · Paths · Library · Graph · Saved   (the brand is Home)
+// Explore is the questions page (search, the questions, ideas and people, the way into the Graph). Library is its own
+// page: the three texts, what the reader saved and read last, and the settings. On phones Saved lives inside it.
 // The Graph has no phone tab: on a small screen it is reached from the pages where it answers something (the home
 // page, "See connections" on a passage, the end of a question or a path). The desktop header has room for it.
 // Static pages (home, the map, the documents) include this file and it mounts itself:
@@ -19,9 +21,9 @@
   };
   const ITEMS = [
     ["home", "", "Home", "होम"],
-    ["questions", "gita/questions/", "Questions", "प्रश्न"],
+    ["questions", "gita/questions/", "Explore", "एक्सप्लोर"],
     ["paths", "paths/", "Paths", "पथ"],
-    ["library", "#scriptures", "Library", "ग्रंथालय"],
+    ["library", "library/", "Library", "ग्रंथालय"],
     ["map", "explore/", "Graph", "ग्राफ़"],
     ["saved", "saved/", "Saved", "सहेजे"]
   ];
@@ -44,10 +46,11 @@
       const sr = ["search", "search/", "Search verses, ideas, people", "श्लोक, विचार, पात्र खोजें"], lb = o.lang ? (o.lang === "hi" ? "खोजें" : "Search") : "Search";
       return `<a class="gsearch${o.icon ? " gs-m" : ""}" href="${o.root}search/" data-g="search" aria-label="${lb}"${cur(sr, o.active)}>${IC.search}<span>${label(sr, o.lang)}</span></a>`;
     },
-    // the five phone tabs (the Graph is not one of them)
+    // the four phone tabs (the Graph is reached from Explore, Saved from the Library)
     tabs(o) {
-      return ITEMS.filter(it => it[0] !== "map").map(it =>
-        `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}><span class="gi">${IC[it[0]]}</span>${label(it, o.lang)}</a>`).join("");
+      const act = o.active === "saved" ? "library" : o.active;
+      return ITEMS.filter(it => it[0] !== "map" && it[0] !== "saved").map(it =>
+        `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, act)}><span class="gi">${IC[it[0] === "questions" ? "search" : it[0]]}</span>${label(it, o.lang)}</a>`).join("");
     },
     // the brand lockup for the readers' desktop bar
     brand(root, lang) {
@@ -267,30 +270,6 @@
       }
     };
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount); else mount();
-    // On the home page the Library link does not leave the page: it scrolls down to the list of texts. So the mark follows
-    // the reader: Library while that list (and what follows it) is in view, Home above it. Tapping Home goes back to the top.
-    if (active === "home") {
-      const sync = () => {
-        const sec = document.getElementById("scriptures"); if (!sec) return;
-        const on = sec.getBoundingClientRect().top < window.innerHeight * 0.6 ? "library" : "home";
-        document.querySelectorAll(".gnav a[data-g], .gtabs a[data-g]").forEach(a => {
-          if (a.dataset.g !== "home" && a.dataset.g !== "library") return;
-          if (a.dataset.g === on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
-        });
-      };
-      const start = () => { mount(); sync(); };
-      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
-      window.addEventListener("scroll", sync, { passive: true });
-      window.addEventListener("hashchange", sync);
-      window.addEventListener("load", sync);
-      document.addEventListener("click", e => {
-        const a = e.target.closest && e.target.closest('.gtabs a[data-g="home"]');
-        if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
-        e.preventDefault();
-        try { history.replaceState(null, "", location.pathname + location.search); } catch (x) {}
-        window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-      });
-    }
   }
   // Cmd/Ctrl+K opens the site-wide search from any page
   if (!window.__ggK) { window.__ggK = 1; document.addEventListener("keydown", e => {
@@ -655,7 +634,7 @@ function render(keepScroll){
     else if(route.name==="search"){ ttl.textContent = u().search; view.innerHTML = page(searchView(), aboutCtx()); wireSearch(); }
     else if(route.name==="saved"){ ttl.textContent = u().saved; view.innerHTML = page(savedView(), aboutCtx()); }
     else if(route.name==="about"){ ttl.textContent = u().aboutPage; view.innerHTML = page(aboutView(), homeCtx()); }
-    else if(route.name==="questions"){ ttl.textContent = u().lifeqT; view.innerHTML = page(questionsView(), homeCtx()); }
+    else if(route.name==="questions"){ ttl.textContent = isHi() ? "एक्सप्लोर" : "Explore"; view.innerHTML = page(questionsView(), homeCtx()); }
     else if(route.name==="question"){ ttl.textContent = qName(route.q); view.innerHTML = page(questionView(route.q), questionsCtx(route.q)); if(window.GGShell && BASE){ GGShell.trailSet(qTrail(route.q)); if(GGShell.lastSet) GGShell.lastSet({k:"gita/questions/" + route.q.slug + "/", en:route.q.q_en, hi:route.q.q_hi}); } }
     else if(route.name==="explore"){ ttl.textContent = u().explore; view.innerHTML = exploreView(); wireQbar(); startGraph(); }
     wireCommon();
@@ -733,9 +712,17 @@ function qTexts(q){
   return t.join(" · ");
 }
 function questionsView(){
-  return `<header class="thead"><h1>${esc(u().lifeqT)}${shareBtn()}</h1><p class="desc" lang="${lang}">${esc(u().lifeqLede)}</p></header>
-  ${BASE ? `<form class="askq" id="askq" role="search"><input type="search" name="q" autocomplete="off" enterkeyhint="search" maxlength="200" placeholder="${esc(isHi() ? "या अपने शब्दों में लिखें" : "Or describe it in your own words")}" aria-label="${esc(isHi() ? "अपने शब्दों में लिखें" : "Describe what is on your mind")}"><button type="submit" aria-label="${esc(isHi() ? "खोजें" : "Find")}">→</button></form>` : ""}
-  <ul class="qlist">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}">${q.sil || ""}<span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(qIntro(q))}</span><span class="qc">${esc(qTexts(q))}</span></a></li>`).join("")}</ul>`;
+  // Explore: search first, then the questions as plain tiles (the title and its picture; one line of what the texts
+  // say is added where there is room for it, on wide screens), then ideas and people, then the way into the Graph.
+  const one = q => (qIntro(q).split(/(?<=[.?!।])\s+/)[0] || "");
+  const top = t => H.filter(h => h.type === t && h.vs).sort((x, y) => y.vs.length - x.vs.length).slice(0, t === "person" ? 5 : 7);
+  const chips = [...top("concept"), ...top("person")];
+  return `<header class="thead"><h1>${esc(isHi() ? "एक्सप्लोर" : "Explore")}${shareBtn()}</h1></header>
+  ${BASE ? `<form class="askq" id="askq" role="search"><input type="search" name="q" autocomplete="off" enterkeyhint="search" maxlength="200" placeholder="${esc(isHi() ? "श्लोक, कथाएँ, विचार खोजें" : "Search verses, stories, ideas")}" aria-label="${esc(isHi() ? "अपने शब्दों में लिखें" : "Describe what is on your mind")}"><button type="submit" aria-label="${esc(isHi() ? "खोजें" : "Find")}">→</button></form>` : ""}
+  <h2 class="xh">${esc(isHi() ? "आज मन में क्या है?" : "What's on your mind?")}</h2>
+  <ul class="qlist qtiles">${QS.map(q => `<li><a class="qcard" href="#q-${q.slug}">${q.sil || ""}<span class="qn">${esc(qName(q))}</span><span class="qi" lang="${lang}">${esc(one(q))}</span></a></li>`).join("")}</ul>
+  ${chips.length ? `<h2 class="xh">${esc(isHi() ? "विचार और पात्र" : "Ideas and people")}</h2><p class="xchips">${chips.map(h => `<a href="#t-${h.id}">${esc(name(h))}</a>`).join("")}</p>` : ""}
+  ${EXPLORE ? `<a class="xgraph" href="${EXPLORE}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="17" r="2.5"/><path d="M7.5 8.500 11 15M16.800 7.700 13 15M8 7h8"/></svg><span><b>${esc(isHi() ? "देखें, सब कैसे जुड़ा है" : "See how it all connects")}</b><small>${esc(isHi() ? "ग्राफ़: ग्रंथ, विचार और कथाएँ एक ही चित्र में" : "The Graph: texts, ideas and stories as one map")}</small></span></a>` : ""}`;
 }
 // The editorial summary of a question: one sentence to a line, each followed by the passages it rests on, as links.
 // "(Gita 2.62; Ashtavakra 8.1; Upanishads nachiketa)" in the text becomes those links; anything else in brackets is left as written.

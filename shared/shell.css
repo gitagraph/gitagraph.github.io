@@ -118,3 +118,14 @@ body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
   html.gg-imm .tabs,html.gg-imm .gtabs{transform:translateY(calc(100% + 2px))}
 }
 @media (prefers-reduced-motion:reduce){ .top,.tabs,.gtabs{transition:none} }
+/* the phone tab bar floats: a rounded bar clear of the edges, the same on every page and in all three readers */
+@media (max-width:699px){
+  body .gtabs,body .tabs{left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:5px;border:1px solid var(--line);border-radius:999px;
+    background:color-mix(in srgb,var(--surface) 93%,transparent);box-shadow:0 6px 20px rgb(0 0 0 / .10)}
+  body .gtabs a,body .tabs a{height:52px;border-radius:999px;color:var(--muted)}
+  body .gtabs a[aria-current=page],body .tabs a[aria-current=page]{color:var(--ink);background:var(--sunk)}
+  body .gtabs a[aria-current=page] .gi,body .tabs a[aria-current=page] .gi,body .tabs a[aria-current=page] .ico{background:transparent}
+  body .gtabs .gi,body .tabs .gi{height:26px}
+  body.gg-tabs{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px));--safe-b:calc(86px + env(safe-area-inset-bottom,0px))}
+  html.gg-imm .tabs,html.gg-imm .gtabs{transform:translateY(calc(100% + 30px + env(safe-area-inset-bottom,0px)))}
+}

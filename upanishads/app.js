@@ -1,6 +1,8 @@
 // Site shell: the one navigation every page shares.
-//   Phone tab bar (five places):  Home · Questions · Paths · Library · Saved
-//   Desktop header:               Questions · Paths · Library · Graph · Saved   (the brand is Home)
+//   Phone tab bar (four places):  Home · Explore · Paths · Library
+//   Desktop header:               Explore · Paths · Library · Graph · Saved   (the brand is Home)
+// Explore is the questions page (search, the questions, ideas and people, the way into the Graph). Library is its own
+// page: the three texts, what the reader saved and read last, and the settings. On phones Saved lives inside it.
 // The Graph has no phone tab: on a small screen it is reached from the pages where it answers something (the home
 // page, "See connections" on a passage, the end of a question or a path). The desktop header has room for it.
 // Static pages (home, the map, the documents) include this file and it mounts itself:
@@ -19,9 +21,9 @@
   };
   const ITEMS = [
     ["home", "", "Home", "होम"],
-    ["questions", "gita/questions/", "Questions", "प्रश्न"],
+    ["questions", "gita/questions/", "Explore", "एक्सप्लोर"],
     ["paths", "paths/", "Paths", "पथ"],
-    ["library", "#scriptures", "Library", "ग्रंथालय"],
+    ["library", "library/", "Library", "ग्रंथालय"],
     ["map", "explore/", "Graph", "ग्राफ़"],
     ["saved", "saved/", "Saved", "सहेजे"]
   ];
@@ -44,10 +46,11 @@
       const sr = ["search", "search/", "Search verses, ideas, people", "श्लोक, विचार, पात्र खोजें"], lb = o.lang ? (o.lang === "hi" ? "खोजें" : "Search") : "Search";
       return `<a class="gsearch${o.icon ? " gs-m" : ""}" href="${o.root}search/" data-g="search" aria-label="${lb}"${cur(sr, o.active)}>${IC.search}<span>${label(sr, o.lang)}</span></a>`;
     },
-    // the five phone tabs (the Graph is not one of them)
+    // the four phone tabs (the Graph is reached from Explore, Saved from the Library)
     tabs(o) {
-      return ITEMS.filter(it => it[0] !== "map").map(it =>
-        `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, o.active)}><span class="gi">${IC[it[0]]}</span>${label(it, o.lang)}</a>`).join("");
+      const act = o.active === "saved" ? "library" : o.active;
+      return ITEMS.filter(it => it[0] !== "map" && it[0] !== "saved").map(it =>
+        `<a href="${href(it, o.root)}" data-g="${it[0]}"${cur(it, act)}><span class="gi">${IC[it[0] === "questions" ? "search" : it[0]]}</span>${label(it, o.lang)}</a>`).join("");
     },
     // the brand lockup for the readers' desktop bar
     brand(root, lang) {
@@ -267,30 +270,6 @@
       }
     };
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount); else mount();
-    // On the home page the Library link does not leave the page: it scrolls down to the list of texts. So the mark follows
-    // the reader: Library while that list (and what follows it) is in view, Home above it. Tapping Home goes back to the top.
-    if (active === "home") {
-      const sync = () => {
-        const sec = document.getElementById("scriptures"); if (!sec) return;
-        const on = sec.getBoundingClientRect().top < window.innerHeight * 0.6 ? "library" : "home";
-        document.querySelectorAll(".gnav a[data-g], .gtabs a[data-g]").forEach(a => {
-          if (a.dataset.g !== "home" && a.dataset.g !== "library") return;
-          if (a.dataset.g === on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
-        });
-      };
-      const start = () => { mount(); sync(); };
-      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
-      window.addEventListener("scroll", sync, { passive: true });
-      window.addEventListener("hashchange", sync);
-      window.addEventListener("load", sync);
-      document.addEventListener("click", e => {
-        const a = e.target.closest && e.target.closest('.gtabs a[data-g="home"]');
-        if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;
-        e.preventDefault();
-        try { history.replaceState(null, "", location.pathname + location.search); } catch (x) {}
-        window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-      });
-    }
   }
   // Cmd/Ctrl+K opens the site-wide search from any page
   if (!window.__ggK) { window.__ggK = 1; document.addEventListener("keydown", e => {

@@ -208,6 +208,18 @@ details.how .howbody{padding-bottom:16px}
 :root[lang=hi] .qcard .qn{font-family:var(--f-hi);font-weight:400;font-size:19px}
 .qcard .qi{color:var(--muted);line-height:1.55;font-size:15px}
 .qcard .qc{margin-top:auto;font-size:13px;color:var(--accent);font-weight:600}
+/* Explore: the questions as tiles. Phones: two columns, the title and its picture. Wide screens: one line under the title. */
+.xh{margin:28px 0 0;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+:root[lang=hi] .xh{letter-spacing:0;text-transform:none;font-size:15.5px}
+.qtiles{margin-top:12px} .qtiles .qcard{min-height:112px;border-radius:18px} .qtiles .qcard .sil{height:min(92px,70%);opacity:.2}
+.qtiles .qi{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (max-width:699px){ .qtiles{grid-template-columns:1fr 1fr;gap:12px} .qtiles .qcard{padding:14px;min-height:104px} .qtiles .qi{display:none}
+  .qtiles .qcard .qn{font-size:16.5px;line-height:1.25} :root[lang=hi] .qtiles .qcard .qn{font-size:17.5px;line-height:1.4} }
+.xchips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0} .xchips a{padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:inherit;text-decoration:none;font-size:15px}
+.xchips a:hover{border-color:var(--muted)}
+.xgraph{display:flex;align-items:center;gap:14px;max-width:620px;margin:26px 0 0;padding:16px 18px;border-radius:20px;background:var(--ink);color:var(--bg);text-decoration:none}
+.xgraph svg{flex:none;width:34px;height:34px} .xgraph b{display:block;font-family:var(--f-read);font-weight:600;font-size:17px} :root[lang=hi] .xgraph b{font-family:var(--f-hi);font-weight:400;font-size:18px}
+.xgraph small{font-size:14px;opacity:.75}
 .qcards2{margin:22px 0 0}
 .qk{margin:0 0 8px;font-family:var(--f-ui);font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 :root[lang=hi] .qk{letter-spacing:0;text-transform:none;font-size:14.5px}
@@ -649,5 +661,16 @@ body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
   html.gg-imm .tabs,html.gg-imm .gtabs{transform:translateY(calc(100% + 2px))}
 }
 @media (prefers-reduced-motion:reduce){ .top,.tabs,.gtabs{transition:none} }
+/* the phone tab bar floats: a rounded bar clear of the edges, the same on every page and in all three readers */
+@media (max-width:699px){
+  body .gtabs,body .tabs{left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:5px;border:1px solid var(--line);border-radius:999px;
+    background:color-mix(in srgb,var(--surface) 93%,transparent);box-shadow:0 6px 20px rgb(0 0 0 / .10)}
+  body .gtabs a,body .tabs a{height:52px;border-radius:999px;color:var(--muted)}
+  body .gtabs a[aria-current=page],body .tabs a[aria-current=page]{color:var(--ink);background:var(--sunk)}
+  body .gtabs a[aria-current=page] .gi,body .tabs a[aria-current=page] .gi,body .tabs a[aria-current=page] .ico{background:transparent}
+  body .gtabs .gi,body .tabs .gi{height:26px}
+  body.gg-tabs{padding-bottom:calc(86px + env(safe-area-inset-bottom,0px));--safe-b:calc(86px + env(safe-area-inset-bottom,0px))}
+  html.gg-imm .tabs,html.gg-imm .gtabs{transform:translateY(calc(100% + 30px + env(safe-area-inset-bottom,0px)))}
+}
 
 .top .ttl{flex:1;min-width:0;margin:0;font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
