@@ -145,6 +145,35 @@
       ${nx ? `<div class="gt-np"><small>${nl}</small><b>${L(nx)}</b>${meta ? `<i>${meta}</i>` : ""}<a class="gt-big" href="${root + thome(nx)}${nx.kind === "path" ? "?start=1" : ""}" data-replace><span><b>${go}</b></span><em aria-hidden="true">→</em></a></div>` : ""}
       <p class="gt-links">${all}<a href="${root || "./"}">${hi ? "होम" : "Home"}</a></p></section>`;
   };
+  // "Before you begin": the panel that rises over the first passage of a path when the path was started in one step
+  // (the app's welcome, "Start this path" after another path, the home page's Start card). The reader sees the page
+  // they have landed on behind it, the path's name and length, and what to do next. The three steps are shown the
+  // first time only; later paths get the path's own one-line introduction instead. The flag is set by the path page
+  // ("1") or by the app's welcome ("first") just before the jump, and is used once.
+  GGShell.trailIntro = function () {
+    let f = null; try { f = sessionStorage.getItem("gg-intro"); sessionStorage.removeItem("gg-intro"); } catch (e) {}
+    const t = tget(); if (!f || !t || !Array.isArray(t.items) || !t.items.length || document.getElementById("gintro")) return;
+    let p = location.pathname; try { p = decodeURIComponent(p); } catch (e) {}
+    if (!p.replace(/index\.html$/, "").endsWith("/" + t.items[0].k)) return;
+    let seen = false; try { seen = !!localStorage.getItem("gg-intro-seen"); localStorage.setItem("gg-intro-seen", "1"); } catch (e) {}
+    const hi = document.documentElement.lang === "hi", n = t.items.length, st = /story\//.test(t.items[0].k), m = t.min || 5;
+    const meta = hi ? `${n} ${st ? "कथाएँ" : "श्लोक"} · लगभग ${m} मिनट` : `${n} ${st ? "stories" : "verses"} · about ${m} minutes`;
+    const steps = hi ? (st ? ["एक बार में एक कथा पढ़ें", "रोज़ के जीवन के लिए उसकी सीख देखें", "आगे के लिए <b>अगली कथा</b> दबाएँ"] : ["एक बार में एक श्लोक पढ़ें", "रोज़ के जीवन में उसका अर्थ देखें", "आगे के लिए <b>अगला श्लोक</b> दबाएँ"])
+                     : (st ? ["Read one story at a time", "See what it teaches for daily life", "Tap <b>Next story</b> to go on"] : ["Read one verse at a time", "See what it means in daily life", "Tap <b>Next verse</b> to go on"]);
+    const frame = hi ? t.fhi : t.fen;
+    const d = document.createElement("div"); d.id = "gintro"; d.className = "gi-scrim"; d.lang = hi ? "hi" : "en";
+    d.innerHTML = `<div class="gi-sheet" role="dialog" aria-modal="true" aria-label="${tesc(hi ? t.hi : t.en)}"><span class="gi-grab" aria-hidden="true"></span>
+      <p class="gi-k">${f === "first" ? (hi ? "आपका पहला पथ" : "Your first path") : (hi ? "पठन-पथ" : "Reading path")}</p>
+      <h2>${tesc(hi ? t.hi : t.en)}</h2><p class="gi-m">${meta}</p>
+      ${seen && frame ? `<p class="gi-f">${tesc(frame)}</p>` : steps.map((x, i) => `<p class="gi-st"><i>${i + 1}</i><span>${x}</span></p>`).join("")}
+      <button type="button" class="gi-go">${hi ? "शुरू करें" : "Begin"}</button></div>`;
+    const close = () => { d.classList.remove("on"); document.removeEventListener("keydown", onKey); setTimeout(() => d.remove(), 320); };
+    const onKey = e => { if (e.key === "Escape") close(); };
+    d.addEventListener("click", e => { if (e.target === d || e.target.closest(".gi-go")) close(); });
+    document.addEventListener("keydown", onKey); document.body.appendChild(d);
+    requestAnimationFrame(() => requestAnimationFrame(() => { d.classList.add("on"); const sh = d.firstElementChild; sh.tabIndex = -1; sh.focus({ preventScroll: true }); }));
+  };
+  if (document.readyState === "complete") setTimeout(GGShell.trailIntro, 350); else addEventListener("load", () => setTimeout(GGShell.trailIntro, 350));
   // Last place. Every reading page (a verse, a story, a question, a path) records itself here, and the home page's
   // "Continue reading" returns to whichever was most recent. A passage opened along a trail keeps that trail with it,
   // so continuing lands back in the same question or path, in the same order. Kept on this device (localStorage).

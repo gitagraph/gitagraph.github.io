@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>When having more is not enough · Gitagraph</title><meta name="description" content="Start with a question about whether wealth can give anything lasting. Move through the Gita&#x27;s account of temporary rewards to Ashtavakra&#x27;s picture of a person no longer chasing the next gain."><link rel="canonical" href="https://gitagraph.com/paths/when-more-is-not-enough/">
-<link rel="icon" href="../../shared/mark.svg?v=20261115212600" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261115212600" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261115212600">
+<link rel="icon" href="../../shared/mark.svg?v=20261115215655" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261115215655" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261115215655">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -291,6 +291,26 @@ body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
 .gt-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;font-size:15.5px;font-weight:600;color:var(--accent,var(--ink));text-decoration:none}
 .gt-links a:hover{text-decoration:underline;text-underline-offset:3px}
 
+/* "Before you begin": the panel over the first passage of a path started in one step */
+.gi-scrim{position:fixed;inset:0;z-index:95;display:flex;align-items:flex-end;justify-content:center;background:rgb(20 16 10 / 0);transition:background .3s ease}
+.gi-scrim.on{background:rgb(20 16 10 / .4)}
+.gi-sheet{width:100%;max-width:520px;max-height:88dvh;overflow-y:auto;padding:10px 24px calc(24px + env(safe-area-inset-bottom,0px));border-radius:28px 28px 0 0;background:var(--bg);color:var(--ink);
+  box-shadow:0 -8px 30px rgb(0 0 0 / .18);transform:translateY(105%);transition:transform .42s cubic-bezier(.2,.8,.2,1);font-family:var(--f-ui)}
+.gi-scrim.on .gi-sheet{transform:none} .gi-sheet:focus{outline:none}
+@media (min-width:700px){ .gi-scrim{align-items:center} .gi-sheet{border-radius:28px;padding-bottom:24px} }
+@media (prefers-reduced-motion:reduce){ .gi-scrim,.gi-sheet{transition:none} }
+.gi-grab{display:block;width:40px;height:5px;margin:0 auto 16px;border-radius:5px;background:var(--line)}
+.gi-k{margin:0;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent,var(--ink))}
+.gi-sheet h2{margin:4px 0 2px;font-family:var(--f-read);font-size:25px;font-weight:600;line-height:1.25}
+.gi-m{margin:0 0 16px;font-size:15.5px;color:var(--muted)}
+.gi-f{margin:0 0 18px;font-family:var(--f-read);font-size:18px;line-height:1.5}
+.gi-st{display:flex;align-items:center;gap:13px;margin:0 0 13px;font-family:var(--f-read);font-size:18px;line-height:1.35}
+.gi-st i{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--sunk);color:var(--accent,var(--ink));font:700 15px var(--f-ui);font-style:normal}
+.gi-st b{font-weight:600}
+.gi-go{display:block;width:100%;min-height:56px;margin-top:8px;border:0;border-radius:999px;background:var(--ink);color:var(--bg);font:600 18px var(--f-ui);cursor:pointer}
+.gi-scrim[lang=hi] .gi-k{letter-spacing:0;text-transform:none;font-size:15px}
+.gi-scrim[lang=hi] :is(h2,.gi-f,.gi-st){font-family:var(--f-hi)} .gi-scrim[lang=hi] h2{font-size:27px;line-height:1.4} .gi-scrim[lang=hi] :is(.gi-f,.gi-st){font-size:19px;line-height:1.5}
+
 .saved-list{list-style:none;margin:0 0 28px;padding:0}
 .saved-list a{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-top:1px solid var(--line);text-decoration:none}
 .saved-list li:last-child a{border-bottom:1px solid var(--line)}
@@ -408,6 +428,18 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 }
 /* --- Home on phones: question tiles (title and picture), a progress line on Continue; the texts live in the Library tab --- */
 .qtiles2{display:none}
+/* Start card: until a first reading path is opened, phones get one clear place to begin, between today's verse and the questions */
+.hstart{display:none}
+@media (max-width:699px){
+  .hstart:not([hidden]){display:flex;flex-direction:column;align-items:flex-start;position:relative;overflow:hidden;margin:18px 0 0;padding:20px 138px 20px 22px;min-height:168px;border-radius:26px;background:#f3e3c2;color:#2a2118;text-decoration:none}
+  .hstart small{font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#b04e08}
+  .hstart b{margin:5px 0 4px;font-family:var(--f-read);font-size:22px;font-weight:600;line-height:1.25}
+  .hstart .hs-p{font-size:15.5px;line-height:1.4;color:#4a3f31}
+  .hstart .hs-b{margin-top:14px;padding:11px 20px;border-radius:999px;background:#c2570c;color:#fff;font-size:15.5px;font-weight:600}
+  .hstart svg{position:absolute;right:-20px;bottom:-10px;width:158px;height:126px;color:#c2570c;opacity:.9;pointer-events:none}
+  :root[lang=hi] .hstart small{letter-spacing:0;text-transform:none;font-size:14.5px}
+  :root[lang=hi] .hstart b{font-family:var(--f-hi);font-size:24px;line-height:1.35} :root[lang=hi] .hstart .hs-p{font-size:16.5px}
+}
 .hcont .hbar{display:block;height:3px;margin-top:9px;border-radius:99px;background:var(--sunk)} .hcont .hbar i{display:block;height:100%;border-radius:99px;background:var(--ink)}
 @media (max-width:699px){
   .home .qcards,.home .qpills,.home #scriptures{display:none}
@@ -588,8 +620,11 @@ try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))=
 // first passage with this path's trail set, replacing this page so Back does not return to a page that jumps again.
 const START = /[?&]start=1(&|$)/.test(location.search);
 if(START) document.documentElement.style.visibility = "hidden";
-addEventListener("DOMContentLoaded", () => { if(window.GGShell && GGShell.trailSet){ const T = {"slug": "path:when-more-is-not-enough", "home": "paths/when-more-is-not-enough/", "en": "When having more is not enough", "hi": "जब और पाने से भी संतोष न हो", "next": {"home": "paths/self-not-born/", "en": "The self that is not born", "hi": "वह आत्मा जो जन्म नहीं लेती", "kind": "path", "n": 5, "min": 4}, "items": [{"k": "upanishads/story/maitreyi/", "en": "Maitreyi asks for what does not die", "hi": "मैत्रेयी ने वह माँगा जो मरता नहीं", "wen": "Maitreyi first asks whether even the greatest wealth could make her immortal.", "whi": "मैत्रेयी पूछती हैं कि बहुत धन होने पर भी क्या अमरत्व मिल सकता है।"}, {"k": "gita/chapter/9/verse/21/", "en": "Bhagavad Gita 9.21", "hi": "भगवद्गीता 9.21", "wen": "The Gita also describes rewards that are enjoyed for a time and then exhausted.", "whi": "गीता में भी ऐसे फल का वर्णन है जो भोगने के बाद समाप्त हो जाता है।"}, {"k": "gita/chapter/4/verse/22/", "en": "Bhagavad Gita 4.22", "hi": "भगवद्गीता 4.22", "wen": "The emphasis shifts to someone content with what comes, even while acting.", "whi": "अब ऐसा व्यक्ति सामने आता है जो कर्म करते हुए भी जो मिलता है उसमें संतुष्ट है।"}, {"k": "ashtavakra/chapter/17/verse/4/", "en": "Ashtavakra Gita 17.4", "hi": "अष्टावक्र गीता 17.4", "wen": "Ashtavakra goes further, describing one who neither clings to past pleasures nor craves new ones.", "whi": "अष्टावक्र ऐसे व्यक्ति की बात करते हैं जो न बीते सुखों से चिपकता है, न नए सुखों की लालसा करता है।"}, {"k": "ashtavakra/chapter/18/verse/81/", "en": "Ashtavakra Gita 18.81", "hi": "अष्टावक्र गीता 18.81", "wen": "The walk ends with someone who neither longs for gain nor grieves over loss.", "whi": "अंत में ऐसा ज्ञानी सामने आता है जो न लाभ चाहता है, न हानि पर शोक करता है।"}]}; GGShell.trailSet(T);
+addEventListener("DOMContentLoaded", () => { if(window.GGShell && GGShell.trailSet){ const T = {"slug": "path:when-more-is-not-enough", "home": "paths/when-more-is-not-enough/", "en": "When having more is not enough", "hi": "जब और पाने से भी संतोष न हो", "min": 4, "fen": "Start with a question about whether wealth can give anything lasting. Move through the Gita's account of temporary rewards to Ashtavakra's picture of a person no longer chasing the next gain.", "fhi": "शुरुआत इस सवाल से है कि धन क्या स्थायी चीज दे सकता है। फिर गीता अस्थायी फलों की बात करती है और अष्टावक्र ऐसे व्यक्ति का वर्णन करते हैं जो अगले लाभ के पीछे नहीं भागता।", "next": {"home": "paths/self-not-born/", "en": "The self that is not born", "hi": "वह आत्मा जो जन्म नहीं लेती", "kind": "path", "n": 5, "min": 4}, "items": [{"k": "upanishads/story/maitreyi/", "en": "Maitreyi asks for what does not die", "hi": "मैत्रेयी ने वह माँगा जो मरता नहीं", "wen": "Maitreyi first asks whether even the greatest wealth could make her immortal.", "whi": "मैत्रेयी पूछती हैं कि बहुत धन होने पर भी क्या अमरत्व मिल सकता है।"}, {"k": "gita/chapter/9/verse/21/", "en": "Bhagavad Gita 9.21", "hi": "भगवद्गीता 9.21", "wen": "The Gita also describes rewards that are enjoyed for a time and then exhausted.", "whi": "गीता में भी ऐसे फल का वर्णन है जो भोगने के बाद समाप्त हो जाता है।"}, {"k": "gita/chapter/4/verse/22/", "en": "Bhagavad Gita 4.22", "hi": "भगवद्गीता 4.22", "wen": "The emphasis shifts to someone content with what comes, even while acting.", "whi": "अब ऐसा व्यक्ति सामने आता है जो कर्म करते हुए भी जो मिलता है उसमें संतुष्ट है।"}, {"k": "ashtavakra/chapter/17/verse/4/", "en": "Ashtavakra Gita 17.4", "hi": "अष्टावक्र गीता 17.4", "wen": "Ashtavakra goes further, describing one who neither clings to past pleasures nor craves new ones.", "whi": "अष्टावक्र ऐसे व्यक्ति की बात करते हैं जो न बीते सुखों से चिपकता है, न नए सुखों की लालसा करता है।"}, {"k": "ashtavakra/chapter/18/verse/81/", "en": "Ashtavakra Gita 18.81", "hi": "अष्टावक्र गीता 18.81", "wen": "The walk ends with someone who neither longs for gain nor grieves over loss.", "whi": "अंत में ऐसा ज्ञानी सामने आता है जो न लाभ चाहता है, न हानि पर शोक करता है।"}]}; GGShell.trailSet(T);
   if(GGShell.lastSet) GGShell.lastSet({"k": "paths/when-more-is-not-enough/", "en": "When having more is not enough", "hi": "जब और पाने से भी संतोष न हो"});               // and the home page continues from this path
-  if(START && T.items.length){ GGShell.trailSeen(T.items[0].k); location.replace("../../" + T.items[0].k); return; } }
+  try{ localStorage.setItem("gg-path-seen", "1"); }catch(e){}   // the home page's Start card has done its job
+  if(START && T.items.length){ GGShell.trailSeen(T.items[0].k);
+    try{ if(!sessionStorage.getItem("gg-intro")) sessionStorage.setItem("gg-intro", "1"); }catch(e){}   // the passage opens with the "before you begin" panel
+    location.replace("../../" + T.items[0].k); return; } }
   document.documentElement.style.visibility = ""; });
-</script><script src="../../shared/shell.js?v=20261115212600" data-active="paths" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../../shared/shell.js?v=20261115215655" data-active="paths" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
