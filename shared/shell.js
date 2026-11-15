@@ -61,18 +61,44 @@
   const tesc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   GGShell.trailSet = function (t) { const old = tget(); t.seen = old && old.slug === t.slug && Array.isArray(old.seen) ? old.seen : []; tput(t); };
   GGShell.trailSeen = function (k) { const t = tget(); if (t && t.items.some(i => i.k === k) && !t.seen.includes(k)) { t.seen.push(k); tput(t); } };
-  // the bar for the page with this key ("" when the page was not opened along a trail)
+  // where the page with this key sits on the trail: null when it was not opened along one
+  GGShell.trailAt = function (key) {
+    const t = tget(); if (!t || !Array.isArray(t.items)) return null;
+    const i = t.items.findIndex(x => x.k === key); if (i < 0 || !(t.seen || []).includes(key)) return null;
+    return { t, i, n: t.items.length, prev: t.items[i - 1] || null, next: t.items[i + 1] || null };
+  };
+  // one step along the trail from this page (dir 1 = on, -1 = back): {href, k} for a passage, {href} for the next
+  // question after the last passage, {} when there is nothing that way, null when the page is not on a trail
+  GGShell.trailStep = function (key, dir, root) {
+    const a = GGShell.trailAt(key); if (!a) return null;
+    const it = dir > 0 ? a.next : a.prev;
+    if (it) return { href: root + it.k, k: it.k, en: it.en, hi: it.hi };
+    if (dir > 0 && a.t.next) return { href: root + "gita/questions/" + a.t.next.slug + "/", en: a.t.next.en, hi: a.t.next.hi, question: true };
+    return {};
+  };
+  // What a passage page shows when it was opened from a question: where the reader is in that question's list, the
+  // passage before and the passage after in the same order as the list, and after the last one the next question.
+  // "" when the page was not opened along a trail. Moving along it replaces the page in the browser's history
+  // (data-replace), so one Back always returns to the question.
   GGShell.trailBar = function (key, lang, root) {
-    const t = tget(); if (!t || !Array.isArray(t.items)) return "";
-    const i = t.items.findIndex(x => x.k === key); if (i < 0 || !(t.seen || []).includes(key)) return "";
-    const hi = lang === "hi", L = x => tesc(hi ? x.hi : x.en), n = t.items.length, nx = t.items[i + 1], q = root + "gita/questions/";
-    const pos = hi ? `${n} में से ${i + 1}` : `${i + 1} of ${n}`;
-    const next = nx ? `<a class="gt-nx" href="${root + nx.k}" data-trail="${tesc(nx.k)}"><small>${hi ? "इस प्रश्न में आगे" : "Next in this question"} →</small><b>${L(nx)}</b></a>`
-      : t.next ? `<a class="gt-nx" href="${q + t.next.slug}/"><small>${hi ? "अगला प्रश्न" : "Next question"} →</small><b>${L(t.next)}</b></a>` : "";
-    return `<nav class="gtrail" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><p class="gt-k"><b>${L(t)}</b> · ${pos}</p>${next}<a class="gt-bk" href="${q + t.slug}/">← ${hi ? "प्रश्न पर वापस" : "Back to the question"}</a></nav>`;
+    const a = GGShell.trailAt(key); if (!a) return "";
+    const t = a.t, hi = lang === "hi", L = x => tesc(hi ? x.hi : x.en), q = root + "gita/questions/";
+    const pos = hi ? `${a.n} में से ${a.i + 1}` : `${a.i + 1} of ${a.n}`;
+    const prev = a.prev ? `<a class="gt-pv" href="${root + a.prev.k}" data-trail="${tesc(a.prev.k)}" data-replace><small>← ${hi ? "पिछला" : "Previous"}</small><b>${L(a.prev)}</b></a>` : "<span></span>";
+    const next = a.next ? `<a class="gt-nx" href="${root + a.next.k}" data-trail="${tesc(a.next.k)}" data-replace><small>${hi ? "अगला" : "Next"} →</small><b>${L(a.next)}</b></a>`
+      : t.next ? `<a class="gt-nx" href="${q + t.next.slug}/" data-replace><small>${hi ? "अगला प्रश्न" : "Next question"} →</small><b>${L(t.next)}</b></a>` : "<span></span>";
+    return `<nav class="gtrail" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><p class="gt-k"><a href="${q + t.slug}/" data-back>← <b>${L(t)}</b></a> · ${pos}</p><div class="gt-row">${prev}${next}</div></nav>`;
   };
   if (!window.__ggT) { window.__ggT = 1; document.addEventListener("click", e => {
-    const a = e.target.closest && e.target.closest("a[data-trail]"); if (a) GGShell.trailSeen(a.dataset.trail); }, true); }
+    if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest && e.target.closest("a[data-trail], a[data-replace], a[data-back]"); if (!a) return;
+    if (a.dataset.trail) GGShell.trailSeen(a.dataset.trail);
+    // back to the list the reader came from: the page before this one in the history is that list
+    if (a.dataset.back !== undefined && history.length > 1) { e.preventDefault(); e.stopPropagation(); history.back(); return; }
+    // a step to a passage in another text is a new page load: replace this page instead of adding to the history
+    if (a.dataset.replace !== undefined) { const u = new URL(a.getAttribute("href"), location.href);
+      if (u.origin === location.origin && u.pathname.split("/")[1] !== location.pathname.split("/")[1]) { e.preventDefault(); e.stopPropagation(); location.replace(u.href); } }
+  }, true); }
 
   // static pages: mount into the page's own header and add the tab bar
   if (script && script.dataset.active !== undefined) {

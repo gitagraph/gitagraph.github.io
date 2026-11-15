@@ -61,18 +61,44 @@
   const tesc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   GGShell.trailSet = function (t) { const old = tget(); t.seen = old && old.slug === t.slug && Array.isArray(old.seen) ? old.seen : []; tput(t); };
   GGShell.trailSeen = function (k) { const t = tget(); if (t && t.items.some(i => i.k === k) && !t.seen.includes(k)) { t.seen.push(k); tput(t); } };
-  // the bar for the page with this key ("" when the page was not opened along a trail)
+  // where the page with this key sits on the trail: null when it was not opened along one
+  GGShell.trailAt = function (key) {
+    const t = tget(); if (!t || !Array.isArray(t.items)) return null;
+    const i = t.items.findIndex(x => x.k === key); if (i < 0 || !(t.seen || []).includes(key)) return null;
+    return { t, i, n: t.items.length, prev: t.items[i - 1] || null, next: t.items[i + 1] || null };
+  };
+  // one step along the trail from this page (dir 1 = on, -1 = back): {href, k} for a passage, {href} for the next
+  // question after the last passage, {} when there is nothing that way, null when the page is not on a trail
+  GGShell.trailStep = function (key, dir, root) {
+    const a = GGShell.trailAt(key); if (!a) return null;
+    const it = dir > 0 ? a.next : a.prev;
+    if (it) return { href: root + it.k, k: it.k, en: it.en, hi: it.hi };
+    if (dir > 0 && a.t.next) return { href: root + "gita/questions/" + a.t.next.slug + "/", en: a.t.next.en, hi: a.t.next.hi, question: true };
+    return {};
+  };
+  // What a passage page shows when it was opened from a question: where the reader is in that question's list, the
+  // passage before and the passage after in the same order as the list, and after the last one the next question.
+  // "" when the page was not opened along a trail. Moving along it replaces the page in the browser's history
+  // (data-replace), so one Back always returns to the question.
   GGShell.trailBar = function (key, lang, root) {
-    const t = tget(); if (!t || !Array.isArray(t.items)) return "";
-    const i = t.items.findIndex(x => x.k === key); if (i < 0 || !(t.seen || []).includes(key)) return "";
-    const hi = lang === "hi", L = x => tesc(hi ? x.hi : x.en), n = t.items.length, nx = t.items[i + 1], q = root + "gita/questions/";
-    const pos = hi ? `${n} में से ${i + 1}` : `${i + 1} of ${n}`;
-    const next = nx ? `<a class="gt-nx" href="${root + nx.k}" data-trail="${tesc(nx.k)}"><small>${hi ? "इस प्रश्न में आगे" : "Next in this question"} →</small><b>${L(nx)}</b></a>`
-      : t.next ? `<a class="gt-nx" href="${q + t.next.slug}/"><small>${hi ? "अगला प्रश्न" : "Next question"} →</small><b>${L(t.next)}</b></a>` : "";
-    return `<nav class="gtrail" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><p class="gt-k"><b>${L(t)}</b> · ${pos}</p>${next}<a class="gt-bk" href="${q + t.slug}/">← ${hi ? "प्रश्न पर वापस" : "Back to the question"}</a></nav>`;
+    const a = GGShell.trailAt(key); if (!a) return "";
+    const t = a.t, hi = lang === "hi", L = x => tesc(hi ? x.hi : x.en), q = root + "gita/questions/";
+    const pos = hi ? `${a.n} में से ${a.i + 1}` : `${a.i + 1} of ${a.n}`;
+    const prev = a.prev ? `<a class="gt-pv" href="${root + a.prev.k}" data-trail="${tesc(a.prev.k)}" data-replace><small>← ${hi ? "पिछला" : "Previous"}</small><b>${L(a.prev)}</b></a>` : "<span></span>";
+    const next = a.next ? `<a class="gt-nx" href="${root + a.next.k}" data-trail="${tesc(a.next.k)}" data-replace><small>${hi ? "अगला" : "Next"} →</small><b>${L(a.next)}</b></a>`
+      : t.next ? `<a class="gt-nx" href="${q + t.next.slug}/" data-replace><small>${hi ? "अगला प्रश्न" : "Next question"} →</small><b>${L(t.next)}</b></a>` : "<span></span>";
+    return `<nav class="gtrail" lang="${hi ? "hi" : "en"}" aria-label="${L(t)}"><p class="gt-k"><a href="${q + t.slug}/" data-back>← <b>${L(t)}</b></a> · ${pos}</p><div class="gt-row">${prev}${next}</div></nav>`;
   };
   if (!window.__ggT) { window.__ggT = 1; document.addEventListener("click", e => {
-    const a = e.target.closest && e.target.closest("a[data-trail]"); if (a) GGShell.trailSeen(a.dataset.trail); }, true); }
+    if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest && e.target.closest("a[data-trail], a[data-replace], a[data-back]"); if (!a) return;
+    if (a.dataset.trail) GGShell.trailSeen(a.dataset.trail);
+    // back to the list the reader came from: the page before this one in the history is that list
+    if (a.dataset.back !== undefined && history.length > 1) { e.preventDefault(); e.stopPropagation(); history.back(); return; }
+    // a step to a passage in another text is a new page load: replace this page instead of adding to the history
+    if (a.dataset.replace !== undefined) { const u = new URL(a.getAttribute("href"), location.href);
+      if (u.origin === location.origin && u.pathname.split("/")[1] !== location.pathname.split("/")[1]) { e.preventDefault(); e.stopPropagation(); location.replace(u.href); } }
+  }, true); }
 
   // static pages: mount into the page's own header and add the tab bar
   if (script && script.dataset.active !== undefined) {
@@ -348,7 +374,11 @@ function drawShell(route){
   const fwd = document.getElementById("fwd");
   const nxt = route.name==="verse" ? V[route.v.i+1] : route.name==="chapter" ? CH[route.c-1].vs[0] : null;
   fwd.hidden = !nxt; fwd.innerHTML = IC.fwd;
+  delete fwd.dataset.trail; delete fwd.dataset.replace;
   if(nxt){ fwd.href = link(nxt.id); fwd.setAttribute("aria-label", `${u().next}: ${nxt.ref}`); fwd.title = `${u().next}: ${nxt.ref}`; }
+  { const ts = route.name==="verse" ? trailStep(route.v, 1) : null;       // opened from a question: on means the next passage in that question
+    if(ts){ fwd.hidden = !ts.href; if(ts.href){ fwd.href = ts.href; fwd.dataset.replace = ""; if(ts.k) fwd.dataset.trail = ts.k;
+      const lb = `${u().next}: ${isHi() ? ts.hi : ts.en}`; fwd.setAttribute("aria-label", lb); fwd.title = lb; } } }
   document.getElementById("setbtn").innerHTML = IC.set;
   { const cb = document.getElementById("chbtn"), lb = u().chapters; cb.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>' + `<span>${esc(lb)}</span>`; cb.setAttribute("aria-label", lb); toggleSide(false);
     document.getElementById("top").style.setProperty("--prog", route.name==="verse" ? (100 * route.v.v / CH[route.v.c-1].vs.length) + "%" : "0%"); }
@@ -357,7 +387,10 @@ function drawShell(route){
   document.getElementById("langbtn").setAttribute("aria-label", isHi() ? "Switch to English" : "हिन्दी में देखें");
 }
 document.getElementById("back").onclick = e => { if(e.currentTarget.dataset.home){ location.href = BASE.replace(/[^/]+\/$/, ""); return; }
-  if(history.length > 1) history.back(); else go("home"); };
+  // Back goes up to the page this one was opened from (a question, a chapter, search). A page opened directly, with
+  // nothing of this site behind it, goes up to its own chapter or list instead.
+  const r = current || {}, up = r.name==="verse" ? "c" + r.v.c : r.name==="question" ? "questions" : "home";
+  if(pushed > 0 || fromSite) history.back(); else go(up); };
 document.getElementById("langbtn").onclick = () => setLang(isHi() ? "en" : "hi");
 document.getElementById("setbtn").onclick = openSettings;
 // the chapter list is a drawer: opened from the title bar, closed by choosing a chapter, the backdrop or Escape
@@ -419,11 +452,18 @@ function tokenOf(path){
 const link = t => BASE ? pathOf(t) : "#" + t;
 const curToken = () => BASE ? tokenOf(location.pathname) : (location.hash.slice(1) || "home");
 let current = null;
-function go(t){
+function go(t, rep){
   if(t==="explore" && EXPLORE){ location.href = EXPLORE; return; }
   if(curToken()===t){ render(); return; }
-  if(BASE){ saveScroll(); history.pushState(null, "", pathOf(t)); render(); } else location.hash = t;
+  if(BASE){ saveScroll();
+    // stepping from one passage to another replaces the page in the history, so one Back returns to the list it was opened from
+    const step = rep || (isItem(curToken()) && isItem(t));
+    if(step) history.replaceState(null, "", pathOf(t)); else { history.pushState(null, "", pathOf(t)); pushed++; }
+    render(); } else location.hash = t;
 }
+const isItem = t => /^v\d/.test(t);
+let pushed = 0;
+const fromSite = (() => { try{ return !!document.referrer && new URL(document.referrer).origin === location.origin; }catch(e){ return false; } })();
 // Back and Forward return to where the reader was on that page, not to its top. The position of each page is kept for
 // this tab (sessionStorage), saved on leaving it, and put back after the page is drawn again.
 let restoreY = null;
@@ -446,7 +486,7 @@ if(BASE){
     if(!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target) return;
     const url = new URL(a.getAttribute("href"), location.href);
     if(url.origin !== location.origin || !url.pathname.startsWith(BASE) || /\.[a-z]+$/.test(url.pathname)) return;
-    e.preventDefault(); go(tokenOf(url.pathname));
+    e.preventDefault(); go(tokenOf(url.pathname), a.dataset.replace !== undefined);
   });
 } else window.addEventListener("hashchange", () => render());
 function render(keepScroll){
@@ -681,11 +721,17 @@ function chapterCtx(c){
 
 // ===================== verse =====================
 // On a page opened from a question, the next passage of that question and the way back (see shell.js).
-const trailBar = path => { const R = BASE ? BASE.replace(/[^/]+\/$/, "") : ""; return window.GGShell && BASE ? GGShell.trailBar(path.slice(R.length), lang, R) : ""; };
+const TROOT = BASE ? BASE.replace(/[^/]+\/$/, "") : "";
+const trailBar = path => window.GGShell && BASE ? GGShell.trailBar(path.slice(TROOT.length), lang, TROOT) : "";
+// one step along the question's list from this verse (see shell.js): null when the verse was not opened from a question
+const trailStep = (v, dir) => window.GGShell && BASE ? GGShell.trailStep(pathOf(v.id).slice(TROOT.length), dir, TROOT) : null;
+// follow a step: inside this text it is a move within the app; into another text it is a page load that replaces this one
+function trailGo(ts){ if(!ts.href) return; if(ts.k) GGShell.trailSeen(ts.k);
+  const path = new URL(ts.href, location.href).pathname; if(path.startsWith(BASE)) go(tokenOf(path), true); else location.replace(ts.href); }
 function verseView(v){
   const c = CH[v.c-1], s = saLines(v), sp = HB.get(voice(v));
   const prev = V[v.i-1], next = V[v.i+1];
-  const saved = savedSet.has(v.ref);
+  const saved = savedSet.has(v.ref), tb = trailBar(pathOf(v.id));
   return `<article class="verse" id="verse">
     <div class="vtop"><a href="#c${c.num}">${esc(u().chapter)} ${c.num} · ${esc(name(c))}</a><span>${esc(u().vOf(v.v, c.vs.length))}</span></div>
     <h2 class="vref"><span class="vbook">${esc(u().book)}</span> ${v.ref}</h2>
@@ -704,13 +750,12 @@ function verseView(v){
       <p class="vtr2 ${isHi()?"":"hi"}" lang="${isHi()?"en":"hi"}"><b>${isHi()?"EN":"हिन्दी"}</b>${esc(tr2(v))}</p>
       <p><button class="btn" id="copybtn">${IC.copy}<span>${esc(u().copy)}</span></button>${EXPLORE ? ` <a class="btn" href="${EXPLORE}?v=sutra#/a/${v.c}/${v.v}">${esc(isHi() ? "सूत्र देखें" : "See connections")}</a>` : ""}</p>
     </details>
-    ${trailBar(pathOf(v.id))}
-    <nav class="vnav">
+    ${tb}${tb ? (next ? `<p class="gt-seq"><a href="#${next.id}">${isHi() ? "या क्रम से पढ़ें" : "Or read on in order"}: ${next.ref} →</a></p>` : "") : `<nav class="vnav">
       ${prev ? `<a href="#${prev.id}"><small>← ${esc(u().prev)}</small><b>${prev.ref}</b><span class="t">${esc(tr(prev))}</span></a>` : "<span></span>"}
       ${next ? (next.c !== v.c
         ? `<a class="nx" href="#${next.id}"><small>${isHi() ? "अगला अध्याय" : "Next chapter"} →</small><b>${esc(u().chapter)} ${next.c} · ${esc(name(CH[next.c-1]))}</b><span class="t">${next.ref} · ${esc(tr(next))}</span></a>`
         : `<a class="nx" href="#${next.id}"><small>${isHi() ? "अगला श्लोक" : "Next verse"} →</small><b>${next.ref}</b><span class="t">${esc(tr(next))}</span></a>`) : "<span></span>"}
-    </nav>
+    </nav>`}
     <span class="swipehint">${esc(u().swipe)}</span>
     <p class="vsrc">${esc(u().src)} <a href="#about">${esc(u().aboutLink)}</a></p>
   </article>`;
@@ -749,7 +794,8 @@ function wireVerse(v){
   el.addEventListener("touchstart", e => { const t = e.touches[0]; sx=t.clientX; sy=t.clientY; st=Date.now(); }, {passive:true});
   el.addEventListener("touchend", e => {
     const t = e.changedTouches[0], dx = t.clientX-sx, dy = t.clientY-sy;
-    if(Date.now()-st < 600 && Math.abs(dx) > 70 && Math.abs(dy) < 50){ const w = V[v.i + (dx<0?1:-1)]; if(w) go(w.id); }
+    if(Date.now()-st < 600 && Math.abs(dx) > 70 && Math.abs(dy) < 50){ const ts = trailStep(v, dx<0 ? 1 : -1);      // from a question, a swipe follows that question's list
+      if(ts) trailGo(ts); else { const w = V[v.i + (dx<0?1:-1)]; if(w) go(w.id); } }
   }, {passive:true});
 }
 

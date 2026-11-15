@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>try{var t=localStorage.getItem("gg-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reading paths · Gitagraph</title><meta name="description" content="Short guided sequences of passages from the Bhagavad Gita, the Ashtavakra Gita and the Upanishads."><link rel="canonical" href="https://gitagraph.com/paths/">
-<link rel="icon" href="../shared/mark.svg?v=20261114225708" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261114225708" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261114225708">
+<link rel="icon" href="../shared/mark.svg?v=20261115101536" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261115101536" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261115101536">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -170,17 +170,26 @@ html{scroll-behavior:smooth} #scriptures{scroll-margin-top:72px}
    so the bar stays whole even when a cached copy of this file meets a newer list of links. */
 .tabs{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
 
-/* reading trail: on a passage opened from a question page, the next passage of that question and the way back */
-.gtrail{display:grid;gap:10px;margin-top:30px;padding:16px;border:1px solid var(--line);border-radius:16px;background:var(--sunk);font-family:var(--f-ui)}
-.gtrail .gt-k{margin:0;font-size:14px;line-height:1.4;color:var(--muted)}
-.gtrail .gt-k b{font-weight:600;color:var(--ink)}
-.gtrail .gt-nx{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border-radius:12px;background:var(--ink);color:var(--bg);text-decoration:none}
-.gtrail .gt-nx small{font-size:13px;opacity:.8}
-.gtrail .gt-nx b{font-size:17px;font-weight:600;line-height:1.35}
+/* reading trail: on a passage opened from a question, where the reader is in that question's list, with the passage
+   before and the passage after in the list's own order */
+.gtrail{display:grid;gap:10px;margin-top:30px;font-family:var(--f-ui)}
+.gtrail .gt-k{margin:0;font-size:14.5px;line-height:1.4;color:var(--muted)}
+.gtrail .gt-k a{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:var(--ink);text-decoration:none}
+.gtrail .gt-k a:hover b{text-decoration:underline;text-underline-offset:3px}
+.gtrail .gt-k b{font-weight:600}
+.gtrail .gt-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.gtrail .gt-pv,.gtrail .gt-nx{display:flex;flex-direction:column;gap:2px;min-width:0;padding:12px 16px;border-radius:14px;text-decoration:none}
+.gtrail .gt-pv{border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.gtrail .gt-pv:hover{border-color:var(--muted)}
+.gtrail .gt-nx{background:var(--ink);color:var(--bg);text-align:right;align-items:flex-end;border:1px solid var(--ink)}
 .gtrail .gt-nx:hover{opacity:.92}
-.gtrail .gt-bk{justify-self:start;display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-weight:600;color:var(--ink);text-decoration:none}
-.gtrail .gt-bk:hover{text-decoration:underline;text-underline-offset:3px}
-.gtrail[lang=hi] .gt-k{font-size:15px} .gtrail[lang=hi] .gt-nx small{font-size:14px} .gtrail[lang=hi] .gt-bk{font-size:16px}
+.gtrail small{font-size:13px;opacity:.75}
+.gtrail .gt-row b{font-size:16px;font-weight:600;line-height:1.35;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;max-width:100%}
+.gtrail[lang=hi] .gt-k{font-size:15.5px} .gtrail[lang=hi] small{font-size:14px} .gtrail[lang=hi] .gt-row b{font-size:17px;line-height:1.5}
+/* the way on in chapter order, kept as one quiet line under the trail */
+.gt-seq{margin:12px 0 0;font-family:var(--f-ui);font-size:14.5px;color:var(--muted)}
+.gt-seq a{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.gt-seq a:hover{color:var(--ink)}
 
 .saved-list{list-style:none;margin:0 0 28px;padding:0}
 .saved-list a{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-top:1px solid var(--line);text-decoration:none}
@@ -387,4 +396,4 @@ const b = document.getElementById("lang");
 function setLang(l){ document.documentElement.lang = l; b.textContent = l==="hi" ? "EN" : "हि"; try{ localStorage.setItem("library-lang", l); localStorage.setItem("gg-lang", l); }catch(e){} }
 b.onclick = () => setLang(document.documentElement.lang==="hi" ? "en" : "hi");
 try{ if((localStorage.getItem("gg-lang")||localStorage.getItem("library-lang"))==="hi") setLang("hi"); }catch(e){}
-</script><script src="../shared/shell.js?v=20261114225708" data-active="" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../shared/shell.js?v=20261115101536" data-active="" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
