@@ -115,6 +115,71 @@
       localStorage.setItem("gg-last", JSON.stringify({ k: o.k, en: o.en, hi: o.hi, sen: on ? t.en : "", shi: on ? t.hi : "",
         i: on ? t.items.findIndex(i => i.k === o.k) + 1 : 0, n: on ? t.items.length : 0, trail: on ? t : null, at: Date.now() })); } catch (e) {}
   };
+  // Swipe that follows the finger. On a verse or a story a sideways drag moves the page with it; let go past a short
+  // distance and the page slides away and the next one slides in from the other side, otherwise it settles back.
+  // step(dir) is the reader's own rule for what lies that way (dir 1 = on, -1 = back): it returns a function that
+  // makes the move, or null when there is nothing there, in which case the page only gives a little and returns.
+  // Vertical scrolling is untouched, and with reduced motion the move happens without any sliding.
+  GGShell.swipe = function (el, step) {
+    if (!el) return;
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches, EASE = "cubic-bezier(.2,.7,.2,1)";
+    try { const [d, at] = (sessionStorage.getItem("gg-enter") || "").split("|").map(Number); sessionStorage.removeItem("gg-enter");
+      if (d && !still && Date.now() - at < 1500) {          // arriving from a swipe: come in from the side it went towards
+        el.style.transition = "none"; el.style.transform = `translateX(${d * 36}px)`; el.style.opacity = "0";
+        requestAnimationFrame(() => requestAnimationFrame(() => { el.style.transition = `transform .24s ${EASE}, opacity .24s ease`; el.style.transform = ""; el.style.opacity = ""; }));
+        setTimeout(() => { el.style.transition = ""; }, 320);
+      } } catch (e) {}
+    el.style.touchAction = "pan-y";
+    let sx = 0, sy = 0, st = 0, lock = 0, dx = 0, w = 320, moves = {};
+    const move = dir => (dir in moves ? moves[dir] : (moves[dir] = step(dir) || null));
+    const settle = () => { el.style.transition = `transform .2s ${EASE}, opacity .2s ease`; el.style.transform = ""; el.style.opacity = ""; setTimeout(() => { el.style.transition = ""; }, 220); };
+    // a drag that starts inside something that scrolls sideways by itself belongs to that thing
+    const own = t => { for (let n = t; n && n !== el; n = n.parentElement) if (n.scrollWidth > n.clientWidth + 4 && /auto|scroll/.test(getComputedStyle(n).overflowX)) return true; return false; };
+    el.addEventListener("touchstart", e => { lock = e.touches.length === 1 && !own(e.target) ? 0 : -1; const t = e.touches[0]; sx = t.clientX; sy = t.clientY; st = Date.now(); dx = 0; moves = {}; w = el.offsetWidth || 320; }, { passive: true });
+    el.addEventListener("touchmove", e => {
+      if (lock < 0) return; const t = e.touches[0]; dx = t.clientX - sx; const dy = t.clientY - sy;
+      if (!lock) { if (Math.abs(dx) > 10 && Math.abs(dx) > 1.4 * Math.abs(dy)) lock = 1; else if (Math.abs(dy) > 10) lock = -1; }
+      if (lock !== 1 || still) return;
+      const x = move(dx < 0 ? 1 : -1) ? dx : dx * .25;
+      el.style.transition = "none"; el.style.transform = `translateX(${x}px)`; el.style.opacity = String(1 - Math.min(.5, Math.abs(x) / w * .9));
+    }, { passive: true });
+    el.addEventListener("touchend", () => {
+      if (lock !== 1) return; lock = 0;
+      const dir = dx < 0 ? 1 : -1, fn = move(dir), dt = Date.now() - st;
+      if (!(fn && (Math.abs(dx) > 70 || (Math.abs(dx) > 35 && dt < 250)))) { if (!still) settle(); return; }
+      if (still) { fn(); return; }
+      el.style.transition = "transform .14s ease-in, opacity .14s ease-in"; el.style.transform = `translateX(${-dir * w * .35}px)`; el.style.opacity = "0";
+      setTimeout(() => { try { sessionStorage.setItem("gg-enter", dir + "|" + Date.now()); } catch (e) {}
+        window.__ggSwipe = Date.now(); fn(); setTimeout(() => { if (el.isConnected) settle(); }, 60); }, 140);      // if the move turned out to go nowhere, the page comes back
+    }, { passive: true });
+    el.addEventListener("touchcancel", () => { if (lock === 1 && !still) settle(); lock = 0; }, { passive: true });
+  };
+
+  // Reading mode, on phones, on a verse or a story only: the bars step aside while the reader scrolls down and come
+  // back on the way up or at the end of the page, and the screen stays on while they read (it is let go after ten
+  // minutes without a touch, when the page is left, or when the app goes to the background).
+  if (!window.__ggR) { window.__ggR = 1;
+    const root = document.documentElement, reading = () => !!(document.getElementById("verse") || document.querySelector("article.story"));
+    let y0 = window.scrollY, touched = Date.now(), lockObj = null, awake = false;
+    const native = () => window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.KeepAwake;
+    const keep = on => { if (on === awake) return; awake = on;
+      const k = native();
+      if (k) { (on ? k.keepAwake() : k.allowSleep()).catch(() => {}); return; }
+      if (!navigator.wakeLock) return;
+      if (on) navigator.wakeLock.request("screen").then(l => { lockObj = l; if (!awake) { l.release().catch(() => {}); lockObj = null; } }).catch(() => { awake = false; });
+      else if (lockObj) { lockObj.release().catch(() => {}); lockObj = null; } };
+    const sync = () => keep(reading() && !document.hidden && Date.now() - touched < 6e5);
+    window.addEventListener("scroll", () => {
+      const y = window.scrollY, d = y - y0; touched = Date.now();
+      if (!reading() || y < 120 || y + innerHeight > document.documentElement.scrollHeight - 96) root.classList.remove("gg-imm");
+      else if (d > 8) root.classList.add("gg-imm"); else if (d < -8) root.classList.remove("gg-imm");
+      if (Math.abs(d) > 8) y0 = y; sync();
+    }, { passive: true });
+    window.addEventListener("touchstart", () => { touched = Date.now(); sync(); }, { passive: true });
+    document.addEventListener("visibilitychange", () => { awake = awake && !document.hidden && !!native(); sync(); });   // the browser drops its own lock when hidden
+    setInterval(() => { if (!reading()) root.classList.remove("gg-imm"); sync(); }, 4000); setTimeout(sync, 600);
+  }
+
   if (!window.__ggT) { window.__ggT = 1; document.addEventListener("click", e => {
     if (e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     const a = e.target.closest && e.target.closest("a[data-trail], a[data-replace], a[data-back]"); if (!a) return;
@@ -600,7 +665,8 @@ function render(keepScroll){
     else if(!(keepScroll || same)) window.scrollTo(0,0);
   };
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(document.startViewTransition && !reduce && !same && current) document.startViewTransition(run); else run();
+  const swiped = window.__ggSwipe && Date.now() - window.__ggSwipe < 500;   // a swipe brings its own slide (shared/shell.js): no cross-fade on top of it
+  if(document.startViewTransition && !reduce && !same && current && !swiped) document.startViewTransition(run); else run();
 }
 const page = (main, ctx) => `<div class="page"><div class="content">${main}</div><aside class="ctx">${ctx}</aside></div>`;
 
@@ -1033,13 +1099,14 @@ function wireVerse(v){
     try{ navigator.clipboard.writeText(text).then(()=>toast(u().copied), ()=>toast(u().copyFail)); }catch(e){ toast(u().copyFail); }
   };
   // swipe between verses on touch screens
-  const el = document.getElementById("verse"); let sx=0, sy=0, st=0;
-  el.addEventListener("touchstart", e => { const t = e.touches[0]; sx=t.clientX; sy=t.clientY; st=Date.now(); }, {passive:true});
-  el.addEventListener("touchend", e => {
-    const t = e.changedTouches[0], dx = t.clientX-sx, dy = t.clientY-sy;
-    if(Date.now()-st < 600 && Math.abs(dx) > 70 && Math.abs(dy) < 50){ const ts = trailStep(v, dx<0 ? 1 : -1);      // from a question, a swipe follows that question's list
-      if(ts) trailGo(ts); else { const w = V[v.i + (dx<0?1:-1)]; if(w) go(w.id); } }
-  }, {passive:true});
+  // the page follows the finger (shared/shell.js). From a question or a path a swipe follows that list; otherwise the chapter's order
+  const el = document.getElementById("verse");
+  const stepTo = dir => { const ts = trailStep(v, dir); if(ts) return ts.href ? () => trailGo(ts) : null; const w = V[v.i + dir]; return w ? () => go(w.id) : null; };
+  if(window.GGShell && GGShell.swipe) GGShell.swipe(el, stepTo);
+  else { let sx=0, sy=0, st=0;
+    el.addEventListener("touchstart", e => { const t = e.touches[0]; sx=t.clientX; sy=t.clientY; st=Date.now(); }, {passive:true});
+    el.addEventListener("touchend", e => { const t = e.changedTouches[0], dx = t.clientX-sx, dy = t.clientY-sy;
+      if(Date.now()-st < 600 && Math.abs(dx) > 70 && Math.abs(dy) < 50){ const f = stepTo(dx<0 ? 1 : -1); if(f) f(); } }, {passive:true}); }
 }
 
 // ===================== topic =====================

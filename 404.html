@@ -222,6 +222,13 @@ body .pv .ptr{font-size:calc(18px * var(--scale,1))} :root[lang=hi] body .pv .pt
 body .rungs li{font-size:calc(18px * var(--scale,1))} :root[lang=hi] body .rungs li{font-size:calc(19px * var(--scale,1))}
 body.hip .hx p{font-size:calc(18.5px * var(--scale,1))}
 body.hip .hlist span{font-size:calc(17.5px * var(--scale,1))}
+/* reading mode (shell.js): on phones the bars step aside while a verse or a story is scrolled down */
+@media (max-width:699px){
+  .top,.tabs,.gtabs{transition:transform .22s ease}
+  html.gg-imm .top{transform:translateY(calc(-100% - env(safe-area-inset-top,0px) - 2px))}
+  html.gg-imm .tabs,html.gg-imm .gtabs{transform:translateY(calc(100% + 2px))}
+}
+@media (prefers-reduced-motion:reduce){ .top,.tabs,.gtabs{transition:none} }
 
 .saved-list{list-style:none;margin:0 0 28px;padding:0}
 .saved-list a{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-top:1px solid var(--line);text-decoration:none}
