@@ -170,3 +170,6 @@ dialog.show::backdrop { background: rgba(6, 7, 18, 0.92); }
   .foot { max-width: 46rem; }
   body[data-path=""] .foot { max-width: 70rem; padding-left: 32px; padding-right: 32px; }
 }
+/* frame has no bottom edge: top and sides only, so the page reads as scrollable */
+.f1, .f2, .f3 { border-bottom-width: 0; }
+body.d1, body.d2, body.d3 { padding-bottom: 0; }
