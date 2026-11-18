@@ -62,6 +62,15 @@
   };
   window.GGShell = GGShell;
 
+  // The browser's toolbar tint follows the page's own theme (light by default, dark when chosen), not the device's.
+  (function () {
+    const html = document.documentElement;
+    const tint = () => { const dark = html.getAttribute("data-theme") === "dark";
+      document.querySelectorAll('meta[name="theme-color"]').forEach((m, i) => { if (i) m.remove(); else { m.removeAttribute("media"); m.content = dark ? "#111020" : "#faf8f4"; } }); };
+    tint(); addEventListener("DOMContentLoaded", tint);
+    new MutationObserver(tint).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
+  })();
+
   // Reading trail. A question page lists its passages in order. Opening one from that page starts a trail, and each
   // passage page then offers the next passage and the way back to the question. A reader who reaches the same verse
   // by ordinary reading sees none of this: only pages opened along the trail are marked. Kept for this tab only.
@@ -303,9 +312,9 @@
         const gp = obj("gita-prefs");
         let size = +(get("gg-size") || gp.size || 1); if (!SIZES.includes(size)) size = 1;
         let sa = get("gg-sa") != null ? get("gg-sa") === "1" : gp.sa !== false;
-        let theme = get("gg-theme") || "system"; if (!["system", "light", "dark"].includes(theme)) theme = "system";
+        let theme = get("gg-theme") === "dark" ? "dark" : "light";      // light unless the reader chose dark; the device's setting is not followed
         const apply = () => { html.style.setProperty("--scale", size); if (sa) html.removeAttribute("data-sa"); else html.setAttribute("data-sa", "off");
-          if (theme === "system") html.removeAttribute("data-theme"); else html.setAttribute("data-theme", theme); };
+          html.setAttribute("data-theme", theme); };
         const save = () => { put("gg-size", String(size)); put("gg-sa", sa ? "1" : "0"); put("gg-theme", theme);
           ["gita-prefs", "avg-prefs", "upa-prefs2"].forEach(k => { const o = obj(k); o.size = size; o.sa = sa; o.theme = theme; put(k, JSON.stringify(o)); }); };
         html.style.setProperty("--scale", size); if (!sa) html.setAttribute("data-sa", "off");
@@ -323,7 +332,7 @@
             <div class="gs-row"><span class="gs-lbl">${t.lang}</span><div class="gs-seg" role="group"><button type="button" data-lg="en" aria-pressed="${cur() === "en"}">English</button><button type="button" data-lg="hi" lang="hi" aria-pressed="${cur() === "hi"}">हिन्दी</button></div></div>
             <div class="gs-row"><span class="gs-lbl">${t.sa}</span><button type="button" class="gs-switch" role="switch" aria-checked="${sa}" aria-label="${t.sa}"></button></div>
             <div class="gs-row"><span class="gs-lbl">${t.size}</span>${seg("size", [[0.9, "A−"], [1, "A"], [1.12, "A+"], [1.25, "A++"]], size)}</div>
-            <div class="gs-row"><span class="gs-lbl">${t.theme}</span>${seg("theme", [["system", t.system], ["light", t.light], ["dark", t.dark]], theme)}</div>
+            <div class="gs-row"><span class="gs-lbl">${t.theme}</span>${seg("theme", [["light", t.light], ["dark", t.dark]], theme)}</div>
             <div class="gs-row"><span></span><button type="button" class="gs-done" data-close>${t.done}</button></div></div>`;
           const close = () => { d.remove(); document.removeEventListener("keydown", onKey); tb.focus(); };
           const onKey = e => { if (e.key === "Escape") close(); };
@@ -453,9 +462,10 @@ let lang = store.get("lang", null);
 // the language is one preference for the whole site ("gg-lang"); an older per-text choice seeds it once
 try{ const g = localStorage.getItem("gg-lang"); if(g==="en" || g==="hi") lang = g; else if(lang==="en" || lang==="hi") localStorage.setItem("gg-lang", lang); }catch(e){}
 if(lang!=="en" && lang!=="hi"){ try{ lang = localStorage.getItem("gita-lang") ? JSON.parse(localStorage.getItem("gita-lang")) : "en"; }catch(e){ lang = "en"; } if(lang!=="hi") lang = "en"; }
-const prefs = Object.assign({sa:true, iast:true, other:false, marks:false, size:1, theme:"system"}, store.get("prefs2",{}));
+const prefs = Object.assign({sa:true, iast:true, other:false, marks:false, size:1, theme:"light"}, store.get("prefs2",{}));
 // the theme is one preference for the whole site ("gg-theme"); an older per-text choice moves into it once
 try{ const g = localStorage.getItem("gg-theme"); if(g) prefs.theme = g; else if(prefs.theme && prefs.theme !== "system") localStorage.setItem("gg-theme", prefs.theme); }catch(e){}
+if(prefs.theme !== "dark") prefs.theme = "light";      // light unless the reader chose dark; the device's setting is not followed
 const savedSet = new Set(store.get("saved",[]));
 const readSet = new Set(store.get("read",[]));
 let recent = store.get("recent",[]);
@@ -557,8 +567,7 @@ const howBody = () => `<div class="howbody">${u().how.map(([h,items]) => `<h3>${
 function setLang(l){ lang = l; store.set("lang", l); try{ localStorage.setItem("gg-lang", l); }catch(e){} document.documentElement.lang = l; render(true); }
 function applyPrefs(boot){
   document.documentElement.style.setProperty("--scale", prefs.size);
-  if(prefs.theme==="system"){ if(!boot) document.documentElement.removeAttribute("data-theme"); }
-  else document.documentElement.setAttribute("data-theme", prefs.theme);
+  document.documentElement.setAttribute("data-theme", prefs.theme);
   try{ localStorage.setItem("gg-theme", prefs.theme); }catch(e){}
   // a text size or Sanskrit choice made here is also kept site-wide, for the pages outside the readers (reading paths and the like)
   if(!boot) try{ localStorage.setItem("gg-size", String(prefs.size)); localStorage.setItem("gg-sa", prefs.sa ? "1" : "0"); }catch(e){}
@@ -923,7 +932,7 @@ function openSettings(){
     <div class="row"><span class="lbl">${esc(u().language)}</span><div class="seg" role="group"><button data-lg="en" aria-pressed="${!isHi()}">English</button><button data-lg="hi" aria-pressed="${isHi()}" lang="hi">हिन्दी</button></div></div>
     ${sw("sa", u().sanskrit)}${sw("iast", u().iast)}${sw("other", u().second)}${sw("marks", u().marks)}
     <div class="row"><span class="lbl">${esc(u().size)}</span>${seg("size", [[0.9,"A−"],[1,"A"],[1.12,"A+"],[1.25,"A++"]])}</div>
-    <div class="row"><span class="lbl">${esc(u().theme)}</span>${seg("theme", [["system",u().system],["light",u().light],["dark",u().dark]])}</div>
+    <div class="row"><span class="lbl">${esc(u().theme)}</span>${seg("theme", [["light",u().light],["dark",u().dark]])}</div>
     <div class="row"><button class="btn helprow" type="button" onclick="document.getElementById('helpbtn').click()">${esc(u().howT)}</button><span></span><button class="btn primary" data-close>${esc(u().done)}</button></div>`);
   layer.querySelectorAll("[data-sw]").forEach(b => b.onclick = () => { const k = b.dataset.sw; prefs[k] = !prefs[k]; b.setAttribute("aria-checked", prefs[k]); applyPrefs(); render(true); });
   layer.querySelectorAll("[data-size]").forEach(b => b.onclick = () => { prefs.size = +b.dataset.size; layer.querySelectorAll("[data-size]").forEach(x=>x.setAttribute("aria-pressed", x===b)); applyPrefs(); });

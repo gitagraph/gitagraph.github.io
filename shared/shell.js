@@ -62,6 +62,15 @@
   };
   window.GGShell = GGShell;
 
+  // The browser's toolbar tint follows the page's own theme (light by default, dark when chosen), not the device's.
+  (function () {
+    const html = document.documentElement;
+    const tint = () => { const dark = html.getAttribute("data-theme") === "dark";
+      document.querySelectorAll('meta[name="theme-color"]').forEach((m, i) => { if (i) m.remove(); else { m.removeAttribute("media"); m.content = dark ? "#111020" : "#faf8f4"; } }); };
+    tint(); addEventListener("DOMContentLoaded", tint);
+    new MutationObserver(tint).observe(html, { attributes: true, attributeFilter: ["data-theme"] });
+  })();
+
   // Reading trail. A question page lists its passages in order. Opening one from that page starts a trail, and each
   // passage page then offers the next passage and the way back to the question. A reader who reaches the same verse
   // by ordinary reading sees none of this: only pages opened along the trail are marked. Kept for this tab only.
@@ -303,9 +312,9 @@
         const gp = obj("gita-prefs");
         let size = +(get("gg-size") || gp.size || 1); if (!SIZES.includes(size)) size = 1;
         let sa = get("gg-sa") != null ? get("gg-sa") === "1" : gp.sa !== false;
-        let theme = get("gg-theme") || "system"; if (!["system", "light", "dark"].includes(theme)) theme = "system";
+        let theme = get("gg-theme") === "dark" ? "dark" : "light";      // light unless the reader chose dark; the device's setting is not followed
         const apply = () => { html.style.setProperty("--scale", size); if (sa) html.removeAttribute("data-sa"); else html.setAttribute("data-sa", "off");
-          if (theme === "system") html.removeAttribute("data-theme"); else html.setAttribute("data-theme", theme); };
+          html.setAttribute("data-theme", theme); };
         const save = () => { put("gg-size", String(size)); put("gg-sa", sa ? "1" : "0"); put("gg-theme", theme);
           ["gita-prefs", "avg-prefs", "upa-prefs2"].forEach(k => { const o = obj(k); o.size = size; o.sa = sa; o.theme = theme; put(k, JSON.stringify(o)); }); };
         html.style.setProperty("--scale", size); if (!sa) html.setAttribute("data-sa", "off");
@@ -323,7 +332,7 @@
             <div class="gs-row"><span class="gs-lbl">${t.lang}</span><div class="gs-seg" role="group"><button type="button" data-lg="en" aria-pressed="${cur() === "en"}">English</button><button type="button" data-lg="hi" lang="hi" aria-pressed="${cur() === "hi"}">हिन्दी</button></div></div>
             <div class="gs-row"><span class="gs-lbl">${t.sa}</span><button type="button" class="gs-switch" role="switch" aria-checked="${sa}" aria-label="${t.sa}"></button></div>
             <div class="gs-row"><span class="gs-lbl">${t.size}</span>${seg("size", [[0.9, "A−"], [1, "A"], [1.12, "A+"], [1.25, "A++"]], size)}</div>
-            <div class="gs-row"><span class="gs-lbl">${t.theme}</span>${seg("theme", [["system", t.system], ["light", t.light], ["dark", t.dark]], theme)}</div>
+            <div class="gs-row"><span class="gs-lbl">${t.theme}</span>${seg("theme", [["light", t.light], ["dark", t.dark]], theme)}</div>
             <div class="gs-row"><span></span><button type="button" class="gs-done" data-close>${t.done}</button></div></div>`;
           const close = () => { d.remove(); document.removeEventListener("keydown", onKey); tb.focus(); };
           const onKey = e => { if (e.key === "Escape") close(); };
