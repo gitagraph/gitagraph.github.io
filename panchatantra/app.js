@@ -14,6 +14,11 @@
     var scale = parseFloat(get('scale') || '1'), theme = get('theme') || 'system';
     var step = d.getElementById('step');
     if (step) step.textContent = LABELS[SIZES.indexOf(scale)] || 'A';
+    var mode = d.getElementById('mode');
+    if (mode) {
+      mode.setAttribute('data-mode', theme);
+      mode.setAttribute('aria-label', mode.getAttribute('data-label-' + theme) || theme);
+    }
     each('[data-scale]', function (b) { b.classList.toggle('on', parseFloat(b.dataset.scale) === scale); });
     each('[data-theme-set]', function (b) { b.classList.toggle('on', b.dataset.themeSet === theme); });
   }
@@ -32,6 +37,16 @@
       paint();
     };
   });
+  var modeBtn = d.getElementById('mode');
+  if (modeBtn) {
+    modeBtn.onclick = function () {
+      var order = ['system', 'day', 'night'], cur = get('theme') || 'system';
+      var next = order[(order.indexOf(cur) + 1) % order.length];
+      if (next === 'system') { set('theme', null); root.removeAttribute('data-theme'); }
+      else { set('theme', next); root.setAttribute('data-theme', next); }
+      paint();
+    };
+  }
   var stepper = d.getElementById('step');
   if (stepper) {
     stepper.onclick = function () {
@@ -104,6 +119,15 @@
   d.getElementById('prev').onclick = function () { go(i - 1); };
   d.getElementById('next').onclick = function () { go(i + 1); };
   show.querySelector('.stage').addEventListener('click', function () { go(i + 1); });
+  var sx = 0, sy = 0;
+  show.addEventListener('touchstart', function (e) {
+    sx = e.touches[0].clientX;
+    sy = e.touches[0].clientY;
+  }, { passive: true });
+  show.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? i + 1 : i - 1);
+  }, { passive: true });
   show.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowRight') go(i + 1);
     if (e.key === 'ArrowLeft') go(i - 1);
