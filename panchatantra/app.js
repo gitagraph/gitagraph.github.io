@@ -11,16 +11,12 @@
 
   var SIZES = [0.9, 1, 1.15, 1.3], LABELS = ['A\u2212', 'A', 'A+', 'A++'];
   function paint() {
-    var scale = parseFloat(get('scale') || '1'), theme = get('theme') || 'system';
+    var scale = parseFloat(get('scale') || '1');
     var step = d.getElementById('step');
     if (step) step.textContent = LABELS[SIZES.indexOf(scale)] || 'A';
     var mode = d.getElementById('mode');
-    if (mode) {
-      mode.setAttribute('data-mode', theme);
-      mode.setAttribute('aria-label', mode.getAttribute('data-label-' + theme) || theme);
-    }
+    if (mode) mode.setAttribute('aria-pressed', root.getAttribute('data-theme') === 'night' ? 'true' : 'false');
     each('[data-scale]', function (b) { b.classList.toggle('on', parseFloat(b.dataset.scale) === scale); });
-    each('[data-theme-set]', function (b) { b.classList.toggle('on', b.dataset.themeSet === theme); });
   }
   each('[data-scale]', function (b) {
     b.onclick = function () {
@@ -29,21 +25,11 @@
       paint();
     };
   });
-  each('[data-theme-set]', function (b) {
-    b.onclick = function () {
-      var v = b.dataset.themeSet;
-      if (v === 'system') { set('theme', null); root.removeAttribute('data-theme'); }
-      else { set('theme', v); root.setAttribute('data-theme', v); }
-      paint();
-    };
-  });
   var modeBtn = d.getElementById('mode');
   if (modeBtn) {
     modeBtn.onclick = function () {
-      var order = ['system', 'day', 'night'], cur = get('theme') || 'system';
-      var next = order[(order.indexOf(cur) + 1) % order.length];
-      if (next === 'system') { set('theme', null); root.removeAttribute('data-theme'); }
-      else { set('theme', next); root.setAttribute('data-theme', next); }
+      if (root.getAttribute('data-theme') === 'night') { set('theme', 'day'); root.removeAttribute('data-theme'); }
+      else { set('theme', 'night'); root.setAttribute('data-theme', 'night'); }
       paint();
     };
   }

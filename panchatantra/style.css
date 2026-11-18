@@ -4,13 +4,10 @@
   --ui: "Mukta", system-ui, -apple-system, "Segoe UI", sans-serif;
   --read: "Literata", Georgia, "Times New Roman", serif;
   --skt: "Tiro Devanagari Sanskrit", "Noto Serif Devanagari", "Kohinoor Devanagari", serif;
-  --lh: 1.65; --scale: 1; --hw: 600;
+  --lh: 1.65; --scale: 1; --hw: 600; color-scheme: light;
 }
 :root:lang(hi) { --read: "Tiro Devanagari Hindi", "Noto Serif Devanagari", serif; --lh: 1.85; --hw: 400; }
-:root[data-theme="night"] { --bg: #0e1126; --ink: #eceaf5; --soft: #a9abc6; --line: #2a2f55; --acc: #f0a3ab; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="day"]) { --bg: #0e1126; --ink: #eceaf5; --soft: #a9abc6; --line: #2a2f55; --acc: #f0a3ab; }
-}
+:root[data-theme="night"] { --bg: #0e1126; --ink: #eceaf5; --soft: #a9abc6; --line: #2a2f55; --acc: #f0a3ab; color-scheme: dark; }
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
   ::view-transition-old(root) { animation: none; mix-blend-mode: normal; }
@@ -37,7 +34,8 @@ h1, h2, .door-title, .bt {
 .top, main { max-width: 40rem; margin: 0 auto; }
 main { padding-bottom: 3rem; }
 .top { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; font-family: var(--ui); font-size: 16px; line-height: 1.5; }
-.name { font-weight: 600; }
+.name { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.name svg { display: block; flex: none; width: 22px; height: 22px; }
 .tools { display: flex; gap: 6px; align-items: center; }
 .ctl { font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--soft); background: none; border: 1px solid var(--line); border-radius: 9px; padding: 5px 11px; cursor: pointer; }
 .ctl.icon { display: inline-flex; align-items: center; padding: 8px 10px; }
@@ -118,7 +116,6 @@ dialog.show { width: 100%; max-width: 44rem; margin: auto; padding: 0; border: 7
 @media (prefers-reduced-motion: reduce) { .moment { transition: none; } }
 :root { --tint: #fbf5e6; }
 :root[data-theme="night"] { --tint: #171b3d; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="day"]) { --tint: #171b3d; } }
 .learn { margin: 36px 0 0; padding: 22px 0 26px; background: var(--tint); }
 .label { margin: 0 20px; font-family: var(--ui); font-size: 15px; line-height: 1.5; font-weight: 600; color: var(--acc); }
 .learn .shows { margin-top: 8px; padding-top: 0; border-top: 0; }
@@ -173,10 +170,15 @@ dialog.show::backdrop { background: rgba(6, 7, 18, 0.92); }
 /* frame has no bottom edge: top and sides only, so the page reads as scrollable */
 .f1, .f2, .f3 { border-bottom-width: 0; }
 body.d1, body.d2, body.d3 { padding-bottom: 0; }
-/* theme icon in the header, swipeable cards */
-#mode svg { display: none; }
-#mode[data-mode="system"] .i-system, #mode[data-mode="day"] .i-day, #mode[data-mode="night"] .i-night { display: block; }
+/* theme button: moon on the light page, sun on the dark page. Cards can be swiped. */
+#mode .i-day { display: none; }
+:root[data-theme="night"] #mode .i-day { display: block; }
+:root[data-theme="night"] #mode .i-night { display: none; }
 .stage { touch-action: pan-y; }
 /* door cue sits above the box */
 .cue-line { margin: 26px 20px 0; font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--soft); }
 .cue-line + .door { margin-top: 8px; }
+/* a door carries a small picture from the story's own drawing */
+.door-pic { flex: none; width: 96px; padding: 2px; border: 3px solid var(--madder); border-radius: 3px; background: var(--turmeric); }
+.door-pic svg { display: block; width: 100%; height: auto; }
+@media (min-width: 40rem) { .door-pic { width: 128px; } }
