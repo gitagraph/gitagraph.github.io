@@ -33,8 +33,8 @@ h1, h2, .door-title, .bt {
 :root:lang(hi) h1, :root:lang(hi) h2, :root:lang(hi) .door-title, :root:lang(hi) .bt { line-height: 1.45; letter-spacing: 0; }
 .top, main { max-width: 40rem; margin: 0 auto; }
 main { padding-bottom: 3rem; }
-.top { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; font-family: var(--ui); font-size: 16px; line-height: 1.5; }
-.name { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.top { display: flex; justify-content: space-between; align-items: center; padding: 8px 20px; font-family: var(--ui); font-size: 16px; line-height: 1.5; }
+.name { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; }
 .name svg { display: block; flex: none; width: 22px; height: 22px; }
 .tools { display: flex; gap: 6px; align-items: center; }
 .ctl { font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--soft); background: none; border: 1px solid var(--line); border-radius: 9px; padding: 5px 11px; cursor: pointer; }
@@ -89,7 +89,7 @@ dialog h2 { font-size: 1.5rem; margin-bottom: 10px; }
   dialog { width: 27rem; margin: auto; border: 7px solid var(--madder); }
 }
 @media (min-width: 62rem) {
-  .top { max-width: 70rem; padding: 14px 32px; }
+  .top { max-width: 70rem; padding: 10px 32px; }
   .wide { display: inline-flex; }
   h1 { font-size: 2.6rem; }
   main:has(.scene) {
@@ -99,7 +99,7 @@ dialog h2 { font-size: 1.5rem; margin-bottom: 10px; }
   main:has(.scene) > * { grid-column: 2; }
   main:has(.scene) > .scene { grid-column: 1; grid-row: 1 / span 200; position: sticky; top: 2.5rem; }
 }
-.more { display: block; margin: 20px 20px 0; font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--acc); }
+.more { display: block; margin: 10px 20px -10px; padding: 10px 0; font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--acc); }
 .more[hidden] { display: none; }
 .pic { margin: 24px 0 0; }
 .pic svg, .moment svg { display: block; width: 100%; height: auto; }
@@ -125,7 +125,7 @@ dialog.show { width: 100%; max-width: 44rem; margin: auto; padding: 0; border: 7
 .allv .verse { margin: 12px 0 0; }
 dialog.show::backdrop { background: rgba(6, 7, 18, 0.92); }
 @media (min-width: 62rem) {
-  body:not([data-path=""]) .top { max-width: 46rem; padding: 14px 20px; }
+  body:not([data-path=""]) .top { max-width: 46rem; padding: 10px 20px; }
   body:not([data-path=""]) main:has(.scene) { display: block; max-width: 46rem; padding: 0 0 4rem; }
   body:not([data-path=""]) main:has(.scene) > .scene { position: static; }
 }
@@ -175,7 +175,7 @@ body.d1, body.d2, body.d3 { padding-bottom: 0; }
 :root[data-theme="night"] #mode .i-night { display: none; }
 .stage { touch-action: pan-y; }
 /* the three header controls are one size */
-.tools .ctl { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 36px; padding: 0; }
+.tools .ctl { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; }
 /* door cue sits above the box */
 .cue-line { margin: 26px 20px 0; font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--soft); }
 .cue-line + .door { margin-top: 8px; }
@@ -194,7 +194,7 @@ dialog.show .moment { min-height: 0; overflow-y: auto; }
 dialog.show .show-nav { flex: none; }
 /* welcome cards on home, and the one-time line for a first visit to a story */
 .kicker { margin: 0 0 6px; font-family: var(--ui); font-size: 15px; line-height: 1.5; font-weight: 600; color: var(--acc); }
-.intro-open { background: none; border: 0; padding: 0; cursor: pointer; text-align: left; text-decoration: underline; }
+.intro-open { background: none; border: 0; padding: 10px 0; cursor: pointer; text-align: left; text-decoration: underline; }
 .intro h2 { margin: 0; padding: 18px 20px 0; font-size: 1.5rem; }
 .intro .cap { padding-top: 8px; }
 .newhere { display: block; margin: 18px 20px 0; padding: 10px 14px; background: var(--tint); border-radius: 10px; font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--acc); }
@@ -211,22 +211,32 @@ dialog.show .show-nav { flex: none; }
 /* verse lists show three at a time */
 .pager { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; margin: 16px 0 0; font-family: var(--ui); font-size: 15px; line-height: 1.5; color: var(--soft); }
 .pager span { text-align: center; }
-/* card progress dots, shown for decks of ten cards or fewer */
-.dots { grid-column: 2; grid-row: 1; display: flex; justify-content: center; align-items: center; gap: 7px; }
+/* card progress dots, shown for decks of eleven cards or fewer */
+.dots { grid-column: 2; grid-row: 1; min-width: 0; display: flex; justify-content: center; align-items: center; gap: 7px; }
 .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
 .dots i.on { background: var(--acc); }
 #count.sr { grid-column: 2; grid-row: 1; opacity: 0; }
 /* on a part page, the bar at the top also links forward to the next part */
 .thread .fwd { margin-left: auto; max-width: 60%; color: var(--acc); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* a verse the story uses opens in place, under its paragraph */
-.vin { margin: 6px 20px 0; }
-.vin summary { display: inline-block; cursor: pointer; padding: 2px 0; font-family: var(--ui); font-size: 14px; line-height: 1.5; color: var(--acc); list-style: none; }
+.vin { margin: 0 20px -10px; }
+.vin[open] { margin-bottom: 0; }
+.vin summary { display: inline-block; cursor: pointer; padding: 12px 0; font-family: var(--ui); font-size: 14px; line-height: 1.5; color: var(--acc); list-style: none; }
 .vin summary::-webkit-details-marker { display: none; }
 .vin summary::before { content: "+ "; }
 .vin[open] summary::before { content: "\2212 "; }
-.vin .verse { margin: 8px 0 4px; }
+.vin .verse { margin: 0 0 4px; }
 /* the back link in the top bar is one large target: arrow and label together, 44px tall */
 .thread { padding-top: 0; padding-bottom: 6px; }
 .thread .up { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; min-width: 0; padding: 0 12px 0 0; }
 .thread .up span { min-width: 0; font-size: 15px; color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .thread .fwd { display: inline-block; min-width: 0; line-height: 44px; padding-left: 12px; }
+/* 44px tap targets: card and verse-list buttons. Footer links grow by padding only, so no line moves */
+.show-nav .ctl, .pager .ctl { min-width: 44px; min-height: 44px; }
+.foot a { padding: 14px 0; }
+/* a deck of one card keeps only Close, in its usual place on the right */
+.show-nav form { grid-column: 4; }
+/* the back arrow is its own span, hidden from screen readers; it keeps its size and colour */
+.thread .up .arr { flex: none; font-size: 20px; color: var(--ink); overflow: visible; }
+/* phones: Sanskrit verse text is smaller, so a half-line of a shloka stays on one line */
+@media (max-width: 29.99rem) { .verse .sa { font-size: calc(max(15px, 4.4vw) * var(--scale)); } }

@@ -101,6 +101,12 @@
     d.getElementById('prev').disabled = i === 0;
     d.getElementById('next').disabled = i === slides.length - 1;
   }
+  if (slides.length < 2) {
+    /* a deck of one card: no arrows and no count, only Close */
+    d.getElementById('prev').hidden = true;
+    d.getElementById('next').hidden = true;
+    count.hidden = true;
+  }
   play.onclick = function () { go(0); show.showModal(); };
   d.getElementById('prev').onclick = function () { go(i - 1); };
   d.getElementById('next').onclick = function () { go(i + 1); };
@@ -172,12 +178,12 @@
     show(0, false);
   });
 })();
-/* card progress dots: one dot per card, for decks of ten or fewer */
+/* card progress dots: one dot per card, for decks of eleven or fewer (ten pictures and the last card) */
 (function () {
   var d = document, show = d.getElementById('show'), count = d.getElementById('count');
   if (!show || !count || !window.MutationObserver) return;
   var slides = show.querySelectorAll('.moment'), stage = show.querySelector('.stage');
-  if (!stage || slides.length < 2 || slides.length > 10) return;
+  if (!stage || slides.length < 2 || slides.length > 11) return;
   var dots = d.createElement('span');
   dots.className = 'dots';
   dots.setAttribute('aria-hidden', 'true');
