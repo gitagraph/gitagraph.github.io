@@ -192,3 +192,10 @@ dialog.show[open] { display: flex; flex-direction: column; }
 dialog.show .stage { flex: 0 1 auto; min-height: 0; grid-template-rows: minmax(0, 1fr); overflow: hidden; }
 dialog.show .moment { min-height: 0; overflow-y: auto; }
 dialog.show .show-nav { flex: none; }
+/* welcome cards on home, and the one-time line for a first visit to a story */
+.kicker { margin: 0 0 6px; font-family: var(--ui); font-size: 15px; line-height: 1.5; font-weight: 600; color: var(--acc); }
+.intro-open { background: none; border: 0; padding: 0; cursor: pointer; text-align: left; text-decoration: underline; }
+.intro h2 { margin: 0; padding: 18px 20px 0; font-size: 1.5rem; }
+.intro .cap { padding-top: 8px; }
+.newhere { display: block; margin: 18px 20px 0; padding: 10px 14px; background: var(--tint); border-radius: 10px; font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--acc); }
+.newhere[hidden] { display: none; }

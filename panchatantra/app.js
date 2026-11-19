@@ -120,3 +120,20 @@
   });
   show.addEventListener('click', function (e) { if (e.target === show) show.close(); });
 })();
+/* welcome cards: open once on a first visit to home; one line, once, on a first visit to a story */
+(function () {
+  var d = document;
+  function get(k) { try { return localStorage.getItem('panchatantra-' + k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem('panchatantra-' + k, v); } catch (e) {} }
+  if (d.body.dataset.path === '') {
+    var play = d.getElementById('play'), cards = d.getElementById('show');
+    if (play && cards && cards.classList.contains('intro') && (!get('seen') || location.hash === '#intro')) {
+      set('seen', '1');
+      play.click();
+      if (location.hash === '#intro') history.replaceState(null, '', location.pathname);
+    }
+  } else {
+    var hint = d.getElementById('newhere');
+    if (hint && !get('seen') && !get('hint')) { hint.hidden = false; set('hint', '1'); }
+  }
+})();
