@@ -185,3 +185,10 @@ body.d1, body.d2, body.d3 { padding-bottom: 0; }
 .door-pic { flex: none; width: 96px; padding: 2px; border: 3px solid var(--madder); border-radius: 3px; background: var(--turmeric); }
 .door-pic svg { display: block; width: 100%; height: auto; }
 @media (min-width: 40rem) { .door-pic { width: 128px; } }
+/* card mode fits the screen: the picture shrinks on short screens, a long caption scrolls, the arrows stay in view */
+dialog.show { max-width: min(44rem, max(20rem, calc((100vh - 16rem) * 1.4))); max-height: 100vh; overflow: hidden; }
+dialog.show { max-width: min(44rem, max(20rem, calc((100dvh - 16rem) * 1.4))); max-height: 100dvh; }
+dialog.show[open] { display: flex; flex-direction: column; }
+dialog.show .stage { flex: 0 1 auto; min-height: 0; grid-template-rows: minmax(0, 1fr); overflow: hidden; }
+dialog.show .moment { min-height: 0; overflow-y: auto; }
+dialog.show .show-nav { flex: none; }
