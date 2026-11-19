@@ -395,6 +395,12 @@ details.more[open] summary::after{content:"−"}
 .tale .beat{font-family:var(--f-read);font-weight:600;font-size:calc(20px * var(--scale));line-height:1.3;margin:36px 0 -4px;max-width:30ch;color:var(--ink)}
 .tale .beat::before{content:"";display:block;width:28px;height:2px;margin:0 0 12px;border-radius:2px;background:var(--accent);opacity:.7}
 :root[lang=hi] .tale .beat{font-family:var(--f-hi);font-size:calc(21.5px * var(--scale));line-height:1.45}
+/* drawings: flat silhouettes in the page's own colours, so one drawing works in light and dark */
+.tale .scene{margin:28px 0 26px}
+.tale .scene svg{display:block;width:100%;max-width:640px;height:auto}
+.tale .scene .ink{fill:color-mix(in srgb, var(--ink) 84%, var(--bg))}
+.tale .scene .acc{fill:var(--accent)}
+.tale .scene .soft{fill:color-mix(in srgb, var(--ink) 9%, transparent)}
 .tale .pull{margin:28px 0 12px;padding:4px 0 4px 18px;border-left:3px solid var(--accent);max-width:28ch;font-family:var(--f-read);font-style:italic;font-weight:500;font-size:calc(22px * var(--scale));line-height:1.4;color:var(--accent);text-wrap:balance}
 :root[lang=hi] .tale .pull{font-family:var(--f-hi);font-style:normal;font-size:calc(23px * var(--scale));line-height:1.55}
 h2.big{font-family:var(--f-read);font-weight:600;font-size:22px;margin:40px 0 8px}

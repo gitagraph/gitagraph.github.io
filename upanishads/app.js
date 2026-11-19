@@ -778,12 +778,16 @@ function storyView(s){
       <p class="vsa" lang="sa">${saLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>
       <p class="vtr ${isHi()?"hi":""}" lang="${lang}">${esc(isHi()?v.hi:v.en)}</p></details>`;
   const beats = {}; (s.beats || []).forEach(b => { beats[b.before] = b; });
-  const paras = list.map((p, i) => {
+  //  - s.scenes = [{after, alt_en, alt_hi, svg}] places a drawing after a paragraph (-1: before the first one)
+  const sc = {}; (s.scenes || []).forEach(x => { (sc[x.after] = sc[x.after] || []).push(x); });
+  const fig = i => (sc[i] || []).map(x => `<figure class="scene" role="img" aria-label="${esc(isHi() ? x.alt_hi : x.alt_en)}">${x.svg.replace("<svg ", '<svg aria-hidden="true" focusable="false" ')}</figure>`).join("");
+  const paras = fig(-1) + list.map((p, i) => {
     const r = p.src==="text" && p.ref && !p.cont ? (refs.has(p.ref) ? `<a class="srcref" href="#${vid(p.ref)}">${esc(p.ref)}</a>` : `<span class="srcref">${esc(p.ref)}</span>`) : "";
     return (beats[i] ? `<h3 class="beat" lang="${lang}">${esc(isHi() ? beats[i].hi : beats[i].en)}</h3>` : "")
       + `<p class="${p.src==="text"?"text":"narr"}" lang="${lang}">${esc(p.t)}${r}</p>`
       + (at[i] || []).map(inSa).join("")
-      + (s.quote && s.quote.after === i ? `<blockquote class="pull" lang="${lang}">${esc(isHi() ? s.quote.hi : s.quote.en)}</blockquote>` : "");
+      + (s.quote && s.quote.after === i ? `<blockquote class="pull" lang="${lang}">${esc(isHi() ? s.quote.hi : s.quote.en)}</blockquote>` : "")
+      + fig(i);
   }).join("");
   const next = S[s.i+1], tb = trailBar("upanishads/story/" + s.id + "/"), tn = trailNext("upanishads/story/" + s.id + "/");
   const hub = id => HB.get(id);
