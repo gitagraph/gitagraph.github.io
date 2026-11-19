@@ -59,7 +59,7 @@
   }
   function last() { try { return JSON.parse(get('last')); } catch (e) { return null; } }
 
-  if (path) {
+  if (path && path !== 'about/') {
     var timer;
     window.addEventListener('scroll', function () {
       clearTimeout(timer);
