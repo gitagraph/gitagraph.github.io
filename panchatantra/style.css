@@ -199,3 +199,15 @@ dialog.show .show-nav { flex: none; }
 .intro .cap { padding-top: 8px; }
 .newhere { display: block; margin: 18px 20px 0; padding: 10px 14px; background: var(--tint); border-radius: 10px; font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--acc); }
 .newhere[hidden] { display: none; }
+/* verse cards: a light ground in place of solid indigo; the reference sits on top */
+:root { --vbg: #f1f3fb; --vline: #d9ddf0; }
+:root[data-theme="night"] { --vbg: #161b40; --vline: #2a2f55; }
+.verse { display: flex; flex-direction: column; background: var(--vbg); color: var(--ink); border: 1px solid var(--vline); border-left: 4px solid var(--turmeric); border-radius: 4px 12px 12px 4px; padding: 16px 18px 18px; }
+.verse[hidden] { display: none; }
+.verse figcaption { order: -1; margin: 0 0 10px; font-size: 13px; font-weight: 600; color: var(--acc); }
+.verse .sa { color: var(--ink); }
+.verse .iast { color: var(--soft); }
+.verse .mean { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--vline); color: var(--ink); }
+/* verse lists show three at a time */
+.pager { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; margin: 16px 0 0; font-family: var(--ui); font-size: 15px; line-height: 1.5; color: var(--soft); }
+.pager span { text-align: center; }

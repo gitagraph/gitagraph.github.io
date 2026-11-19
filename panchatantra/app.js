@@ -137,3 +137,38 @@
     if (hint && !get('seen') && !get('hint')) { hint.hidden = false; set('hint', '1'); }
   }
 })();
+/* verse lists: three at a time, with back and next */
+(function () {
+  var d = document, PER = 3;
+  Array.prototype.forEach.call(d.querySelectorAll('details.allv'), function (box) {
+    var items = box.querySelectorAll('.verse'), n = items.length, page = 0;
+    if (n <= PER) return;
+    function button(label, arrow) {
+      var b = d.createElement('button');
+      b.type = 'button';
+      b.className = 'ctl';
+      b.setAttribute('aria-label', label);
+      b.innerHTML = arrow;
+      return b;
+    }
+    var nav = d.createElement('div'), count = d.createElement('span');
+    var prev = button(box.dataset.prev || 'Back', '&#8592;'), next = button(box.dataset.next || 'Next', '&#8594;');
+    nav.className = 'pager';
+    nav.appendChild(prev);
+    nav.appendChild(count);
+    nav.appendChild(next);
+    box.appendChild(nav);
+    function show(p, scroll) {
+      page = Math.max(0, Math.min(Math.ceil(n / PER) - 1, p));
+      Array.prototype.forEach.call(items, function (el, k) { el.hidden = Math.floor(k / PER) !== page; });
+      var a = page * PER + 1, b = Math.min(n, a + PER - 1);
+      count.textContent = a + '-' + b + ' / ' + n;
+      prev.disabled = page === 0;
+      next.disabled = b === n;
+      if (scroll) box.scrollIntoView({ block: 'start' });
+    }
+    prev.onclick = function () { show(page - 1, true); };
+    next.onclick = function () { show(page + 1, true); };
+    show(0, false);
+  });
+})();
