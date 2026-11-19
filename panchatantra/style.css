@@ -216,3 +216,5 @@ dialog.show .show-nav { flex: none; }
 .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
 .dots i.on { background: var(--acc); }
 #count.sr { grid-column: 2; grid-row: 1; opacity: 0; }
+/* on a part page, the bar at the top also links forward to the next part */
+.thread .fwd { margin-left: auto; max-width: 60%; color: var(--acc); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
