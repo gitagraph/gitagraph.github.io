@@ -390,7 +390,7 @@ const UI = {
     min:n=>`${n} min read`, nStories:n=>n===1?"1 story":`${n} stories`, story:"Story", teaching:"Teaching",
     forWho:"Who this is for", legendOff:"To see which passages follow the Sanskrit closely, turn on \"Mark passages close to the text\" in Display.", legend:"Passages marked on the left follow the Sanskrit closely; the rest is connective narration.",
     sources:"The source verses", sourcesT:"The Sanskrit this story rests on, with fresh English and Hindi translations.",
-    learning:"The learning", moreT:"More: where this comes from, other readings", toSrc:"Read the Sanskrit verses", carry:"Carry this with you", readings:"Readings differ",
+    learning:"The learning", moreT:"More: source verses, where this comes from, echoes in other texts", toSrc:"Read the Sanskrit verses", carry:"Carry this with you", readings:"Readings differ",
     whereFrom:"Where this comes from", upanishad:"Upanishad", veda:"Veda", section:"Section", period:"Period", people:"People", ideas:"Ideas",
     edition:"Sanskrit text", checked:"Checked against", themesH:"Themes", related:"Related stories", sameIdea:"Echoes in other texts", sameNote:"Editorial links: our editors read these verses as expressing related ideas. Their philosophical contexts may differ.",
     gita:"Bhagavad Gita", ashtavakra:"Ashtavakra Gita", prev:"Previous story", next:"Next story", save:"Save", savedL:"Saved",
@@ -410,7 +410,7 @@ const UI = {
     why:["<b>The Upanishads teach through people.</b> A student who is sent away, a king who is corrected, a wife who asks the hardest question. These scenes are the best way in.",
       "<b>Every story says where it comes from.</b> The Upanishad, its Veda, the exact section, and the Sanskrit it rests on, with fresh translations.",
       "<b>Every story says who it is for.</b> Facing a loss, doubting yourself, too proud to listen: pick the story that fits the day."],
-    how:[["Read",["Open any story from the home page or a theme. The story comes first, then its source verses, then what it teaches.",
+    how:[["Read",["Open any story from the home page or a theme. The story comes first, then what it teaches. The source verses are under More, at the end.",
         "Passages with a line on the left follow the Sanskrit closely; tap the reference to see the verse. Unmarked passages are connective narration.",
         "Tap <b>हि / EN</b> at the top to switch language. <b>Display</b> sets text size, theme and what is shown."]],
       ["Find",["<b>Themes</b> groups the stories by what they are about: facing death, truth, the teacher and the seeker…",
@@ -423,7 +423,7 @@ const UI = {
     min:n=>`${n} मिनट`, nStories:n=>`${n} कथाएँ`, story:"कथा", teaching:"उपदेश",
     forWho:"यह किसके लिए है", legendOff:"कौन-से अंश संस्कृत के करीब हैं, यह देखने के लिए प्रदर्शन में \"मूल के करीब वाले अंश चिह्नित करें\" चालू करें।", legend:"बाईं ओर रेखा वाले अंश संस्कृत के करीब हैं; बाकी जोड़ने वाला वर्णन है।",
     sources:"मूल मंत्र", sourcesT:"वह संस्कृत जिस पर यह कथा टिकी है, नए हिंदी और अंग्रेज़ी अनुवाद के साथ।",
-    learning:"सीख", moreT:"और: यह कहाँ से है, अन्य व्याख्याएँ", toSrc:"संस्कृत मंत्र पढ़ें", carry:"इसे साथ रखें", readings:"अलग-अलग व्याख्याएँ",
+    learning:"सीख", moreT:"और: मूल मंत्र, यह कहाँ से है, अन्य ग्रंथों में समान विचार", toSrc:"संस्कृत मंत्र पढ़ें", carry:"इसे साथ रखें", readings:"अलग-अलग व्याख्याएँ",
     whereFrom:"यह कहाँ से है", upanishad:"उपनिषद्", veda:"वेद", section:"खंड", period:"समय", people:"पात्र", ideas:"विचार",
     edition:"संस्कृत पाठ", checked:"मिलान", themesH:"विषय", related:"संबंधित कथाएँ", sameIdea:"अन्य ग्रंथों में समान विचार", sameNote:"संपादकीय संबंध: हमारे संपादकों की समझ में इन श्लोकों के विचार मिलते-जुलते हैं। इनके दार्शनिक संदर्भ अलग हो सकते हैं।",
     gita:"भगवद्गीता", ashtavakra:"अष्टावक्र गीता", prev:"पिछली कथा", next:"अगली कथा", save:"सहेजें", savedL:"सहेजा गया",
@@ -443,7 +443,7 @@ const UI = {
     why:["<b>उपनिषद् लोगों के माध्यम से सिखाते हैं।</b> एक शिष्य जिसे लौटा दिया जाता है, एक राजा जिसे टोका जाता है, एक पत्नी जो सबसे कठिन प्रश्न पूछती है। ये दृश्य सबसे अच्छा प्रवेश-द्वार हैं।",
       "<b>हर कथा बताती है कि वह कहाँ से है।</b> उपनिषद्, उसका वेद, ठीक-ठीक खंड, और वह संस्कृत जिस पर कथा टिकी है, नए अनुवाद के साथ।",
       "<b>हर कथा बताती है कि वह किसके लिए है।</b> कोई हानि, खुद पर संदेह, सुनने में घमंड: उस दिन के लिए उपयुक्त कथा चुनें।"],
-    how:[["पढ़ें",["होम पेज या किसी विषय से कोई भी कथा खोलें। पहले कथा, फिर उसके मूल मंत्र, फिर उसकी सीख।",
+    how:[["पढ़ें",["होम पेज या किसी विषय से कोई भी कथा खोलें। पहले कथा, फिर उसकी सीख। मूल मंत्र अंत में 'और' के भीतर हैं।",
         "बाईं ओर रेखा वाले अंश संस्कृत के करीब हैं; मंत्र देखने के लिए संदर्भ पर टैप करें। बिना रेखा वाले अंश जोड़ने वाला वर्णन हैं।",
         "ऊपर <b>हि / EN</b> से भाषा बदलें। <b>प्रदर्शन</b> में अक्षर का आकार, थीम और क्या दिखे, चुनें।"]],
       ["खोजें",["<b>विषय</b> में कथाएँ उनके विषय के अनुसार हैं: मृत्यु का सामना, सत्य, गुरु और जिज्ञासु…",
@@ -650,6 +650,7 @@ document.addEventListener("click", e => {
   const a = e.target.closest && e.target.closest('a[href^="#v-"]');
   if(!a) return; e.preventDefault();
   const el = document.getElementById(a.getAttribute("href").slice(1));
+  const d = el && el.closest("details"); if(d) d.open = true;    // the source verses sit inside "More", closed by default
   if(el){ el.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"}); el.classList.add("hit"); el.focus({preventScroll:true}); }
 });
 
@@ -809,16 +810,14 @@ function storyView(s){
   <div class="vactions"><button class="btn ${savedSet.has(s.id)?"on":""}" type="button" id="savebtn" aria-pressed="${savedSet.has(s.id)}">${IC.saved}<span>${esc(savedSet.has(s.id)?u().savedL:u().save)}</span></button>
     <button class="btn" type="button" id="shareend">${IC.share}<span>${esc(u().share)}</span></button></div>
 
-  <h2 class="big" id="sources">${esc(u().sources)}</h2>
+  <details class="more" id="more"><summary>${esc(u().moreT)}</summary>
+  <h2 class="sec" id="sources">${esc(u().sources)}</h2>
   <p class="srcnote" lang="${lang}">${esc(u().sourcesT)}</p>
   ${s.verses.map(v => `<section class="sv" id="${vid(v.ref)}" tabindex="-1"><div class="rf"><b>${esc(L(x,"name"))} ${esc(v.ref)}</b>${v.speaker && HB.has(v.speaker) ? `<span>${esc(hname(HB.get(v.speaker)))}</span>` : ""}</div>
     ${prefs.sa ? `<p class="vsa" lang="sa">${saLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>` : ""}
     ${prefs.iast && v.iast ? `<p class="viast" lang="sa-Latn">${trLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>` : ""}
     <p class="vtr ${isHi()?"hi":""}" lang="${lang}">${esc(isHi()?v.hi:v.en)}</p>
     ${prefs.other ? `<p class="vtr2 ${isHi()?"":"hi"}" lang="${isHi()?"en":"hi"}"><b>${isHi()?"EN":"हिन्दी"}</b>${esc(isHi()?v.en:v.hi)}</p>` : ""}</section>`).join("")}
-
-  <details class="more" id="more"><summary>${esc(u().moreT)}</summary>
-  <p class="legend2"><i></i>${esc(prefs.marks ? u().legend : u().legendOff)}</p>
   <h2 class="sec">${esc(u().whereFrom)}</h2>
   <dl class="prov">
     <dt>${esc(u().upanishad)}</dt><dd><a href="#u-${x.id}">${esc(L(x,"name"))}</a> <span class="skt muted">${esc(x.native)}</span></dd>
@@ -832,6 +831,7 @@ function storyView(s){
   </dl>
   ${s.readings && s.readings.length ? `<h2 class="sec">${esc(u().readings)}</h2><div class="readings" lang="${lang}">${s.readings.map(r=>`<p>${esc(isHi()?r.hi:r.en)}</p>`).join("")}</div>` : ""}
   ${xr ? `<h2 class="sec">${esc(u().sameIdea)}</h2><p class="srcnote" lang="${lang}">${esc(u().sameNote)}</p><div class="xref">${xr}</div>${BASE ? `<p><a class="tosrc" href="${BASE.replace(/[^/]+\/$/, "")}explore/?v=sutra#/u/story/${encodeURIComponent(s.id)}">${isHi() ? "सूत्र देखें" : "See connections"} →</a></p>` : ""}` : ""}
+  <p class="legend2"><i></i>${esc(prefs.marks ? u().legend : u().legendOff)}</p>
   <p class="credits">${u().suggest}</p>
   </details>
   ${tb}${tb ? (next && !tn.includes(`upanishads/story/${next.id}/" data-trail`) ? `<p class="gt-seq"><a href="#s-${next.id}">${isHi() ? "या अगली कथा पढ़ें" : "Or read the next story"}: ${esc(L(next,"title"))} →</a></p>` : "")
@@ -859,7 +859,7 @@ function wireStory(s){
     sb.classList.toggle("on", on); sb.setAttribute("aria-pressed", on); sb.querySelector("span").textContent = on ? u().savedL : u().save;
     toast(on ? u().savedL : u().save);
   };
-  // the source verses sit in the open, after the learning, so a jump to one needs no unfolding
+  // the source verses sit inside "More", closed by default; a jump to one opens it (the click handler above)
   // opened from a question or a path, a sideways swipe moves along that list, the page following the finger (shared/shell.js).
   // Read on its own, a story does not swipe: it is long, and a stray sideways drag should not turn the page.
   if(window.GGShell && GGShell.swipe) GGShell.swipe(document.querySelector("article.story"), dir => { const ts = trailStep(s, dir); return ts && ts.href ? () => trailGo(ts) : null; });
