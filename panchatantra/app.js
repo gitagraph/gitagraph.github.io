@@ -92,14 +92,28 @@
 })();
 (function () {
   var d = document, show = d.getElementById('show'), play = d.getElementById('play');
+  /* links from a card carry #cards, or #cards-door-<id> for a door. Note it, then take it out
+     of the address so a reload does not reopen the deck. A door anchor stays, as #door-<id>. */
+  var hash = location.hash, want = null;
+  if (hash === '#cards' || hash.indexOf('#cards-') === 0) {
+    want = hash.slice(7);
+    if (want && d.getElementById(want)) location.replace(location.pathname + location.search + '#' + want);
+    else history.replaceState(null, '', location.pathname + location.search);
+  }
   if (!show || !play || !show.showModal) return;
   var slides = show.querySelectorAll('.moment'), count = d.getElementById('count'), i = 0;
+  var onward = d.getElementById('onward');
   function go(n) {
     i = Math.max(0, Math.min(slides.length - 1, n));
     Array.prototype.forEach.call(slides, function (el, k) { el.classList.toggle('on', k === i); });
     count.textContent = (i + 1) + ' / ' + slides.length;
     d.getElementById('prev').disabled = i === 0;
     d.getElementById('next').disabled = i === slides.length - 1;
+    if (onward) {
+      /* the last card: the next step shows under the card, in place of the next arrow */
+      onward.hidden = i !== slides.length - 1;
+      d.getElementById('next').style.visibility = onward.hidden ? '' : 'hidden';
+    }
   }
   if (slides.length < 2) {
     /* a deck of one card: no arrows and no count, only Close */
@@ -110,7 +124,11 @@
   play.onclick = function () { go(0); show.showModal(); };
   d.getElementById('prev').onclick = function () { go(i - 1); };
   d.getElementById('next').onclick = function () { go(i + 1); };
-  show.querySelector('.stage').addEventListener('click', function () { go(i + 1); });
+  show.querySelector('.stage').addEventListener('click', function (e) {
+    /* a tap on a link inside a card (a door card's button) follows the link and does not turn the card */
+    if (e.target.closest && e.target.closest('a')) return;
+    go(i + 1);
+  });
   var sx = 0, sy = 0;
   show.addEventListener('touchstart', function (e) {
     sx = e.touches[0].clientX;
@@ -125,6 +143,15 @@
     if (e.key === 'ArrowLeft') go(i - 1);
   });
   show.addEventListener('click', function (e) { if (e.target === show) show.close(); });
+  /* opened from a card link: show the deck at once, at the door's card if a door was named */
+  if (want !== null && !show.classList.contains('intro')) {
+    var at = 0;
+    Array.prototype.forEach.call(slides, function (el, k) {
+      if (want && el.getAttribute('data-door') === want) at = k;
+    });
+    go(at);
+    show.showModal();
+  }
 })();
 /* welcome cards: open once on a first visit to home; one line, once, on a first visit to a story */
 (function () {
@@ -140,7 +167,10 @@
     }
   } else {
     var hint = d.getElementById('newhere');
-    if (hint && !get('seen') && !get('hint')) { hint.hidden = false; set('hint', '1'); }
+    var tip = d.getElementById('cardhint');
+    /* the card line comes first, once; the first-time line waits for a later view */
+    if (tip && !get('cardhint')) { tip.hidden = false; set('cardhint', '1'); }
+    else if (hint && !get('seen') && !get('hint')) { hint.hidden = false; set('hint', '1'); }
   }
 })();
 /* verse lists: three at a time, with back and next */

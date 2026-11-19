@@ -240,3 +240,14 @@ dialog.show .show-nav { flex: none; }
 .thread .up .arr { flex: none; font-size: 20px; color: var(--ink); overflow: visible; }
 /* phones: Sanskrit verse text is smaller, so a half-line of a shloka stays on one line */
 @media (max-width: 29.99rem) { .verse .sa { font-size: calc(max(15px, 4.4vw) * var(--scale)); } }
+/* card mode, next step: on the last card one labelled button sits under the card, in place of the next arrow */
+.onward { flex: none; padding: 14px 20px 0; }
+.onward[hidden] { display: none; }
+.onward .btn, .doorcard .btn { border-color: var(--acc); color: var(--acc); }
+.onward .btn { margin: 0; }
+/* a door as a card: the story's picture, the cue, the title, one button */
+.doorcard h2 { margin: 0; padding: 8px 20px 0; font-size: 1.5rem; }
+.doorcard .btn { margin: 16px 20px 2px; }
+/* the one-time line under the cards button */
+.cardhint { margin: 10px 20px 0; padding: 10px 14px; background: var(--tint); border-radius: 10px; font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--soft); }
+.cardhint[hidden] { display: none; }
