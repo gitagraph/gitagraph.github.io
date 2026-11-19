@@ -172,3 +172,23 @@
     show(0, false);
   });
 })();
+/* card progress dots: one dot per card, for decks of ten or fewer */
+(function () {
+  var d = document, show = d.getElementById('show'), count = d.getElementById('count');
+  if (!show || !count || !window.MutationObserver) return;
+  var slides = show.querySelectorAll('.moment'), stage = show.querySelector('.stage');
+  if (!stage || slides.length < 2 || slides.length > 10) return;
+  var dots = d.createElement('span');
+  dots.className = 'dots';
+  dots.setAttribute('aria-hidden', 'true');
+  for (var k = 0; k < slides.length; k++) dots.appendChild(d.createElement('i'));
+  count.parentNode.insertBefore(dots, count);
+  count.className = 'sr';
+  function paint() {
+    Array.prototype.forEach.call(slides, function (el, k) {
+      dots.children[k].className = el.classList.contains('on') ? 'on' : '';
+    });
+  }
+  new MutationObserver(paint).observe(stage, { attributes: true, subtree: true, attributeFilter: ['class'] });
+  paint();
+})();

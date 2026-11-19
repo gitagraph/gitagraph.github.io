@@ -211,3 +211,8 @@ dialog.show .show-nav { flex: none; }
 /* verse lists show three at a time */
 .pager { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; margin: 16px 0 0; font-family: var(--ui); font-size: 15px; line-height: 1.5; color: var(--soft); }
 .pager span { text-align: center; }
+/* card progress dots, shown for decks of ten cards or fewer */
+.dots { grid-column: 2; grid-row: 1; display: flex; justify-content: center; align-items: center; gap: 7px; }
+.dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+.dots i.on { background: var(--acc); }
+#count.sr { grid-column: 2; grid-row: 1; opacity: 0; }
