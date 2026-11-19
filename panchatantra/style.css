@@ -218,3 +218,10 @@ dialog.show .show-nav { flex: none; }
 #count.sr { grid-column: 2; grid-row: 1; opacity: 0; }
 /* on a part page, the bar at the top also links forward to the next part */
 .thread .fwd { margin-left: auto; max-width: 60%; color: var(--acc); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* a verse the story uses opens in place, under its paragraph */
+.vin { margin: 6px 20px 0; }
+.vin summary { display: inline-block; cursor: pointer; padding: 2px 0; font-family: var(--ui); font-size: 14px; line-height: 1.5; color: var(--acc); list-style: none; }
+.vin summary::-webkit-details-marker { display: none; }
+.vin summary::before { content: "+ "; }
+.vin[open] summary::before { content: "\2212 "; }
+.vin .verse { margin: 8px 0 4px; }
