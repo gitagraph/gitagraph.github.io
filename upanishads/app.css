@@ -380,6 +380,23 @@ details.more[open] summary::after{content:"−"}
 .tale a.srcref{text-decoration:underline;text-underline-offset:2px}
 .tale.nomarks p.text{border-left:0;padding-left:0;margin-left:0}
 .tale.nomarks .srcref{display:none}
+/* reading aids: the Sanskrit in place, quiet sub-headings, and the turning line set apart */
+.tale .insa{margin:8px 0 0;max-width:64ch}
+.tale .insa summary{display:inline-flex;align-items:center;gap:8px;min-height:40px;cursor:pointer;list-style:none;font-family:var(--f-ui);font-size:14px;font-weight:600;color:var(--accent)}
+.tale .insa summary::-webkit-details-marker{display:none}
+.tale .insa summary::before{content:"+";display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;border:1px solid color-mix(in srgb, var(--accent) 45%, transparent);font-size:15px;line-height:1}
+.tale .insa[open] summary::before{content:"−"}
+.tale .insa summary:hover span{text-decoration:underline;text-underline-offset:3px}
+.tale .insa[open]{padding:0 0 14px 14px;border-left:3px solid color-mix(in srgb, var(--accent) 55%, transparent)}
+.tale .insa .vsa{font-size:calc(20px * var(--scale));margin:2px 0 0}
+.tale .insa .vtr{font-family:var(--f-read);font-size:calc(16.5px * var(--scale));line-height:1.65;color:var(--muted);margin:10px 0 0}
+:root[lang=hi] .tale .insa .vtr{font-family:var(--f-hi);line-height:1.85}
+:root[lang=hi] .tale .insa summary{font-size:15px}
+.tale .beat{font-family:var(--f-read);font-weight:600;font-size:calc(20px * var(--scale));line-height:1.3;margin:36px 0 -4px;max-width:30ch;color:var(--ink)}
+.tale .beat::before{content:"";display:block;width:28px;height:2px;margin:0 0 12px;border-radius:2px;background:var(--accent);opacity:.7}
+:root[lang=hi] .tale .beat{font-family:var(--f-hi);font-size:calc(21.5px * var(--scale));line-height:1.45}
+.tale .pull{margin:28px 0 12px;padding:4px 0 4px 18px;border-left:3px solid var(--accent);max-width:28ch;font-family:var(--f-read);font-style:italic;font-weight:500;font-size:calc(22px * var(--scale));line-height:1.4;color:var(--accent);text-wrap:balance}
+:root[lang=hi] .tale .pull{font-family:var(--f-hi);font-style:normal;font-size:calc(23px * var(--scale));line-height:1.55}
 h2.big{font-family:var(--f-read);font-weight:600;font-size:22px;margin:40px 0 8px}
 :root[lang=hi] h2.big{font-family:var(--f-hi);font-weight:400;font-size:23px}
 .secnote{color:var(--muted);font-size:14px;margin:0 0 6px;line-height:1.5}

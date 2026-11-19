@@ -756,9 +756,34 @@ function trailGo(ts){ if(!ts.href) return; if(ts.k) GGShell.trailSeen(ts.k);
   const path = new URL(ts.href, location.href).pathname; if(path.startsWith(BASE)) go(tokenOf(path), true); else location.replace(ts.href); }
 function storyView(s){
   const x = UPB.get(s.up), refs = new Set(s.verses.map(v=>v.ref));
-  const paras = (isHi() ? s.story_hi : s.story_en).map(p => {
-    const r = p.src==="text" && p.ref ? (refs.has(p.ref) ? `<a class="srcref" href="#${vid(p.ref)}">${esc(p.ref)}</a>` : `<span class="srcref">${esc(p.ref)}</span>`) : "";
-    return `<p class="${p.src==="text"?"text":"narr"}" lang="${lang}">${esc(p.t)}${r}</p>`;
+  // Reading aids, so the story is not one long run of prose:
+  //  - the Sanskrit sits where the story uses it: each source verse opens under the first paragraph that retells it
+  //    (a paragraph's ref is often a range, "1.1.20–22", and the verse one number inside it);
+  //  - s.beats = [{before, en, hi}] puts a quiet sub-heading before a paragraph;
+  //  - s.quote = {after, en, hi} sets the story's turning line apart after a paragraph;
+  //  - a paragraph split for easier reading has "cont" on every piece but the last, which alone shows the reference.
+  // The full list of source verses stays at the foot of the page.
+  const list = isHi() ? s.story_hi : s.story_en;
+  const key = r => String(r).split(".").map(n => parseFloat(n) || 0);
+  const cmp = (a, b) => { for(let i = 0; i < Math.max(a.length, b.length); i++){ const d = (a[i]||0) - (b[i]||0); if(d) return d; } return 0; };
+  const span = r => { const [a, b] = String(r).split(/[–-]/), A = key(a); if(!b) return [A, A];
+    const bb = b.split("."); return [A, bb.length >= A.length ? key(b) : A.slice(0, A.length - bb.length).concat(key(b))]; };
+  const at = {};       // paragraph index -> the verses that open under it
+  s.verses.forEach(v => { const k = span(v.ref)[0];
+    const i = list.findIndex(p => { if(p.src !== "text" || !p.ref) return false; const [A, B] = span(p.ref);
+      return cmp(k, A) >= 0 && (cmp(k, B) <= 0 || B.every((n, j) => k[j] === n)); });
+    if(i >= 0){ let j = i; while(list[j] && list[j].cont && list[j + 1]) j++;     // a split paragraph: after its last piece
+      (at[j] = at[j] || []).push(v); } });
+  const inSa = v => `<details class="insa"><summary><span>${isHi() ? "संस्कृत" : "Sanskrit"} · ${esc(L(x,"name"))} ${esc(v.ref)}</span></summary>
+      <p class="vsa" lang="sa">${saLines(v).map(l=>`<span class="ln">${esc(l)}</span>`).join("")}</p>
+      <p class="vtr ${isHi()?"hi":""}" lang="${lang}">${esc(isHi()?v.hi:v.en)}</p></details>`;
+  const beats = {}; (s.beats || []).forEach(b => { beats[b.before] = b; });
+  const paras = list.map((p, i) => {
+    const r = p.src==="text" && p.ref && !p.cont ? (refs.has(p.ref) ? `<a class="srcref" href="#${vid(p.ref)}">${esc(p.ref)}</a>` : `<span class="srcref">${esc(p.ref)}</span>`) : "";
+    return (beats[i] ? `<h3 class="beat" lang="${lang}">${esc(isHi() ? beats[i].hi : beats[i].en)}</h3>` : "")
+      + `<p class="${p.src==="text"?"text":"narr"}" lang="${lang}">${esc(p.t)}${r}</p>`
+      + (at[i] || []).map(inSa).join("")
+      + (s.quote && s.quote.after === i ? `<blockquote class="pull" lang="${lang}">${esc(isHi() ? s.quote.hi : s.quote.en)}</blockquote>` : "");
   }).join("");
   const next = S[s.i+1], tb = trailBar("upanishads/story/" + s.id + "/"), tn = trailNext("upanishads/story/" + s.id + "/");
   const hub = id => HB.get(id);
@@ -771,7 +796,6 @@ function storyView(s){
   <h1>${esc(L(s,"title"))}</h1>
   <p class="forline" lang="${lang}">${esc(L(s,"for"))}</p>
   ${L(s,"insight") ? `<p class="insight1" lang="${lang}">${esc(L(s,"insight"))}</p>` : ""}
-  ${s.verses.length ? `<p class="tosrc"><a href="#${vid(s.verses[0].ref)}">${esc(u().toSrc)} ↓</a></p>` : ""}
   <div class="tale ${prefs.marks?"":"nomarks"}">${paras}</div>
 
   <h2 class="big">${esc(u().learning)}</h2>
