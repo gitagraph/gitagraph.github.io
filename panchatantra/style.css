@@ -254,5 +254,6 @@ dialog.show .show-nav { flex: none; }
 .cardhint[hidden] { display: none; }
 
 /* language switch at the top of the welcome cards */
-.intro-top { display: flex; justify-content: flex-end; padding: 10px 14px 0; }
-.intro-top .ctl { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; font-family: var(--ui); text-decoration: none; }
+.intro-top { flex: none; display: flex; justify-content: flex-end; height: 40px; padding: 0 12px; }
+.intro-top .ctl { position: relative; align-self: center; display: inline-flex; align-items: center; justify-content: center; height: 26px; min-width: 34px; padding: 0 8px; font-size: 14px; line-height: 1; border-radius: 13px; text-decoration: none; }
+.intro-top .ctl::after { content: ""; position: absolute; inset: -9px -5px; }
