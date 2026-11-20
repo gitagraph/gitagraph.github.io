@@ -783,7 +783,8 @@ function storyView(s){
   const sc = {}; (s.scenes || []).forEach(x => { (sc[x.after] = sc[x.after] || []).push(x); });
   const fig = i => (sc[i] || []).map(x => `<figure class="scene" role="img" aria-label="${esc(isHi() ? x.alt_hi : x.alt_en)}">${x.svg.replace("<svg ", '<svg aria-hidden="true" focusable="false" ')}</figure>`).join("");
   const paras = fig(-1) + list.map((p, i) => {
-    const r = p.src==="text" && p.ref && !p.cont ? (refs.has(p.ref) ? `<a class="srcref" href="#${vid(p.ref)}">${esc(p.ref)}</a>` : `<span class="srcref">${esc(p.ref)}</span>`) : "";
+    // a paragraph whose Sanskrit opens right under it needs no reference link as well
+    const r = p.src==="text" && p.ref && !p.cont && !(at[i] || []).length ? (refs.has(p.ref) ? `<a class="srcref" href="#${vid(p.ref)}">${esc(p.ref)}</a>` : `<span class="srcref">${esc(p.ref)}</span>`) : "";
     return (beats[i] ? `<h3 class="beat" lang="${lang}">${esc(isHi() ? beats[i].hi : beats[i].en)}</h3>` : "")
       + `<p class="${p.src==="text"?"text":"narr"}" lang="${lang}">${esc(p.t)}${r}</p>`
       + (at[i] || []).map(inSa).join("")
