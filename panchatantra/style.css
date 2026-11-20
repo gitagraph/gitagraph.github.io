@@ -354,3 +354,5 @@ a.bk:hover .bk-name { color: var(--acc); }
 .as-n { font-family: var(--ui); font-size: 14px; color: var(--acc); margin-right: 8px; }
 .as-h { display: block; font-family: var(--ui); font-size: 15px; color: var(--soft); margin-top: 2px; }
 .hm-foot .more, .hm-foot button.more { text-decoration: none; }
+.bk-rest { display: none; }
+@media (min-width: 760px) { .bk-rest { display: block; font-family: var(--ui); font-size: 14px; line-height: 1.4; color: var(--ink); margin-top: 3px; } }
