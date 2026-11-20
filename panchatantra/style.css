@@ -252,3 +252,7 @@ dialog.show .show-nav { flex: none; }
 /* the one-time line under the cards button */
 .cardhint { margin: 10px 20px 0; padding: 10px 14px; background: var(--tint); border-radius: 10px; font-family: var(--ui); font-size: 16px; line-height: 1.5; color: var(--soft); }
 .cardhint[hidden] { display: none; }
+
+/* language switch at the top of the welcome cards */
+.intro-top { display: flex; justify-content: flex-end; padding: 10px 14px 0; }
+.intro-top .ctl { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; font-family: var(--ui); text-decoration: none; }
