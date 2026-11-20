@@ -1,0 +1,22 @@
+# Gitagraph
+
+> Gitagraph (gitagraph.com) is a free reading site for India's classic texts, verse by verse, in Sanskrit with simple English and Hindi. No ads, no sign-up, no tracking. Every verse and story has its own page and a Hindi version under /hi/.
+
+## Texts
+
+- [Bhagavad Gita](https://gitagraph.com/gita/): all 700 verses in 18 chapters, each with the Sanskrit, transliteration, English and Hindi translation and a plain explanation. Chapter pages: https://gitagraph.com/gita/chapter/2/ ; verse pages: https://gitagraph.com/gita/chapter/2/verse/47/
+- [Life questions in the Bhagavad Gita](https://gitagraph.com/gita/questions/): verses grouped by everyday questions such as worry, grief, anger and fear of failure.
+- [Ashtavakra Gita](https://gitagraph.com/ashtavakra/): all 298 verses in 20 chapters, the sage Ashtavakra's teaching to King Janaka on the Self, freedom and stillness.
+- [Upanishads](https://gitagraph.com/upanishads/): 27 stories from nine principal Upanishads (Nachiketa and Death, Satyakama, Shvetaketu "You are that", Maitreyi, Gargi and more), retold from the Sanskrit with the key verses.
+- [Panchatantra](https://gitagraph.com/panchatantra/): all five books, 72 stories told inside one another, in English and Hindi with the Sanskrit verses. Each story has its moral. Full list: https://gitagraph.com/panchatantra/stories/
+
+## Hindi
+
+- [गीताग्राफ़ (Hindi home)](https://gitagraph.com/hi/)
+- [पंचतंत्र की कहानियाँ](https://gitagraph.com/panchatantra/hi/stories/)
+
+## About
+
+- [About Gitagraph](https://gitagraph.com/about/)
+- [Panchatantra: about this edition](https://gitagraph.com/panchatantra/about/)
+- Sitemap: https://gitagraph.com/sitemap.xml
