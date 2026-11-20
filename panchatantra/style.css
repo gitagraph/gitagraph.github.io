@@ -274,3 +274,11 @@ dialog.sheet[open] { animation: sheet-up 0.25s ease-out; }
 .zz-text p { margin: 0; font-family: var(--ui); font-size: 16px; line-height: 1.45; color: var(--soft); }
 .sheet-foot { margin: 0; padding: 6px 0 22px; }
 .sheet-foot .btn { margin-top: 10px; border-color: var(--acc); color: var(--acc); }
+
+/* home: the banyan mark, centred above the title (Harsh, 20 Nov). Home is one column at every width,
+   so on desktop its top bar and footer take the same width as the text. */
+.homepic { display: flex; justify-content: center; padding: 22px 20px 0; }
+.homepic img { display: block; width: clamp(160px, 40vw, 280px); height: auto; }
+@media (min-width: 62rem) {
+  body[data-path=""] .top, body[data-path=""] .foot { max-width: 40rem; padding-left: 20px; padding-right: 20px; }
+}
