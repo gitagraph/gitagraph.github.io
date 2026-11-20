@@ -764,7 +764,7 @@ function topicRows(list, countFn){
   return `<div class="box">` + list.map(h => `<a class="crow" href="#t-${h.id}"><i class="dot d-${h.type}"></i><span class="nm">${esc(name(h))}</span><span class="ct">${countFn(h)}</span><span class="mt">${esc(metaOf(h))}</span></a>`).join("") + `</div>`;
 }
 function aboutCtx(){
-  return `<h3>${esc(u().about)}</h3><p class="about">${esc(u().aboutT)}</p><p class="about" style="margin-top:10px"><span class="proto">${esc(u().proto)}</span></p>`;
+  return `<h3>${esc(u().about)}</h3><p class="about">${esc(u().aboutT)}</p>`;
 }
 const listMore = (id, rows, n) => rows.length > n ? `<button class="btn more" data-more="${id}">${esc(u().showMore(rows.length - n))}</button>` : "";
 

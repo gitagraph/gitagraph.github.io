@@ -699,7 +699,7 @@ const storyGrid = (list, opts={}) => `<ul class="sgrid${opts.cls?" "+opts.cls:""
 const chip = (href, label, k, cls) => `<a class="chip" href="${href}">${cls?`<i class="dot ${cls}"></i>`:""}${esc(label)}${k!=null?`<span class="k">${k}</span>`:""}</a>`;
 const themeChips = list => `<div class="chips themechips">${list.map(t => chip(`#th-${t.id}`, L(t,"label"), t.ss.length, "d-theme")).join("")}</div>`;
 function aboutCtx(){
-  return `<h3>${esc(u().about)}</h3><p class="about">${esc(u().aboutT)}</p><p class="about" style="margin-top:10px"><span class="proto">${esc(u().proto)}</span></p>`;
+  return `<h3>${esc(u().about)}</h3><p class="about">${esc(u().aboutT)}</p>`;
 }
 function themesCtx(){ return `<h3>${esc(u().themes)}</h3><div class="box">${TH.map(t => `<a class="crow" href="#th-${t.id}"><i class="dot d-theme"></i><span class="nm">${esc(L(t,"label"))}</span><span class="ct">${t.ss.length}</span></a>`).join("")}</div>${aboutCtx()}`; }
 function textsCtx(){ return `<h3>${esc(u().byUp)}</h3><div class="box">${UP.map(x => `<a class="crow" href="#u-${x.id}"><i class="dot d-up"></i><span class="nm">${esc(L(x,"name"))}</span><span class="ct">${x.ss.length}</span><span class="mt">${esc(L(x,"veda"))}</span></a>`).join("")}</div>${aboutCtx()}`; }
