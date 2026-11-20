@@ -29,6 +29,7 @@
   function item(t) {
     const label = `<span class="lib-nat">${esc(t.native)}</span><span class="lib-nm">${esc(name(t))}</span>`;
     const style = `style="--lib-c:${esc(t.accent)};--lib-cd:${esc(t.accent_dark || t.accent)}"`;
+    if (t.status === "related") return "";   // shown only in the Library's Related section
     if (t.status !== "live") return `<span class="lib-item lib-soon" ${style} aria-disabled="true">${label}<span class="lib-tag">${esc(T[L()].soon)}</span></span>`;
     return `<a class="lib-item" ${style} href="${ROOT + t.path}" ${isHere(t) ? 'aria-current="page"' : ""}>${label}</a>`;
   }

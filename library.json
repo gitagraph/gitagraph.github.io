@@ -49,6 +49,21 @@
    "status": "live",
    "accent": "#8a5a12",
    "accent_dark": "#e2b36a"
+  },
+  {
+   "id": "panchatantra",
+   "path": "panchatantra/",
+   "name_en": "Panchatantra",
+   "name_hi": "पंचतंत्र",
+   "native": "पञ्चतन्त्र",
+   "desc_en": "Animal fables told inside one another, all five books, retold from the Sanskrit with the verses.",
+   "desc_hi": "एक-दूसरे के भीतर कही गई पशु-कथाएँ, पाँचों तंत्र, संस्कृत से नए सिरे से, श्लोकों के साथ।",
+   "verses": null,
+   "count_en": "72 stories, 5 books",
+   "count_hi": "72 कथाएँ, 5 तंत्र",
+   "status": "related",
+   "accent": "#9c2f3f",
+   "accent_dark": "#f0a3ab"
   }
  ]
 }

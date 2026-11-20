@@ -13,13 +13,13 @@ var g=localStorage.getItem("gg-lang"),l=g||localStorage.getItem("library-lang");
 <meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Sanskrit with English and Hindi">
 <meta property="og:description" content="The original Sanskrit with English and Hindi translations. The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta property="og:url" content="https://gitagraph.com/">
 <meta property="og:site_name" content="Gitagraph · A living library of wisdom">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261120121451">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261120154934">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Gitagraph · A living library of wisdom: the Bhagavad Gita, the Ashtavakra Gita and the Upanishads, in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Gitagraph · A living library of wisdom">
-<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261120121451">
-<link rel="icon" href="shared/mark.svg?v=20261120121451" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261120121451" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261120121451">
+<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261120154934">
+<link rel="icon" href="shared/mark.svg?v=20261120154934" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261120154934" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261120154934">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap">
 <style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
@@ -417,6 +417,7 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 /* --- Library page: the three texts as covers, the reader's shelf, the settings --- */
 .libp h2.lh{margin:30px 0 12px;font-family:var(--f-ui);font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 :root[lang=hi] .libp h2.lh{letter-spacing:0;text-transform:none;font-size:15.5px}
+.lnote{margin:-4px 0 14px;color:var(--muted,#6b6b7b);font-size:15px}
 .covers{display:grid;grid-template-columns:repeat(3,minmax(0,200px));gap:clamp(8px,3vw,14px);list-style:none;margin:0;padding:0}
 .cover{position:relative;display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:3/4.3;overflow:hidden;padding:12px 6px 11px 15px;border-radius:6px 16px 16px 6px;
   color:#fff;text-decoration:none;background:var(--cover);background-image:linear-gradient(160deg,rgb(255 255 255 / .10),rgb(0 0 0 / .28));box-shadow:0 6px 16px rgb(0 0 0 / .18)}
@@ -692,10 +693,10 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
     const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5), i = day - VW.d0;
     if(i >= 0 && i < VW.v.length) return drawVotd(VW.v[i]);
     const box = document.getElementById("votd"); box.style.setProperty("--vh", "clamp(270px, 440px - 15vw, 400px)");
-    fetch("home-verses/pool.json?v=20261120121451").then(r => r.json()).then(pool => {
+    fetch("home-verses/pool.json?v=20261120154934").then(r => r.json()).then(pool => {
       const gcd = (a,b) => b ? gcd(b, a % b) : a, step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
       const [c, v] = pool[(day * step) % pool.length].split(".");
-      return fetch(`home-verses/${c}.json?v=20261120121451`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
+      return fetch(`home-verses/${c}.json?v=20261120154934`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
     }).catch(() => { box.hidden = true; });
   })();
   </script>
@@ -745,8 +746,8 @@ document.getElementById("lang").onclick = () => setLang(document.documentElement
 // the language was chosen in <head> (the saved choice, else English) so the page paints in it; sync the controls
 setLang(document.documentElement.lang === "hi" ? "hi" : "en");
 </script>
-<script src="shared/shell.js?v=20261120121451" data-active="home" defer></script>
-<script src="shared/coach.js?v=20261120121451" defer></script>
+<script src="shared/shell.js?v=20261120154934" data-active="home" defer></script>
+<script src="shared/coach.js?v=20261120154934" defer></script>
 <script>
 try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
 if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {
