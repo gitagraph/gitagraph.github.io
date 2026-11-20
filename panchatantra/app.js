@@ -8,6 +8,15 @@
     } catch (e) {}
   }
   function each(sel, fn) { Array.prototype.forEach.call(d.querySelectorAll(sel), fn); }
+  each('[data-share]', function (b) {
+    b.onclick = function () {
+      var url = location.href.split('#')[0], text = b.dataset.share;
+      if (navigator.share) { navigator.share({ title: text, text: text, url: url }).catch(function () {}); return; }
+      var done = function () { var o = b.lastChild.textContent; b.lastChild.textContent = b.dataset.done; setTimeout(function () { b.lastChild.textContent = o; }, 1800); };
+      if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, function () { prompt('', url); });
+      else prompt('', url);
+    };
+  });
 
   var SIZES = [0.9, 1, 1.15, 1.3], LABELS = ['A\u2212', 'A', 'A+', 'A++'];
   function paint() {
