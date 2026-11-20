@@ -159,11 +159,15 @@
   function get(k) { try { return localStorage.getItem('panchatantra-' + k); } catch (e) { return null; } }
   function set(k, v) { try { localStorage.setItem('panchatantra-' + k, v); } catch (e) {} }
   if (d.body.dataset.path === '') {
-    var play = d.getElementById('play'), cards = d.getElementById('show');
-    if (play && cards && cards.classList.contains('intro') && (!get('seen') || location.hash === '#intro')) {
-      set('seen', '1');
-      play.click();
-      if (location.hash === '#intro') history.replaceState(null, '', location.pathname);
+    var open = d.getElementById('welcomeopen'), sheet = d.getElementById('welcome');
+    if (open && sheet && sheet.showModal) {
+      open.onclick = function () { sheet.showModal(); sheet.scrollTop = 0; };
+      sheet.addEventListener('click', function (e) { if (e.target === sheet) sheet.close(); });
+      if (!get('seen') || location.hash === '#intro') {
+        set('seen', '1');
+        open.click();
+        if (location.hash === '#intro') history.replaceState(null, '', location.pathname);
+      }
     }
   } else {
     var hint = d.getElementById('newhere');
