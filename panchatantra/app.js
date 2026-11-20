@@ -228,3 +228,17 @@
   new MutationObserver(paint).observe(stage, { attributes: true, subtree: true, attributeFilter: ['class'] });
   paint();
 })();
+
+(function () {
+  /* Back trail: when the whole trail does not fit, show only the parent's name (lead, 20 Nov). */
+  var up = document.querySelector('.thread .up');
+  if (!up) return;
+  var trail = up.querySelector('.trail'), short = up.querySelector('.short');
+  if (!trail || !short) return;
+  function fit() {
+    trail.hidden = false; short.hidden = true;
+    if (trail.scrollWidth > trail.clientWidth + 1) { trail.hidden = true; short.hidden = false; }
+  }
+  fit();
+  window.addEventListener('resize', fit);
+})();

@@ -229,6 +229,7 @@ dialog.show .show-nav { flex: none; }
 /* the back link in the top bar is one large target: arrow and label together, 44px tall */
 .thread { padding-top: 0; padding-bottom: 6px; }
 .thread .up { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; min-width: 0; padding: 0 12px 0 0; }
+.thread .up span[hidden] { display: none; }
 .thread .up span { min-width: 0; font-size: 15px; color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .thread .fwd { display: inline-block; min-width: 0; line-height: 44px; padding-left: 12px; }
 /* 44px tap targets: card and verse-list buttons. Footer links grow by padding only, so no line moves */
