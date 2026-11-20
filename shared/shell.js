@@ -351,7 +351,9 @@
         }
         tb.onclick = open; lg.after(tb);   // always Language, then Display, at the right end
       }
-      if (!document.querySelector(".gtabs")) {
+      const pre = document.querySelector(".gtabs[data-pre]");     // written by the library build, there at first paint
+      if (pre) pre.innerHTML = GGShell.tabs({ root, active });
+      else if (!document.querySelector(".gtabs")) {
         const t = document.createElement("nav");
         t.className = "gtabs"; t.setAttribute("aria-label", "Site");
         t.innerHTML = GGShell.tabs({ root, active });
