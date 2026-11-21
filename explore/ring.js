@@ -68,7 +68,7 @@ function layout() {
   const order = new Map(UP.map((u, i) => [u.id, i]));
   const sts = [...ST].sort((x, y) => (order.get(x.up) ?? 99) - (order.get(y.up) ?? 99));
   const upm = new Map(UP.map(u => [u.id, u]));
-  seg("u", sts, s => `s:${s.id}`, s => "U:" + s.up, s => ({ num: (order.get(s.up) ?? 0) + 1, up: upm.get(s.up), name: { en: (upm.get(s.up)?.name_en || s.up).replace(/ Upanishad$/, ""), hi: (upm.get(s.up)?.name_hi || "").replace(/ उपनिषद्$/, "").replace(/उपनिषद्$/, "") || upm.get(s.up)?.name_en } }), 9, 5, 9);
+  seg("u", sts, s => `s:${s.id}`, s => "U:" + s.up, s => ({ num: (order.get(s.up) ?? 0) + 1, up: upm.get(s.up), name: { en: (upm.get(s.up)?.name_en || s.up).replace(/ Upanishad$/, ""), hi: (upm.get(s.up)?.name_hi || "").replace(/\s*(उपनिषद्|उपनिषद)$/, "").replace(/ोपनिषद्?$/, "") || upm.get(s.up)?.name_en } }), 9, 5, 9);
   pos += 34;
   TOT = pos;
 }
@@ -117,15 +117,19 @@ const el = (name, attrs, parent) => { const e = document.createElementNS(NS, nam
 let gLinks, gHubs, gPath, view = "q", sel = null;
 const tickEl = new Map(), arcEl = new Map(), numEl = new Map(), nameEl = new Map();
 
+const LIFT = 7;
+const liftOf = c => { const a = ang((c.start + c.end) / 2); return `--dx:${(LIFT * Math.cos(a)).toFixed(2)}px;--dy:${(LIFT * Math.sin(a)).toFixed(2)}px`; };
+const chapEls = new Map();   // chapter key -> its ticks, arc and labels (moved together on hover/select)
 function drawRing() {
-  svg.textContent = "";
+  svg.textContent = ""; chapEls.clear();
   gLinks = el("g", {}, svg);
   const gRing = el("g", {}, svg);
   units.forEach(u => {
     const r1 = R + 3, r2 = u.t === "u" ? R + 3.01 : R + 14;
     const [x1, y1] = at(u.pos, r1), [x2, y2] = at(u.pos, r2);
     const e = el("line", { x1: x1.toFixed(1), y1: y1.toFixed(1), x2: x2.toFixed(1), y2: y2.toFixed(1), class: `tk ${u.t}${u.t === "u" ? " st" : ""}` }, gRing);
-    tickEl.set(u.key, e);
+    tickEl.set(u.key, e); e.setAttribute("style", liftOf(u.ch));
+    if (!chapEls.has(u.ch.key)) chapEls.set(u.ch.key, []); chapEls.get(u.ch.key).push(e);
   });
   chaps.forEach(c => {
     const a0 = ang(c.start), a1 = ang(c.end), r = R - 4;
@@ -137,11 +141,16 @@ function drawRing() {
     const a = ang(mid), deg = a * 180 / Math.PI, left = Math.cos(a) < 0;
     const [mx, my] = at(mid, R + 24);
     nameEl.set(c.key, el("text", { x: mx.toFixed(1), y: my.toFixed(1), class: "ch-nm", transform: `rotate(${(left ? deg + 180 : deg).toFixed(1)} ${mx.toFixed(1)} ${my.toFixed(1)})`, "text-anchor": left ? "end" : "start" }, gRing));
+    // labels sit in a wrapper so the lift (a CSS translate) never fights the rotate attribute
+    [arcEl.get(c.key), numEl.get(c.key)].forEach(e => e.setAttribute("style", liftOf(c)));
+    const w = el("g", { class: "nmw", style: liftOf(c) }, gRing); w.appendChild(nameEl.get(c.key));
+    chapEls.get(c.key).push(arcEl.get(c.key), numEl.get(c.key), w);
   });
   gPath = el("g", {}, svg);
   gHubs = el("g", {}, svg);
   words();
 }
+const clip = s => { s = String(s || ""); return s.length > 28 ? s.slice(0, 27).replace(/\s+\S*$/, "") + "…" : s; };
 function chName(c) {
   const nm = L(c.name.en, c.name.hi) || "";
   return nm.length > 30 ? nm.slice(0, 29).replace(/\s+\S*$/, "") + "…" : nm;
@@ -156,13 +165,14 @@ function words() {
   const tb = $("themebtn"), lbl = t().theme[theme];
   tb.innerHTML = theme === "dark" ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg>' : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
   tb.setAttribute("aria-label", lbl); tb.title = lbl;
-  if (views[view]) views[view].hubs.forEach(h => { if (h.te) h.te.textContent = L(h.name.en, h.name.hi); });
+  if (views[view]) views[view].hubs.forEach(h => { if (h.te) h.te.textContent = clip(L(h.name.en, h.name.hi)); });
 }
 
-let linkEls = [];
+let linkEls = [], byEnd = new Map();
 function drawView() {
-  gLinks.textContent = ""; gHubs.textContent = ""; linkEls = [];
+  gLinks.textContent = ""; gHubs.textContent = ""; linkEls = []; byEnd = new Map(); hov = null;
   const V = views[view];
+  V.links.forEach((l, i) => [l.h, l.u].forEach(k => { if (!byEnd.has(k)) byEnd.set(k, []); byEnd.get(k).push(i); }));
   V.links.forEach(l => {
     const u = U.get(l.u); const [ux, uy] = at(u.pos, R - 2);
     let d;
@@ -175,7 +185,10 @@ function drawView() {
     el("circle", { cx: h.x.toFixed(1), cy: h.y.toFixed(1), r: 6.5, class: h.cls }, g);
     const right = Math.cos(h.a) >= 0;
     h.te = el("text", { x: (h.x + (right ? 12 : -12)).toFixed(1), y: h.y.toFixed(1), "text-anchor": right ? "start" : "end" }, g);
-    h.te.textContent = L(h.name.en, h.name.hi); h.g = g;
+    h.te.textContent = clip(L(h.name.en, h.name.hi)); h.g = g;
+    g.setAttribute("tabindex", "0"); g.setAttribute("role", "button"); g.setAttribute("aria-label", L(h.name.en, h.name.hi));
+    g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); popNext = h.id; go(hashOf({ type: "hub", id: h.id })); } });
+    g.addEventListener("focus", () => hover({ type: "hub", id: h.id })); g.addEventListener("blur", () => hover(null));
   });
 }
 
@@ -201,6 +214,8 @@ function paint() {
   nameEl.forEach((e, k) => e.classList.toggle("on", !!lit && lit.chaps.has(k)));
   linkEls.forEach((e, i) => e.classList.toggle("on", !!lit && lit.links.has(i)));
   views[view].hubs.forEach(h => h.g.classList.toggle("on", !!lit && lit.hubs.has(h.id)));
+  chapEls.forEach((list, k) => list.forEach(e => e.classList.toggle("lift", !!sel && sel.type === "chap" && sel.key === k)));
+  if (popNext) { const h = views[view].hubBy.get(popNext); if (h) { h.g.classList.remove("pop"); void h.g.getBBox(); h.g.classList.add("pop"); } popNext = null; }
   gPath.textContent = "";
   if (sel && sel.type === "path") {
     const pts = sel.units.map(k => at(U.get(k).pos, R - 14));
@@ -354,14 +369,28 @@ svg.addEventListener("pointerup", e => {
   down = null;
   const h = hit(e);
   const same = h && sel && h.type === sel.type && (h.key || h.id) === (sel.key || sel.id);
+  if (h && !same && h.type === "hub") popNext = h.id;
   go(h && !same ? hashOf(h) : `#/view/${view}`);
 });
+let hov = null, popNext = null;
+function hover(h) {
+  const key = h ? h.type + ":" + (h.key || h.id) : null;
+  if (key === (hov && hov.k)) return;
+  if (hov) hov.els.forEach(([e, c]) => e.classList.remove(c));
+  hov = null; if (!h) return;
+  const els = [], add = (e, c) => { if (e) { e.classList.add(c); els.push([e, c]); } };
+  const pv = k => (byEnd.get(k) || []).forEach(i => add(linkEls[i], "pv"));
+  if (h.type === "hub") { const x = views[view].hubBy.get(h.id); add(x.g, "hov"); pv(h.id); }
+  else if (h.type === "chap") { (chapEls.get(h.key) || []).forEach(e => add(e, "hov")); C.get(h.key).units.forEach(u => pv(u.key)); }
+  else { add(tickEl.get(h.key), "hov"); pv(h.key); }
+  hov = { k: key, els };
+}
 const tip = $("tip");
 svg.addEventListener("pointermove", e => {
   if (e.pointerType !== "mouse") return;
   const h = hit(e);
-  views[view].hubs.forEach(x => x.g.classList.toggle("hov", !!h && h.type === "hub" && h.id === x.id));
-  if (!h) { tip.hidden = true; return; }
+  hover(h);
+  if (!h || h.type === "hub") { tip.hidden = true; return; }
   let txt;
   if (h.type === "hub") { const x = views[view].hubBy.get(h.id); txt = `<b>${esc(L(x.name.en, x.name.hi))}</b>`; }
   else if (h.type === "chap") { const c = C.get(h.key); txt = `<b>${esc(t().names[c.t])}</b> · ${esc(c.t === "u" ? L(c.up?.name_en, c.up?.name_hi) : t().ch(c.num) + " · " + L(c.name.en, c.name.hi))}`; }
@@ -369,10 +398,11 @@ svg.addEventListener("pointermove", e => {
   const box = $("ring").parentElement.getBoundingClientRect();
   tip.innerHTML = txt; tip.hidden = false; tip.style.left = (e.clientX - box.left) + "px"; tip.style.top = (e.clientY - box.top) + "px";
 });
-svg.addEventListener("pointerleave", () => { tip.hidden = true; });
+svg.addEventListener("pointerleave", () => { tip.hidden = true; hover(null); });
 let fromPanel = false;
 document.addEventListener("click", e => {
-  if (e.target.closest("#panel a[href^='#']")) fromPanel = true;
+  const a = e.target.closest("#panel a[href^='#']");
+  if (a) { fromPanel = true; const m = a.getAttribute("href").match(/^#\/(q)\/(.+)$|^#\/i\/(\w)\/(.+)$/); if (m) popNext = m[1] ? "q:" + decodeURIComponent(m[2]) : `i:${m[3]}:${decodeURIComponent(m[4])}`; }
   if (e.target.closest("[data-clear]")) { go(`#/view/${view}`); return; }
   const b = e.target.closest("#tabs button"); if (b) go(`#/view/${b.dataset.v}`);
 });
