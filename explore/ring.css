@@ -114,3 +114,11 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui)}
 }
 @keyframes rg-pop{0%{transform:scale(1.35)}50%{transform:scale(1.75)}100%{transform:scale(1.45)}}
 :root[data-theme="dark"] .hub.hov circle,:root[data-theme="dark"] .hub.on circle{filter:drop-shadow(0 0 4px rgba(255,255,255,.25))}
+
+/* the chapter's own label grows in place on hover (no floating tooltip) */
+.nmz{transform-box:view-box;transform:scale(1)}
+.nmw.hov .nmz,.nmw.lift .nmz{transform:scale(1.32)}
+.nmw.hov .ch-nm,.nmw.lift .ch-nm{font-weight:600;paint-order:stroke;stroke:var(--bg);stroke-width:5px;stroke-linejoin:round}
+.nmw.hov,.nmw.lift{position:relative}
+@media(prefers-reduced-motion:no-preference){.nmz{transition:transform .16s cubic-bezier(.2,.8,.2,1)}}
+.rg-tip{display:none!important}

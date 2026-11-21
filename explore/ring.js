@@ -143,7 +143,7 @@ function drawRing() {
     nameEl.set(c.key, el("text", { x: mx.toFixed(1), y: my.toFixed(1), class: "ch-nm", transform: `rotate(${(left ? deg + 180 : deg).toFixed(1)} ${mx.toFixed(1)} ${my.toFixed(1)})`, "text-anchor": left ? "end" : "start" }, gRing));
     // labels sit in a wrapper so the lift (a CSS translate) never fights the rotate attribute
     [arcEl.get(c.key), numEl.get(c.key)].forEach(e => e.setAttribute("style", liftOf(c)));
-    const w = el("g", { class: "nmw", style: liftOf(c) }, gRing); w.appendChild(nameEl.get(c.key));
+    const w = el("g", { class: "nmw", style: liftOf(c) }, gRing), z = el("g", { class: "nmz", style: `transform-origin:${mx.toFixed(1)}px ${my.toFixed(1)}px` }, w); z.appendChild(nameEl.get(c.key));
     chapEls.get(c.key).push(arcEl.get(c.key), numEl.get(c.key), w);
   });
   gPath = el("g", {}, svg);
@@ -376,20 +376,26 @@ let hov = null, popNext = null;
 function hover(h) {
   const key = h ? h.type + ":" + (h.key || h.id) : null;
   if (key === (hov && hov.k)) return;
-  if (hov) hov.els.forEach(([e, c]) => e.classList.remove(c));
+  if (hov) { hov.els.forEach(([e, c]) => e.classList.remove(c)); hov.undo.forEach(f => f()); }
   hov = null; if (!h) return;
-  const els = [], add = (e, c) => { if (e) { e.classList.add(c); els.push([e, c]); } };
+  const els = [], undo = [], add = (e, c) => { if (e) { e.classList.add(c); els.push([e, c]); if (e.classList.contains("nmw")) e.parentNode.appendChild(e); } };   // a growing label is drawn on top of its neighbours
   const pv = k => (byEnd.get(k) || []).forEach(i => add(linkEls[i], "pv"));
   if (h.type === "hub") { const x = views[view].hubBy.get(h.id); add(x.g, "hov"); pv(h.id); }
   else if (h.type === "chap") { (chapEls.get(h.key) || []).forEach(e => add(e, "hov")); C.get(h.key).units.forEach(u => pv(u.key)); }
-  else { add(tickEl.get(h.key), "hov"); pv(h.key); }
-  hov = { k: key, els };
+  else {
+    const u = U.get(h.key), c = u.ch; add(tickEl.get(h.key), "hov"); pv(h.key);
+    [arcEl.get(c.key), numEl.get(c.key), nameEl.get(c.key).parentNode.parentNode].forEach(e => add(e, "hov"));
+    const ne = nameEl.get(c.key), was = ne.textContent;
+    ne.textContent = u.t === "u" ? clip(L(u.d.title_en, u.d.title_hi)) : `${u.d.c}.${u.d.v}  ${chName(c)}`;
+    undo.push(() => { ne.textContent = was; });
+  }
+  hov = { k: key, els, undo };
 }
 const tip = $("tip");
 svg.addEventListener("pointermove", e => {
   if (e.pointerType !== "mouse") return;
   const h = hit(e);
-  hover(h);
+  hover(h); return;
   if (!h || h.type === "hub") { tip.hidden = true; return; }
   let txt;
   if (h.type === "hub") { const x = views[view].hubBy.get(h.id); txt = `<b>${esc(L(x.name.en, x.name.hi))}</b>`; }
