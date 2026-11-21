@@ -425,7 +425,10 @@ Promise.all([J("../gita/verses.json"), J("../gita/hubs.json"), J("../gita/questi
  .then(([gv, gh, qs, av, ah, ud, pp]) => {
    GV = gv; AV = av; QS = qs; UD = ud; UP = ud.upanishads || []; ST = ud.stories || []; PATHS = Array.isArray(pp) ? pp : [];
    GH = new Map(gh.map(h => [h.id, h])); AH = new Map(ah.map(h => [h.id, h]));
-   layout(); buildViews(); fit(); drawRing(); $("loading").remove(); apply();
+   layout(); buildViews(); fit(); drawRing(); $("loading").remove();
+   // a bare link opens with one question already lit, so the first view shows what the Graph does; any other link is left alone
+   if (!location.hash || location.hash === "#" || location.hash === "#/") { if (views.q.hubBy.has("q:anxious")) history.replaceState(history.state, "", "#/q/anxious"); }
+   apply();
  })
  .catch(err => { $("loading").textContent = "Could not load the Graph. Please refresh."; console.error(err); });
 })();

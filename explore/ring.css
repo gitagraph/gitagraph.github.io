@@ -1,6 +1,6 @@
 /* The Graph: one ring of every chapter, linked by questions, ideas or stories. Uses the site's colour tokens. */
-:root{--cg:#b07a12;--ca:#7a4fa0;--cu:#2f7a5a;--rg-faint:.13}
-:root[data-theme="dark"]{--cg:#e0b158;--ca:#b996dc;--cu:#6cc3a0;--rg-faint:.18}
+:root{--cg:#b07a12;--ca:#7a4fa0;--cu:#2f7a5a;--rg-faint:.08}
+:root[data-theme="dark"]{--cg:#e0b158;--ca:#b996dc;--cu:#6cc3a0;--rg-faint:.11}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui)}
 .ring-app{max-width:1320px;margin:0 auto;padding:72px max(16px,env(safe-area-inset-left)) calc(var(--safe-b,24px) + 24px);display:grid;grid-template-columns:minmax(0,1fr) 380px;grid-template-areas:'stage top' 'stage panel';grid-template-rows:auto 1fr;column-gap:28px;row-gap:14px;align-items:start}
@@ -72,11 +72,12 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui)}
 .row span{font-size:14.5px;line-height:1.5}
 .row small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
 .more{color:var(--muted);font-size:13.5px;margin:8px 0 0}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin-top:14px;padding:2px 18px 0;line-height:1;border-radius:999px;background:var(--ink);color:var(--bg);text-decoration:none;font-size:14.5px}
+.btn{display:inline-block;margin-top:14px;padding:9px 16px;border-radius:999px;background:var(--ink);color:var(--bg);text-decoration:none;font-size:14.5px}
 .btn.ghost{background:none;color:var(--ink);border:1px solid var(--line);margin-left:6px}
 .x{float:right;border:1px solid var(--line);background:none;border-radius:999px;width:34px;height:34px;color:var(--muted);font-size:18px;cursor:pointer;line-height:1}
 
 @media(max-width:900px){
+ :root{--rg-faint:.045} :root[data-theme="dark"]{--rg-faint:.07}
  .ring-app{grid-template-columns:1fr;grid-template-areas:'top' 'stage' 'panel';grid-template-rows:auto;gap:12px;padding-top:68px}
  .rg-stage{position:static}
  .rg-head h1{font-size:25px}
