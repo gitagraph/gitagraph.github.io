@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>document.documentElement.setAttribute("data-theme","light");try{if(localStorage.getItem("gg-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>When telling the truth feels awkward · Gitagraph</title><meta name="description" content="A young student wants to learn but cannot give the family history his teacher might expect. Follow how honesty leads him into study and, later, back to the importance of learning from a teacher."><link rel="canonical" href="https://gitagraph.com/paths/telling-the-truth-when-awkward/">
-<link rel="icon" href="../../shared/mark.svg?v=20261122191407" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261122191407" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261122191407">
+<link rel="icon" href="../../shared/mark.svg?v=20261122192306" type="image/svg+xml"><link rel="icon" href="../../shared/mark-32.png?v=20261122192306" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../../shared/mark-180.png?v=20261122192306">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -560,9 +560,19 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 .home .qpill{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--surface);text-decoration:none;color:inherit}
 .home .qpill:hover{border-color:var(--ink)}
 :root[lang=hi] .home .qpill{font-size:17px}
-.t3{margin:36px 0 8px}
-.t3 .ds{margin:0;max-width:56ch;color:var(--muted);font-size:17px;line-height:1.55}
-.t3-open{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:4px;padding:0;border:0;background:none;font:600 16px var(--f-ui);color:var(--accent);cursor:pointer}
+.t3{margin:32px 0 8px}
+.t3-card{display:flex;align-items:center;gap:16px;width:100%;padding:16px 18px;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:inherit;text-align:left;font:inherit;cursor:pointer;box-shadow:0 1px 2px rgb(0 0 0 / .04)}
+.t3-card:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.t3-marks{flex:none;display:flex} .t3-marks i{display:grid;place-items:center;width:44px;height:44px;margin-left:-10px;border-radius:50%;border:2px solid var(--surface);background:color-mix(in srgb,var(--tc) 16%,var(--surface));color:var(--tc);overflow:hidden}
+.t3-marks i:first-child{margin-left:0} .t3-marks svg{width:34px;height:34px}
+.t3-txt{display:flex;flex-direction:column;gap:6px;min-width:0}
+.t3 .ds{margin:0;max-width:56ch;color:var(--muted);font-size:16px;line-height:1.5}
+.t3-open{display:inline-flex;align-items:center;gap:6px;font:600 16px var(--f-ui);color:var(--accent)}
+@media (max-width:420px){ .t3-card{align-items:flex-start;flex-direction:column;gap:12px} }
+.t3k{display:grid;gap:12px;margin-top:8px} .t3k>div{display:flex;gap:12px;align-items:flex-start} .t3k>div>div{min-width:0}
+.t3k i{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--tc) 12%,transparent);color:var(--tc)} .t3k i svg{width:19px;height:19px}
+.t3k b{display:block;font:600 12px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--tc)} :root[lang=hi] .t3k b{letter-spacing:0;text-transform:none;font-size:14px}
+.t3k .t3kt{margin:2px 0 0;font-size:15px;line-height:1.5;color:var(--ink)} :root[lang=hi] .t3k .t3kt{font-size:16.5px;line-height:1.6}
 :root[lang=hi] .t3 .ds{font-size:18px;line-height:1.6} :root[lang=hi] .t3-open{font-size:17px}
 .t3-sheet{max-width:560px;padding-left:0;padding-right:0}
 .t3-sheet>h2,.t3-sheet>.gi-m,.t3-sheet>.t3o,.t3-sheet>.t3x{margin-left:24px;margin-right:24px}
@@ -663,4 +673,4 @@ addEventListener("DOMContentLoaded", () => { if(window.GGShell && GGShell.trailS
     try{ if(!sessionStorage.getItem("gg-intro")) sessionStorage.setItem("gg-intro", "1"); }catch(e){}   // the passage opens with the "before you begin" panel
     location.replace("../../" + T.items[0].k); return; } }
   document.documentElement.style.visibility = ""; });
-</script><script src="../../shared/shell.js?v=20261122191407" data-active="paths" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../../shared/shell.js?v=20261122192306" data-active="paths" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>

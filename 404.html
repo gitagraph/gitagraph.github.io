@@ -558,9 +558,19 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 .home .qpill{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--surface);text-decoration:none;color:inherit}
 .home .qpill:hover{border-color:var(--ink)}
 :root[lang=hi] .home .qpill{font-size:17px}
-.t3{margin:36px 0 8px}
-.t3 .ds{margin:0;max-width:56ch;color:var(--muted);font-size:17px;line-height:1.55}
-.t3-open{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:4px;padding:0;border:0;background:none;font:600 16px var(--f-ui);color:var(--accent);cursor:pointer}
+.t3{margin:32px 0 8px}
+.t3-card{display:flex;align-items:center;gap:16px;width:100%;padding:16px 18px;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:inherit;text-align:left;font:inherit;cursor:pointer;box-shadow:0 1px 2px rgb(0 0 0 / .04)}
+.t3-card:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.t3-marks{flex:none;display:flex} .t3-marks i{display:grid;place-items:center;width:44px;height:44px;margin-left:-10px;border-radius:50%;border:2px solid var(--surface);background:color-mix(in srgb,var(--tc) 16%,var(--surface));color:var(--tc);overflow:hidden}
+.t3-marks i:first-child{margin-left:0} .t3-marks svg{width:34px;height:34px}
+.t3-txt{display:flex;flex-direction:column;gap:6px;min-width:0}
+.t3 .ds{margin:0;max-width:56ch;color:var(--muted);font-size:16px;line-height:1.5}
+.t3-open{display:inline-flex;align-items:center;gap:6px;font:600 16px var(--f-ui);color:var(--accent)}
+@media (max-width:420px){ .t3-card{align-items:flex-start;flex-direction:column;gap:12px} }
+.t3k{display:grid;gap:12px;margin-top:8px} .t3k>div{display:flex;gap:12px;align-items:flex-start} .t3k>div>div{min-width:0}
+.t3k i{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--tc) 12%,transparent);color:var(--tc)} .t3k i svg{width:19px;height:19px}
+.t3k b{display:block;font:600 12px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--tc)} :root[lang=hi] .t3k b{letter-spacing:0;text-transform:none;font-size:14px}
+.t3k .t3kt{margin:2px 0 0;font-size:15px;line-height:1.5;color:var(--ink)} :root[lang=hi] .t3k .t3kt{font-size:16.5px;line-height:1.6}
 :root[lang=hi] .t3 .ds{font-size:18px;line-height:1.6} :root[lang=hi] .t3-open{font-size:17px}
 .t3-sheet{max-width:560px;padding-left:0;padding-right:0}
 .t3-sheet>h2,.t3-sheet>.gi-m,.t3-sheet>.t3o,.t3-sheet>.t3x{margin-left:24px;margin-right:24px}
