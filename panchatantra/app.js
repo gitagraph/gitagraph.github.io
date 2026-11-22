@@ -8,6 +8,12 @@
     } catch (e) {}
   }
   function each(sel, fn) { Array.prototype.forEach.call(d.querySelectorAll(sel), fn); }
+  (function () {                                   // today's featured story, by the reader's own date
+    var alts = d.querySelectorAll('.hm-feat template.ft-alt'), cur = d.querySelector('.hm-feat .ft');
+    if (!alts.length || !cur) return;
+    var day = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 864e5);
+    cur.replaceWith(alts[day % alts.length].content.cloneNode(true));
+  })();
   each('[data-share]', function (b) {
     b.onclick = function () {
       var url = location.href.split('#')[0], text = b.dataset.share;
