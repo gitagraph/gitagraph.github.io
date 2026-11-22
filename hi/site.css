@@ -574,7 +574,7 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 .t3g{display:flex;align-items:center;justify-content:center;min-height:46px;margin-top:auto;border-radius:999px;background:var(--tc);color:#fff;font:600 16px var(--f-ui);text-decoration:none}
 .t3c .t3l{margin-bottom:16px}
 .t3m{margin-top:12px;font-size:14.5px} .t3m summary{cursor:pointer;color:var(--muted);font-weight:600;list-style:none;min-height:32px;display:flex;align-items:center} .t3m summary::-webkit-details-marker{display:none}
-.t3m summary::after{content:"+";margin-left:6px} .t3m[open] summary::after{content:"2"} .t3m .t3w{color:var(--muted)}
+.t3m summary::after{content:"+";margin-left:6px} .t3m[open] summary::after{content:"−"} .t3m .t3w{color:var(--muted)}
 .t3d{display:flex;justify-content:center;gap:6px;margin:12px 0 4px} .t3d i{width:6px;height:6px;border-radius:50%;background:var(--line);transition:background .2s} .t3d i.on{background:var(--ink)}
 .t3o{margin-top:10px;margin-bottom:0;color:var(--muted);font-size:14.5px;line-height:1.5} :root[lang=hi] .t3o{font-size:16px}
 @media (min-width:900px){.t3-sheet{max-width:1040px}.t3r{overflow:visible}.t3c{flex:1 1 0}.t3d{display:none}}
