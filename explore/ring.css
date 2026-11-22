@@ -82,7 +82,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui)}
  .rg-stage{position:static}
  .rg-head h1{font-size:25px}
  .rg-wrap{max-width:100%}
- .rg-panel{position:static;max-height:none;border-radius:16px}
+ .rg-panel{position:static;max-height:none;overflow:visible;overscroll-behavior:auto;border-radius:16px}   /* in the page flow on phones: the page scrolls, so the card must not hold swipes as its own scroll box */
  .ch-nm{display:none}
  .ch-n{display:block}
  .ch-n{font-size:19px}
