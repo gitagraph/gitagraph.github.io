@@ -1008,6 +1008,7 @@ function homeView(){
   if(how===null) store.set("how", "closed");          // open by itself on the first visit only
   return `<section class="hero"><p class="skt">श्रीमद्भगवद्गीता</p><h1>${isHi() ? "भगवद्गीता" : "The Bhagavad Gita"}</h1></section>
   <section class="tagline"><h2>${esc(u().forallT)}</h2><p class="hook">${esc(u().tagHook)}</p></section>
+  <p class="sits" lang="${lang}" style="margin:6px 0 18px;max-width:62ch;color:var(--muted);font-size:15.5px;line-height:1.6">${isHi() ? "तीनों में सबसे अधिक पढ़ी जाने वाली: उपनिषदों की सीख, रोज़ के कर्म तक पहुँचती हुई। शुरुआत के लिए अच्छी जगह।" : "The most widely read of the three: the Upanishads' teaching carried into everyday action. A good place to begin."} <a href="${(typeof BASE === "string" && BASE ? BASE.replace(/[^/]+\/$/, "") : "/")}library/#three" style="color:var(--accent);white-space:nowrap">${isHi() ? "तीनों ग्रंथ कैसे जुड़ते हैं" : "How the three fit"} →</a></p>
   ${last ? `<a class="contbar" href="#${last.id}"><span><b>${esc(u().contL)}</b> · ${last.ref} ${esc(name(CH[last.c-1]))}</span><span aria-hidden="true">→</span></a>` : ""}
   <section class="votd" aria-label="${esc(u().votd)}"><p class="eyebrow">${esc(u().votd)} · ${vd.ref}</p>
     ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(saH).join("<br>")}</p>` : ""}

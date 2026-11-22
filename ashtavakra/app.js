@@ -878,6 +878,7 @@ function homeView(){
   if(how===null) store.set("how", "closed");          // open by itself on the first visit only
   return `<section class="hero"><p class="skt">अष्टावक्रगीता</p><h1>${isHi() ? "अष्टावक्र गीता" : "The Ashtavakra Gita"}</h1></section>
   <section class="tagline"><h2>${esc(u().forallT)}</h2><p class="hook">${esc(u().tagHook)}</p></section>
+  <p class="sits" lang="${lang}" style="margin:6px 0 18px;max-width:62ch;color:var(--muted);font-size:15.5px;line-height:1.6">${isHi() ? "तीनों में सबसे सीधी: न कोई रास्ता, न कोई साधना, बस यह याद कि आप पहले से मुक्त हैं। सबसे बाद में पढ़ना अच्छा है।" : "The most direct of the three: no path, no practice, only the reminder that you are already free. Best read last."} <a href="${(typeof BASE === "string" && BASE ? BASE.replace(/[^/]+\/$/, "") : "/")}library/#three" style="color:var(--accent);white-space:nowrap">${isHi() ? "तीनों ग्रंथ कैसे जुड़ते हैं" : "How the three fit"} →</a></p>
   ${last ? `<a class="contbar" href="#${last.id}"><span><b>${esc(u().contL)}</b> · ${last.ref} ${esc(name(CH[last.c-1]))}</span><span aria-hidden="true">→</span></a>` : ""}
   <section class="votd" aria-label="${esc(u().votd)}"><p class="eyebrow">${esc(u().votd)} · ${vd.ref}</p>
     ${prefs.sa ? `<p class="sa" lang="sa">${s.body.map(saH).join("<br>")}</p>` : ""}

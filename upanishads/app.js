@@ -717,6 +717,7 @@ const storyUrl = s => BASE ? location.origin + pathOf("s-"+s.id) : `${SITE}story
 function homeView(){
   const core = S.filter(s=>s.tier!=="deeper"), deep = S.filter(s=>s.tier==="deeper");
   return `<header class="thead"><h1>${isHi() ? "उपनिषदों की कथाएँ" : "Stories from the Upanishads"}</h1><p class="desc" lang="${lang}">${esc(u().tagLede)}</p></header>
+  <p class="sits" lang="${lang}" style="margin:6px 0 18px;max-width:62ch;color:var(--muted);font-size:15.5px;line-height:1.6">${isHi() ? "गीताग्राफ़ के तीनों ग्रंथों में सबसे पुराने, और वह स्रोत जिससे गीता और अष्टावक्र गीता निकलती हैं।" : "The oldest of the three texts on Gitagraph, and the source the Gita and the Ashtavakra Gita draw on."} <a href="${(typeof BASE === "string" && BASE ? BASE.replace(/[^/]+\/$/, "") : "/")}library/#three" style="color:var(--accent);white-space:nowrap">${isHi() ? "तीनों ग्रंथ कैसे जुड़ते हैं" : "How the three fit"} →</a></p>
   ${START.length ? `<h2 class="sec">${esc(u().startHere)}</h2>${storyGrid(START.map(id=>SB.get(id)), {numbered:true, insight:true, noFor:true, cls:"path"})}` : ""}
   <h2 class="sec">${esc(u().themes)}</h2>${themeChips(TH.filter(t=>t.ss.length))}
   <h2 class="sec">${esc(u().allStories)}</h2>${storyGrid(core, {plain:true})}
