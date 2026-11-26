@@ -181,6 +181,16 @@ details.how .howbody{padding-bottom:16px}
 @media (max-width:699px){ .top .helpbtn{display:none} .sheet .helprow{display:inline-flex} }
 
 .tagline{padding:2px 0 4px}
+/* About this text: what it is, when, why read it (copy from granth-library/three-texts.json, the same as the Library cards) */
+.about3{margin:8px 0 20px;padding:14px 16px 6px;border:1px solid var(--line);border-radius:16px;background:var(--surface,var(--card,transparent))}
+.about3>summary{cursor:pointer;list-style:none;display:flex;align-items:center;min-height:32px;font:600 15px var(--f-ui);color:var(--muted)} .about3>summary::-webkit-details-marker{display:none}
+.about3>summary::after{content:"+";margin-left:8px} .about3[open]>summary::after{content:"\2212"}
+.about3 .a3{display:flex;gap:12px;align-items:flex-start;margin:10px 0} .about3 .a3>div{min-width:0}
+.about3 .a3 i{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent)} .about3 .a3 i svg{width:19px;height:19px}
+.about3 .a3 b{display:block;font:600 12px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)} :root[lang=hi] .about3 .a3 b{letter-spacing:0;text-transform:none;font-size:14px}
+.about3 .a3 p{margin:2px 0 0;font-size:15.5px;line-height:1.55;color:var(--ink);max-width:62ch} :root[lang=hi] .about3 .a3 p{font-size:17px;line-height:1.7}
+.about3 .a3more{margin:4px 0 8px;font-size:15px} .about3 .a3more a{color:var(--accent);text-decoration:none;font-weight:600}
+
 .tagline h2{font-family:var(--f-read);font-weight:600;font-size:19px;margin:6px 0 2px;color:var(--accent)}
 :root[lang=hi] .tagline h2{font-family:var(--f-hi);font-weight:400;font-size:20px}
 .tagline .lede2{margin:0;color:var(--ink);line-height:1.55}
