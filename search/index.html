@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><script>document.documentElement.setAttribute("data-theme","light");try{if(localStorage.getItem("gg-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Search · Gitagraph</title><meta name="robots" content="noindex"><link rel="canonical" href="https://gitagraph.com/search/">
-<link rel="icon" href="../shared/mark.svg?v=20261126203057" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261126203057" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261126203057">
+<link rel="icon" href="../shared/mark.svg?v=20261126203926" type="image/svg+xml"><link rel="icon" href="../shared/mark-32.png?v=20261126203926" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="../shared/mark-180.png?v=20261126203926">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap"><style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
   --f-read:"Literata",Georgia,serif;--f-ui:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;--f-skt:"Tiro Devanagari Sanskrit","Noto Serif Devanagari",serif;--f-hi:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;
@@ -566,6 +566,9 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 .t3-card{display:flex;align-items:center;gap:16px;width:100%;padding:16px 18px;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:inherit;text-align:left;font:inherit;cursor:pointer;box-shadow:0 1px 2px rgb(0 0 0 / .04)}
 .t3-card:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
 @media (max-width:699px){ .home .t3{margin:18px 0 0} }
+/* first visit on a phone (html.t3-new: nothing read yet): the card comes before today's verse; everyone else has it below */
+.t3-first{display:none}
+@media (max-width:699px){ html.t3-new .home .t3-first{display:block;margin:8px 0 18px} html.t3-new .home .t3-top{display:none} }
 .home .t3-card{border:1.5px solid color-mix(in srgb,var(--accent) 30%,var(--line));box-shadow:0 2px 12px rgb(27 24 56 / .07)}
 .t3-h{font:600 18px var(--f-read);line-height:1.3;color:var(--ink)} :root[lang=hi] .t3-h{font:400 20px var(--f-hi)}
 .t3-go{flex:none;width:22px;height:22px;margin-left:auto;color:var(--accent)}
@@ -683,7 +686,7 @@ const STOP = { en: new Set(norm("i im ive me my mine am is are was were the a an
 // words that mean someone may need a person, not a page: the same care note the question pages carry is shown first
 const CARE = /suicid|kill myself|end my life|self.?harm|want to die|hurt myself|आत्महत्या|जान दे|मरना चाह|खुद को नुकसान/i;
 function load(lang){
-  return WANT[lang] || (WANT[lang] = fetch(`index-${lang}.json?v=20261126203057`).then(r => { if(!r.ok) throw 0; return r.json(); }).then(d => {
+  return WANT[lang] || (WANT[lang] = fetch(`index-${lang}.json?v=20261126203926`).then(r => { if(!r.ok) throw 0; return r.json(); }).then(d => {
     d.vs.forEach(v => { v.t = " " + norm(v[3]) + " "; v.n = v.t + norm(v[4]); }); d.h.forEach(h => { h.t = " " + norm(h[2]) + " "; h.n = h.t + norm(h[3]); });
     d.ch.forEach(c => c.n = norm(c[2])); d.st.forEach(x => x.n = norm(x[2] + " " + x[3] + " " + (x[4] || ""))); d.ch.forEach(c => c.n = " " + c.n); d.st.forEach(x => x.n = " " + x.n); d.q.forEach(x => { x.t = " " + norm(x[1]); x.n = x.t + " " + norm(x[2] || ""); }); return IDX[lang] = d; }).catch(err => { delete WANT[lang]; throw err; }));
 }
@@ -755,4 +758,4 @@ b.onclick = () => setLang(L()==="hi" ? "en" : "hi");
 try{ const h = decodeURIComponent(location.hash.slice(1)); if(h){ $("q").value = h; history.replaceState(null, "", location.pathname); } else $("q").value = sessionStorage.getItem("gg-search-q") || ""; }catch(e){}
 let l0 = "en"; try{ l0 = localStorage.getItem("gg-lang") || localStorage.getItem("library-lang") || "en"; }catch(e){}
 setLang(l0 === "hi" ? "hi" : "en"); $("q").focus();
-</script><script src="../shared/shell.js?v=20261126203057" data-active="search" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>
+</script><script src="../shared/shell.js?v=20261126203926" data-active="search" defer></script><!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "5852937eae214157a2270e532146efed"}'></script><!-- End Cloudflare Web Analytics --></body></html>

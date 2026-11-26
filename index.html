@@ -13,13 +13,13 @@ if(!localStorage.getItem("gg-last")&&!localStorage.getItem("gg-path-seen"))docum
 <meta property="og:type" content="website"><meta property="og:title" content="Gitagraph · Sanskrit with English and Hindi">
 <meta property="og:description" content="The original Sanskrit with English and Hindi translations. The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta property="og:url" content="https://gitagraph.com/">
 <meta property="og:site_name" content="Gitagraph · A living library of wisdom">
-<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261126203057">
+<meta property="og:image" content="https://gitagraph.com/shared/og-library.png?v=20261126203926">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Gitagraph · A living library of wisdom: the Bhagavad Gita, the Ashtavakra Gita and the Upanishads, in Sanskrit, English and Hindi">
 <meta property="og:locale" content="en_IN"><meta property="og:locale:alternate" content="hi_IN">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Gitagraph · A living library of wisdom">
-<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261126203057">
-<link rel="icon" href="shared/mark.svg?v=20261126203057" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261126203057" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261126203057">
+<meta name="twitter:description" content="The Gita verse by verse, linked to the people, ideas and life questions it touches. Bhagavad Gita, Ashtavakra Gita and Upanishads in Sanskrit, English and Hindi."><meta name="twitter:image" content="https://gitagraph.com/shared/og-library.png?v=20261126203926">
+<link rel="icon" href="shared/mark.svg?v=20261126203926" type="image/svg+xml"><link rel="icon" href="shared/mark-32.png?v=20261126203926" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="shared/mark-180.png?v=20261126203926">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Mukta:wght@400;600&family=Tiro+Devanagari+Sanskrit&family=Tiro+Devanagari+Hindi&display=swap">
 <style>
 :root{--bg:#faf8f4;--surface:#fff;--sunk:#eeece4;--ink:#1b1838;--muted:#5a596b;--line:#e2e0d6;--accent:#a84a08;--brand:#1b1838;--on-brand:#fff;--gold:#c18b27;--muted-hi:var(--muted);
@@ -585,6 +585,9 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
 .t3-card{display:flex;align-items:center;gap:16px;width:100%;padding:16px 18px;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:inherit;text-align:left;font:inherit;cursor:pointer;box-shadow:0 1px 2px rgb(0 0 0 / .04)}
 .t3-card:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
 @media (max-width:699px){ .home .t3{margin:18px 0 0} }
+/* first visit on a phone (html.t3-new: nothing read yet): the card comes before today's verse; everyone else has it below */
+.t3-first{display:none}
+@media (max-width:699px){ html.t3-new .home .t3-first{display:block;margin:8px 0 18px} html.t3-new .home .t3-top{display:none} }
 .home .t3-card{border:1.5px solid color-mix(in srgb,var(--accent) 30%,var(--line));box-shadow:0 2px 12px rgb(27 24 56 / .07)}
 .t3-h{font:600 18px var(--f-read);line-height:1.3;color:var(--ink)} :root[lang=hi] .t3-h{font:400 20px var(--f-hi)}
 .t3-go{flex:none;width:22px;height:22px;margin-left:auto;color:var(--accent)}
@@ -683,6 +686,7 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
   <button class="langpill" id="lang" type="button" aria-label="हिन्दी में देखें">हि</button>
   <button class="langpill themebtn" id="themebtn" type="button"></button></header>
 <main class="wrap">
+  <section class="t3 t3-first" aria-label="Three texts, one question"><button type="button" class="t3-card" data-t3><span class="t3-marks"><i style="--tc:#0b6b70"><svg aria-hidden="true" viewBox="0 0 200 160" fill="currentColor"><path d="M8 150H192" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".4" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="84" cy="124" r="23" stroke-width="6"/><path d="M84 101V147M61 124H107M67.700 107.700L100.300 140.300M100.300 107.700L67.700 140.300" stroke-width="3"/><path d="M160 82C172 80 184 82 196 88" stroke-width="2.2" opacity=".55"/><path d="M160 86C172 86 184 90 196 96" stroke-width="2.2" opacity=".55"/><path d="M158 102H196" stroke-width="4" opacity=".55"/><path d="M30 34Q4 66 30 98" stroke-width="5"/><path d="M30 34V98" stroke-width="1.800"/></g><circle cx="84" cy="124" r="6"/><path d="M20 98H146C156 98 160 90 160 72L168 72C168 98 160 108 144 108H20Z"/><circle cx="52" cy="30" r="9.500"/><path d="M43 24L45 12L50 18L52 8L54 18L59 12L61 24Z"/><path d="M52 42C39 42 35 52 35 62L33 98H71L69 62C69 52 65 42 52 42Z"/><path d="M40 56L30 66" stroke="currentColor" stroke-width="6.500" stroke-linecap="round"/><g transform="translate(73 24.4) scale(0.46 0.46)" opacity="1"><path d="M84 38C80 22 88 6 100 2C104 16 98 32 88 40Z"/><circle cx="95" cy="14" r="3.2" fill="var(--cover,#fff)"/><circle cx="80" cy="54" r="18"/><path d="M80 76C58 76 50 90 48 108L41 130C22 134 12 146 16 160H144C148 146 138 134 119 130L112 108C110 90 102 76 80 76Z"/></g><path d="M128 74L158 84" stroke="currentColor" stroke-width="5.500" stroke-linecap="round"/></svg></i><i style="--tc:#8a5a12"><svg aria-hidden="true" viewBox="0 0 200 160" fill="currentColor"><path d="M8 150H192" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".4" fill="none"/><path d="M78 150V52C78 26 100 10 126 10C152 10 174 26 174 52V150H162V54C162 36 146 22 126 22C106 22 90 36 90 54V150Z" opacity=".34"/><g transform="translate(70 44) scale(0.7 0.7)" opacity="1"><path d="M62 40L62 22L71 31L80 16L89 31L98 22L98 40Z"/><circle cx="80" cy="54" r="18"/><path d="M80 76C58 76 50 90 48 108L41 130C22 134 12 146 16 160H144C148 146 138 134 119 130L112 108C110 90 102 76 80 76Z"/></g><circle cx="40" cy="92" r="8.500"/><circle cx="40" cy="81" r="3.400"/><path d="M40 103C32 103 29 109 29 116L27 150H53L51 116C51 109 48 103 40 103Z"/><path d="M47 112L60 104" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M62 150C55 143 57 133 64 127C64 133 69 134 68 140C72 137 73 131 71 126C78 132 79 144 72 150Z" opacity=".75"/></svg></i><i style="--tc:#4f46a5"><svg aria-hidden="true" viewBox="0 0 200 160" fill="currentColor"><path d="M8 150H192" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".4" fill="none"/><circle cx="66" cy="62" r="40" opacity=".28"/><g transform="translate(2 22) scale(0.8 0.8)" opacity="1"><circle cx="80" cy="31" r="7"/><circle cx="80" cy="54" r="18"/><path d="M80 76C58 76 50 90 48 108L41 130C22 134 12 146 16 160H144C148 146 138 134 119 130L112 108C110 90 102 76 80 76Z"/></g><g transform="translate(196 62) scale(-0.55 0.55)" opacity="0.62"><path d="M62 40L62 22L71 31L80 16L89 31L98 22L98 40Z"/><circle cx="80" cy="54" r="18"/><path d="M80 76C58 76 50 90 48 108L41 130C22 134 12 146 16 160H144C148 146 138 134 119 130L112 108C110 90 102 76 80 76Z"/></g><path d="M122 150L122 36" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" fill="none"/><path d="M122 36C114 30 114 22 122 18C130 22 130 30 122 36Z"/></svg></i></span><span class="t3-txt"><b class="t3-h"><span class="l-en">What are these three texts?</span><span class="l-hi">ये तीन ग्रंथ क्या हैं?</span></b><span class="ds"><span class="l-en">How they connect, and which to read first</span><span class="l-hi">ये कैसे जुड़े हैं, और पहले कौन-सा पढ़ें</span></span></span><svg class="t3-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></section>
   <section class="hero"><div class="hx"><p class="eb"><span class="l-en">Bhagavad Gita · Ashtavakra Gita · Upanishads</span><span class="l-hi">भगवद्गीता · अष्टावक्र गीता · उपनिषद्</span></p><h1><span class="l-en">Everyday questions, centuries of insight.</span><span class="l-hi">रोज़ के प्रश्न, सदियों की समझ।</span></h1>
     <a class="hcont" id="hcont" href="gita/" hidden><span><small><span class="l-en">Continue reading</span><span class="l-hi">पढ़ना जारी रखें</span></small><b id="hcont-t"></b><em id="hcont-s" hidden></em><span class="hbar" id="hcont-b" hidden><i></i></span></span><i aria-hidden="true">→</i></a>
     <div class="ctas"><a class="btn primary" href="gita/questions/"><span class="l-en">Start with a question</span><span class="l-hi">किसी प्रश्न से शुरू करें</span></a><a class="btn secondary" href="#scriptures"><span class="l-en">Browse the library</span><span class="l-hi">ग्रंथ देखें</span></a></div>
@@ -757,10 +761,10 @@ a.langpill{display:inline-grid;place-items:center;text-decoration:none}
     const day = Math.floor((Date.now() + 5.5*3600e3) / 864e5), i = day - VW.d0;
     if(i >= 0 && i < VW.v.length) return drawVotd(VW.v[i]);
     const box = document.getElementById("votd"); box.style.setProperty("--vh", "clamp(270px, 440px - 15vw, 400px)");
-    fetch("home-verses/pool.json?v=20261126203057").then(r => r.json()).then(pool => {
+    fetch("home-verses/pool.json?v=20261126203926").then(r => r.json()).then(pool => {
       const gcd = (a,b) => b ? gcd(b, a % b) : a, step = [97,101,103,107,109].find(k => gcd(k, pool.length) === 1);
       const [c, v] = pool[(day * step) % pool.length].split(".");
-      return fetch(`home-verses/${c}.json?v=20261126203057`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
+      return fetch(`home-verses/${c}.json?v=20261126203926`).then(r => r.json()).then(d => drawVotd([+c, +v, ...d[v]]));
     }).catch(() => { box.hidden = true; });
   })();
   </script>
@@ -823,8 +827,8 @@ document.getElementById("lang").onclick = () => setLang(document.documentElement
 // the language was chosen in <head> (the saved choice, else English) so the page paints in it; sync the controls
 setLang(document.documentElement.lang === "hi" ? "hi" : "en");
 </script>
-<script src="shared/shell.js?v=20261126203057" data-active="home" defer></script>
-<script src="shared/coach.js?v=20261126203057" defer></script>
+<script src="shared/shell.js?v=20261126203926" data-active="home" defer></script>
+<script src="shared/coach.js?v=20261126203926" defer></script>
 <script>
 try{ caches.keys().then(ks => ks.filter(k => /^gita-\d{14}$/.test(k)).forEach(k => caches.delete(k))); }catch(e){}
 if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => {
